@@ -44,9 +44,9 @@ const Hero = () => {
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button 
-              variant="outline" 
+              variant="secondary" 
               size="lg" 
-              className="glass border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg"
+              className="glass border-primary/30 text-primary-foreground bg-primary/10 hover:bg-primary/20 px-8 py-6 text-lg"
             >
               Nos services
             </Button>
