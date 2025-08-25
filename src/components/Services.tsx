@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 import { 
   Home, 
   Building2, 
@@ -114,9 +115,17 @@ const Services = () => {
                 <Button 
                   variant="outline" 
                   className="group w-full border-primary/20 hover:bg-primary hover:text-primary-foreground"
+                  asChild
                 >
-                  En savoir plus
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <Link to={
+                    service.title === "Gestion Locative" ? "/services/gestion-locative" :
+                    service.title === "Gestion de Copropriété" ? "/services/gestion-copropriete" :
+                    service.title === "Estimation de Biens" ? "/services/estimation-biens" :
+                    "/services/achats-ventes"
+                  }>
+                    En savoir plus
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
                 </Button>
               </Card>
             );
