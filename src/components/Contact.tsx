@@ -18,7 +18,7 @@ const Contact = () => {
       icon: Phone,
       title: "Téléphone",
       value: "01.42.25.78.24",
-      description: "Lun-Ven 9h-19h",
+      description: "Lun-Ven 9h-18h",
       color: "bg-blue-500"
     },
     {
@@ -38,7 +38,7 @@ const Contact = () => {
     {
       icon: Clock,
       title: "Horaires",
-      value: "9h - 19h",
+      value: "9h - 18h",
       description: "Lundi au Vendredi",
       color: "bg-purple-500"
     }
@@ -202,14 +202,27 @@ const Contact = () => {
         {/* Map Section */}
         <div className="mt-16">
           <Card className="glass overflow-hidden border-0 shadow-card">
-            <div className="aspect-video bg-gradient-to-r from-muted/50 to-muted flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-primary mx-auto mb-4" />
-                <h4 className="text-xl font-semibold mb-2">Notre Adresse</h4>
-                <p className="text-muted-foreground">27, Rue de Lisbonne, 75008 Paris</p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Métro : Europe (Ligne 3) - Saint-Lazare (Lignes 3, 12, 13, 14)
-                </p>
+            <div className="aspect-video relative">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.284893470584!2d2.3122!3d48.8794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fb631be73b5%3A0x8c7bdeb21bcd25b1!2s27%20Rue%20de%20Lisbonne%2C%2075008%20Paris%2C%20France!5e0!3m2!1sfr!2sfr!4v1640995200000!5m2!1sfr!2sfr"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="absolute inset-0"
+              />
+              <div className="absolute bottom-4 left-4 glass rounded-lg p-3 backdrop-blur-md">
+                <div className="flex items-center space-x-2 text-sm">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  <div>
+                    <p className="font-medium">27, Rue de Lisbonne, 75008 Paris</p>
+                    <p className="text-xs text-muted-foreground">
+                      Métro : Europe (Ligne 3) - Saint-Lazare (Lignes 3, 12, 13, 14)
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </Card>
