@@ -1,0 +1,83 @@
+import { Button } from '@/components/ui/button';
+import { ArrowRight, Star, Award, Users } from 'lucide-react';
+import heroBuilding from '@/assets/hero-building.jpg';
+
+const Hero = () => {
+  return (
+    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0">
+        <img 
+          src={heroBuilding}
+          alt="Immeuble parisien de prestige"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-secondary/90 via-secondary/70 to-transparent"></div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-6 py-20">
+        <div className="max-w-4xl">
+          {/* Badge */}
+          <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-8 animate-slide-up">
+            <Star className="w-5 h-5 text-primary fill-primary" />
+            <span className="text-sm font-medium">Agence immobilière de confiance depuis 15 ans</span>
+          </div>
+
+          {/* Main Heading */}
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight animate-slide-up">
+            Notre <span className="gradient-text bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">professionnalisme</span> est votre <span className="gradient-text bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">garantie</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl animate-slide-up">
+            JIP possède des collaborateurs jeunes et dynamiques avec une forte expérience dans le domaine de l'immobilier parisien.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-16 animate-slide-up">
+            <Button 
+              size="lg" 
+              className="group bg-primary hover:bg-primary-glow text-primary-foreground px-8 py-6 text-lg shadow-elegant hover-glow"
+            >
+              Estimer mon bien
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="glass border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg"
+            >
+              Nos services
+            </Button>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 animate-slide-up">
+            <div className="glass rounded-xl p-6 text-center hover-lift">
+              <Award className="w-8 h-8 text-primary mx-auto mb-3" />
+              <div className="text-3xl font-bold text-white mb-2">15+</div>
+              <div className="text-white/80 text-sm">Années d'expérience</div>
+            </div>
+            <div className="glass rounded-xl p-6 text-center hover-lift">
+              <Users className="w-8 h-8 text-primary mx-auto mb-3" />
+              <div className="text-3xl font-bold text-white mb-2">500+</div>
+              <div className="text-white/80 text-sm">Clients satisfaits</div>
+            </div>
+            <div className="glass rounded-xl p-6 text-center hover-lift">
+              <Star className="w-8 h-8 text-primary mx-auto mb-3" />
+              <div className="text-3xl font-bold text-white mb-2">4.9</div>
+              <div className="text-white/80 text-sm">Note moyenne</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Elements */}
+      <div className="absolute top-20 right-20 w-20 h-20 bg-primary/20 rounded-full blur-xl animate-float hidden lg:block"></div>
+      <div className="absolute bottom-32 right-32 w-32 h-32 bg-primary-glow/10 rounded-full blur-2xl animate-float hidden lg:block" style={{animationDelay: '2s'}}></div>
+    </section>
+  );
+};
+
+export default Hero;
