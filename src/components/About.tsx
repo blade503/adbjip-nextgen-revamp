@@ -44,8 +44,8 @@ const About = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Content */}
           <div>
-            <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-6">
-              <span className="text-sm font-medium text-primary">Qui sommes-nous ?</span>
+            <div className="inline-flex items-center space-x-2 bg-white/30 backdrop-blur-md border border-white/40 rounded-full px-6 py-3 mb-6">
+              <span className="text-sm font-medium text-white">Qui sommes-nous ?</span>
             </div>
             
             <h2 className="text-4xl md:text-5xl font-bold mb-6">

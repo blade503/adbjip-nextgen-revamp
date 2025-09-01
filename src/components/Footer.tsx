@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Clock, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -13,11 +14,11 @@ const Footer = () => {
   ];
 
   const quickLinks = [
-    { name: "Accueil", href: "#home" },
-    { name: "Services", href: "#services" },
-    { name: "À propos", href: "#about" },
-    { name: "Contact", href: "#contact" },
-    { name: "Estimation Gratuite", href: "#contact" },
+    { name: "Accueil", href: "/" },
+    { name: "Services", href: "/services/gestion-locative" },
+    { name: "À propos", href: "/about" },
+    { name: "Contact", href: "/contact" },
+    { name: "Estimation Gratuite", href: "/services/estimation-biens" },
     { name: "Mentions Légales", href: "#" }
   ];
 
@@ -53,12 +54,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service}>
-                  <a 
-                    href="#services" 
+                  <Link 
+                    to="/services/gestion-locative" 
                     className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300"
                   >
                     {service}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -70,12 +71,21 @@ const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a 
-                    href={link.href}
-                    className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300"
-                  >
-                    {link.name}
-                  </a>
+                  {link.href === '#' ? (
+                    <a 
+                      href={link.href}
+                      className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300"
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link 
+                      to={link.href}
+                      className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

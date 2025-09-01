@@ -10,7 +10,7 @@ const Header = () => {
     { name: 'Gérer son Bien', shortName: 'Gestion', href: '/services/gestion-locative' },
     { name: 'Gérer sa copropriété', shortName: 'Copropriété', href: '/services/gestion-copropriete' },
     { name: 'Trouver un bien', shortName: 'Trouver', href: '/services/achats-ventes' },
-    { name: 'Moi et JIP', shortName: 'À propos', href: '/about' },
+    { name: 'JIP et Moi', shortName: 'À propos', href: '/about' },
     { name: 'Contact', shortName: 'Contact', href: '/contact' },
   ];
 
@@ -84,9 +84,11 @@ const Header = () => {
 
             {/* CTA Button */}
             <div className="hidden lg:block flex-shrink-0">
-              <Button variant="default" className="hover-glow text-sm lg:text-base px-3 lg:px-4 py-2">
-                <span className="hidden xl:inline">Estimation Gratuite</span>
-                <span className="xl:hidden">Estimation</span>
+              <Button variant="default" className="hover-glow text-sm lg:text-base px-3 lg:px-4 py-2" asChild>
+                <Link to="/services/estimation-biens">
+                  <span className="hidden xl:inline">Estimation Gratuite</span>
+                  <span className="xl:hidden">Estimation</span>
+                </Link>
               </Button>
             </div>
 
@@ -115,8 +117,10 @@ const Header = () => {
                     </Link>
                   ))}
                   <div className="pt-4 border-t border-border/50">
-                    <Button variant="default" className="w-full">
-                      Estimation Gratuite
+                    <Button variant="default" className="w-full" asChild>
+                      <Link to="/services/estimation-biens" onClick={() => setIsMenuOpen(false)}>
+                        Estimation Gratuite
+                      </Link>
                     </Button>
                   </div>
                 </div>

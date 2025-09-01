@@ -2,9 +2,9 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Home, CheckCircle, ArrowRight, Phone, Euro, Clock, Shield, Star, Users, TrendingUp, Heart, Award, Coffee } from 'lucide-react';
+import { Home, CheckCircle, ArrowRight, Phone, Euro, Clock, Shield, Star, Users, TrendingUp, Heart, Award, Coffee, MessageSquare, Calculator, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import gestionLocativeImage from '@/assets/gestion-locative.png';
+import gestionLocativeImage from '@/assets/GestionLocative.png';
 
 const GestionLocative = () => {
   const advantages = [
@@ -104,7 +104,7 @@ const GestionLocative = () => {
               alt="Gestion locative professionnelle"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-secondary/80 via-secondary/50 to-transparent"></div>
           </div>
           
           {/* Floating elements for visual appeal */}
@@ -113,9 +113,9 @@ const GestionLocative = () => {
           
           <div className="container mx-auto px-6">
             <div className="max-w-5xl mx-auto text-center">
-              <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-6 animate-slide-up">
-                <Home className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium text-primary">Gestion Locative</span>
+              <div className="inline-flex items-center space-x-2 bg-white/30 backdrop-blur-md border border-white/40 rounded-full px-6 py-3 mb-6 animate-slide-up">
+                <Home className="w-5 h-5 text-white" />
+                <span className="text-sm font-medium text-white">Gestion Locative</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-slide-up text-white">
                 Vous gardez vos <span className="gradient-text">revenus</span>,<br />
@@ -384,6 +384,44 @@ const GestionLocative = () => {
                 <p className="text-sm text-muted-foreground mt-6">
                   ✨ Consultation gratuite • Sans engagement • Réponse sous 24h
                 </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Quick Actions */}
+        <section className="py-16 bg-gradient-subtle">
+          <div className="container mx-auto px-6">
+            <div className="glass rounded-2xl p-8 max-w-4xl mx-auto">
+              <h3 className="text-2xl font-bold text-center mb-6">Actions rapides</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
+                  <Link to="/contact">
+                    <MessageSquare className="w-8 h-8 text-primary" />
+                    <div className="text-center">
+                      <div className="font-semibold">Demander un devis</div>
+                      <div className="text-sm text-muted-foreground">Gestion locative</div>
+                    </div>
+                  </Link>
+                </Button>
+                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
+                  <Link to="/services/estimation-biens">
+                    <Calculator className="w-8 h-8 text-primary" />
+                    <div className="text-center">
+                      <div className="font-semibold">Estimation gratuite</div>
+                      <div className="text-sm text-muted-foreground">Évaluez votre bien</div>
+                    </div>
+                  </Link>
+                </Button>
+                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
+                  <a href="tel:0142257824">
+                    <Phone className="w-8 h-8 text-primary" />
+                    <div className="text-center">
+                      <div className="font-semibold">Appel direct</div>
+                      <div className="text-sm text-muted-foreground">01.42.25.78.24</div>
+                    </div>
+                  </a>
+                </Button>
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Star, Award, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import heroBuilding from '@/assets/hero-building.jpg';
 
 const Hero = () => {
@@ -19,11 +20,11 @@ const Hero = () => {
       <div className="relative z-10 container mx-auto px-6 py-20">
         <div className="max-w-4xl">
           {/* Badge */}
-          <div className="inline-flex items-center space-x-3 glass rounded-full px-6 py-3 mb-8 animate-slide-up">
-            <Star className="w-5 h-5 text-primary fill-primary flex-shrink-0" />
-            <div className="text-sm font-medium text-left">
-              <div className="block sm:inline">Agence immobilière de confiance</div>
-              <div className="block sm:inline">depuis 15 ans</div>
+          <div className="inline-flex items-center space-x-3 bg-white/30 backdrop-blur-md border border-white/40 rounded-full px-6 py-3 mb-8 animate-slide-up">
+            <Star className="w-5 h-5 text-white fill-white flex-shrink-0" />
+            <div className="text-sm font-medium text-left text-white">
+              <div className="block sm:inline">Agence immobilière de confiance </div>
+              <div className="block sm:inline sm:before:content-['\00a0']">depuis 15 ans</div>
             </div>
           </div>
 
@@ -42,16 +43,22 @@ const Hero = () => {
             <Button 
               size="lg" 
               className="group bg-primary hover:bg-primary-glow text-primary-foreground px-8 py-6 text-lg shadow-elegant hover-glow"
+              asChild
             >
-              Estimer mon bien
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <Link to="/services/estimation-biens">
+                Estimer mon bien
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </Button>
             <Button 
               variant="secondary" 
               size="lg" 
               className="glass border-primary/30 text-primary-foreground bg-primary/10 hover:bg-primary/20 px-8 py-6 text-lg"
+              asChild
             >
-              Nos services
+              <Link to="#services">
+                Nos services
+              </Link>
             </Button>
           </div>
 

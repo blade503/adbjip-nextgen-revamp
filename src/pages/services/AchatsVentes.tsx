@@ -2,8 +2,9 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Handshake, CheckCircle, ArrowRight, Phone, Key, Search, Users, FileCheck } from 'lucide-react';
+import { Handshake, CheckCircle, ArrowRight, Phone, Key, Search, Users, FileCheck, MessageSquare, Calculator, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import AchatVenteImage from '@/assets/VenteDeBiens.png';
 
 const AchatsVentes = () => {
   const servicesVente = [
@@ -56,26 +57,44 @@ const AchatsVentes = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-subtle">
-          <div className="container mx-auto px-6">
+        <section className="pt-32 pb-16 relative overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img 
+              src={AchatVenteImage}
+              alt="Achats et ventes immobilières professionnelles"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-secondary/80 via-secondary/50 to-transparent"></div>
+          </div>
+          
+          <div className="container mx-auto px-6 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-6">
-                <Handshake className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium text-primary">Achats/Ventes de Biens</span>
+              <div className="inline-flex items-center space-x-2 bg-white/30 backdrop-blur-md border border-white/40 rounded-full px-6 py-3 mb-6">
+                <Handshake className="w-5 h-5 text-white" />
+                <span className="text-sm font-medium text-white">Achats/Ventes de Biens</span>
               </div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-6">
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white">
                 Achats & <span className="gradient-text">Ventes</span>
               </h1>
-              <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+              <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
                 N'oubliez pas votre syndic pour la vente de votre bien ! Accompagnement de A à Z 
                 pour vos projets d'acquisition et de cession immobilière à Paris.
               </p>
-              <Button size="lg" asChild className="hover-glow">
-                <Link to="/contact">
-                  Échanger sur votre projet
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" asChild className="hover-glow">
+                  <Link to="/contact">
+                    Échanger sur votre projet
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" className="glass border-primary/30" asChild>
+                  <Link to="/contact">
+                    <Phone className="mr-2 w-5 h-5" />
+                    01.42.25.78.24
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
@@ -237,6 +256,44 @@ const AchatsVentes = () => {
                     Prendre rendez-vous
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Quick Actions */}
+        <section className="py-16 bg-gradient-subtle">
+          <div className="container mx-auto px-6">
+            <div className="glass rounded-2xl p-8 max-w-4xl mx-auto">
+              <h3 className="text-2xl font-bold text-center mb-6">Actions rapides</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
+                  <Link to="/contact">
+                    <MessageSquare className="w-8 h-8 text-primary" />
+                    <div className="text-center">
+                      <div className="font-semibold">Échanger sur votre projet</div>
+                      <div className="text-sm text-muted-foreground">Achat ou vente</div>
+                    </div>
+                  </Link>
+                </Button>
+                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
+                  <Link to="/services/estimation-biens">
+                    <Calculator className="w-8 h-8 text-primary" />
+                    <div className="text-center">
+                      <div className="font-semibold">Estimation gratuite</div>
+                      <div className="text-sm text-muted-foreground">Évaluez votre bien</div>
+                    </div>
+                  </Link>
+                </Button>
+                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
+                  <a href="tel:0142257824">
+                    <Phone className="w-8 h-8 text-primary" />
+                    <div className="text-center">
+                      <div className="font-semibold">Appel direct</div>
+                      <div className="text-sm text-muted-foreground">01.42.25.78.24</div>
+                    </div>
+                  </a>
                 </Button>
               </div>
             </div>
