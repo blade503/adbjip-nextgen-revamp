@@ -12,25 +12,28 @@ const Hero = () => {
           alt="Immeuble parisien de prestige"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-secondary/90 via-secondary/70 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-secondary/80 via-secondary/50 to-transparent"></div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 py-20">
         <div className="max-w-4xl">
           {/* Badge */}
-          <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-8 animate-slide-up">
-            <Star className="w-5 h-5 text-primary fill-primary" />
-            <span className="text-sm font-medium">Agence immobilière de confiance depuis 15 ans</span>
+          <div className="inline-flex items-center space-x-3 glass rounded-full px-6 py-3 mb-8 animate-slide-up">
+            <Star className="w-5 h-5 text-primary fill-primary flex-shrink-0" />
+            <div className="text-sm font-medium text-left">
+              <div className="block sm:inline">Agence immobilière de confiance</div>
+              <div className="block sm:inline">depuis 15 ans</div>
+            </div>
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight animate-slide-up">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight animate-slide-up text-center md:text-left">
             Notre <span className="gradient-text bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">professionnalisme</span> est votre <span className="gradient-text bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">garantie</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl animate-slide-up">
+          <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl animate-slide-up text-center md:text-left mx-auto md:mx-0">
             JIP possède des collaborateurs jeunes et dynamiques avec une forte expérience dans le domaine de l'immobilier parisien.
           </p>
 
@@ -54,20 +57,20 @@ const Hero = () => {
 
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 animate-slide-up">
-            <div className="glass rounded-xl p-6 text-center hover-lift">
+            <div className="bg-white/40 backdrop-blur-md border border-white/50 rounded-xl p-6 text-center hover-lift shadow-elegant">
               <Award className="w-8 h-8 text-primary mx-auto mb-3" />
               <div className="text-3xl font-bold text-white mb-2">15+</div>
-              <div className="text-white/80 text-sm">Années d'expérience</div>
+              <div className="text-white font-medium text-sm">Années d'expérience</div>
             </div>
-            <div className="glass rounded-xl p-6 text-center hover-lift">
+            <div className="bg-white/40 backdrop-blur-md border border-white/50 rounded-xl p-6 text-center hover-lift shadow-elegant">
               <Users className="w-8 h-8 text-primary mx-auto mb-3" />
               <div className="text-3xl font-bold text-white mb-2">500+</div>
-              <div className="text-white/80 text-sm">Clients satisfaits</div>
+              <div className="text-white font-medium text-sm">Clients satisfaits</div>
             </div>
-            <div className="glass rounded-xl p-6 text-center hover-lift">
+            <div className="bg-white/40 backdrop-blur-md border border-white/50 rounded-xl p-6 text-center hover-lift shadow-elegant">
               <Star className="w-8 h-8 text-primary mx-auto mb-3" />
               <div className="text-3xl font-bold text-white mb-2">4.9</div>
-              <div className="text-white/80 text-sm">Note moyenne</div>
+              <div className="text-white font-medium text-sm">Note moyenne</div>
             </div>
           </div>
         </div>

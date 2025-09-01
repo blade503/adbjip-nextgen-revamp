@@ -33,7 +33,7 @@ const Footer = () => {
                 <span className="text-primary-foreground font-bold text-xl">JIP</span>
               </div>
               <div>
-                <h3 className="text-xl font-bold">JIP Immobilier</h3>
+                <h3 className="text-xl font-bold">JIP</h3>
                 <p className="text-sm opacity-80">Excellence & Professionnalisme</p>
               </div>
             </div>
@@ -127,7 +127,7 @@ const Footer = () => {
         <div className="container mx-auto px-6 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm opacity-80 text-center md:text-left">
-              © {currentYear} JIP Immobilier. Tous droits réservés.
+              © {currentYear} JIP. Tous droits réservés.
             </div>
             <div className="flex flex-wrap justify-center md:justify-end space-x-6 text-sm">
               <a href="#" className="opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300">

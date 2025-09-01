@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Phone, Mail, MapPin, Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigation = [
-    { name: 'Accueil', href: '#home' },
-    { name: 'Services', href: '#services' },
-    { name: 'À propos', href: '#about' },
+    { name: 'Faire gérer son Bien', href: '/services/gestion-locative' },
+    { name: 'Faire gérer sa copropriété', href: '/services/gestion-copropriete' },
+    { name: 'Trouver un bien', href: '/services/achats-ventes' },
+    { name: 'Moi et JIP', href: '#about' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -41,15 +43,15 @@ const Header = () => {
         <nav className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <div className="flex items-center space-x-3">
+            <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity cursor-pointer">
               <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center shadow-elegant">
                 <span className="text-primary-foreground font-bold text-xl">JIP</span>
               </div>
               <div>
-                <h1 className="text-xl font-bold gradient-text">JIP Immobilier</h1>
+                <h1 className="text-xl font-bold gradient-text">Jobard Immobilier Paris</h1>
                 <p className="text-sm text-muted-foreground">Excellence & Professionnalisme</p>
               </div>
-            </div>
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex space-x-8">

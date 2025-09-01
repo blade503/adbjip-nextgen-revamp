@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Home, CheckCircle, ArrowRight, Phone, Euro, Clock, Shield, Star, Users, TrendingUp, Heart, Award, Coffee } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import gestionLocativeImage from '@/assets/gestion-locative.png';
 
 const GestionLocative = () => {
   const advantages = [
@@ -95,7 +96,17 @@ const GestionLocative = () => {
       <Header />
       <main>
         {/* Hero Section - Plus émotionnel */}
-        <section className="pt-32 pb-16 bg-gradient-subtle relative overflow-hidden">
+        <section className="pt-32 pb-16 relative overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img 
+              src={gestionLocativeImage}
+              alt="Gestion locative professionnelle"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-transparent"></div>
+          </div>
+          
           {/* Floating elements for visual appeal */}
           <div className="absolute top-20 right-20 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-float hidden lg:block"></div>
           <div className="absolute bottom-32 left-32 w-24 h-24 bg-primary-glow/20 rounded-full blur-2xl animate-float hidden lg:block" style={{animationDelay: '2s'}}></div>
@@ -104,13 +115,13 @@ const GestionLocative = () => {
             <div className="max-w-5xl mx-auto text-center">
               <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-6 animate-slide-up">
                 <Home className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium text-primary">Gestion Locative Premium</span>
+                <span className="text-sm font-medium text-primary">Gestion Locative</span>
               </div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-slide-up">
-                Vos <span className="gradient-text">revenus</span> pour vous,<br />
-                la <span className="gradient-text">gestion</span> pour nous
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-slide-up text-white">
+                Vous gardez vos <span className="gradient-text">revenus</span>,<br />
+                nous gérons <span className="gradient-text">tout le reste</span>
               </h1>
-              <p className="text-xl text-muted-foreground mb-8 max-w-4xl mx-auto animate-slide-up">
+              <p className="text-xl text-white/90 mb-8 max-w-4xl mx-auto animate-slide-up">
                 Transformez votre investissement immobilier en véritable source de revenus passifs. 
                 Notre équipe passionnée s'occupe de tout pendant que vous profitez de la vie ! ✨
               </p>
