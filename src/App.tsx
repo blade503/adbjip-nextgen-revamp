@@ -9,6 +9,10 @@ import GestionLocative from "./pages/services/GestionLocative";
 import GestionCopropriete from "./pages/services/GestionCopropriete";
 import EstimationBiens from "./pages/services/EstimationBiens";
 import AchatsVentes from "./pages/services/AchatsVentes";
+import About from "./pages/About";
+import Team from "./pages/Team";
+import Partners from "./pages/Partners";
+import References from "./pages/References";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +28,10 @@ const App = () => (
           <Route path="/services/gestion-copropriete" element={<GestionCopropriete />} />
           <Route path="/services/estimation-biens" element={<EstimationBiens />} />
           <Route path="/services/achats-ventes" element={<AchatsVentes />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/equipe" element={<Team />} />
+          <Route path="/partenaires" element={<Partners />} />
+          <Route path="/references" element={<References />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
