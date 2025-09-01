@@ -34,8 +34,13 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-24 bg-background">
-      <div className="container mx-auto px-6">
+    <section id="about" className="py-24 bg-gradient-subtle relative overflow-hidden">
+      {/* Floating Elements for Visual Appeal */}
+      <div className="absolute top-20 right-20 w-32 h-32 bg-primary/5 rounded-full blur-3xl animate-float hidden lg:block"></div>
+      <div className="absolute bottom-32 left-32 w-24 h-24 bg-primary-glow/10 rounded-full blur-2xl animate-float hidden lg:block" style={{animationDelay: '2s'}}></div>
+      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-primary/8 rounded-full blur-xl animate-float hidden lg:block" style={{animationDelay: '4s'}}></div>
+      
+      <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Content */}
           <div>
@@ -48,19 +53,19 @@ const About = () => {
             </h2>
             
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              JIP Immobilier réunit une équipe de professionnels passionnés par l'immobilier parisien. 
+              JIP réunit une équipe de professionnels passionnés par l'immobilier parisien. 
               Notre approche moderne et notre expertise reconnue nous permettent de vous accompagner 
               efficacement dans tous vos projets.
             </p>
 
-            <div className="glass rounded-xl p-6 mb-8">
-              <Quote className="w-8 h-8 text-primary mb-4" />
+            <div className="glass-strong rounded-xl p-8 mb-8 border-l-4 border-primary shadow-elegant">
+              <Quote className="w-10 h-10 text-primary mb-4" />
               <blockquote className="text-lg font-medium mb-4">
                 "Notre mission est de transformer chaque projet immobilier en succès, 
                 en alliant expertise technique et relation humaine de qualité."
               </blockquote>
               <cite className="text-sm text-muted-foreground">
-                — L'équipe JIP Immobilier
+                — L'équipe JIP
               </cite>
             </div>
 
@@ -72,19 +77,22 @@ const About = () => {
 
           {/* Right Content - Values */}
           <div className="space-y-6">
-            <h3 className="text-2xl font-bold mb-8">Nos valeurs fondamentales</h3>
+            <div className="text-center lg:text-left mb-8">
+              <h3 className="text-2xl font-bold mb-2">Nos valeurs fondamentales</h3>
+              <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto lg:mx-0"></div>
+            </div>
             
             {values.map((value, index) => {
               const Icon = value.icon;
               return (
                 <Card 
                   key={value.title}
-                  className="glass p-6 hover-lift group border-0 shadow-card"
+                  className="glass-strong p-6 hover-lift group border border-primary/10 shadow-elegant"
                   style={{animationDelay: `${index * 0.1}s`}}
                 >
                   <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Icon className="w-6 h-6 text-primary-foreground" />
+                    <div className="w-14 h-14 bg-gradient-primary rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-elegant">
+                      <Icon className="w-7 h-7 text-primary-foreground" />
                     </div>
                     <div className="flex-1">
                       <h4 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">

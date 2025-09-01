@@ -67,9 +67,6 @@ const Services = () => {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-6">
-            <span className="text-sm font-medium text-primary">Excellence & Expertise</span>
-          </div>
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
             Nos <span className="gradient-text">Prestations</span>
           </h2>

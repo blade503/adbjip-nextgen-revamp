@@ -9,7 +9,10 @@ import {
   Clock,
   Send,
   MessageSquare,
-  Calculator
+  Calculator,
+  User,
+  Building,
+  Calendar
 } from 'lucide-react';
 
 const Contact = () => {
@@ -19,14 +22,14 @@ const Contact = () => {
       title: "Téléphone",
       value: "01.42.25.78.24",
       description: "Lun-Ven 9h-18h",
-      color: "bg-blue-500"
+      color: "bg-primary"
     },
     {
       icon: Mail,
       title: "Email",
       value: "j.immo.p@orange.fr",
       description: "Réponse sous 24h",
-      color: "bg-green-500"
+      color: "bg-primary"
     },
     {
       icon: MapPin,
@@ -40,7 +43,7 @@ const Contact = () => {
       title: "Horaires",
       value: "9h - 18h",
       description: "Lundi au Vendredi",
-      color: "bg-purple-500"
+      color: "bg-primary"
     }
   ];
 
@@ -62,170 +65,192 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Contact Info */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+          {/* Contact Form */}
           <div className="space-y-6">
-            <h3 className="text-2xl font-bold mb-6">Informations de contact</h3>
+            <h3 className="text-2xl font-bold mb-6">Formulaire de contact</h3>
             
-            {contactInfo.map((info, index) => {
-              const Icon = info.icon;
-              return (
-                <Card 
-                  key={info.title}
-                  className="glass p-6 hover-lift group border-0 shadow-card"
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className={`w-12 h-12 ${info.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold mb-1 group-hover:text-primary transition-colors">
-                        {info.title}
-                      </h4>
-                      <p className="text-lg font-medium mb-1">
-                        {info.value}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {info.description}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              );
-            })}
-
-            {/* Quick Actions */}
-            <div className="glass rounded-xl p-6 mt-8">
-              <h4 className="font-semibold mb-4">Actions rapides</h4>
-              <div className="space-y-3">
-                <Button variant="outline" className="w-full justify-start">
-                  <Phone className="w-4 h-4 mr-2" />
-                  Demander un rappel
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Calculator className="w-4 h-4 mr-2" />
-                  Estimation gratuite
-                </Button>
+            <form className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="firstName" className="block text-sm font-medium mb-2">
+                    Prénom *
+                  </label>
+                  <Input
+                    id="firstName"
+                    type="text"
+                    placeholder="Votre prénom"
+                    className="glass border-primary/20 focus:border-primary"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="lastName" className="block text-sm font-medium mb-2">
+                    Nom *
+                  </label>
+                  <Input
+                    id="lastName"
+                    type="text"
+                    placeholder="Votre nom"
+                    className="glass border-primary/20 focus:border-primary"
+                    required
+                  />
+                </div>
               </div>
-            </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium mb-2">
+                    Email *
+                  </label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="votre@email.com"
+                    className="glass border-primary/20 focus:border-primary"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium mb-2">
+                    Téléphone
+                  </label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="01.42.25.78.24"
+                    className="glass border-primary/20 focus:border-primary"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="service" className="block text-sm font-medium mb-2">
+                  Service souhaité
+                </label>
+                <select
+                  id="service"
+                  className="w-full px-4 py-3 rounded-lg glass border-primary/20 focus:border-primary focus:outline-none transition-colors"
+                >
+                  <option value="">Sélectionnez un service</option>
+                  <option value="gestion-locative">Gestion Locative</option>
+                  <option value="gestion-copropriete">Gestion de Copropriété</option>
+                  <option value="achats-ventes">Achats & Ventes</option>
+                  <option value="estimation">Estimation de Biens</option>
+                  <option value="autre">Autre</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium mb-2">
+                  Message *
+                </label>
+                <Textarea
+                  id="message"
+                  placeholder="Décrivez votre projet ou votre demande..."
+                  rows={6}
+                  className="glass border-primary/20 focus:border-primary resize-none"
+                  required
+                />
+              </div>
+
+              <Button 
+                type="submit" 
+                size="lg" 
+                className="w-full bg-primary hover:bg-primary-glow text-primary-foreground hover-glow group"
+              >
+                <Send className="mr-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                Envoyer le message
+              </Button>
+            </form>
           </div>
 
-          {/* Contact Form */}
-          <div className="lg:col-span-2">
-            <Card className="glass-strong p-8 border-0 shadow-card">
-              <h3 className="text-2xl font-bold mb-6">Envoyez-nous un message</h3>
+          {/* Contact Info & Map */}
+          <div className="space-y-8">
+            {/* Contact Info */}
+            <div>
+              <h3 className="text-2xl font-bold mb-6">Informations de contact</h3>
               
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Prénom *</label>
-                    <Input 
-                      placeholder="Votre prénom" 
-                      className="glass border-border/50 focus:border-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Nom *</label>
-                    <Input 
-                      placeholder="Votre nom" 
-                      className="glass border-border/50 focus:border-primary"
-                    />
-                  </div>
-                </div>
+              {contactInfo.map((info, index) => {
+                const Icon = info.icon;
+                return (
+                  <Card 
+                    key={info.title}
+                    className="glass p-6 hover-lift group border-0 shadow-card mb-4"
+                  >
+                    <div className="flex items-start space-x-4">
+                      <div className={`w-12 h-12 ${info.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold mb-1 group-hover:text-primary transition-colors">
+                          {info.title}
+                        </h4>
+                        <p className="text-lg font-medium mb-1">
+                          {info.value}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {info.description}
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Email *</label>
-                    <Input 
-                      type="email" 
-                      placeholder="votre.email@example.com" 
-                      className="glass border-border/50 focus:border-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Téléphone</label>
-                    <Input 
-                      type="tel" 
-                      placeholder="01 23 45 67 89" 
-                      className="glass border-border/50 focus:border-primary"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Type de projet</label>
-                  <select className="w-full p-3 glass border border-border/50 rounded-lg focus:border-primary focus:outline-none">
-                    <option value="">Sélectionnez un type de projet</option>
-                    <option value="achat">Achat d'un bien</option>
-                    <option value="vente">Vente d'un bien</option>
-                    <option value="location">Location</option>
-                    <option value="gestion">Gestion locative</option>
-                    <option value="copropriete">Gestion de copropriété</option>
-                    <option value="estimation">Estimation</option>
-                    <option value="autre">Autre</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Message *</label>
-                  <Textarea 
-                    placeholder="Décrivez votre projet ou posez votre question..."
-                    rows={6}
-                    className="glass border-border/50 focus:border-primary resize-none"
+            {/* Map */}
+            <div>
+              <h3 className="text-2xl font-bold mb-6">Notre localisation</h3>
+              <Card className="glass border-0 shadow-card overflow-hidden">
+                <div className="aspect-video relative">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.284893470584!2d2.3122!3d48.8794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fb631be73b5%3A0x8c7bdeb21bcd25b1!2s27%20Rue%20de%20Lisbonne%2C%2075008%20Paris%2C%20France!5e0!3m2!1sfr!2sfr!4v1640995200000!5m2!1sfr!2sfr"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="absolute inset-0"
                   />
+                  <div className="absolute bottom-4 left-4 glass rounded-lg p-3 backdrop-blur-md">
+                    <div className="flex items-center space-x-2 text-sm">
+                      <MapPin className="w-4 h-4 text-primary" />
+                      <div>
+                        <p className="font-medium">27, Rue de Lisbonne, 75008 Paris</p>
+                        <p className="text-xs text-muted-foreground">
+                          Métro : Miromesnil (Ligne 9) - Saint-Augustin (Ligne 9)
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                <div className="flex items-center space-x-2">
-                  <input 
-                    type="checkbox" 
-                    id="privacy" 
-                    className="w-4 h-4 text-primary bg-transparent border-border/50 rounded focus:ring-primary"
-                  />
-                  <label htmlFor="privacy" className="text-sm text-muted-foreground">
-                    J'accepte que mes données soient utilisées pour me recontacter *
-                  </label>
-                </div>
-
-                <Button 
-                  type="submit" 
-                  size="lg" 
-                  className="w-full hover-glow"
-                >
-                  <Send className="w-5 h-5 mr-2" />
-                  Envoyer le message
-                </Button>
-              </form>
-            </Card>
+              </Card>
+            </div>
           </div>
         </div>
 
-        {/* Map Section */}
-        <div className="mt-16">
-          <Card className="glass overflow-hidden border-0 shadow-card">
-            <div className="aspect-video relative">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.284893470584!2d2.3122!3d48.8794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fb631be73b5%3A0x8c7bdeb21bcd25b1!2s27%20Rue%20de%20Lisbonne%2C%2075008%20Paris%2C%20France!5e0!3m2!1sfr!2sfr!4v1640995200000!5m2!1sfr!2sfr"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="absolute inset-0"
-              />
-              <div className="absolute bottom-4 left-4 glass rounded-lg p-3 backdrop-blur-md">
-                <div className="flex items-center space-x-2 text-sm">
-                  <MapPin className="w-4 h-4 text-primary" />
-                  <div>
-                    <p className="font-medium">27, Rue de Lisbonne, 75008 Paris</p>
-                    <p className="text-xs text-muted-foreground">
-                      Métro : Europe (Ligne 3) - Saint-Lazare (Lignes 3, 12, 13, 14)
-                    </p>
-                  </div>
-                </div>
-              </div>
+        {/* Bottom CTA */}
+        <div className="text-center">
+          <div className="glass rounded-2xl p-8 inline-block">
+            <h3 className="text-2xl font-bold mb-4">
+              Besoin d'un rendez-vous ?
+            </h3>
+            <p className="text-muted-foreground mb-6">
+              Nos experts sont disponibles pour vous recevoir dans nos bureaux
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="hover-glow group">
+                <Calendar className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
+                Prendre rendez-vous
+              </Button>
+              <Button size="lg" variant="outline" className="glass border-primary/30">
+                <Phone className="mr-2 w-5 h-5" />
+                01.42.25.78.24
+              </Button>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     </section>
