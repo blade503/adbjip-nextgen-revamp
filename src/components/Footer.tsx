@@ -18,7 +18,7 @@ const Footer = () => {
     { name: "Services", href: "/services/gestion-locative" },
     { name: "À propos", href: "/about" },
     { name: "Contact", href: "/contact" },
-    { name: "Estimation Gratuite", href: "/services/estimation-biens" },
+    { name: "Estimation Gratuite", href: "/services/estimation-biens#calculateur-rapide" },
     { name: "Mentions Légales", href: "#" }
   ];
 
