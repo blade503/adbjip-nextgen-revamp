@@ -9,7 +9,7 @@ const Header = () => {
   const navigation = [
     { name: 'Gérer son Bien', shortName: 'Gestion', href: '/services/gestion-locative' },
     { name: 'Gérer sa copropriété', shortName: 'Copropriété', href: '/services/gestion-copropriete' },
-    { name: 'Trouver un bien', shortName: 'Trouver', href: '/services/achats-ventes' },
+    { name: 'Trouver un bien', shortName: 'Biens', href: '/biens' },
     { name: 'JIP et Moi', shortName: 'À propos', href: '/about' },
     { name: 'Contact', shortName: 'Contact', href: '/contact' },
   ];

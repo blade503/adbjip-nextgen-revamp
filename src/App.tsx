@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import Biens from "./pages/Biens";
 import GestionLocative from "./pages/services/GestionLocative";
 import GestionCopropriete from "./pages/services/GestionCopropriete";
 import EstimationBiens from "./pages/services/EstimationBiens";
@@ -27,6 +28,7 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/biens" element={<Biens />} />
           <Route path="/services/gestion-locative" element={<GestionLocative />} />
           <Route path="/services/gestion-copropriete" element={<GestionCopropriete />} />
           <Route path="/services/estimation-biens" element={<EstimationBiens />} />
