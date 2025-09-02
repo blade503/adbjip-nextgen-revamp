@@ -2,11 +2,37 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEOOptimizedImage from '@/components/SEOOptimizedImage';
+import SEOHead from '@/components/SEOHead';
 import { Home, CheckCircle, ArrowRight, Phone, Euro, Clock, Shield, Star, Users, TrendingUp, Heart, Award, Coffee, MessageSquare, Calculator, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import gestionLocativeImage from '@/assets/GestionLocative.png';
 
 const GestionLocative = () => {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Gestion Locative Paris 8ème",
+    "description": "Service complet de gestion locative à Paris. Encaissement des loyers, sélection de locataires, suivi administratif et juridique.",
+    "provider": {
+      "@type": "RealEstateAgent",
+      "name": "JIP",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Paris",
+        "addressRegion": "Île-de-France",
+        "postalCode": "75008",
+        "addressCountry": "FR"
+      }
+    },
+    "serviceType": "Gestion Locative",
+    "areaServed": "Paris",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "EUR",
+      "description": "8% HT des loyers encaissés"
+    }
+  };
   const advantages = [
     "Recherche et sélection rigoureuse des locataires",
     "Encaissement automatique des loyers",
@@ -93,16 +119,27 @@ const GestionLocative = () => {
 
   return (
     <div className="min-h-screen">
+      <SEOHead 
+        title="Gestion Locative Paris 8ème | JIP - Service Complet & Professionnel"
+        description="Gestion locative professionnelle à Paris 8ème. Encaissement loyers, sélection locataires, suivi juridique. 8% HT seulement. Devis gratuit !"
+        keywords="gestion locative paris, syndic paris 8ème, encaissement loyers, sélection locataires, gestion bien locatif"
+        canonicalUrl="https://jip-immobilier.fr/services/gestion-locative"
+        structuredData={structuredData}
+      />
       <Header />
-      <main>
+      <main role="main">
         {/* Hero Section - Plus émotionnel */}
         <section className="pt-32 pb-16 relative overflow-hidden">
           {/* Background Image */}
           <div className="absolute inset-0">
-            <img 
+            <SEOOptimizedImage 
               src={gestionLocativeImage}
-              alt="Gestion locative professionnelle"
+              alt="Gestion locative professionnelle à Paris 8ème - Service complet de gestion immobilière"
               className="w-full h-full object-cover"
+              width={1920}
+              height={1080}
+              loading="eager"
+              fetchpriority="high"
             />
             <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-secondary/80 via-secondary/50 to-transparent"></div>
           </div>
