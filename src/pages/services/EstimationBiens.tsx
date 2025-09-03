@@ -32,10 +32,10 @@ const EstimationBiens = () => {
   const [monthlyEstimations, setMonthlyEstimations] = useState(127);
   const [weeklyPercentage, setWeeklyPercentage] = useState(23);
 
-  // Extension de Date pour obtenir le numéro de semaine
-  Date.prototype.getWeek = function() {
-    const onejan = new Date(this.getFullYear(), 0, 1);
-    return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+  // Fonction pour obtenir le numéro de semaine
+  const getWeekNumber = (date: Date) => {
+    const onejan = new Date(date.getFullYear(), 0, 1);
+    return Math.ceil(((date.getTime() - onejan.getTime()) / 86400000 + onejan.getDay() + 1) / 7);
   };
 
   // Chargement des données sauvegardées au montage
@@ -61,7 +61,7 @@ const EstimationBiens = () => {
       
       // Gestion du pourcentage hebdomadaire
       const now = new Date();
-      const currentWeek = now.getFullYear() + '-' + now.getWeek();
+      const currentWeek = now.getFullYear() + '-' + getWeekNumber(now);
       
       if (savedPercentage && savedPercentageDate === currentWeek) {
         // Le pourcentage de cette semaine existe déjà
@@ -329,7 +329,7 @@ const EstimationBiens = () => {
     try {
       // 1. Essayer d'abord l'API DVF officielle (gratuite)
       const dvfData = await getDVFData(coordinates);
-      if (dvfData && dvfData.pricePerM2 > 0) {
+      if (dvfData && dvfData.basePricePerM2 > 0) {
         return dvfData;
       }
       
@@ -678,7 +678,7 @@ const EstimationBiens = () => {
   const highlightEmptyFields = () => {
     const emptyFields = ['firstName', 'lastName', 'email', 'purpose'];
     emptyFields.forEach(fieldId => {
-      const element = document.getElementById(fieldId);
+      const element = document.getElementById(fieldId) as HTMLInputElement;
       if (element && !element.value) {
         element.classList.add('ring-2', 'ring-primary', 'ring-opacity-50', 'animate-pulse', 'bg-primary/5');
         // Retirer l'animation après 3 secondes mais garder le ring
