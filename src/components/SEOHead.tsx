@@ -6,6 +6,9 @@ interface SEOHeadProps {
   keywords?: string;
   canonicalUrl?: string;
   structuredData?: object;
+  ogImage?: string;
+  ogType?: string;
+  twitterCard?: string;
 }
 
 const SEOHead = ({ 
@@ -13,7 +16,10 @@ const SEOHead = ({
   description, 
   keywords, 
   canonicalUrl,
-  structuredData 
+  structuredData,
+  ogImage = "ar contr",
+  ogType = "website",
+  twitterCard = "summary_large_image"
 }: SEOHeadProps) => {
   useEffect(() => {
     // Update document title
@@ -58,27 +64,42 @@ const SEOHead = ({
     }
     
     // Update Open Graph tags
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) {
-      ogTitle.setAttribute('content', title);
-    }
+    const updateOrCreateMeta = (property: string, content: string, isProperty = true) => {
+      const selector = isProperty ? `meta[property="${property}"]` : `meta[name="${property}"]`;
+      let meta = document.querySelector(selector) as HTMLMetaElement;
+      if (!meta) {
+        meta = document.createElement('meta');
+        if (isProperty) {
+          meta.setAttribute('property', property);
+        } else {
+          meta.setAttribute('name', property);
+        }
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', content);
+    };
+
+    // Open Graph tags
+    updateOrCreateMeta('og:title', title);
+    updateOrCreateMeta('og:description', description);
+    updateOrCreateMeta('og:type', ogType);
+    updateOrCreateMeta('og:image', ogImage);
+    updateOrCreateMeta('og:url', canonicalUrl || window.location.href);
+    updateOrCreateMeta('og:site_name', 'ABDJIP');
+    updateOrCreateMeta('og:locale', 'fr_FR');
     
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) {
-      ogDescription.setAttribute('content', description);
-    }
+    // Twitter Card tags
+    updateOrCreateMeta('twitter:card', twitterCard, false);
+    updateOrCreateMeta('twitter:title', title, false);
+    updateOrCreateMeta('twitter:description', description, false);
+    updateOrCreateMeta('twitter:image', ogImage, false);
+    updateOrCreateMeta('twitter:site', '@abdjip', false);
     
-    // Update Twitter Card tags
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    if (twitterTitle) {
-      twitterTitle.setAttribute('content', title);
-    }
-    
-    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
-    if (twitterDescription) {
-      twitterDescription.setAttribute('content', description);
-    }
-  }, [title, description, keywords, canonicalUrl, structuredData]);
+    // Additional SEO tags
+    updateOrCreateMeta('robots', 'index, follow', false);
+    updateOrCreateMeta('author', 'ABDJIP', false);
+    updateOrCreateMeta('viewport', 'width=device-width, initial-scale=1.0', false);
+  }, [title, description, keywords, canonicalUrl, structuredData, ogImage, ogType, twitterCard]);
 
   return null;
 };

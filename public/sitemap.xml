@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jip-immobilier.fr/</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://abdjip.fr/</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-    <url>
-      <loc>https://jip-immobilier.fr/biens</loc>
-      <lastmod>2025-01-02</lastmod>
-      <changefreq>weekly</changefreq>
-      <priority>0.9</priority>
-    </url>
   <url>
-    <loc>https://jip-immobilier.fr/contact</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://abdjip.fr/biens</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://abdjip.fr/contact</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://jip-immobilier.fr/equipe</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://abdjip.fr/equipe</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://jip-immobilier.fr/partenaires</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://abdjip.fr/partenaires</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://jip-immobilier.fr/references</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://abdjip.fr/references</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://jip-immobilier.fr/services/gestion-locative</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://abdjip.fr/services/gestion-locative</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://jip-immobilier.fr/services/gestion-copropriete</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://abdjip.fr/services/gestion-copropriete</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://jip-immobilier.fr/services/estimation-biens</loc>
-    <lastmod>2025-01-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://abdjip.fr/services/estimation-biens</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://jip-immobilier.fr/services/achats-ventes</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://abdjip.fr/services/achats-ventes</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
