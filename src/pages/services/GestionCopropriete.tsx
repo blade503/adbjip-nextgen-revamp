@@ -417,85 +417,249 @@ const GestionCopropriete = () => {
           </div>
         </section>
 
-        {/* Gercop Copropriété */}
-        <section className="py-16 bg-background">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8 text-center">
-                <span className="gradient-text">Gercop</span> Copropriété
+        {/* Gercop Copropriété - Style uniforme */}
+        <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
+          {/* Background Effects */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-indigo-100/50 to-transparent rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-purple-100/50 to-transparent rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
+          
+          <div className="container mx-auto px-6 relative z-10">
+            <div className="max-w-6xl mx-auto">
+              {/* Header */}
+              <div className="text-center mb-16">
+                <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-indigo-100/80 to-purple-100/80 backdrop-blur-md border border-indigo-200/50 rounded-full px-8 py-4 mb-8 animate-slide-up">
+                  <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm font-semibold text-indigo-700">Plateforme Digitale 24h/24</span>
+                  <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                </div>
+                <h2 className="text-5xl font-bold mb-6 animate-slide-up" style={{animationDelay: '0.2s'}}>
+                  <span className="gradient-text animate-pulse">Gercop</span> Copropriété
                 </h2>
-              <Card className="glass-strong p-8 border-0 shadow-card">
-                <div className="text-center mb-6">
-                  <h3 className="text-xl font-semibold mb-4 text-primary">Un service en ligne accessible 24h/24, 7j/7</h3>
-                  <p className="text-muted-foreground">Pour suivre votre copropriété en toute transparence</p>
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-slide-up" style={{animationDelay: '0.4s'}}>
+                  Un service en ligne accessible 24h/24, 7j/7 pour suivre votre copropriété en toute transparence
+                </p>
               </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-3 text-primary">Vos informations personnelles</h4>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li>• Situation de votre compte de charges</li>
-                      <li>• Appels de provisions</li>
-                      <li>• Relevé général de dépense</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-3 text-primary">Informations de votre immeuble</h4>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li>• Convocations</li>
-                      <li>• Procès-verbaux d'assemblées générales</li>
-                      <li>• Comptes-rendus de gestion</li>
-                    </ul>
+
+              {/* Grille de cartes */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                
+                {/* Carte 1 - Informations personnelles */}
+                <div className="group animate-slide-up" style={{animationDelay: '0.1s'}}>
+                  <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 p-8 border border-indigo-200/50 hover:border-indigo-300 transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-500/20 hover:-translate-y-2">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-400/20 to-transparent rounded-full blur-2xl"></div>
+                    <div className="relative z-10">
+                      <div className="flex items-center space-x-4 mb-6">
+                        <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-indigo-500/30">
+                          <Users className="w-8 h-8 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-2xl font-bold text-indigo-800 group-hover:text-indigo-900 transition-colors">Vos Informations</h3>
+                          <div className="flex items-center space-x-2 mt-1">
+                            <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></div>
+                            <span className="text-sm font-medium text-indigo-600">Personnel</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
+                          <CheckCircle className="w-5 h-5 text-indigo-500" />
+                          <span className="text-sm font-medium text-indigo-800">Situation de votre compte de charges</span>
+                        </div>
+                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
+                          <CheckCircle className="w-5 h-5 text-indigo-500" />
+                          <span className="text-sm font-medium text-indigo-800">Appels de provisions</span>
+                        </div>
+                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
+                          <CheckCircle className="w-5 h-5 text-indigo-500" />
+                          <span className="text-sm font-medium text-indigo-800">Relevé général de dépense</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="mt-6 p-4 bg-primary/10 rounded-lg">
-                  <h4 className="font-semibold mb-2 text-primary">Accès Conseil Syndical</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Les membres du Conseil Syndical ont accès à de nombreuses informations complémentaires : 
-                    factures, contrats, demandes d'intervention, sinistres en cours...
-                  </p>
+
+                {/* Carte 2 - Informations immeuble */}
+                <div className="group animate-slide-up" style={{animationDelay: '0.2s'}}>
+                  <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-50 to-purple-100/50 p-8 border border-purple-200/50 hover:border-purple-300 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-transparent rounded-full blur-2xl"></div>
+                    <div className="relative z-10">
+                      <div className="flex items-center space-x-4 mb-6">
+                        <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-purple-500/30">
+                          <Building2 className="w-8 h-8 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-2xl font-bold text-purple-800 group-hover:text-purple-900 transition-colors">Votre Immeuble</h3>
+                          <div className="flex items-center space-x-2 mt-1">
+                            <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                            <span className="text-sm font-medium text-purple-600">Collectif</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
+                          <CheckCircle className="w-5 h-5 text-purple-500" />
+                          <span className="text-sm font-medium text-purple-800">Convocations</span>
+                        </div>
+                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
+                          <CheckCircle className="w-5 h-5 text-purple-500" />
+                          <span className="text-sm font-medium text-purple-800">Procès-verbaux d'assemblées générales</span>
+                        </div>
+                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
+                          <CheckCircle className="w-5 h-5 text-purple-500" />
+                          <span className="text-sm font-medium text-purple-800">Comptes-rendus de gestion</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </Card>
+              </div>
+
+              {/* Carte spéciale - Conseil Syndical */}
+              <div className="animate-slide-up" style={{animationDelay: '0.3s'}}>
+                <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 p-12 border border-primary/20 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-50"></div>
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary"></div>
+                  
+                  <div className="relative z-10 text-center">
+                    <div className="flex items-center justify-center space-x-6 mb-8">
+                      <div className="w-20 h-20 bg-gradient-primary rounded-3xl flex items-center justify-center shadow-2xl shadow-primary/30 animate-pulse">
+                        <Users className="w-10 h-10 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-3xl font-bold gradient-text mb-2">Accès Conseil Syndical</h3>
+                        <div className="flex items-center justify-center space-x-4">
+                          <span className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">Privilégié</span>
+                          <span className="bg-secondary/10 text-secondary px-4 py-2 rounded-full text-sm font-semibold">Complet</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+                      Les membres du <strong>Conseil Syndical</strong> ont accès à de nombreuses informations complémentaires : 
+                      factures, contrats, demandes d'intervention, sinistres en cours...
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Informations internet */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8 text-center">
-                <span className="gradient-text">Informations</span> internet
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <Card className="glass-strong p-6 border-0 shadow-card">
-                  <h3 className="text-xl font-semibold mb-4 text-primary">La vie de ma copropriété</h3>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li>• Ascenseur en panne</li>
-                    <li>• Intervention du plombier</li>
-                    <li>• Changement du code d'entrée</li>
-                    <li>• Rappel de la date d'assemblée générale</li>
-                  </ul>
-                </Card>
-                <Card className="glass-strong p-6 border-0 shadow-card">
-                  <h3 className="text-xl font-semibold mb-4 text-primary">Le compte-rendu de visite de l'immeuble</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Un compte rendu dressant le bilan de notre gestion est joint à la convocation d'assemblée générale.
-                  </p>
-                </Card>
+        {/* Informations internet - Style uniforme */}
+        <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
+          {/* Background Effects */}
+          <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-emerald-100/50 to-transparent rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-tl from-cyan-100/50 to-transparent rounded-full blur-3xl animate-float" style={{animationDelay: '3s'}}></div>
+          
+          <div className="container mx-auto px-6 relative z-10">
+            <div className="max-w-6xl mx-auto">
+              {/* Header */}
+              <div className="text-center mb-16">
+                <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-emerald-100/80 to-cyan-100/80 backdrop-blur-md border border-emerald-200/50 rounded-full px-8 py-4 mb-8 animate-slide-up">
+                  <div className="w-3 h-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm font-semibold text-emerald-700">Communication Digitale</span>
+                  <div className="w-3 h-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                </div>
+                <h2 className="text-5xl font-bold mb-6 animate-slide-up" style={{animationDelay: '0.2s'}}>
+                  <span className="gradient-text animate-pulse">Informations</span> Internet
+                </h2>
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-slide-up" style={{animationDelay: '0.4s'}}>
+                  JIP vous informe des événements importants de la vie de votre immeuble en temps réel
+                </p>
               </div>
-              <div className="mt-8">
-                <Card className="glass-strong p-6 border-0 shadow-card">
-                  <h3 className="text-xl font-semibold mb-4 text-primary">État des comptes et suivi complet</h3>
-                  <p className="text-muted-foreground">
-                    État des comptes, suivi des travaux, des sinistres, des procédures... 
-                    Vous trouverez toute information de votre immeuble.
-                  </p>
-                  <div className="mt-4 p-4 bg-primary/10 rounded-lg">
-                    <p className="text-sm font-medium text-primary">
-                      JIP vous informe des événements importants de la vie de votre immeuble
+
+              {/* Grille de cartes */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                
+                {/* Carte 1 - Vie de la copropriété */}
+                <div className="group animate-slide-up" style={{animationDelay: '0.1s'}}>
+                  <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 p-8 border border-emerald-200/50 hover:border-emerald-300 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/20 hover:-translate-y-2">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-400/20 to-transparent rounded-full blur-2xl"></div>
+                    <div className="relative z-10">
+                      <div className="flex items-center space-x-4 mb-6">
+                        <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-emerald-500/30">
+                          <Building2 className="w-8 h-8 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-2xl font-bold text-emerald-800 group-hover:text-emerald-900 transition-colors">Vie de ma Copropriété</h3>
+                          <div className="flex items-center space-x-2 mt-1">
+                            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                            <span className="text-sm font-medium text-emerald-600">Temps Réel</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
+                          <CheckCircle className="w-5 h-5 text-emerald-500" />
+                          <span className="text-sm font-medium text-emerald-800">Ascenseur en panne</span>
+                        </div>
+                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
+                          <CheckCircle className="w-5 h-5 text-emerald-500" />
+                          <span className="text-sm font-medium text-emerald-800">Intervention du plombier</span>
+                        </div>
+                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
+                          <CheckCircle className="w-5 h-5 text-emerald-500" />
+                          <span className="text-sm font-medium text-emerald-800">Changement du code d'entrée</span>
+                        </div>
+                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
+                          <CheckCircle className="w-5 h-5 text-emerald-500" />
+                          <span className="text-sm font-medium text-emerald-800">Rappel de la date d'assemblée générale</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Carte 2 - Compte-rendu de visite */}
+                <div className="group animate-slide-up" style={{animationDelay: '0.2s'}}>
+                  <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-cyan-50 to-cyan-100/50 p-8 border border-cyan-200/50 hover:border-cyan-300 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 hover:-translate-y-2">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-400/20 to-transparent rounded-full blur-2xl"></div>
+                    <div className="relative z-10">
+                      <div className="flex items-center space-x-4 mb-6">
+                        <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-cyan-500/30">
+                          <FileText className="w-8 h-8 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-2xl font-bold text-cyan-800 group-hover:text-cyan-900 transition-colors">Compte-Rendu Visite</h3>
+                          <div className="flex items-center space-x-2 mt-1">
+                            <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
+                            <span className="text-sm font-medium text-cyan-600">Détaillé</span>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-cyan-700/80 leading-relaxed">
+                        Un compte rendu dressant le bilan de notre gestion est joint à la convocation d'assemblée générale. 
+                        Vous disposez d'une vision complète et transparente de l'état de votre immeuble.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Carte spéciale - État des comptes */}
+              <div className="animate-slide-up" style={{animationDelay: '0.3s'}}>
+                <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 p-12 border border-primary/20 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-50"></div>
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary"></div>
+                  
+                  <div className="relative z-10 text-center">
+                    <div className="flex items-center justify-center space-x-6 mb-8">
+                      <div className="w-20 h-20 bg-gradient-primary rounded-3xl flex items-center justify-center shadow-2xl shadow-primary/30 animate-pulse">
+                        <Calculator className="w-10 h-10 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-3xl font-bold gradient-text mb-2">État des Comptes & Suivi Complet</h3>
+                        <div className="flex items-center justify-center space-x-4">
+                          <span className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">Transparent</span>
+                          <span className="bg-secondary/10 text-secondary px-4 py-2 rounded-full text-sm font-semibold">Complet</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+                      État des comptes, suivi des <strong>travaux</strong>, des <strong>sinistres</strong>, des <strong>procédures</strong>... 
+                      Vous trouverez toute information de votre immeuble dans un espace dédié et sécurisé.
                     </p>
                   </div>
-                </Card>
+                </div>
               </div>
             </div>
           </div>
