@@ -417,126 +417,150 @@ const GestionCopropriete = () => {
           </div>
         </section>
 
-        {/* Gercop Copropriété - Style uniforme */}
-        <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
-          {/* Background Effects */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-indigo-100/50 to-transparent rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-purple-100/50 to-transparent rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
+        {/* Gercop Copropriété - Style Tech/Digital */}
+        <section className="py-20 bg-background relative overflow-hidden">
+          {/* Background Effects Tech */}
+          <div className="absolute inset-0">
+            <div className="absolute top-10 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="grid grid-cols-8 gap-4 opacity-5 rotate-12">
+                {Array.from({length: 64}).map((_, i) => (
+                  <div key={i} className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{animationDelay: `${i * 0.1}s`}}></div>
+                ))}
+              </div>
+            </div>
+          </div>
           
           <div className="container mx-auto px-6 relative z-10">
-            <div className="max-w-6xl mx-auto">
-              {/* Header */}
+            <div className="max-w-7xl mx-auto">
+              {/* Header avec badge tech */}
               <div className="text-center mb-16">
-                <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-indigo-100/80 to-purple-100/80 backdrop-blur-md border border-indigo-200/50 rounded-full px-8 py-4 mb-8 animate-slide-up">
-                  <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm font-semibold text-indigo-700">Plateforme Digitale 24h/24</span>
-                  <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-3 rounded-full mb-8 animate-slide-up shadow-lg">
+                  <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
+                  <span className="text-sm font-bold">PLATEFORME EN LIGNE 24/7</span>
+                  <div className="w-2 h-2 bg-white rounded-full animate-ping" style={{animationDelay: '0.5s'}}></div>
                 </div>
-                <h2 className="text-5xl font-bold mb-6 animate-slide-up" style={{animationDelay: '0.2s'}}>
-                  <span className="gradient-text animate-pulse">Gercop</span> Copropriété
+                <h2 className="text-5xl md:text-6xl font-bold mb-6 animate-slide-up" style={{animationDelay: '0.2s'}}>
+                  <span className="bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-600 bg-clip-text text-transparent animate-pulse">Gercop</span> 
+                  <span className="text-foreground"> Copropriété</span>
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-slide-up" style={{animationDelay: '0.4s'}}>
-                  Un service en ligne accessible 24h/24, 7j/7 pour suivre votre copropriété en toute transparence
+                  Interface digitale moderne pour une gestion transparente et accessible
                 </p>
               </div>
 
-              {/* Grille de cartes */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+              {/* Layout différent - Cards asymétriques */}
+              <div className="grid grid-cols-12 gap-6">
                 
-                {/* Carte 1 - Informations personnelles */}
-                <div className="group animate-slide-up" style={{animationDelay: '0.1s'}}>
-                  <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 p-8 border border-indigo-200/50 hover:border-indigo-300 transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-500/20 hover:-translate-y-2">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-400/20 to-transparent rounded-full blur-2xl"></div>
-                    <div className="relative z-10">
-                      <div className="flex items-center space-x-4 mb-6">
-                        <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-indigo-500/30">
-                          <Users className="w-8 h-8 text-white" />
-                        </div>
-                        <div>
-                          <h3 className="text-2xl font-bold text-indigo-800 group-hover:text-indigo-900 transition-colors">Vos Informations</h3>
-                          <div className="flex items-center space-x-2 mt-1">
-                            <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></div>
-                            <span className="text-sm font-medium text-indigo-600">Personnel</span>
+                {/* Grande carte - Informations personnelles */}
+                <div className="col-span-12 lg:col-span-7 animate-slide-up" style={{animationDelay: '0.1s'}}>
+                  <div className="relative h-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-cyan-500/20 to-blue-500/20 rounded-3xl blur-xl"></div>
+                    <div className="relative bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-8 border border-blue-200/50 h-full hover:shadow-2xl hover:shadow-blue-500/25 transition-all duration-500 group">
+                      <div className="flex items-start space-x-6 mb-8">
+                        <div className="relative">
+                          <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
+                            <Users className="w-10 h-10 text-white" />
                           </div>
+                          <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-3xl font-bold text-blue-800 mb-2">Espace Personnel</h3>
+                          <p className="text-blue-600 font-medium">Accès sécurisé à vos données</p>
                         </div>
                       </div>
-                      <div className="space-y-3">
-                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
-                          <CheckCircle className="w-5 h-5 text-indigo-500" />
-                          <span className="text-sm font-medium text-indigo-800">Situation de votre compte de charges</span>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-4">
+                          <div className="flex items-center space-x-3 p-4 bg-white/80 rounded-xl border border-blue-200/30 hover:bg-white hover:border-blue-300 transition-all">
+                            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                              <span className="text-white text-xs font-bold">€</span>
+                            </div>
+                            <span className="text-blue-800 font-medium">Situation comptable</span>
+                          </div>
+                          <div className="flex items-center space-x-3 p-4 bg-white/80 rounded-xl border border-blue-200/30 hover:bg-white hover:border-blue-300 transition-all">
+                            <div className="w-8 h-8 bg-cyan-500 rounded-lg flex items-center justify-center">
+                              <span className="text-white text-xs font-bold">📋</span>
+                            </div>
+                            <span className="text-blue-800 font-medium">Appels de provisions</span>
+                          </div>
                         </div>
-                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
-                          <CheckCircle className="w-5 h-5 text-indigo-500" />
-                          <span className="text-sm font-medium text-indigo-800">Appels de provisions</span>
-                        </div>
-                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
-                          <CheckCircle className="w-5 h-5 text-indigo-500" />
-                          <span className="text-sm font-medium text-indigo-800">Relevé général de dépense</span>
+                        <div className="space-y-4">
+                          <div className="flex items-center space-x-3 p-4 bg-white/80 rounded-xl border border-blue-200/30 hover:bg-white hover:border-blue-300 transition-all">
+                            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                              <span className="text-white text-xs font-bold">📊</span>
+                            </div>
+                            <span className="text-blue-800 font-medium">Relevé de dépenses</span>
+                          </div>
+                          <div className="p-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl text-white">
+                            <p className="text-sm font-semibold">✓ Disponible 24h/24</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Carte 2 - Informations immeuble */}
-                <div className="group animate-slide-up" style={{animationDelay: '0.2s'}}>
-                  <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-50 to-purple-100/50 p-8 border border-purple-200/50 hover:border-purple-300 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-transparent rounded-full blur-2xl"></div>
-                    <div className="relative z-10">
-                      <div className="flex items-center space-x-4 mb-6">
-                        <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-purple-500/30">
+                {/* Card plus petite - Informations immeuble */}
+                <div className="col-span-12 lg:col-span-5 animate-slide-up" style={{animationDelay: '0.2s'}}>
+                  <div className="relative h-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl blur-xl"></div>
+                    <div className="relative bg-gradient-to-br from-cyan-50 to-blue-50 rounded-3xl p-6 border border-cyan-200/50 h-full hover:shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 group">
+                      <div className="text-center mb-6">
+                        <div className="w-16 h-16 bg-gradient-to-br from-cyan-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-6 transition-transform duration-300">
                           <Building2 className="w-8 h-8 text-white" />
                         </div>
-                        <div>
-                          <h3 className="text-2xl font-bold text-purple-800 group-hover:text-purple-900 transition-colors">Votre Immeuble</h3>
-                          <div className="flex items-center space-x-2 mt-1">
-                            <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-                            <span className="text-sm font-medium text-purple-600">Collectif</span>
-                          </div>
-                        </div>
+                        <h3 className="text-2xl font-bold text-cyan-800 mb-1">Immeuble</h3>
+                        <p className="text-cyan-600 text-sm">Documents collectifs</p>
                       </div>
+                      
                       <div className="space-y-3">
-                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
-                          <CheckCircle className="w-5 h-5 text-purple-500" />
-                          <span className="text-sm font-medium text-purple-800">Convocations</span>
-                        </div>
-                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
-                          <CheckCircle className="w-5 h-5 text-purple-500" />
-                          <span className="text-sm font-medium text-purple-800">Procès-verbaux d'assemblées générales</span>
-                        </div>
-                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
-                          <CheckCircle className="w-5 h-5 text-purple-500" />
-                          <span className="text-sm font-medium text-purple-800">Comptes-rendus de gestion</span>
-                        </div>
+                        {['Convocations', 'Procès-verbaux AG', 'Comptes-rendus'].map((item, index) => (
+                          <div key={item} className="flex items-center space-x-3 p-3 bg-white/70 rounded-lg border border-cyan-200/30 hover:bg-white transition-all">
+                            <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
+                            <span className="text-cyan-800 text-sm font-medium">{item}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Carte spéciale - Conseil Syndical */}
-              <div className="animate-slide-up" style={{animationDelay: '0.3s'}}>
-                <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 p-12 border border-primary/20 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-50"></div>
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary"></div>
-                  
-                  <div className="relative z-10 text-center">
-                    <div className="flex items-center justify-center space-x-6 mb-8">
-                      <div className="w-20 h-20 bg-gradient-primary rounded-3xl flex items-center justify-center shadow-2xl shadow-primary/30 animate-pulse">
-                        <Users className="w-10 h-10 text-white" />
+                {/* Carte full width - Conseil Syndical */}
+                <div className="col-span-12 animate-slide-up" style={{animationDelay: '0.3s'}}>
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 rounded-3xl blur-xl"></div>
+                    <div className="relative bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 rounded-3xl p-8 border border-slate-700 overflow-hidden group hover:shadow-2xl hover:shadow-blue-500/25 transition-all duration-500">
+                      {/* Circuit board pattern */}
+                      <div className="absolute inset-0 opacity-10">
+                        <div className="absolute top-4 left-4 w-32 h-0.5 bg-cyan-400"></div>
+                        <div className="absolute top-4 left-36 w-0.5 h-16 bg-cyan-400"></div>
+                        <div className="absolute top-20 left-36 w-24 h-0.5 bg-cyan-400"></div>
+                        <div className="absolute bottom-4 right-4 w-40 h-0.5 bg-blue-400"></div>
+                        <div className="absolute bottom-4 right-44 w-0.5 h-20 bg-blue-400"></div>
                       </div>
-                      <div>
-                        <h3 className="text-3xl font-bold gradient-text mb-2">Accès Conseil Syndical</h3>
-                        <div className="flex items-center justify-center space-x-4">
-                          <span className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">Privilégié</span>
-                          <span className="bg-secondary/10 text-secondary px-4 py-2 rounded-full text-sm font-semibold">Complet</span>
+                      
+                      <div className="relative z-10 flex flex-col lg:flex-row items-center space-y-6 lg:space-y-0 lg:space-x-8">
+                        <div className="flex-shrink-0">
+                          <div className="w-24 h-24 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-3xl flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                            <Users className="w-12 h-12 text-white" />
+                          </div>
+                        </div>
+                        <div className="flex-1 text-center lg:text-left">
+                          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-4">
+                            <h3 className="text-3xl font-bold text-white">Accès Conseil Syndical</h3>
+                            <span className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-1 rounded-full text-sm font-bold">PREMIUM</span>
+                          </div>
+                          <p className="text-slate-300 text-lg leading-relaxed">
+                            Interface avancée avec accès aux <span className="text-cyan-400 font-semibold">factures</span>, 
+                            <span className="text-blue-400 font-semibold"> contrats</span>, 
+                            <span className="text-cyan-400 font-semibold"> interventions</span> et 
+                            <span className="text-blue-400 font-semibold"> sinistres</span> en temps réel.
+                          </p>
                         </div>
                       </div>
                     </div>
-                    <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-                      Les membres du <strong>Conseil Syndical</strong> ont accès à de nombreuses informations complémentaires : 
-                      factures, contrats, demandes d'intervention, sinistres en cours...
-                    </p>
                   </div>
                 </div>
               </div>
@@ -544,120 +568,153 @@ const GestionCopropriete = () => {
           </div>
         </section>
 
-        {/* Informations internet - Style uniforme */}
-        <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
-          {/* Background Effects */}
-          <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-emerald-100/50 to-transparent rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-tl from-cyan-100/50 to-transparent rounded-full blur-3xl animate-float" style={{animationDelay: '3s'}}></div>
+        {/* Informations internet - Style Communication/News */}
+        <section className="py-20 relative overflow-hidden">
+          {/* Background artistique */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-50"></div>
+          <div className="absolute top-0 left-0 w-full h-full">
+            {/* Formes géométriques */}
+            <div className="absolute top-20 left-20 w-32 h-32 border-2 border-emerald-200 rounded-2xl rotate-12 animate-bounce" style={{animationDuration: '3s'}}></div>
+            <div className="absolute bottom-32 right-32 w-24 h-24 bg-emerald-100 rounded-full animate-pulse"></div>
+            <div className="absolute top-1/2 right-20 w-16 h-64 bg-gradient-to-b from-emerald-200 to-transparent rounded-full rotate-45 opacity-30"></div>
+            <div className="absolute bottom-20 left-1/3 w-40 h-2 bg-gradient-to-r from-emerald-300 to-transparent rounded-full"></div>
+          </div>
           
           <div className="container mx-auto px-6 relative z-10">
-            <div className="max-w-6xl mx-auto">
-              {/* Header */}
-              <div className="text-center mb-16">
-                <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-emerald-100/80 to-cyan-100/80 backdrop-blur-md border border-emerald-200/50 rounded-full px-8 py-4 mb-8 animate-slide-up">
-                  <div className="w-3 h-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm font-semibold text-emerald-700">Communication Digitale</span>
-                  <div className="w-3 h-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+            <div className="max-w-7xl mx-auto">
+              {/* Header style magazine */}
+              <div className="text-center mb-20">
+                <div className="relative inline-block mb-8">
+                  <div className="absolute -inset-4 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-2xl blur-xl opacity-30 animate-pulse"></div>
+                  <div className="relative bg-white border-2 border-emerald-200 rounded-2xl px-8 py-4 shadow-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
+                      <span className="text-emerald-700 font-black text-sm uppercase tracking-widest">LIVE UPDATES</span>
+                      <div className="w-4 h-4 bg-red-500 rounded-full animate-ping" style={{animationDelay: '0.5s'}}></div>
+                    </div>
+                  </div>
                 </div>
-                <h2 className="text-5xl font-bold mb-6 animate-slide-up" style={{animationDelay: '0.2s'}}>
-                  <span className="gradient-text animate-pulse">Informations</span> Internet
+                
+                <h2 className="text-6xl md:text-7xl font-black mb-6 animate-slide-up" style={{animationDelay: '0.2s'}}>
+                  <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 bg-clip-text text-transparent">Infos</span>
+                  <br />
+                  <span className="text-slate-800">Internet</span>
                 </h2>
-                <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-slide-up" style={{animationDelay: '0.4s'}}>
-                  JIP vous informe des événements importants de la vie de votre immeuble en temps réel
+                <p className="text-2xl text-slate-600 max-w-3xl mx-auto font-medium animate-slide-up" style={{animationDelay: '0.4s'}}>
+                  Communication instantanée et transparente
                 </p>
               </div>
 
-              {/* Grille de cartes */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+              {/* Layout style journal/magazine */}
+              <div className="space-y-8">
                 
-                {/* Carte 1 - Vie de la copropriété */}
-                <div className="group animate-slide-up" style={{animationDelay: '0.1s'}}>
-                  <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 p-8 border border-emerald-200/50 hover:border-emerald-300 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/20 hover:-translate-y-2">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-400/20 to-transparent rounded-full blur-2xl"></div>
-                    <div className="relative z-10">
-                      <div className="flex items-center space-x-4 mb-6">
-                        <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-emerald-500/30">
-                          <Building2 className="w-8 h-8 text-white" />
-                        </div>
-                        <div>
-                          <h3 className="text-2xl font-bold text-emerald-800 group-hover:text-emerald-900 transition-colors">Vie de ma Copropriété</h3>
-                          <div className="flex items-center space-x-2 mt-1">
-                            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                            <span className="text-sm font-medium text-emerald-600">Temps Réel</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="space-y-3">
-                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
-                          <CheckCircle className="w-5 h-5 text-emerald-500" />
-                          <span className="text-sm font-medium text-emerald-800">Ascenseur en panne</span>
-                        </div>
-                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
-                          <CheckCircle className="w-5 h-5 text-emerald-500" />
-                          <span className="text-sm font-medium text-emerald-800">Intervention du plombier</span>
-                        </div>
-                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
-                          <CheckCircle className="w-5 h-5 text-emerald-500" />
-                          <span className="text-sm font-medium text-emerald-800">Changement du code d'entrée</span>
-                        </div>
-                        <div className="flex items-center space-x-3 p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors">
-                          <CheckCircle className="w-5 h-5 text-emerald-500" />
-                          <span className="text-sm font-medium text-emerald-800">Rappel de la date d'assemblée générale</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Carte 2 - Compte-rendu de visite */}
-                <div className="group animate-slide-up" style={{animationDelay: '0.2s'}}>
-                  <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-cyan-50 to-cyan-100/50 p-8 border border-cyan-200/50 hover:border-cyan-300 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 hover:-translate-y-2">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-400/20 to-transparent rounded-full blur-2xl"></div>
-                    <div className="relative z-10">
-                      <div className="flex items-center space-x-4 mb-6">
-                        <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-cyan-500/30">
-                          <FileText className="w-8 h-8 text-white" />
-                        </div>
-                        <div>
-                          <h3 className="text-2xl font-bold text-cyan-800 group-hover:text-cyan-900 transition-colors">Compte-Rendu Visite</h3>
-                          <div className="flex items-center space-x-2 mt-1">
-                            <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
-                            <span className="text-sm font-medium text-cyan-600">Détaillé</span>
-                          </div>
-                        </div>
-                      </div>
-                      <p className="text-cyan-700/80 leading-relaxed">
-                        Un compte rendu dressant le bilan de notre gestion est joint à la convocation d'assemblée générale. 
-                        Vous disposez d'une vision complète et transparente de l'état de votre immeuble.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Carte spéciale - État des comptes */}
-              <div className="animate-slide-up" style={{animationDelay: '0.3s'}}>
-                <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 p-12 border border-primary/20 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-50"></div>
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary"></div>
+                {/* Section principale - style journal */}
+                <div className="grid grid-cols-12 gap-6">
                   
-                  <div className="relative z-10 text-center">
-                    <div className="flex items-center justify-center space-x-6 mb-8">
-                      <div className="w-20 h-20 bg-gradient-primary rounded-3xl flex items-center justify-center shadow-2xl shadow-primary/30 animate-pulse">
-                        <Calculator className="w-10 h-10 text-white" />
+                  {/* Article principal */}
+                  <div className="col-span-12 lg:col-span-8 animate-slide-up" style={{animationDelay: '0.1s'}}>
+                    <article className="bg-white rounded-2xl shadow-xl border-l-8 border-emerald-500 overflow-hidden hover:shadow-2xl hover:border-emerald-600 transition-all duration-500 group">
+                      <div className="p-8">
+                        <div className="flex items-center space-x-4 mb-6">
+                          <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-6 transition-transform duration-300">
+                            <Building2 className="w-6 h-6 text-white" />
+                          </div>
+                          <div>
+                            <h3 className="text-2xl font-bold text-slate-800">La Vie de ma Copropriété</h3>
+                            <p className="text-emerald-600 font-semibold text-sm">NOTIFICATIONS EN TEMPS RÉEL</p>
+                          </div>
+                        </div>
+                        
+                        {/* Timeline style */}
+                        <div className="space-y-4">
+                          {[
+                            { icon: '🔧', text: 'Ascenseur en panne', time: '2h', urgent: true },
+                            { icon: '🚰', text: 'Intervention du plombier', time: '1j', urgent: false },
+                            { icon: '🔐', text: 'Changement du code d\'entrée', time: '3j', urgent: false },
+                            { icon: '📅', text: 'Rappel de la date d\'assemblée générale', time: '1sem', urgent: false }
+                          ].map((item, index) => (
+                            <div key={index} className={`flex items-center space-x-4 p-4 rounded-xl border-2 transition-all hover:shadow-lg ${item.urgent ? 'border-red-200 bg-red-50' : 'border-emerald-200 bg-emerald-50'}`}>
+                              <div className="text-2xl">{item.icon}</div>
+                              <div className="flex-1">
+                                <p className="font-medium text-slate-800">{item.text}</p>
+                                <p className={`text-xs ${item.urgent ? 'text-red-600' : 'text-emerald-600'}`}>Il y a {item.time}</p>
+                              </div>
+                              {item.urgent && (
+                                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-3xl font-bold gradient-text mb-2">État des Comptes & Suivi Complet</h3>
-                        <div className="flex items-center justify-center space-x-4">
-                          <span className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">Transparent</span>
-                          <span className="bg-secondary/10 text-secondary px-4 py-2 rounded-full text-sm font-semibold">Complet</span>
+                    </article>
+                  </div>
+
+                  {/* Sidebar */}
+                  <div className="col-span-12 lg:col-span-4 space-y-6">
+                    
+                    {/* Compte-rendu - style card compacte */}
+                    <div className="animate-slide-up" style={{animationDelay: '0.2s'}}>
+                      <div className="bg-gradient-to-br from-teal-500 to-emerald-600 rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-500 group">
+                        <div className="flex items-center space-x-3 mb-4">
+                          <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                            <FileText className="w-5 h-5 text-white" />
+                          </div>
+                          <h3 className="font-bold text-lg">Compte-Rendu</h3>
+                        </div>
+                        <p className="text-white/90 text-sm leading-relaxed">
+                          Bilan complet joint à chaque convocation d'assemblée générale.
+                        </p>
+                        <div className="mt-4 flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-white rounded-full"></div>
+                          <span className="text-white/80 text-xs font-medium uppercase tracking-wider">Documentation</span>
                         </div>
                       </div>
                     </div>
-                    <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-                      État des comptes, suivi des <strong>travaux</strong>, des <strong>sinistres</strong>, des <strong>procédures</strong>... 
-                      Vous trouverez toute information de votre immeuble dans un espace dédié et sécurisé.
-                    </p>
+
+                    {/* Stats rapides */}
+                    <div className="animate-slide-up" style={{animationDelay: '0.3s'}}>
+                      <div className="bg-white rounded-2xl p-6 shadow-lg border border-emerald-100">
+                        <h4 className="font-bold text-slate-800 mb-4 text-center">Cette semaine</h4>
+                        <div className="grid grid-cols-2 gap-4 text-center">
+                          <div>
+                            <div className="text-2xl font-bold text-emerald-600">8</div>
+                            <div className="text-xs text-slate-500">Notifications</div>
+                          </div>
+                          <div>
+                            <div className="text-2xl font-bold text-teal-600">3</div>
+                            <div className="text-xs text-slate-500">Interventions</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer section - style bannière */}
+                <div className="animate-slide-up" style={{animationDelay: '0.4s'}}>
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-800 via-emerald-800 to-slate-800 rounded-2xl blur-xl opacity-50"></div>
+                    <div className="relative bg-gradient-to-r from-slate-900 via-emerald-900 to-slate-900 rounded-2xl p-8 border border-emerald-700">
+                      <div className="flex flex-col lg:flex-row items-center space-y-6 lg:space-y-0 lg:space-x-8">
+                        <div className="flex-shrink-0">
+                          <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-2xl flex items-center justify-center shadow-2xl">
+                            <Calculator className="w-10 h-10 text-white" />
+                          </div>
+                        </div>
+                        <div className="flex-1 text-center lg:text-left">
+                          <h3 className="text-3xl font-bold text-white mb-4">
+                            Suivi Complet & Transparent
+                          </h3>
+                          <p className="text-emerald-100 text-lg leading-relaxed">
+                            <span className="text-emerald-400 font-bold">État des comptes</span>, suivi des 
+                            <span className="text-teal-400 font-bold"> travaux</span>, des 
+                            <span className="text-emerald-400 font-bold"> sinistres</span> et des 
+                            <span className="text-teal-400 font-bold"> procédures</span>. 
+                            Toutes les informations de votre immeuble centralisées.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
