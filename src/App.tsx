@@ -13,9 +13,9 @@ import EstimationBiens from "./pages/services/EstimationBiens";
 import AchatsVentes from "./pages/services/AchatsVentes";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import MentionsLegales from "./pages/MentionsLegales";
 import Team from "./pages/Team";
 import Partners from "./pages/Partners";
-import References from "./pages/References";
 
 const queryClient = new QueryClient();
 
@@ -35,9 +35,9 @@ const App = () => (
           <Route path="/services/achats-ventes" element={<AchatsVentes />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/mentions-legales" element={<MentionsLegales />} />
           <Route path="/equipe" element={<Team />} />
           <Route path="/partenaires" element={<Partners />} />
-          <Route path="/references" element={<References />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

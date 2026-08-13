@@ -1,4 +1,6 @@
 import { Card } from '@/components/ui/card';
+import { HORAIRES } from '@/config/legal';
+import FormulaireContact from '@/components/FormulaireContact';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -21,7 +23,7 @@ const Contact = () => {
       icon: Phone,
       title: "Téléphone",
       value: "01.42.25.78.24",
-      description: "Lun-Ven 9h-18h",
+      description: HORAIRES.semaine,
       color: "bg-primary"
     },
     {
@@ -41,7 +43,7 @@ const Contact = () => {
     {
       icon: Clock,
       title: "Horaires",
-      value: "9h - 18h",
+      value: HORAIRES.detail,
       description: "Lundi au Vendredi",
       color: "bg-primary"
     }
@@ -70,99 +72,7 @@ const Contact = () => {
           <div className="space-y-6">
             <h3 className="text-2xl font-bold mb-6">Formulaire de contact</h3>
             
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium mb-2">
-                    Prénom *
-                  </label>
-                  <Input
-                    id="firstName"
-                    type="text"
-                    placeholder="Votre prénom"
-                    className="glass border-primary/20 focus:border-primary"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium mb-2">
-                    Nom *
-                  </label>
-                  <Input
-                    id="lastName"
-                    type="text"
-                    placeholder="Votre nom"
-                    className="glass border-primary/20 focus:border-primary"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">
-                    Email *
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="votre@email.com"
-                    className="glass border-primary/20 focus:border-primary"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium mb-2">
-                    Téléphone
-                  </label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="01.42.25.78.24"
-                    className="glass border-primary/20 focus:border-primary"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="service" className="block text-sm font-medium mb-2">
-                  Service souhaité
-                </label>
-                <select
-                  id="service"
-                  className="w-full px-4 py-3 rounded-lg glass border-primary/20 focus:border-primary focus:outline-none transition-colors"
-                >
-                  <option value="">Sélectionnez un service</option>
-                  <option value="gestion-locative">Gestion Locative</option>
-                  <option value="gestion-copropriete">Gestion de Copropriété</option>
-                  <option value="achats-ventes">Achats & Ventes</option>
-                  <option value="estimation">Estimation de Biens</option>
-                  <option value="autre">Autre</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Message *
-                </label>
-                <Textarea
-                  id="message"
-                  placeholder="Décrivez votre projet ou votre demande..."
-                  rows={6}
-                  className="glass border-primary/20 focus:border-primary resize-none"
-                  required
-                />
-              </div>
-
-              <Button 
-                type="submit" 
-                size="lg" 
-                className="w-full bg-primary hover:bg-primary-glow text-primary-foreground hover-glow group"
-              >
-                <Send className="mr-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                Envoyer le message
-              </Button>
-            </form>
+            <FormulaireContact idPrefix="accueil" />
           </div>
 
           {/* Contact Info */}

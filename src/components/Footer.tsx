@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Clock, Heart } from 'lucide-react';
+import { HORAIRES } from '@/config/legal';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -19,7 +20,7 @@ const Footer = () => {
     { name: "À propos", href: "/about" },
     { name: "Contact", href: "/contact" },
     { name: "Estimation Gratuite", href: "/services/estimation-biens#calculateur-rapide" },
-    { name: "Mentions Légales", href: "#" }
+    { name: "Mentions Légales", href: "/mentions-legales" }
   ];
 
   return (
@@ -99,7 +100,7 @@ const Footer = () => {
                 <Phone className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-sm font-medium">01.42.25.78.24</p>
-                  <p className="text-xs opacity-80">Lun-Ven 9h-19h</p>
+                  <p className="text-xs opacity-80">{HORAIRES.semaine}</p>
                 </div>
               </div>
               
@@ -123,8 +124,8 @@ const Footer = () => {
                 <Clock className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-sm font-medium">Horaires d'ouverture</p>
-                  <p className="text-xs opacity-80">Lun-Ven: 9h-19h</p>
-                  <p className="text-xs opacity-80">Sam: Sur RDV</p>
+                  <p className="text-xs opacity-80">{HORAIRES.semaine}</p>
+                  <p className="text-xs opacity-80">Samedi : {HORAIRES.samedi.toLowerCase()}</p>
                 </div>
               </div>
             </div>
@@ -140,9 +141,9 @@ const Footer = () => {
               © {currentYear} JIP. Tous droits réservés.
             </div>
             <div className="flex flex-wrap justify-center md:justify-end space-x-6 text-sm">
-              <a href="#" className="opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300">
+              <Link to="/mentions-legales" className="opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300">
                 Mentions Légales
-              </a>
+              </Link>
               <a href="#" className="opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300">
                 Politique de Confidentialité
               </a>
