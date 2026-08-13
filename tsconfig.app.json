@@ -22,9 +22,11 @@
     "noFallthroughCasesInSwitch": false,
 
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@data/*": ["./data/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "data/*.json"]
 }

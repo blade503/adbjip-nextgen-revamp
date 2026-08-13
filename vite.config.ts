@@ -17,6 +17,8 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      // Le portefeuille est produit par scripts/fetch-biens.mjs hors de src/.
+      "@data": path.resolve(__dirname, "./data"),
     },
   },
 }));
