@@ -1,0 +1,76 @@
+# Configuration Apache pour l'hébergement mutualisé LWS.
+#
+# Vite recopie public/ dans dist/ : ce fichier part donc avec le build.
+# Vérifier après le premier envoi FTP qu'il est bien présent à la racine —
+# certains clients FTP masquent ou ignorent les fichiers commençant par un point.
+
+RewriteEngine On
+
+# --- HTTPS et domaine canonique ---------------------------------------------
+# Une seule adresse indexable : https://www.adbjip.fr
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{HTTP_HOST} ^adbjip\.fr$ [NC]
+RewriteRule ^(.*)$ https://www.adbjip.fr/$1 [L,R=301]
+
+# --- Redirections depuis l'ancien site Symfony ------------------------------
+# Les URL de 2017 sont indexées depuis huit ans : elles doivent conduire à la
+# page équivalente, pas à une erreur. Piège : /about était la page contact de
+# l'ancien site, alors que /about existe aussi dans la refonte avec un tout
+# autre contenu — d'où la redirection vers /contact.
+Redirect 301 /gerer-bien /services/gestion-locative
+Redirect 301 /gerer-copropriete /services/gestion-copropriete
+Redirect 301 /estimation /services/estimation-biens
+Redirect 301 /about /contact
+
+# --- Application monopage ----------------------------------------------------
+# Sans cette règle, ouvrir /services/gestion-locative directement renvoie une
+# erreur 404 d'Apache : côté serveur, seul index.html existe.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
+
+# --- Compression -------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# --- Cache -------------------------------------------------------------------
+# Les fichiers de dist/assets portent une empreinte dans leur nom : ils peuvent
+# être mis en cache indéfiniment. index.html, lui, ne doit jamais l'être, sinon
+# un visiteur reste bloqué sur une ancienne version après chaque déploiement.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/xml "access plus 1 hour"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|php)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# --- Sauvegarde des demandes --------------------------------------------------
+# contact.php consigne chaque demande dans leads.jsonl à titre de filet : ce
+# fichier ne doit jamais être servi.
+<Files "leads.jsonl">
+  Require all denied
+</Files>
+
+# --- Divers ------------------------------------------------------------------
+Options -Indexes
+AddDefaultCharset UTF-8
+
+ErrorDocument 404 /index.html

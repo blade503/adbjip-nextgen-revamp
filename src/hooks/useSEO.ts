@@ -53,7 +53,7 @@ export const useSEO = (config: SEOConfig) => {
     updateOrCreateMeta('og:title', config.title);
     updateOrCreateMeta('og:description', config.description);
     updateOrCreateMeta('og:type', config.ogType || 'website');
-    updateOrCreateMeta('og:image', config.ogImage || 'https://abdjip.fr/og-image-default.jpg');
+    updateOrCreateMeta('og:image', config.ogImage || 'https://www.adbjip.fr/og-image-default.jpg');
     updateOrCreateMeta('og:url', config.canonicalUrl || window.location.href);
     updateOrCreateMeta('og:site_name', 'ABDJIP');
     updateOrCreateMeta('og:locale', 'fr_FR');
@@ -62,7 +62,7 @@ export const useSEO = (config: SEOConfig) => {
     updateOrCreateMeta('twitter:card', config.twitterCard || 'summary_large_image', false);
     updateOrCreateMeta('twitter:title', config.title, false);
     updateOrCreateMeta('twitter:description', config.description, false);
-    updateOrCreateMeta('twitter:image', config.ogImage || 'https://abdjip.fr/og-image-default.jpg', false);
+    updateOrCreateMeta('twitter:image', config.ogImage || 'https://www.adbjip.fr/og-image-default.jpg', false);
     updateOrCreateMeta('twitter:site', '@abdjip', false);
     
     // Additional SEO tags

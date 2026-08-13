@@ -8,7 +8,10 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "biens:fetch": "node scripts/fetch-biens.mjs",
+    "prebuild": "node scripts/build-sitemap.mjs",
+    "postbuild": "node scripts/prerender.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

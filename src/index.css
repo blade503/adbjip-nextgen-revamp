@@ -20,7 +20,9 @@
 
     /* JIP Brand - Modernized */
     --primary: 48 95% 45%; /* Even darker yellow for optimal readability */
-    --primary-foreground: 0 0% 100%;
+    /* Marine et non blanc : le blanc sur ce jaune donne 1,96:1 là où
+       l'accessibilité en demande 4,5. Le marine de la charte monte à 6,10:1. */
+    --primary-foreground: 220 45% 25%;
     --primary-glow: 48 100% 55%;
     --primary-soft: 48 100% 97%;
 
