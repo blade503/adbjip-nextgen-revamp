@@ -3,7 +3,7 @@ export const SEO_CONFIG = {
     name: 'JIP — Jobard Immobilier Paris',
     url: 'https://www.adbjip.fr',
     description: 'JIP - Agence immobilière spécialisée dans la gestion locative, copropriété et estimation de biens à Paris et en Île-de-France',
-    defaultImage: 'https://www.adbjip.fr/og-image-default.jpg',
+    defaultImage: 'https://www.adbjip.fr/og-image.jpg',
     twitterHandle: '',
     phone: '+33142257824',
     address: {

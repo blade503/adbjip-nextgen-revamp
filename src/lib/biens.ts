@@ -78,7 +78,29 @@ export interface Bien {
   priceChangedAt?: string;
 }
 
-export const biens = portfolio.biens as unknown as Bien[];
+/**
+ * Les chemins stockés dans data/biens.json sont absolus (« /biens/… ») car
+ * écrits par un script Node, hors du bundler. Vite ne réécrit que les URL qu'il
+ * voit passer : il faut donc leur appliquer le chemin de base à la main, sinon
+ * les photos pointent à la racine du domaine — ce qui casse dès que le site
+ * n'est pas servi à la racine, comme sur la préversion GitHub Pages.
+ */
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+const asset = (chemin: string) => `${BASE}${chemin}`;
+
+export const biens = (portfolio.biens as unknown as Bien[]).map((bien) => ({
+  ...bien,
+  photos: bien.photos.map((photo) => ({
+    ...photo,
+    small: asset(photo.small),
+    medium: asset(photo.medium),
+    large: asset(photo.large),
+  })),
+  badges: bien.badges && {
+    dpeBadge: bien.badges.dpeBadge && asset(bien.badges.dpeBadge),
+    gesBadge: bien.badges.gesBadge && asset(bien.badges.gesBadge),
+  },
+}));
 export const generatedAt = portfolio.generatedAt as string;
 
 export const ventes = biens.filter((bien) => bien.transaction === 'vente');
