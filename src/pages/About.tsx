@@ -29,11 +29,14 @@ const About = () => {
     }
   ];
 
+  // Repères vérifiables uniquement. Les chiffres de portefeuille, de
+  // satisfaction et d'effectif ont été retirés : ils étaient inventés et se
+  // contredisaient d'une page à l'autre (25+ ans ici, 15+ ailleurs).
   const stats = [
-    { number: "25+", label: "Années d'expérience" },
-    { number: "500+", label: "Biens gérés" },
-    { number: "98%", label: "Clients satisfaits" },
-    { number: "15", label: "Collaborateurs" }
+    { number: "2011", label: "Année de création" },
+    { number: "Paris 8ᵉ", label: "27, rue de Lisbonne" },
+    { number: "2", label: "Métiers : gérance et syndic" },
+    { number: "24h", label: "Temps de réponse" }
   ];
 
   return (

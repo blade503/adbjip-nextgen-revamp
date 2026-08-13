@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Star, Award, Users } from 'lucide-react';
+import { ArrowRight, Award, Building2, Star, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import heroBuilding from '@/assets/hero-building.jpg';
+import heroBuilding from '@/assets/hero-building.webp';
 
 const Hero = () => {
   return (
@@ -57,7 +57,7 @@ const Hero = () => {
             <Button 
               variant="secondary" 
               size="lg" 
-              className="glass border-primary/30 text-primary-foreground bg-primary/10 hover:bg-primary/20 px-8 py-6 text-lg"
+              className="glass border-white/40 text-white bg-white/10 hover:bg-white/20 px-8 py-6 text-lg"
               asChild
             >
               <Link to="#services">
@@ -66,23 +66,25 @@ const Hero = () => {
             </Button>
           </div>
 
-          {/* Stats */}
+          {/* Repères — uniquement des faits vérifiables : l'agence est
+              immatriculée depuis 2011 et exerce ses deux métiers depuis
+              l'adresse ci-dessous. Aucun chiffre de performance tant que le
+              client ne les a pas fournis. */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 animate-slide-up">
-            <div className="bg-white/40 backdrop-blur-md border border-white/50 rounded-xl p-6 text-center hover-lift shadow-elegant">
-              <Award className="w-8 h-8 text-primary mx-auto mb-3" />
-              <div className="text-3xl font-bold text-white mb-2">15+</div>
-              <div className="text-white font-medium text-sm">Années d'expérience</div>
-            </div>
-            <div className="bg-white/40 backdrop-blur-md border border-white/50 rounded-xl p-6 text-center hover-lift shadow-elegant">
-              <Users className="w-8 h-8 text-primary mx-auto mb-3" />
-              <div className="text-3xl font-bold text-white mb-2">500+</div>
-              <div className="text-white font-medium text-sm">Clients satisfaits</div>
-            </div>
-            <div className="bg-white/40 backdrop-blur-md border border-white/50 rounded-xl p-6 text-center hover-lift shadow-elegant">
-              <Star className="w-8 h-8 text-primary mx-auto mb-3" />
-              <div className="text-3xl font-bold text-white mb-2">4.9</div>
-              <div className="text-white font-medium text-sm">Note moyenne</div>
-            </div>
+            {[
+              { icon: Award, value: 'Depuis 2011', label: 'Agence indépendante' },
+              { icon: Building2, value: 'Paris 8ᵉ', label: '27, rue de Lisbonne' },
+              { icon: Users, value: 'Deux métiers', label: 'Gestion locative & syndic' },
+            ].map(({ icon: Icon, value, label }) => (
+              <div
+                key={value}
+                className="bg-white/40 backdrop-blur-md border border-white/50 rounded-xl p-6 text-center hover-lift shadow-elegant"
+              >
+                <Icon className="w-8 h-8 text-primary mx-auto mb-3" />
+                <div className="text-2xl font-bold text-white mb-2">{value}</div>
+                <div className="text-white font-medium text-sm">{label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

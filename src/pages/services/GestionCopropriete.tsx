@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Building2, CheckCircle, ArrowRight, Phone, Users, FileText, Calculator, MessageSquare, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import gestionCoproImage from '@/assets/GestionDeCopropriete2.png';
+import gestionCoproImage from '@/assets/GestionDeCopropriete2.webp';
 
 const GestionCopropriete = () => {
   const services = [
@@ -119,22 +119,22 @@ const GestionCopropriete = () => {
                     <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <Building2 className="w-8 h-8 text-white" />
                     </div>
-                    <div className="text-3xl font-bold text-primary mb-2">500+</div>
-                    <div className="text-sm text-muted-foreground">Copropriétés gérées</div>
+                    <div className="text-3xl font-bold text-primary mb-2">2011</div>
+                    <div className="text-sm text-muted-foreground">Agence créée en</div>
                   </div>
                   <div className="text-center">
                     <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <Users className="w-8 h-8 text-white" />
                     </div>
-                    <div className="text-3xl font-bold text-primary mb-2">15+</div>
-                    <div className="text-sm text-muted-foreground">Années d'expérience</div>
+                    <div className="text-3xl font-bold text-primary mb-2">Paris 8ᵉ</div>
+                    <div className="text-sm text-muted-foreground">27, rue de Lisbonne</div>
                   </div>
                   <div className="text-center">
                     <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <CheckCircle className="w-8 h-8 text-white" />
                     </div>
-                    <div className="text-3xl font-bold text-primary mb-2">100%</div>
-                    <div className="text-sm text-muted-foreground">Satisfaction client</div>
+                    <div className="text-3xl font-bold text-primary mb-2">24h</div>
+                    <div className="text-sm text-muted-foreground">Délai de réponse</div>
                   </div>
                 </div>
               </div>

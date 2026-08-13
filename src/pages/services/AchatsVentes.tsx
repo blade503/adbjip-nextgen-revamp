@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Handshake, CheckCircle, ArrowRight, Phone, Key, Search, Users, FileCheck, MessageSquare, Calculator, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import AchatVenteImage from '@/assets/VenteDeBiens.png';
+import AchatVenteImage from '@/assets/VenteDeBiens.webp';
 
 const AchatsVentes = () => {
   const servicesVente = [

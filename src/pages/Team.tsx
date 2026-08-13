@@ -6,6 +6,9 @@ import { Users, Mail, Phone, Linkedin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Team = () => {
+  // Uniquement les personnes réellement présentes dans l'agence — les deux
+  // autres profils étaient inventés, avec des adresses e-mail qui n'existent
+  // pas. À compléter par le client, pas par le code.
   const team = [
     {
       name: "Florent Jobard",
@@ -25,24 +28,6 @@ const Team = () => {
       specialties: ["Gestion de Copropriété", "Conseil Juridique", "Assemblées Générales"],
       description: "Spécialiste reconnu en droit de la copropriété avec une expertise approfondie des réglementations."
     },
-    {
-      name: "Marie Dubois",
-      role: "Responsable Gestion Locative",
-      location: "27, Rue de Lisbonne - 75008 Paris",
-      phone: "01.42.25.78.24",
-      email: "gerance@adbjip.fr",
-      specialties: ["Relations Locataires", "États des Lieux", "Contentieux"],
-      description: "Experte en relations locatives et résolution de conflits, garante de la sérénité de nos propriétaires."
-    },
-    {
-      name: "Antoine Martin",
-      role: "Expert en Estimation",
-      location: "27, Rue de Lisbonne - 75008 Paris",
-      phone: "01.42.25.78.24",
-      email: "estimation@adbjip.fr",
-      specialties: ["Évaluation Immobilière", "Analyse de Marché", "Conseil en Investissement"],
-      description: "Analyste du marché immobilier parisien, spécialiste des estimations précises et argumentées."
-    }
   ];
 
   return (

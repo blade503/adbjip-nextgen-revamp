@@ -113,18 +113,22 @@ const About = () => {
         <div className="mt-24">
           <div className="glass rounded-2xl p-8 lg:p-12">
             <h3 className="text-3xl font-bold text-center mb-12">
-              Nos chiffres parlent d'eux-mêmes
+              L'agence en bref
             </h3>
-            
+
+            {/* Que du vérifiable : immatriculation, adresse, métiers, et
+                l'engagement de réponse déjà affiché en pied de page. Les
+                chiffres de portefeuille et de satisfaction attendent d'être
+                fournis par l'agence. */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {[
-                { number: "15+", label: "Années d'expérience", color: "text-blue-500" },
-                { number: "500+", label: "Biens gérés", color: "text-green-500" },
-                { number: "98%", label: "Clients satisfaits", color: "text-primary" },
-                { number: "24h", label: "Temps de réponse", color: "text-purple-500" }
-              ].map((stat, index) => (
+                { number: "2011", label: "Année de création", color: "text-secondary" },
+                { number: "Paris 8ᵉ", label: "27, rue de Lisbonne", color: "text-secondary" },
+                { number: "2", label: "Métiers : gérance et syndic", color: "text-primary" },
+                { number: "24h", label: "Temps de réponse", color: "text-secondary" }
+              ].map((stat) => (
                 <div key={stat.label} className="text-center">
-                  <div className={`text-4xl lg:text-5xl font-bold ${stat.color} mb-2`}>
+                  <div className={`text-3xl lg:text-4xl font-bold ${stat.color} mb-2`}>
                     {stat.number}
                   </div>
                   <div className="text-sm text-muted-foreground">

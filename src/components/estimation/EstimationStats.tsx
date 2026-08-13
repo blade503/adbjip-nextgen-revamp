@@ -1,28 +1,22 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Award, Calculator, Users, Star } from 'lucide-react';
 
-interface EstimationStatsProps {
-  weeklyDemands: number;
-  monthlyEstimations: number;
-  weeklyPercentage: number;
-}
-
-const EstimationStats = ({ weeklyDemands, monthlyEstimations, weeklyPercentage }: EstimationStatsProps) => {
+const EstimationStats = () => {
   const stats = [
     {
       icon: Award,
-      value: "15+",
-      label: "Années d'expérience"
+      value: "2011",
+      label: "Agence créée en"
     },
     {
       icon: Calculator,
-      value: "2000+",
-      label: "Biens estimés"
+      value: "DVF",
+      label: "Données publiques DGFiP"
     },
     {
       icon: Users,
-      value: "98%",
-      label: "Clients satisfaits"
+      value: "Gratuit",
+      label: "Sans engagement"
     },
     {
       icon: Star,
@@ -39,7 +33,7 @@ const EstimationStats = ({ weeklyDemands, monthlyEstimations, weeklyPercentage }
             Pourquoi nous faire <span className="gradient-text">confiance</span> ?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Nos résultats parlent d'eux-mêmes
+            Une estimation adossée aux transactions réellement enregistrées
           </p>
         </div>
         

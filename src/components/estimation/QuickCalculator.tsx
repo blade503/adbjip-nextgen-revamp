@@ -51,47 +51,7 @@ const QuickCalculator = ({
 }: QuickCalculatorProps) => {
   const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({});
   const [isLoadingData, setIsLoadingData] = useState(false);
-  const [weeklyPercentage, setWeeklyPercentage] = useState(23);
-  const [monthlyEstimations, setMonthlyEstimations] = useState(127);
   const [isSourcesModalOpen, setIsSourcesModalOpen] = useState(false);
-
-  // Fonction pour obtenir le numéro de semaine
-  const getWeekNumber = (date: Date) => {
-    const onejan = new Date(date.getFullYear(), 0, 1);
-    return Math.ceil(((date.getTime() - onejan.getTime()) / 86400000 + onejan.getDay() + 1) / 7);
-  };
-
-  // Chargement des compteurs depuis localStorage
-  useEffect(() => {
-    const loadCounters = () => {
-      try {
-        const savedMonthly = localStorage.getItem('monthlyEstimations');
-        const savedPercentage = localStorage.getItem('weeklyPercentage');
-        const savedPercentageDate = localStorage.getItem('weeklyPercentageDate');
-        
-        if (savedMonthly) {
-          setMonthlyEstimations(parseInt(savedMonthly));
-        }
-        
-        // Gestion du pourcentage hebdomadaire
-        const now = new Date();
-        const currentWeek = now.getFullYear() + '-' + getWeekNumber(now);
-        
-        if (savedPercentage && savedPercentageDate === currentWeek) {
-          setWeeklyPercentage(parseInt(savedPercentage));
-        } else {
-          const randomPercentage = Math.floor(Math.random() * 20) + 15;
-          setWeeklyPercentage(randomPercentage);
-          localStorage.setItem('weeklyPercentage', randomPercentage.toString());
-          localStorage.setItem('weeklyPercentageDate', currentWeek);
-        }
-      } catch (error) {
-        console.error('Erreur chargement compteurs:', error);
-      }
-    };
-
-    loadCounters();
-  }, []);
 
   // Validation en temps réel
   const validateField = (field: string, value: string) => {
@@ -140,21 +100,9 @@ const QuickCalculator = ({
               <Info className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
             </button>
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-4">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Obtenez une première estimation de votre bien basée sur les données du marché
           </p>
-          
-          {/* Social proof et urgence */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center space-x-2 bg-orange-100 text-orange-700 px-3 py-1 rounded-full">
-              <TrendingUp className="w-4 h-4" />
-              <span className="font-medium">+{weeklyPercentage}% de demandes cette semaine</span>
-            </div>
-            <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-1 rounded-full">
-              <Users className="w-4 h-4" />
-              <span className="font-medium">{monthlyEstimations} estimations ce mois</span>
-            </div>
-          </div>
         </div>
 
         <div className="max-w-6xl mx-auto">

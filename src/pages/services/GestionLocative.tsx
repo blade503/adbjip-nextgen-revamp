@@ -7,7 +7,7 @@ import SEOOptimizedImage from '@/components/SEOOptimizedImage';
 import SEOHead from '@/components/SEOHead';
 import { Home, CheckCircle, ArrowRight, Phone, Euro, Clock, Shield, Star, Users, TrendingUp, Heart, Award, Coffee, MessageSquare, Calculator, Building, FileText, Settings, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import gestionLocativeImage from '@/assets/GestionLocative.png';
+import gestionLocativeImage from '@/assets/GestionLocative.webp';
 
 const GestionLocative = () => {
   const structuredData = {
@@ -72,32 +72,13 @@ const GestionLocative = () => {
     }
   ];
 
-  const testimonials = [
-    {
-      name: "Marie Dubois",
-      role: "Propriétaire 16ème",
-      content: "Depuis que JIP gère mon appartement, je dors sur mes deux oreilles ! Plus de stress, plus de tracas, juste mes loyers qui tombent chaque mois.",
-      rating: 5
-    },
-    {
-      name: "Pierre Martin",
-      role: "Investisseur",
-      content: "Une équipe réactive et professionnelle. Ils ont trouvé un locataire parfait en moins de 15 jours et gèrent tout impeccablement.",
-      rating: 5
-    },
-    {
-      name: "Sophie Laurent",
-      role: "Propriétaire 8ème",
-      content: "JIP a transformé mon investissement locatif en véritable source de revenus passifs. Je recommande vivement !",
-      rating: 5
-    }
-  ];
-
+  // Aucun chiffre de performance tant que l'agence ne les a pas fournis :
+  // taux de satisfaction, délai moyen et volume géré étaient inventés.
   const stats = [
-    { number: "98%", label: "Taux de satisfaction", icon: Star },
-    { number: "15j", label: "Délai moyen de location", icon: Clock },
-    { number: "500+", label: "Biens gérés", icon: Home },
-    { number: "15ans", label: "D'expérience", icon: Award }
+    { number: "2011", label: "Agence créée en", icon: Award },
+    { number: "Paris 8ᵉ", label: "27, rue de Lisbonne", icon: Home },
+    { number: "24h", label: "Délai de réponse", icon: Clock },
+    { number: "2", label: "Mandats au choix", icon: Star }
   ];
 
   const whyChooseUs = [
@@ -124,7 +105,7 @@ const GestionLocative = () => {
         title="Gestion Locative Paris 8ème | JIP - Service Complet & Professionnel"
         description="Gestion locative professionnelle à Paris 8ème. Encaissement loyers, sélection locataires, suivi juridique. 8% HT seulement. Devis gratuit !"
         keywords="gestion locative paris, syndic paris 8ème, encaissement loyers, sélection locataires, gestion bien locatif"
-        canonicalUrl="https://jip-immobilier.fr/services/gestion-locative"
+        canonicalUrl="https://www.adbjip.fr/services/gestion-locative"
         structuredData={structuredData}
       />
       <Header />
@@ -464,48 +445,6 @@ const GestionLocative = () => {
           </div>
         </section>
 
-        {/* Testimonials - Nouveau */}
-        <section className="py-20 bg-background">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Ils nous font <span className="gradient-text">confiance</span>
-              </h2>
-              <p className="text-xl text-muted-foreground">
-                Découvrez les témoignages de nos clients satisfaits
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.map((testimonial, index) => (
-                <Card key={index} className="glass-strong p-8 hover-lift border-0 shadow-card">
-                  <div className="flex items-center space-x-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <blockquote className="text-muted-foreground mb-6 italic leading-relaxed">
-                    "{testimonial.content}"
-                  </blockquote>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
-                      <span className="text-primary-foreground font-bold">
-                        {testimonial.name.split(' ').map(n => n[0]).join('')}
-                      </span>
-                    </div>
-                    <div>
-                      <div className="font-semibold">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-
-
         {/* CTA Section - Plus engageant */}
         <section className="py-20 bg-gray-50">
           <div className="container mx-auto px-6 text-center">
@@ -522,8 +461,8 @@ const GestionLocative = () => {
                   Prêt à transformer votre investissement ?
                 </h2>
                 <p className="text-xl text-muted-foreground mb-10 max-w-3xl mx-auto">
-                  Rejoignez nos 500+ propriétaires satisfaits et découvrez ce que signifie vraiment 
-                  "revenus passifs". Votre première consultation est gratuite ! 🎯
+                  Confiez-nous votre bien et découvrez ce que signifie vraiment
+                  « revenus passifs ». Votre première consultation est gratuite.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
                   <Button size="lg" className="hover-glow group px-8 py-4 text-lg" asChild>

@@ -7,12 +7,13 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { CheckCircle, ArrowRight, Phone, TrendingUp, FileText, Send, Building, Zap, Info, X, Calculator, Award, Users, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import estimationBienImage from '@/assets/EstimationBien.png';
+import estimationBienImage from '@/assets/EstimationBien.webp';
 import QuickCalculator from '@/components/estimation/QuickCalculator';
 import InteractiveMap from '@/components/estimation/InteractiveMap';
 import MarketDataService from '@/components/estimation/MarketDataService';
 import EstimationStats from '@/components/estimation/EstimationStats';
 import SEOHead from '@/components/SEOHead';
+import { envoyerFormulaire } from '@/lib/forms';
 import SEOOptimizedImage from '@/components/SEOOptimizedImage';
 
 const EstimationBiens = () => {
@@ -37,82 +38,14 @@ const EstimationBiens = () => {
   const [isSourcesModalOpen, setIsSourcesModalOpen] = useState(false);
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [weeklyDemands, setWeeklyDemands] = useState(23);
-  const [monthlyEstimations, setMonthlyEstimations] = useState(127);
-  const [weeklyPercentage, setWeeklyPercentage] = useState(23);
-
-  // Fonction pour obtenir le numéro de semaine
-  const getWeekNumber = (date: Date) => {
-    const onejan = new Date(date.getFullYear(), 0, 1);
-    return Math.ceil(((date.getTime() - onejan.getTime()) / 86400000 + onejan.getDay() + 1) / 7);
-  };
-
+  const [envoiEnCours, setEnvoiEnCours] = useState(false);
+  const [retourFormulaire, setRetourFormulaire] = useState<{ ok: boolean; message: string } | null>(
+    null,
+  );
   // Chargement des données sauvegardées au montage
   useEffect(() => {
     loadFromLocalStorage();
-    loadCounters();
   }, []);
-
-  // Chargement des compteurs depuis localStorage
-  const loadCounters = () => {
-    try {
-      const savedWeekly = localStorage.getItem('weeklyDemands');
-      const savedMonthly = localStorage.getItem('monthlyEstimations');
-      const savedPercentage = localStorage.getItem('weeklyPercentage');
-      const savedPercentageDate = localStorage.getItem('weeklyPercentageDate');
-      
-      if (savedWeekly) {
-        setWeeklyDemands(parseInt(savedWeekly));
-      }
-      if (savedMonthly) {
-        setMonthlyEstimations(parseInt(savedMonthly));
-      }
-      
-      // Gestion du pourcentage hebdomadaire
-      const now = new Date();
-      const currentWeek = now.getFullYear() + '-' + getWeekNumber(now);
-      
-      if (savedPercentage && savedPercentageDate === currentWeek) {
-        // Le pourcentage de cette semaine existe déjà
-        setWeeklyPercentage(parseInt(savedPercentage));
-      } else {
-        // Nouvelle semaine ou premier visiteur - générer un pourcentage aléatoire
-        const randomPercentage = Math.floor(Math.random() * 20) + 15; // Entre 15% et 34%
-        setWeeklyPercentage(randomPercentage);
-        
-        // Sauvegarder pour cette semaine
-        localStorage.setItem('weeklyPercentage', randomPercentage.toString());
-        localStorage.setItem('weeklyPercentageDate', currentWeek);
-      }
-    } catch (error) {
-      console.error('Erreur chargement compteurs:', error);
-    }
-  };
-
-  // Sauvegarde des compteurs
-  const saveCounters = () => {
-    try {
-      localStorage.setItem('weeklyDemands', weeklyDemands.toString());
-      localStorage.setItem('monthlyEstimations', monthlyEstimations.toString());
-    } catch (error) {
-      console.error('Erreur sauvegarde compteurs:', error);
-    }
-  };
-
-  // Incrémenter les compteurs
-  const incrementCounters = () => {
-    setWeeklyDemands(prev => {
-      const newValue = prev + 1;
-      localStorage.setItem('weeklyDemands', newValue.toString());
-      return newValue;
-    });
-    
-    setMonthlyEstimations(prev => {
-      const newValue = prev + 1;
-      localStorage.setItem('monthlyEstimations', newValue.toString());
-      return newValue;
-    });
-  };
 
   // Raccourcis clavier
   useEffect(() => {
@@ -263,20 +196,14 @@ const EstimationBiens = () => {
       setEstimationResult(totalEstimation);
       
       // Incrémenter les compteurs
-      incrementCounters();
-      
+        
     } catch (error) {
       console.error('Erreur lors du calcul:', error);
       setErrorMessage('Une erreur est survenue lors du calcul. Veuillez réessayer.');
     } finally {
       setIsCalculating(false);
     }
-  }, [quickEstimation, marketDataService, getTypeMultiplier, getConditionMultiplier, getFloorMultiplier, getSurfaceMultiplier, getRoomsMultiplier, incrementCounters]);
-
-  // Chargement initial
-  useEffect(() => {
-    loadCounters();
-  }, [loadCounters]);
+  }, [quickEstimation, marketDataService, getTypeMultiplier, getConditionMultiplier, getFloorMultiplier, getSurfaceMultiplier, getRoomsMultiplier]);
 
   // Données pour les sections
   const criteria = [
@@ -308,10 +235,40 @@ const EstimationBiens = () => {
     }
   ];
 
-  const handleDetailedFormSubmit = (e: React.FormEvent) => {
+  // La demande partait dans la console du navigateur : personne ne la recevait.
+  const handleDetailedFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Formulaire soumis:', detailedForm);
-    // Logique d'envoi du formulaire
+    setEnvoiEnCours(true);
+    setRetourFormulaire(null);
+
+    const resultat = await envoyerFormulaire({
+      type: 'estimation',
+      nom: `${detailedForm.firstName} ${detailedForm.lastName}`.trim(),
+      email: detailedForm.email,
+      telephone: detailedForm.phone,
+      service: 'estimation',
+      message: detailedForm.message,
+      details: {
+        'Adresse du bien': detailedForm.address,
+        'Type de bien': detailedForm.type,
+        'Surface': detailedForm.surface ? `${detailedForm.surface} m²` : '',
+        'Pièces': detailedForm.rooms,
+        'Objectif': detailedForm.purpose,
+        // L'estimation en ligne, si le visiteur l'a lancée avant d'écrire.
+        'Estimation en ligne': estimationResult
+          ? `${estimationResult.toLocaleString('fr-FR')} €`
+          : '',
+      },
+    });
+
+    setRetourFormulaire(resultat);
+    setEnvoiEnCours(false);
+    if (resultat.ok) {
+      setDetailedForm({
+        firstName: '', lastName: '', email: '', phone: '',
+        address: '', type: '', surface: '', rooms: '', purpose: '', message: '',
+      });
+    }
   };
 
   const saveToLocalStorage = (data: any) => {
@@ -364,8 +321,8 @@ const EstimationBiens = () => {
         title="Estimation Immobilière Gratuite Paris & Île-de-France | ABDJIP"
         description="Estimation gratuite et précise de votre bien immobilier à Paris et en Île-de-France. Calculateur en ligne avec données DVF officielles. Expertise 15+ ans. Réponse sous 24h."
         keywords="estimation immobilière gratuite, évaluation bien immobilier, prix immobilier Paris, estimation appartement, estimation maison, calculateur estimation, données DVF, expertise immobilière Paris, ABDJIP"
-        canonicalUrl="https://abdjip.fr/services/estimation-biens"
-        ogImage="https://abdjip.fr/assets/EstimationBien.png"
+        canonicalUrl="https://www.adbjip.fr/services/estimation-biens"
+        ogImage="https://www.adbjip.fr/assets/EstimationBien.png"
         ogType="service"
         structuredData={{
           "@context": "https://schema.org",
@@ -375,7 +332,7 @@ const EstimationBiens = () => {
           "provider": {
             "@type": "RealEstateAgent",
             "name": "ABDJIP",
-            "url": "https://abdjip.fr",
+            "url": "https://www.adbjip.fr",
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Paris",
@@ -510,14 +467,11 @@ const EstimationBiens = () => {
         city={quickEstimation.city}
         postalCode={quickEstimation.postalCode}
         estimationResult={estimationResult}
+        marketData={estimationData}
       />
 
       {/* Statistiques */}
-      <EstimationStats
-        weeklyDemands={weeklyDemands}
-        monthlyEstimations={monthlyEstimations}
-        weeklyPercentage={weeklyPercentage}
-      />
+      <EstimationStats />
 
       {/* Types d'estimation */}
       <section className="py-24 bg-background">
@@ -735,10 +689,23 @@ const EstimationBiens = () => {
                   />
                 </div>
 
-                <Button type="submit" size="lg" className="w-full">
+                <Button type="submit" size="lg" className="w-full" disabled={envoiEnCours}>
                   <Send className="mr-2 w-5 h-5" />
-                  Demander Mon Estimation Détaillée
+                  {envoiEnCours ? 'Envoi en cours…' : 'Demander Mon Estimation Détaillée'}
                 </Button>
+
+                {retourFormulaire && (
+                  <p
+                    role="status"
+                    className={`rounded-lg border p-3 text-sm ${
+                      retourFormulaire.ok
+                        ? 'border-primary/40 bg-primary-soft text-foreground'
+                        : 'border-destructive/30 bg-destructive/5 text-destructive'
+                    }`}
+                  >
+                    {retourFormulaire.message}
+                  </p>
+                )}
               </form>
             </Card>
           </div>
