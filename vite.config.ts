@@ -5,6 +5,9 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // GitHub Pages sert le site sous /<nom-du-depot>/ ; l'hébergement LWS le sert
+  // à la racine. VITE_BASE permet de construire pour l'un ou pour l'autre.
+  base: process.env.VITE_BASE || '/',
   server: {
     host: "::",
     port: 8080,

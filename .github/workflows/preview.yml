@@ -1,0 +1,79 @@
+name: Préversion GitHub Pages
+
+# Préversion à montrer au client en attendant la mise en ligne chez LWS.
+#
+# Trois limites à connaître, et à annoncer au client :
+#  - GitHub Pages ne sait pas exécuter PHP : les formulaires n'envoient rien ici
+#    et affichent un message qui le dit. Ils ne se testent que sur l'hébergement ;
+#  - le site est servi sous /<nom-du-dépôt>/, d'où la variable VITE_BASE ;
+#  - la préversion est interdite à l'indexation, sinon elle entrerait en
+#    concurrence avec le vrai site dans les résultats de recherche.
+#
+# Prérequis, une seule fois : Settings → Pages → Source = GitHub Actions.
+
+on:
+  push:
+    branches: [refonte/mise-en-conformite]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - run: npm ci
+
+      # Les photos ne sont pas versionnées : sans cette étape, la page /biens
+      # s'afficherait sans images. En cas d'échec de la source, le script
+      # conserve data/biens.json et sort en 0.
+      - name: Récupérer les annonces et leurs photos
+        run: node scripts/fetch-biens.mjs
+
+      - name: Construire pour le sous-dossier GitHub Pages
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/
+          # Le prérendu cherche un Chrome : celui des runners GitHub.
+          CHROME_PATH: /usr/bin/google-chrome
+        run: npm run build
+
+      - name: Interdire l'indexation de la préversion
+        run: |
+          printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+          rm -f dist/sitemap.xml
+          # Le prérendu a produit un fichier par route : on ajoute la balise à
+          # chacun, pas seulement à la page d'accueil.
+          find dist -name 'index.html' -exec \
+            sed -i 's|<head>|<head><meta name="robots" content="noindex, nofollow">|' {} +
+
+      # Pages n'a pas de réécriture : ce fichier attrape les URL inconnues.
+      - name: Filet pour les URL inconnues
+        run: cp dist/index.html dist/404.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

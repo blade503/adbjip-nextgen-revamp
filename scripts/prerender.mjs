@@ -25,6 +25,8 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
 const PORT = 8799;
+/** Doit correspondre au base de Vite : les URL d'assets en dépendent. */
+const BASE = (process.env.VITE_BASE || '/').replace(/\/$/, '');
 
 const CANDIDATS_CHROME = [
   process.env.CHROME_PATH,
@@ -54,7 +56,8 @@ const log = (...args) => console.log('[prerender]', ...args);
 /** Serveur statique avec repli SPA, à l'image de ce que fera Apache. */
 function servirDist() {
   const serveur = createServer(async (req, res) => {
-    const url = decodeURIComponent((req.url || '/').split('?')[0]);
+    let url = decodeURIComponent((req.url || '/').split('?')[0]);
+    if (BASE && url.startsWith(BASE)) url = url.slice(BASE.length) || '/';
     const candidat = path.join(DIST, url);
     const fichier = existsSync(candidat) && path.extname(candidat) ? candidat : path.join(DIST, 'index.html');
     try {
@@ -106,7 +109,7 @@ async function main() {
 
   for (const route of routes) {
     try {
-      const html = await rendre(chrome, `http://localhost:${PORT}${route}`);
+      const html = await rendre(chrome, `http://localhost:${PORT}${BASE}${route}`);
       // Un rendu vide signale un échec silencieux : mieux vaut garder le
       // index.html d'origine que d'écrire une page blanche.
       if (!html.includes('</body>') || html.length < 2000) {

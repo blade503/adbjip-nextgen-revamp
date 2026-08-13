@@ -29,8 +29,13 @@ export interface ResultatEnvoi {
 const SUCCES = 'Message envoyé. Nous vous répondons sous 24 heures ouvrées.';
 const INJOIGNABLE =
   "Le serveur n'a pas répondu. Écrivez-nous à j.immo.p@orange.fr ou appelez le 01 42 25 78 24.";
+/**
+ * Ni le serveur de développement ni GitHub Pages n'exécutent PHP : sur ces
+ * environnements l'appel retombe sur la page HTML. On le dit franchement plutôt
+ * que d'afficher un faux succès.
+ */
 const SANS_PHP =
-  "Le point d'entrée PHP n'est pas disponible ici : en développement, Vite ne l'exécute pas. À tester sur l'hébergement.";
+  "L'envoi n'est pas actif sur cette préversion. Écrivez-nous à j.immo.p@orange.fr ou appelez le 01 42 25 78 24.";
 
 export async function envoyerFormulaire(demande: DemandeFormulaire): Promise<ResultatEnvoi> {
   try {
