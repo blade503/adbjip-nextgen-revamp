@@ -13,18 +13,24 @@
  * si mail() échoue, la demande reste récupérable.
  *
  * Le fichier leads.jsonl est rendu inaccessible par le .htaccess du site.
+ *
+ * ÉCRIT POUR PHP 5.6 ET AU-DELÀ, volontairement : l'hébergement LWS sert
+ * aujourd'hui PHP 5.6 par défaut, parce que le Symfony encore en production
+ * l'exige. Une syntaxe moderne — déclarations de types, opérateur ?? — ne
+ * s'analyserait même pas et renverrait une erreur 500 muette : le visiteur
+ * croirait avoir envoyé sa demande. Ce fichier doit fonctionner quelle que
+ * soit la version servie, y compris si le réglage change par accident.
+ * À relire le jour où le site principal passera en PHP 8.
  */
-
-declare(strict_types=1);
 
 // --- Configuration -----------------------------------------------------------
 
 /** Destinataires par service. La valeur par défaut sert si le service est vide. */
-const DESTINATAIRES = [
+$destinataires = array(
     'defaut'              => 'j.immo.p@orange.fr',
     'gestion-locative'    => 'gerance@adbjip.fr',
     'gestion-copropriete' => 'copro@adbjip.fr',
-];
+);
 
 /**
  * Expéditeur technique. Il DOIT appartenir au domaine du site, sinon les
@@ -37,7 +43,7 @@ const FICHIER_LEADS = __DIR__ . '/leads.jsonl';
 
 // --- Utilitaires -------------------------------------------------------------
 
-function repondre(int $code, array $corps): void
+function repondre($code, array $corps)
 {
     http_response_code($code);
     header('Content-Type: application/json; charset=utf-8');
@@ -45,8 +51,14 @@ function repondre(int $code, array $corps): void
     exit;
 }
 
+/** Lecture d'un champ absent sans opérateur ??, indisponible avant PHP 7. */
+function champ(array $donnees, $cle, $defaut = '')
+{
+    return isset($donnees[$cle]) && is_scalar($donnees[$cle]) ? (string) $donnees[$cle] : $defaut;
+}
+
 /** Neutralise les retours à la ligne : sans ça, un champ permet d'injecter des en-têtes. */
-function nettoyer(string $valeur, int $longueur = 500): string
+function nettoyer($valeur, $longueur = 500)
 {
     $valeur = str_replace(["\r", "\n", "\0"], ' ', $valeur);
     return mb_substr(trim(strip_tags($valeur)), 0, $longueur);
@@ -56,12 +68,12 @@ function nettoyer(string $valeur, int $longueur = 500): string
 
 header('X-Content-Type-Options: nosniff');
 
-if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
     repondre(405, ['ok' => false, 'erreur' => 'Méthode non autorisée.']);
 }
 
 $brut = file_get_contents('php://input');
-$donnees = json_decode($brut ?: '', true);
+$donnees = json_decode($brut ? $brut : '', true);
 if (!is_array($donnees)) {
     $donnees = $_POST;
 }
@@ -71,13 +83,13 @@ if (!empty($donnees['website'])) {
     repondre(200, ['ok' => true]);
 }
 
-$type    = nettoyer((string) ($donnees['type'] ?? 'contact'), 40);
-$nom     = nettoyer((string) ($donnees['nom'] ?? ''), 120);
-$email   = nettoyer((string) ($donnees['email'] ?? ''), 160);
-$tel     = nettoyer((string) ($donnees['telephone'] ?? ''), 40);
-$service = nettoyer((string) ($donnees['service'] ?? ''), 60);
-$message = nettoyer((string) ($donnees['message'] ?? ''), 5000);
-$extra   = is_array($donnees['details'] ?? null) ? $donnees['details'] : [];
+$type    = nettoyer(champ($donnees, 'type', 'contact'), 40);
+$nom     = nettoyer(champ($donnees, 'nom'), 120);
+$email   = nettoyer(champ($donnees, 'email'), 160);
+$tel     = nettoyer(champ($donnees, 'telephone'), 40);
+$service = nettoyer(champ($donnees, 'service'), 60);
+$message = nettoyer(champ($donnees, 'message'), 5000);
+$extra   = isset($donnees['details']) && is_array($donnees['details']) ? $donnees['details'] : [];
 
 $erreurs = [];
 if ($nom === '') {
@@ -108,7 +120,7 @@ $lead = [
     'service'   => $service,
     'message'   => $message,
     'details'   => $extra,
-    'ip'        => $_SERVER['REMOTE_ADDR'] ?? '',
+    'ip'        => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
 ];
 
 $enregistre = @file_put_contents(
@@ -119,7 +131,7 @@ $enregistre = @file_put_contents(
 
 // --- Envoi -------------------------------------------------------------------
 
-$destinataire = DESTINATAIRES[$service] ?? DESTINATAIRES['defaut'];
+$destinataire = isset($destinataires[$service]) ? $destinataires[$service] : $destinataires['defaut'];
 
 $titre = $type === 'estimation'
     ? "Demande d'estimation — $nom"
