@@ -139,6 +139,18 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm opacity-80 text-center md:text-left">
               © {currentYear} JIP. Tous droits réservés.
+              <span className="mx-2 hidden opacity-50 sm:inline">·</span>
+              <span className="block sm:inline">
+                Réalisation{' '}
+                <a
+                  href="https://www.linkedin.com/in/alexandre-wetzler/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-transparent transition-all duration-300 hover:text-primary hover:decoration-current"
+                >
+                  Alexandre Wetzler
+                </a>
+              </span>
             </div>
             <div className="flex flex-wrap justify-center md:justify-end space-x-6 text-sm">
               <Link to="/mentions-legales" className="opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300">
