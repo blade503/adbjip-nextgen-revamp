@@ -11,9 +11,11 @@ name: Déploiement LWS
 #
 # Le dossier FTP de chaque cible se règle en variables de dépôt
 # (Settings → Secrets and variables → Actions → Variables) :
-#   LWS_DIR_PREPROD     défaut /preprod/
-#   LWS_DIR_PRODUCTION  défaut /www/
-# À confirmer dans le gestionnaire de fichiers LWS avant le premier envoi.
+#   LWS_DIR_PREPROD     défaut /htdocs/preprod.adbjip.fr/
+#   LWS_DIR_PRODUCTION  défaut /htdocs/
+# Chemins relevés dans le gestionnaire de fichiers LWS le 14/08/2026 : la racine
+# FTP contient home/, htdocs/ et tmp/ ; le site est publié depuis htdocs/, où
+# vivent aussi l'ancien Symfony (JIPV3/) et son dossier vendor/.
 
 on:
   push:
@@ -80,15 +82,20 @@ jobs:
           local-dir: ./dist/
           server-dir: >-
             ${{ (inputs.cible || 'preprod') == 'production'
-                && (vars.LWS_DIR_PRODUCTION || '/www/')
-                || (vars.LWS_DIR_PREPROD || '/preprod/') }}
+                && (vars.LWS_DIR_PRODUCTION || '/htdocs/')
+                || (vars.LWS_DIR_PREPROD || '/htdocs/preprod.adbjip.fr/') }}
           # leads.jsonl est écrit par contact.php sur le serveur : il contient
           # les demandes reçues et ne doit jamais être écrasé ni supprimé.
+          # Sur la production, htdocs/ héberge encore l'ancien site : ces
+          # dossiers ne doivent jamais être touchés par un envoi.
           exclude: |
             **/.git*
             **/.git*/**
             **/node_modules/**
             leads.jsonl
+            JIPV3/**
+            vendor/**
+            .quarantaine/**
 
       - name: Rappel
         run: |
