@@ -17,10 +17,6 @@ on:
         type: choice
         options: [bienici, gedeon]
         default: bienici
-      deploy:
-        description: "Envoyer sur le serveur LWS"
-        type: boolean
-        default: true
 
 concurrency:
   group: sync-biens
@@ -32,6 +28,8 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.diff.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
 
@@ -49,11 +47,6 @@ jobs:
           SOURCE: ${{ inputs.source || 'bienici' }}
           GEDEON_KEY: ${{ secrets.GEDEON_API_KEY }}
         run: node scripts/fetch-biens.mjs
-
-      # Vite recopie public/ dans dist/ : les photos rapatriées à l'étape
-      # précédente partent avec le build.
-      - name: Construire l'application
-        run: npm run build
 
       - name: Détecter un changement du portefeuille
         id: diff
@@ -75,23 +68,12 @@ jobs:
           git commit -m "chore(biens): mise à jour du portefeuille"
           git push
 
-      # Envoi systématique, même sans changement de données : le code a pu
-      # bouger depuis le dernier déploiement. L'action tient un état côté
-      # serveur et ne transfère que les fichiers réellement modifiés.
-      - name: Déployer sur LWS
-        # Sur un déclenchement planifié, `inputs` est vide : on ne peut pas
-        # écrire `inputs.deploy != false`, GitHub assimilerait null à false.
-        if: github.event_name == 'schedule' || inputs.deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.LWS_FTP_HOST }}
-          username: ${{ secrets.LWS_FTP_USER }}
-          password: ${{ secrets.LWS_FTP_PASSWORD }}
-          local-dir: ./dist/
-          # Mutualisé LWS : /www/ le plus souvent, parfois /htdocs/.
-          # À confirmer par une connexion FTP manuelle avant la première mise en ligne.
-          server-dir: /www/
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
+  # Le portefeuille a bougé : la préversion doit refléter les nouvelles annonces.
+  # La production n'est jamais déployée automatiquement (voir deploy.yml).
+  deploiement:
+    needs: sync
+    if: needs.sync.outputs.changed == 'true'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      cible: preprod
+    secrets: inherit

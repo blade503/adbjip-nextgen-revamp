@@ -11,9 +11,10 @@ name: Préversion GitHub Pages
 #
 # Prérequis, une seule fois : Settings → Pages → Source = GitHub Actions.
 
+# Déclenchement manuel uniquement : la préversion de référence est désormais
+# preprod.adbjip.fr, où PHP tourne et où les formulaires sont testables.
+# Celle-ci reste sous la main en cas de souci d'accès FTP.
 on:
-  push:
-    branches: [refonte/mise-en-conformite]
   workflow_dispatch:
 
 permissions:

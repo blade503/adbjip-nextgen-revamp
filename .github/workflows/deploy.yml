@@ -1,0 +1,97 @@
+name: Déploiement LWS
+
+# Un seul chemin de déploiement, deux cibles.
+#
+#   preprod    → preprod.adbjip.fr, sous-domaine indépendant. PHP y tourne,
+#                donc les formulaires sont réellement testables. Déployé
+#                automatiquement à chaque push sur la branche de refonte.
+#   production → www.adbjip.fr. JAMAIS automatique : tant que la bascule n'est
+#                pas décidée, ce dossier héberge le Symfony encore en ligne, et
+#                un envoi FTP l'écraserait.
+#
+# Le dossier FTP de chaque cible se règle en variables de dépôt
+# (Settings → Secrets and variables → Actions → Variables) :
+#   LWS_DIR_PREPROD     défaut /preprod/
+#   LWS_DIR_PRODUCTION  défaut /www/
+# À confirmer dans le gestionnaire de fichiers LWS avant le premier envoi.
+
+on:
+  push:
+    branches: [refonte/mise-en-conformite]
+  workflow_dispatch:
+    inputs:
+      cible:
+        description: "Cible du déploiement"
+        type: choice
+        options: [preprod, production]
+        default: preprod
+  workflow_call:
+    inputs:
+      cible:
+        type: string
+        default: preprod
+
+concurrency:
+  group: deploiement-${{ inputs.cible || 'preprod' }}
+  cancel-in-progress: false
+
+jobs:
+  deployer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - run: npm ci
+
+      # Les photos ne sont pas versionnées : sans cette étape, /biens s'afficherait
+      # sans images. En cas d'échec de la source, le script conserve le jeu
+      # précédent et sort en 0.
+      - name: Récupérer les annonces et leurs photos
+        run: node scripts/fetch-biens.mjs
+
+      # Le sous-domaine comme le domaine principal servent le site à leur racine :
+      # pas de chemin de base à appliquer, contrairement à GitHub Pages.
+      - name: Construire
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: npm run build
+
+      # Une préversion ne doit pas entrer en concurrence avec le vrai site dans
+      # les résultats de recherche.
+      - name: Interdire l'indexation de la préversion
+        if: (inputs.cible || 'preprod') != 'production'
+        run: |
+          printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+          rm -f dist/sitemap.xml
+          find dist -name 'index.html' -exec \
+            sed -i 's|<head>|<head><meta name="robots" content="noindex, nofollow">|' {} +
+
+      - name: Envoyer sur ${{ inputs.cible || 'preprod' }}
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.LWS_FTP_HOST }}
+          username: ${{ secrets.LWS_FTP_USER }}
+          password: ${{ secrets.LWS_FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: >-
+            ${{ (inputs.cible || 'preprod') == 'production'
+                && (vars.LWS_DIR_PRODUCTION || '/www/')
+                || (vars.LWS_DIR_PREPROD || '/preprod/') }}
+          # leads.jsonl est écrit par contact.php sur le serveur : il contient
+          # les demandes reçues et ne doit jamais être écrasé ni supprimé.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            leads.jsonl
+
+      - name: Rappel
+        run: |
+          echo "Déployé sur ${{ inputs.cible || 'preprod' }}."
+          echo "Vérifier que .htaccess est bien présent à la racine :"
+          echo "certains clients FTP ignorent les fichiers commençant par un point."
