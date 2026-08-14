@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "biens:fetch": "node scripts/fetch-biens.mjs",
     "prebuild": "node scripts/build-sitemap.mjs",
-    "postbuild": "node scripts/prerender.mjs"
+    "postbuild": "node scripts/prerender.mjs",
+    "verifier": "node scripts/verifier-deploiement.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

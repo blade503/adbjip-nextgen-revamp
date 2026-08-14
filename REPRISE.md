@@ -255,48 +255,73 @@ déclencheur de la détection de changement dans le workflow.
 
 ---
 
-## 8. Déploiement LWS
+## 8. Hébergement LWS — relevé du 14/08/2026
 
-`.htaccess` à mettre dans `public/` (Vite recopie `public/` dans `dist/` — à
-vérifier, les dotfiles sont parfois capricieux) :
+Accès au panneau retrouvé. Ce qui suit vient de l'écran, pas d'une supposition.
 
-```apache
-RewriteEngine On
+| | |
+|---|---|
+| Formule | Starter, service Standard, expire le 26/11/2029 |
+| Espace | 200 Go, dont 0,85 Go utilisés |
+| Registrar du domaine | LWS, DNS `ns1`/`ns2.lws-hosting.biz` |
+| Bases MySQL | **2 sur 10** — celle du Symfony contient huit ans de leads |
+| Comptes e-mail | 4 sur 25 |
+| PHP installés | 5.6 et 7.2 ; **5.6 par défaut** (le Symfony l'exige) |
+| PHP de `preprod` | **8.3**, réglé par site sans toucher au défaut |
 
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+### Arborescence
 
-# Fallback SPA — inutile une fois en HTML/PHP multi-pages
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.html [L]
+Un compte FTP atterrit **directement dans `htdocs`** — LWS refuse d'ailleurs
+`htdocs/` dans le champ « Répertoire », c'est déjà la racine. Le gestionnaire de
+fichiers, lui, affiche un niveau au-dessus (`home/`, `htdocs/`, `tmp/`).
 
-<IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml
-</IfModule>
-
-<IfModule mod_expires.c>
-  ExpiresActive On
-  ExpiresByType text/css "access plus 1 year"
-  ExpiresByType application/javascript "access plus 1 year"
-  ExpiresByType image/jpeg "access plus 1 year"
-  ExpiresByType text/html "access plus 0 seconds"
-</IfModule>
+```
+htdocs/                             ← racine FTP et racine web
+├── JIPV3/                          ← Symfony en production, 11 663 fichiers, 1,72 Go
+├── vendor/                         ← ses dépendances Composer, 8 096 fichiers
+├── preprod.adbjip.fr/              ← sous-domaine de préversion
+├── index.php                       ← point d'entrée de l'ancien site
+├── googlea5ff7faf806fdf23.html     ← vérification Google Search Console
+├── .htaccess
+└── sitemap.xml, robots, default_index.html
 ```
 
-Secrets GitHub à créer : `LWS_FTP_HOST`, `LWS_FTP_USER`, `LWS_FTP_PASSWORD`
-(+ `GEDEON_API_KEY` le jour venu). `server-dir` = `/www/` sur du mutualisé LWS,
-parfois `/htdocs/` — à confirmer par une connexion FTP manuelle.
+**`googlea5ff7faf806fdf23.html` ne doit pas disparaître** : le perdre fait perdre
+la propriété du domaine dans Search Console, donc l'historique de recherche et la
+soumission du sitemap. Il est repris dans `public/` et repart avec chaque build.
 
-Si c'est un vrai VPS et pas du mutualisé : remplacer le FTP par du `rsync` over
-SSH, plus rapide et plus sûr.
+### Déploiement
+
+`.github/workflows/deploy.yml`, deux cibles :
+
+- **preprod** — automatique à chaque push et après une synchro qui a modifié le
+  portefeuille. Le compte FTP est **enfermé dans `preprod.adbjip.fr`** : il ne
+  peut pas atteindre la production, même en cas d'erreur de configuration ;
+- **production** — déclenchement manuel uniquement. `JIPV3/`, `vendor/` et
+  `.quarantaine/` sont exclus des envois.
+
+Secrets : `LWS_FTP_HOST`, `LWS_FTP_USER`, `LWS_FTP_PASSWORD` (+ `GEDEON_API_KEY`
+le jour venu). Le compte de production se créera **sans rien** dans le champ
+« Répertoire », pour arriver dans `htdocs`.
+
+Après chaque envoi : `node scripts/verifier-deploiement.mjs https://preprod.adbjip.fr`.
+Il contrôle ce qui casse en silence — `.htaccess` non transféré, PHP non exécuté,
+`leads.jsonl` lisible, prérendu absent, HTTPS non forcé.
+
+### Le jour de la bascule
+
+1. Exporter la base MySQL du Symfony (**à faire en premier, c'est irremplaçable**).
+2. Passer le site principal en PHP 8.3.
+3. Créer le compte FTP de production, déployer avec `cible: production`.
+4. Vérifier le fichier Search Console et les redirections 301.
+5. Éteindre `JIPV3/` — PHP 5.6 et Symfony 3.3 sans correctif depuis huit ans.
 
 ---
 
 ## 9. Bloquants
 
 1. ~~Accès macOS à `~/Documents`~~ — **levé**, lecture/écriture OK.
-2. **Accès LWS perdus** — à retrouver. Bloque uniquement la mise en ligne.
+2. ~~Accès LWS perdus~~ — **retrouvés le 14/08/2026**, voir § 8.
 3. **Clé Gédéon** — pas encore demandée. Non bloquant, Bien'ici dépanne.
 
 ## 10. Prochaines étapes
