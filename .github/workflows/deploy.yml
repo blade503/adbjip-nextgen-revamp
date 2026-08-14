@@ -9,13 +9,23 @@ name: Déploiement LWS
 #                pas décidée, ce dossier héberge le Symfony encore en ligne, et
 #                un envoi FTP l'écraserait.
 #
-# Le dossier FTP de chaque cible se règle en variables de dépôt
-# (Settings → Secrets and variables → Actions → Variables) :
-#   LWS_DIR_PREPROD     défaut /htdocs/preprod.adbjip.fr/
-#   LWS_DIR_PRODUCTION  défaut /htdocs/
+# Le compte FTP utilisé ici est volontairement **enfermé dans le dossier de la
+# préversion** (champ « Répertoire » à la création du compte LWS :
+# htdocs/preprod.adbjip.fr). Le chemin de dépôt est donc simplement « ./ » : même
+# en cas d'erreur de configuration, ce compte ne peut atteindre ni la production
+# ni l'ancien Symfony. C'est la garantie qui vaut mieux qu'une consigne.
+#
+# La production recevra ses propres identifiants le jour de la bascule, ce qui
+# rend le geste explicite plutôt qu'automatique.
+#
 # Chemins relevés dans le gestionnaire de fichiers LWS le 14/08/2026 : la racine
-# FTP contient home/, htdocs/ et tmp/ ; le site est publié depuis htdocs/, où
-# vivent aussi l'ancien Symfony (JIPV3/) et son dossier vendor/.
+# du compte contient home/, htdocs/ et tmp/ ; le site est publié depuis htdocs/,
+# où vivent aussi l'ancien Symfony (JIPV3/, 1,72 Go) et son dossier vendor/.
+#
+# Réglable en variables de dépôt si l'arborescence change
+# (Settings → Secrets and variables → Actions → Variables) :
+#   LWS_DIR_PREPROD     défaut ./
+#   LWS_DIR_PRODUCTION  défaut ./
 
 on:
   push:
@@ -82,8 +92,8 @@ jobs:
           local-dir: ./dist/
           server-dir: >-
             ${{ (inputs.cible || 'preprod') == 'production'
-                && (vars.LWS_DIR_PRODUCTION || '/htdocs/')
-                || (vars.LWS_DIR_PREPROD || '/htdocs/preprod.adbjip.fr/') }}
+                && (vars.LWS_DIR_PRODUCTION || './')
+                || (vars.LWS_DIR_PREPROD || './') }}
           # leads.jsonl est écrit par contact.php sur le serveur : il contient
           # les demandes reçues et ne doit jamais être écrasé ni supprimé.
           # Sur la production, htdocs/ héberge encore l'ancien site : ces
