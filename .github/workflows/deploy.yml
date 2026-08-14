@@ -11,16 +11,20 @@ name: Déploiement LWS
 #
 # Le compte FTP utilisé ici est volontairement **enfermé dans le dossier de la
 # préversion** (champ « Répertoire » à la création du compte LWS :
-# htdocs/preprod.adbjip.fr). Le chemin de dépôt est donc simplement « ./ » : même
+# preprod.adbjip.fr — sans htdocs/, que LWS refuse : c'est déjà la racine où
+# arrive tout compte FTP). Le chemin de dépôt est donc simplement « ./ » : même
 # en cas d'erreur de configuration, ce compte ne peut atteindre ni la production
 # ni l'ancien Symfony. C'est la garantie qui vaut mieux qu'une consigne.
 #
 # La production recevra ses propres identifiants le jour de la bascule, ce qui
 # rend le geste explicite plutôt qu'automatique.
 #
-# Chemins relevés dans le gestionnaire de fichiers LWS le 14/08/2026 : la racine
-# du compte contient home/, htdocs/ et tmp/ ; le site est publié depuis htdocs/,
-# où vivent aussi l'ancien Symfony (JIPV3/, 1,72 Go) et son dossier vendor/.
+# Arborescence relevée le 14/08/2026 : le gestionnaire de fichiers montre home/,
+# htdocs/ et tmp/, mais un compte FTP atterrit directement dans htdocs/. C'est là
+# que vivent le site publié, l'ancien Symfony (JIPV3/, 1,72 Go), son dossier
+# vendor/ et le fichier de vérification Search Console.
+#
+# Le compte de production se créera donc sans rien dans le champ « Répertoire ».
 #
 # Réglable en variables de dépôt si l'arborescence change
 # (Settings → Secrets and variables → Actions → Variables) :
