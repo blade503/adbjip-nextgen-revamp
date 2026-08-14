@@ -132,7 +132,7 @@ const MentionsLegales = () => (
             de ses mandats et ne peuvent être reproduites sans autorisation.
           </p>
 
-          <h2 className="text-xl font-bold text-foreground">Données personnelles</h2>
+          <h2 id="donnees-personnelles" className="text-xl font-bold text-foreground">Données personnelles</h2>
           <p>
             Les informations transmises via les formulaires de contact et d'estimation servent
             uniquement à traiter votre demande et ne sont ni cédées ni revendues. Vous disposez

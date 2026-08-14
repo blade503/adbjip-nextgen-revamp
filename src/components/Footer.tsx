@@ -144,12 +144,9 @@ const Footer = () => {
               <Link to="/mentions-legales" className="opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300">
                 Mentions Légales
               </Link>
-              <a href="#" className="opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300">
-                Politique de Confidentialité
-              </a>
-              <a href="#" className="opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300">
-                CGV
-              </a>
+              <Link to="/mentions-legales#donnees-personnelles" className="opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300">
+                Politique de confidentialité
+              </Link>
             </div>
           </div>
         </div>
