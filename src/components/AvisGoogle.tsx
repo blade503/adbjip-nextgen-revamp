@@ -2,6 +2,7 @@ import { ExternalLink, Star } from 'lucide-react';
 
 import { Card } from '@/components/ui/card';
 import { AVIS, NOTE_GOOGLE } from '@/config/avis';
+import { classesGrille } from '@/lib/grille';
 
 /**
  * Avis clients repris de la fiche Google.
@@ -40,7 +41,7 @@ const AvisGoogle = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className={`grid grid-cols-1 gap-8 ${classesGrille(AVIS.length)}`}>
           {AVIS.map((avis) => (
             <Card key={`${avis.auteur}-${avis.date}`} className="glass-strong border-0 p-8 shadow-card">
               {avis.note && (

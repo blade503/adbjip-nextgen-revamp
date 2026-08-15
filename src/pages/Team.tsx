@@ -4,6 +4,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Users, Mail, Phone, Linkedin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import florentImage from '@/assets/equipe-florent-jobard.webp';
+import francisImage from '@/assets/equipe-francis-jobard.webp';
 
 const Team = () => {
   // Uniquement les personnes réellement présentes dans l'agence — les deux
@@ -12,6 +14,7 @@ const Team = () => {
   const team = [
     {
       name: "Florent Jobard",
+      photo: florentImage,
       role: "Directeur Général",
       location: "143, Rue Saint Denis - 75002 Paris",
       phone: "06.62.91.73.35",
@@ -21,6 +24,7 @@ const Team = () => {
     },
     {
       name: "Francis Jobard",
+      photo: francisImage,
       role: "Directeur des Copropriétés",
       location: "27, Rue de Lisbonne - 75008 Paris",
       phone: "01.42.25.78.24",
@@ -60,8 +64,16 @@ const Team = () => {
               {team.map((member, index) => (
                 <Card key={index} className="glass-strong p-8 hover-lift border-0 shadow-card">
                   <div className="flex items-start space-x-6">
-                    <div className="w-24 h-24 bg-primary rounded-2xl flex items-center justify-center flex-shrink-0">
-                      <Users className="w-12 h-12 text-primary-foreground" />
+                    <div className="h-28 w-24 flex-shrink-0 overflow-hidden rounded-2xl bg-muted">
+                      <img
+                        src={member.photo}
+                        alt={`${member.name}, ${member.role.toLowerCase()}`}
+                        width={700}
+                        height={875}
+                        className="h-full w-full object-cover object-top"
+                        loading="lazy"
+                        decoding="async"
+                      />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-bold mb-1">{member.name}</h3>

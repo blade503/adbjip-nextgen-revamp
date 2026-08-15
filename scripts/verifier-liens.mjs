@@ -33,6 +33,8 @@ const routes = new Set(
 const pages = [...routes];
 const morts = [];
 const externes = new Map();
+/** Routes atteintes par au moins un lien : le reste est orphelin. */
+const atteintes = new Set(['/']);
 
 const texteDuLien = (html, index) => {
   const fin = html.indexOf('</a>', index);
@@ -82,6 +84,7 @@ for (const page of pages) {
     const chemin = avantAncre.split('?')[0].replace(/\/$/, '') || '/';
 
     if (routes.has(chemin)) {
+      atteintes.add(chemin);
       // Une ancre vers une autre page ne se voit pas à l'œil : la cible est
       // rendue ailleurs. C'est pourtant le cas le plus traître, le lien
       // « fonctionne » sans rien faire à l'écran.
@@ -116,6 +119,17 @@ for (const page of pages) {
     }
   } else {
     console.log(`${vert('✓')} ${page} ${gris(`${liens.length} liens`)}`);
+  }
+}
+
+// Une page qu'aucun lien ne désigne n'existe que pour qui connaît son URL.
+// Le contrôle de liens sortants ne peut pas la voir : il faut la chercher.
+const orphelines = pages.filter((page) => !atteintes.has(page));
+if (orphelines.length) {
+  console.log(`\n${rouge('Pages orphelines')} ${gris('— aucun lien du site n\'y mène :')}`);
+  for (const page of orphelines) {
+    console.log(`    ${jaune(page)}`);
+    morts.push({ page, href: '', libelle: '', raison: 'page orpheline' });
   }
 }
 

@@ -1,26 +1,31 @@
 import { Phone, Mail, MapPin, Clock, Heart } from 'lucide-react';
 import { HORAIRES } from '@/config/legal';
 import { Link } from 'react-router-dom';
+import LogoJIP from '@/components/LogoJIP';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+  // Les six entrées précédentes pointaient toutes vers la gestion locative, et
+  // deux d'entre elles — « Conseil Immobilier », « Syndic de Copropriété » — ne
+  // correspondaient à aucune page. Quatre services, quatre destinations.
   const services = [
-    "Gestion Locative",
-    "Gestion de Copropriété", 
-    "Estimation de Biens",
-    "Achats/Ventes",
-    "Conseil Immobilier",
-    "Syndic de Copropriété"
+    { name: "Gestion locative", href: "/services/gestion-locative" },
+    { name: "Gestion de copropriété", href: "/services/gestion-copropriete" },
+    { name: "Estimation de biens", href: "/services/estimation-biens" },
+    { name: "Achats et ventes", href: "/services/achats-ventes" }
   ];
 
+  // Le pied de page est le seul endroit qui garantit qu'aucune page n'est
+  // orpheline : /equipe n'était atteignable que par un bouton en milieu de
+  // page, et /partenaires par aucun lien du tout.
   const quickLinks = [
     { name: "Accueil", href: "/" },
-    { name: "Services", href: "/services/gestion-locative" },
+    { name: "Nos biens", href: "/biens" },
     { name: "À propos", href: "/about" },
-    { name: "Contact", href: "/contact" },
-    { name: "Estimation Gratuite", href: "/services/estimation-biens#calculateur-rapide" },
-    { name: "Mentions Légales", href: "/mentions-legales" }
+    { name: "Notre équipe", href: "/equipe" },
+    { name: "Nos partenaires", href: "/partenaires" },
+    { name: "Contact", href: "/contact" }
   ];
 
   return (
@@ -31,11 +36,9 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">JIP</span>
-              </div>
+              <LogoJIP className="h-11 w-auto" />
               <div>
-                <h3 className="text-xl font-bold">JIP</h3>
+                <p className="text-xl font-bold">JIP</p>
                 <p className="text-sm opacity-80">Excellence & Professionnalisme</p>
               </div>
             </div>
@@ -54,12 +57,12 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-6">Nos Services</h4>
             <ul className="space-y-3">
               {services.map((service) => (
-                <li key={service}>
-                  <Link 
-                    to="/services/gestion-locative" 
-                    className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300"
+                <li key={service.href}>
+                  <Link
+                    to={service.href}
+                    className="text-sm opacity-80 transition-all duration-300 hover:text-primary hover:opacity-100"
                   >
-                    {service}
+                    {service.name}
                   </Link>
                 </li>
               ))}
@@ -98,9 +101,10 @@ const Footer = () => {
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
                 <Phone className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                {/* Pas d'horaires ici : le bloc « Horaires d'ouverture » plus
+                    bas les donne déjà, dans la même colonne. */}
                 <div>
                   <p className="text-sm font-medium">01.42.25.78.24</p>
-                  <p className="text-xs opacity-80">{HORAIRES.semaine}</p>
                 </div>
               </div>
               

@@ -1,10 +1,17 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Phone, Mail, MapPin, Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import LogoJIP from '@/components/LogoJIP';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  // Souligner la page courante : sans repère, le visiteur ne sait pas où il est
+  // dans un menu de cinq entrées.
+  const estCourante = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   const navigation = [
     { name: 'Gérer son Bien', shortName: 'Gestion', href: '/services/gestion-locative' },
@@ -44,15 +51,10 @@ const Header = () => {
           <div className="flex justify-between items-center gap-4">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2 lg:space-x-3 hover:opacity-80 transition-opacity cursor-pointer flex-shrink-0">
-              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-primary rounded-xl flex items-center justify-center shadow-elegant">
-                <span className="text-primary-foreground font-bold text-lg lg:text-xl">JIP</span>
-              </div>
+              <LogoJIP className="h-9 w-auto lg:h-11" />
               <div className="hidden sm:block">
-                <h1 className="text-lg lg:text-xl font-bold gradient-text">Jobard Immobilier Paris</h1>
-                <p className="text-xs lg:text-sm text-muted-foreground">Excellence & Professionnalisme</p>
-              </div>
-              <div className="block sm:hidden">
-                <h1 className="text-lg font-bold gradient-text">JIP</h1>
+                <p className="text-lg font-bold leading-tight lg:text-xl">Jobard Immobilier Paris</p>
+                <p className="text-xs text-muted-foreground lg:text-sm">Excellence & Professionnalisme</p>
               </div>
             </Link>
 
@@ -62,7 +64,12 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="text-foreground hover:text-primary transition-colors duration-300 font-medium text-sm 2xl:text-base whitespace-nowrap"
+                  className={`whitespace-nowrap text-sm font-medium transition-colors duration-300 2xl:text-base ${
+                    estCourante(item.href)
+                      ? 'text-primary underline decoration-2 underline-offset-8'
+                      : 'text-foreground hover:text-primary'
+                  }`}
+                  aria-current={estCourante(item.href) ? 'page' : undefined}
                 >
                   {item.name}
                 </Link>
@@ -75,7 +82,10 @@ const Header = () => {
                 <Link
                   key={item.shortName}
                   to={item.href}
-                  className="text-foreground hover:text-primary transition-colors duration-300 font-medium text-sm whitespace-nowrap"
+                  className={`whitespace-nowrap text-sm font-medium transition-colors duration-300 ${
+                    estCourante(item.href) ? 'text-primary' : 'text-foreground hover:text-primary'
+                  }`}
+                  aria-current={estCourante(item.href) ? 'page' : undefined}
                 >
                   {item.shortName}
                 </Link>
@@ -96,6 +106,8 @@ const Header = () => {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="lg:hidden p-2 rounded-lg hover:bg-accent transition-colors flex-shrink-0"
+              aria-expanded={isMenuOpen}
+              aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             >
               {isMenuOpen ? <X className="w-5 h-5 lg:w-6 lg:h-6" /> : <Menu className="w-5 h-5 lg:w-6 lg:h-6" />}
             </button>
@@ -111,7 +123,10 @@ const Header = () => {
                       key={item.name}
                       to={item.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="block py-3 text-lg font-medium text-foreground hover:text-primary transition-colors"
+                      className={`block py-3 text-lg font-medium transition-colors ${
+                        estCourante(item.href) ? 'text-primary' : 'text-foreground hover:text-primary'
+                      }`}
+                      aria-current={estCourante(item.href) ? 'page' : undefined}
                     >
                       {item.name}
                     </Link>
