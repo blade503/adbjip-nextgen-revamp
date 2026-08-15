@@ -39,6 +39,7 @@ import {
   priceDrop,
   ventes,
 } from '@/lib/biens';
+import { classesGrille } from '@/lib/grille';
 
 type Filter = 'tous' | 'vente' | 'location';
 
@@ -280,6 +281,26 @@ const Biens = () => {
   const [filter, setFilter] = useState<Filter>('tous');
   const [selected, setSelected] = useState<Bien | null>(null);
 
+  /**
+   * Le portefeuille varie : il peut tomber à une annonce, voire zéro entre deux
+   * mandats. La phrase doit rester juste dans les trois cas — accords compris,
+   * et sans annoncer des villes quand la liste est vide.
+   */
+  const introduction = useMemo(() => {
+    const suite =
+      ' Chaque annonce est reprise directement de notre logiciel de gestion et mise à jour quotidiennement.';
+    if (biens.length === 0) {
+      return (
+        "Aucun bien n'est disponible à la vente ou à la location en ce moment. " +
+        'Dites-nous ce que vous cherchez : nous vous prévenons avant la mise en publication.'
+      );
+    }
+    if (biens.length === 1) {
+      return `Un bien est actuellement proposé à ${cities.join(', ')}.${suite}`;
+    }
+    return `${biens.length} biens sont actuellement proposés à ${cities.join(', ')}.${suite}`;
+  }, []);
+
   const visible = useMemo(
     () => (filter === 'tous' ? biens : biens.filter((bien) => bien.transaction === filter)),
     [filter],
@@ -315,7 +336,11 @@ const Biens = () => {
     <div className="min-h-screen">
       <SEOHead
         title="Nos biens à vendre et à louer | JIP Jobard Immobilier Paris"
-        description={`Les ${biens.length} biens actuellement proposés par JIP Jobard Immobilier : ${cities.join(', ')}. Vente et location, mise à jour quotidienne.`}
+        description={
+          biens.length === 0
+            ? "Aucun bien disponible en ce moment chez JIP Jobard Immobilier. Dites-nous ce que vous cherchez, nous vous prévenons avant la mise en publication."
+            : `${biens.length === 1 ? 'Le bien actuellement proposé' : `Les ${biens.length} biens actuellement proposés`} par JIP Jobard Immobilier : ${cities.join(', ')}. Vente et location, mise à jour quotidienne.`
+        }
         keywords="biens à vendre paris, location paris, jobard immobilier, appartement paris 16, appartement paris 20"
         canonicalUrl="https://www.adbjip.fr/biens"
         structuredData={structuredData}
@@ -332,9 +357,7 @@ const Biens = () => {
               Nos biens <span className="gradient-text">à vendre et à louer</span>
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              {biens.length === 1 ? 'Un bien est' : `${biens.length} biens sont`} actuellement
-              proposés à {cities.join(', ')}. Chaque annonce est reprise directement de notre
-              logiciel de gestion et mise à jour quotidiennement.
+              {introduction}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-2" role="group" aria-label="Filtrer les biens">
@@ -355,7 +378,7 @@ const Biens = () => {
 
         <section className="container mx-auto px-6 py-14">
           {visible.length > 0 ? (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className={`grid grid-cols-1 gap-8 ${classesGrille(visible.length)}`}>
               {visible.map((bien, index) => (
                 <BienCard
                   key={bien.id}

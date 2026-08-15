@@ -1,4 +1,8 @@
 import { Card } from '@/components/ui/card';
+import gestionLocativeImage from '@/assets/GestionLocative.webp';
+import gestionCoproImage from '@/assets/GestionDeCopropriete2.webp';
+import estimationImage from '@/assets/EstimationBien.webp';
+import achatVenteImage from '@/assets/VenteDeBiens.webp';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { 
@@ -7,143 +11,108 @@ import {
   Calculator, 
   Handshake,
   ArrowRight,
-  CheckCircle
-} from 'lucide-react';
+  } from 'lucide-react';
 
 const Services = () => {
   const services = [
     {
       icon: Home,
       title: "Gestion Locative",
+      route: "/services/gestion-locative",
+      image: gestionLocativeImage,
+      // Illustration décorative : le titre juste à côté nomme déjà le service,
+      // un texte alternatif ne ferait que le répéter aux lecteurs d'écran.
+      alt: "",
       description: "Nous assurons la gestion de votre patrimoine. Les revenus c'est pour vous, la gestion c'est pour nous.",
-      features: [
-        "Recherche et sélection de locataires",
-        "Encaissement des loyers",
-        "Gestion des travaux et entretien",
-        "Suivi administratif complet"
-      ],
       color: "bg-blue-500"
     },
     {
       icon: Building2,
       title: "Gestion de Copropriété",
+      route: "/services/gestion-copropriete",
+      image: gestionCoproImage,
+      alt: "",
       description: "La pérennité au service de votre immeuble avec une gestion professionnelle et transparente.",
-      features: [
-        "Assemblées générales",
-        "Gestion comptable",
-        "Suivi des travaux",
-        "Conseil juridique"
-      ],
       color: "bg-green-500"
     },
     {
       icon: Calculator,
       title: "Estimation de Biens",
+      route: "/services/estimation-biens",
+      image: estimationImage,
+      alt: "",
       description: "Projets, succession, transmission de patrimoine, nous estimons votre bien selon le juste prix du marché.",
-      features: [
-        "Analyse de marché approfondie",
-        "Rapport détaillé gratuit",
-        "Conseils personnalisés",
-        "Estimation en 24h"
-      ],
       color: "bg-primary"
     },
     {
       icon: Handshake,
       title: "Achats/Ventes de Biens",
+      route: "/services/achats-ventes",
+      image: achatVenteImage,
+      alt: "",
       description: "N'oubliez pas votre syndic pour la vente de votre bien ! Accompagnement de A à Z.",
-      features: [
-        "Négociation optimisée",
-        "Accompagnement juridique",
-        "Réseau d'acquéreurs qualifiés",
-        "Suivi jusqu'à la signature"
-      ],
       color: "bg-purple-500"
     }
   ];
 
   return (
-    <section id="services" className="py-24 bg-gradient-subtle">
+    <section id="services" className="py-20 bg-gradient-subtle">
       <div className="container mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Nos <span className="gradient-text">Prestations</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Nous vous proposons de nombreuses prestations, que ce soit dans la location, l'achat, 
-            la vente de bien. Une expertise complète pour tous vos projets immobiliers.
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            Gérance, syndic, estimation et transaction : quatre métiers, une seule agence.
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
               <Card 
                 key={service.title}
-                className="glass-strong p-8 hover-lift group border-0 shadow-card"
+                className="glass-strong hover-lift group overflow-hidden border-0 shadow-card"
               >
-                {/* Icon */}
-                <div className={`w-16 h-16 ${service.color} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon className="w-8 h-8 text-white" />
+                {/* Illustration — la même que sur la page du service, pour que le
+                    visiteur retrouve le repère visuel en arrivant. */}
+                <div className="relative aspect-[3/2] overflow-hidden bg-muted">
+                  <img
+                    src={service.image}
+                    alt={service.alt}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
+                  <div className={`absolute bottom-4 left-4 flex h-12 w-12 items-center justify-center rounded-xl ${service.color} shadow-elegant`}>
+                    <Icon className="h-6 w-6 text-white" />
+                  </div>
                 </div>
 
-                {/* Content */}
-                <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">
+                <div className="p-6">
+                <h3 className="mb-2 text-xl font-bold transition-colors group-hover:text-primary">
                   {service.title}
                 </h3>
-                <p className="text-muted-foreground mb-6 leading-relaxed">
+                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
                   {service.description}
                 </p>
-
-                {/* Features */}
-                <ul className="space-y-3 mb-8">
-                  {service.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                      <span className="text-sm text-muted-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA */}
-                <Button 
-                  variant="outline" 
-                  className="group w-full border-primary/20 hover:bg-primary hover:text-primary-foreground"
-                  asChild
+                <Link
+                  to={service.route}
+                  className="inline-flex items-center text-sm font-semibold text-foreground transition-colors group-hover:text-primary"
                 >
-                  <Link to={
-                    service.title === "Gestion Locative" ? "/services/gestion-locative" :
-                    service.title === "Gestion de Copropriété" ? "/services/gestion-copropriete" :
-                    service.title === "Estimation de Biens" ? "/services/estimation-biens" :
-                    "/services/achats-ventes"
-                  }>
-                    En savoir plus
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </Button>
+                  En savoir plus
+                  <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+                </div>
               </Card>
             );
           })}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="text-center">
-          <div className="glass rounded-2xl p-8 inline-block">
-            <h3 className="text-2xl font-bold mb-4">
-              Besoin d'un conseil personnalisé ?
-            </h3>
-            <p className="text-muted-foreground mb-6">
-              Nos experts sont à votre disposition pour étudier votre projet
-            </p>
-            <Button size="lg" className="hover-glow">
-              Contactez-nous
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </div>
-        </div>
       </div>
     </section>
   );
