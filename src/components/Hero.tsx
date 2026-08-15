@@ -5,7 +5,7 @@ import heroBuilding from '@/assets/hero-building.webp';
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+    <section id="home" className="relative flex min-h-[85vh] items-center overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
         <img 
@@ -24,7 +24,7 @@ const Hero = () => {
       <div className="relative z-10 container mx-auto px-6 py-20">
         <div className="max-w-4xl">
           {/* Badge */}
-          <div className="inline-flex items-center space-x-3 bg-white/30 backdrop-blur-md border border-white/40 rounded-full px-6 py-3 mb-8 animate-slide-up">
+          <div className="animate-slide-up mb-8 inline-flex items-center space-x-3 rounded-full border border-white/15 bg-secondary/75 px-6 py-3 backdrop-blur-md">
             <Star className="w-5 h-5 text-white fill-white flex-shrink-0" />
             <div className="text-sm font-medium text-left text-white">
               <div className="block sm:inline">Agence immobilière de confiance </div>
@@ -39,7 +39,8 @@ const Hero = () => {
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl animate-slide-up text-center md:text-left mx-auto md:mx-0">
-            JIP possède des collaborateurs jeunes et dynamiques avec une forte expérience dans le domaine de l'immobilier parisien.
+            Gestion locative et syndic de copropriété à Paris 8<sup className="text-base">e</sup>,
+            depuis 2011.
           </p>
 
           {/* CTA Buttons */}
@@ -49,19 +50,19 @@ const Hero = () => {
               className="group bg-primary hover:bg-primary-glow text-primary-foreground px-8 py-6 text-lg shadow-elegant hover-glow"
               asChild
             >
-              <Link to="/services/estimation-biens">
-                Estimer mon bien
+              <Link to="/services/gestion-locative">
+                Confier la gestion de mon bien
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
             <Button 
               variant="secondary" 
               size="lg" 
-              className="glass border-white/40 text-white bg-white/10 hover:bg-white/20 px-8 py-6 text-lg"
+              className="border border-white/20 bg-secondary/75 px-8 py-6 text-lg text-white backdrop-blur-md hover:bg-secondary"
               asChild
             >
-              <Link to="#services">
-                Nos services
+              <Link to="/services/gestion-copropriete">
+                Changer de syndic
               </Link>
             </Button>
           </div>
@@ -78,7 +79,7 @@ const Hero = () => {
             ].map(({ icon: Icon, value, label }) => (
               <div
                 key={value}
-                className="bg-white/40 backdrop-blur-md border border-white/50 rounded-xl p-6 text-center hover-lift shadow-elegant"
+                className="rounded-xl border border-white/15 bg-secondary/75 p-6 text-center shadow-elegant backdrop-blur-md hover-lift"
               >
                 <Icon className="w-8 h-8 text-primary mx-auto mb-3" />
                 <div className="text-2xl font-bold text-white mb-2">{value}</div>
