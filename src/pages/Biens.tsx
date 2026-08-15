@@ -154,6 +154,11 @@ const BienCard = ({ bien, index, onOpen }: { bien: Bien; index: number; onOpen: 
             </span>
           </div>
           {note && <p className="mt-1 text-xs text-muted-foreground">{note}</p>}
+          {bien.pricePerSquareMeter && bien.transaction === 'vente' && (
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              soit {eur(bien.pricePerSquareMeter)} le m²
+            </p>
+          )}
         </div>
 
         <div>

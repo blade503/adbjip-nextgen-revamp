@@ -27,14 +27,14 @@ const Hero = () => {
           <div className="animate-slide-up mb-8 inline-flex items-center space-x-3 rounded-full border border-white/15 bg-secondary/75 px-6 py-3 backdrop-blur-md">
             <Star className="w-5 h-5 text-white fill-white flex-shrink-0" />
             <div className="text-sm font-medium text-left text-white">
-              <div className="block sm:inline">Agence immobilière de confiance </div>
-              <div className="block sm:inline sm:before:content-['\00a0']">depuis 15 ans</div>
+              <div className="block sm:inline">Agence immobilière indépendante </div>
+              <div className="block sm:inline sm:before:content-['\00a0']">depuis 2011</div>
             </div>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight animate-slide-up text-center md:text-left">
-            Notre <span className="gradient-text bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">professionnalisme</span> est votre <span className="gradient-text bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">garantie</span>
+            Notre <span className="gradient-text-light bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">professionnalisme</span> est votre <span className="gradient-text-light bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">garantie</span>
           </h1>
 
           {/* Subtitle */}

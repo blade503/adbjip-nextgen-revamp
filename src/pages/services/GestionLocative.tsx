@@ -137,8 +137,8 @@ const GestionLocative = () => {
                 <span className="text-sm font-medium text-white">Gestion Locative</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-slide-up text-white">
-                Vous gardez vos <span className="gradient-text">revenus</span>,<br />
-                nous gérons <span className="gradient-text">tout le reste</span>
+                Vous gardez vos <span className="gradient-text-light">revenus</span>,<br />
+                nous gérons <span className="gradient-text-light">tout le reste</span>
               </h1>
               <p className="text-xl text-white/90 mb-8 max-w-4xl mx-auto animate-slide-up">
                 Transformez votre investissement immobilier en véritable source de revenus passifs. 
@@ -166,7 +166,7 @@ const GestionLocative = () => {
         </section>
 
         {/* Stats Section - Nouveau */}
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-muted/40">
           <div className="container mx-auto px-6">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {stats.map((stat, index) => {
@@ -201,10 +201,10 @@ const GestionLocative = () => {
               {/* Mandat Sérénité */}
               <Card className="glass-strong p-8 hover-lift border-0 shadow-card">
                 <div className="text-center mb-8">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <div className="w-20 h-20 bg-gradient-to-br from-secondary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
                     <Shield className="w-10 h-10 text-white" />
                   </div>
-                  <h3 className="text-3xl font-bold mb-4 text-blue-600">Mandat Sérénité</h3>
+                  <h3 className="text-3xl font-bold mb-4 text-secondary">Mandat Sérénité</h3>
                   <p className="text-muted-foreground">
                     Gestion administrative complète de votre bien
                   </p>
@@ -212,35 +212,35 @@ const GestionLocative = () => {
 
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-primary-ink mt-1 flex-shrink-0" />
                     <span className="text-sm">Gestion Administrative du bien</span>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-primary-ink mt-1 flex-shrink-0" />
                     <span className="text-sm">Recherche du locataire / étude de solvabilité</span>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-primary-ink mt-1 flex-shrink-0" />
                     <span className="text-sm">Rédaction, renouvellement, actualisation des loyers</span>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-primary-ink mt-1 flex-shrink-0" />
                     <span className="text-sm">États des lieux</span>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-primary-ink mt-1 flex-shrink-0" />
                     <span className="text-sm">Résiliation du bail</span>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-primary-ink mt-1 flex-shrink-0" />
                     <span className="text-sm">Contrôle et validation des assurances obligatoires pour le locataire</span>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-primary-ink mt-1 flex-shrink-0" />
                     <span className="text-sm">Rédaction des avenants (baux commerciaux)</span>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-primary-ink mt-1 flex-shrink-0" />
                     <span className="text-sm">Revalorisation du loyer en fonction de l'indice de référence des loyers et des facteurs économiques</span>
                     </div>
                     </div>
@@ -321,80 +321,80 @@ const GestionLocative = () => {
                           <div className="flex items-center space-x-2">
                             <Plus className="w-5 h-5 text-primary" />
                             <span className="text-lg font-semibold text-primary">Options complémentaires</span>
-                            <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium ml-2">8 options</span>
+                            <span className="bg-secondary-soft text-secondary text-xs px-2 py-1 rounded-full font-medium ml-2">8 options</span>
                           </div>
                         </AccordionTrigger>
                         <AccordionContent className="px-4 pb-4">
                           <div className="space-y-4 pt-2">
                             <div className="flex items-start space-x-3">
-                              <CheckCircle className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
+                              <CheckCircle className="w-5 h-5 text-secondary mt-1 flex-shrink-0" />
                               <div className="flex-1">
                                 <span className="text-sm">Constitution et suivi des dossiers de demandes de subventions ou de crédits</span>
                                 <div className="inline-block ml-2">
-                                  <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Option</span>
+                                  <span className="bg-secondary-soft text-secondary text-xs px-2 py-1 rounded-full font-medium">Option</span>
                                 </div>
                               </div>
                             </div>
                             <div className="flex items-start space-x-3">
-                              <CheckCircle className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
+                              <CheckCircle className="w-5 h-5 text-secondary mt-1 flex-shrink-0" />
                               <div className="flex-1">
                                 <span className="text-sm">Demande d'établissement des diagnostics obligatoires ainsi que des documents indispensables à l'information du locataire dans le cadre du Dossier de Diagnostic Technique</span>
                                 <div className="inline-block ml-2">
-                                  <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Option</span>
+                                  <span className="bg-secondary-soft text-secondary text-xs px-2 py-1 rounded-full font-medium">Option</span>
                                 </div>
                               </div>
                             </div>
                             <div className="flex items-start space-x-3">
-                              <CheckCircle className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
+                              <CheckCircle className="w-5 h-5 text-secondary mt-1 flex-shrink-0" />
                               <div className="flex-1">
                                 <span className="text-sm">Appels des loyers, encaissement des loyers, charges, dépôt de garantie, cautionnements, indemnité d'occupation, assurances, provisions, subventions, avances sur travaux</span>
                                 <div className="inline-block ml-2">
-                                  <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Option</span>
+                                  <span className="bg-secondary-soft text-secondary text-xs px-2 py-1 rounded-full font-medium">Option</span>
                                 </div>
                               </div>
                             </div>
                             <div className="flex items-start space-x-3">
-                              <CheckCircle className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
+                              <CheckCircle className="w-5 h-5 text-secondary mt-1 flex-shrink-0" />
                               <div className="flex-1">
                                 <span className="text-sm">Règlement des charges de copropriétés, auprès du syndic ou ensemble des chargés d'immeubles</span>
                                 <div className="inline-block ml-2">
-                                  <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Option</span>
+                                  <span className="bg-secondary-soft text-secondary text-xs px-2 py-1 rounded-full font-medium">Option</span>
                                 </div>
                               </div>
                             </div>
                             <div className="flex items-start space-x-3">
-                              <CheckCircle className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
+                              <CheckCircle className="w-5 h-5 text-secondary mt-1 flex-shrink-0" />
                               <div className="flex-1">
                                 <span className="text-sm">En cas de conflit ou de défaut de paiement du locataire, intervention pour toutes les poursuites judiciaires et envois aux locataires des commandements, sommations, assignation devant les tribunaux</span>
                                 <div className="inline-block ml-2">
-                                  <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Option</span>
+                                  <span className="bg-secondary-soft text-secondary text-xs px-2 py-1 rounded-full font-medium">Option</span>
                                 </div>
                               </div>
                             </div>
                             <div className="flex items-start space-x-3">
-                              <CheckCircle className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
+                              <CheckCircle className="w-5 h-5 text-secondary mt-1 flex-shrink-0" />
                               <div className="flex-1">
                                 <span className="text-sm">Établissement de la déclaration de revenus fonciers</span>
                                 <div className="inline-block ml-2">
-                                  <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Option</span>
+                                  <span className="bg-secondary-soft text-secondary text-xs px-2 py-1 rounded-full font-medium">Option</span>
                                 </div>
                               </div>
                             </div>
                             <div className="flex items-start space-x-3">
-                              <CheckCircle className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
+                              <CheckCircle className="w-5 h-5 text-secondary mt-1 flex-shrink-0" />
                               <div className="flex-1">
                                 <span className="text-sm">Établissement de la déclaration de TVA</span>
                                 <div className="inline-block ml-2">
-                                  <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Option</span>
+                                  <span className="bg-secondary-soft text-secondary text-xs px-2 py-1 rounded-full font-medium">Option</span>
                                 </div>
                               </div>
                             </div>
                             <div className="flex items-start space-x-3">
-                              <CheckCircle className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
+                              <CheckCircle className="w-5 h-5 text-secondary mt-1 flex-shrink-0" />
                               <div className="flex-1">
                                 <span className="text-sm">L'ensemble des frais de gestion locative sont déductibles de vos revenus fonciers</span>
                                 <div className="inline-block ml-2">
-                                  <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Option</span>
+                                  <span className="bg-secondary-soft text-secondary text-xs px-2 py-1 rounded-full font-medium">Option</span>
                 </div>
               </div>
             </div>
@@ -412,7 +412,7 @@ const GestionLocative = () => {
         </section>
 
         {/* Process - Amélioré */}
-        <section className="py-20 bg-gray-50">
+        <section className="py-20 bg-muted/40">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -446,7 +446,7 @@ const GestionLocative = () => {
         </section>
 
         {/* CTA Section - Plus engageant */}
-        <section className="py-20 bg-gray-50">
+        <section className="py-20 bg-muted/40">
           <div className="container mx-auto px-6 text-center">
             <div className="glass-strong rounded-3xl p-16 max-w-5xl mx-auto relative overflow-hidden">
               {/* Background decoration */}
@@ -487,43 +487,6 @@ const GestionLocative = () => {
           </div>
         </section>
 
-        {/* Quick Actions */}
-        <section className="py-16 bg-gradient-subtle">
-          <div className="container mx-auto px-6">
-            <div className="glass rounded-2xl p-8 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold text-center mb-6">Actions rapides</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <Link to="/contact">
-                    <MessageSquare className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Demander un devis</div>
-                      <div className="text-sm text-muted-foreground">Gestion locative</div>
-                    </div>
-                  </Link>
-                </Button>
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <Link to="/services/estimation-biens">
-                    <Calculator className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Estimation gratuite</div>
-                      <div className="text-sm text-muted-foreground">Évaluez votre bien</div>
-                    </div>
-                  </Link>
-                </Button>
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <a href="tel:0142257824">
-                    <Phone className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Appel direct</div>
-                      <div className="text-sm text-muted-foreground">01.42.25.78.24</div>
-                    </div>
-                  </a>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </div>

@@ -14,8 +14,8 @@ const AchatsVentes = () => {
     "Négociation optimisée du prix de vente",
     "Accompagnement juridique complet",
     "Suivi jusqu'à la signature chez le notaire",
-    "Conseil en défiscalisation",
-    "Garantie de discrétion"
+    "Rédaction et suivi du compromis",
+    "Discrétion sur les ventes sensibles"
   ];
 
   const servicesAchat = [
@@ -55,7 +55,7 @@ const AchatsVentes = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      <main>
+      <main role="main">
         {/* Hero Section */}
         <section className="pt-32 pb-16 relative overflow-hidden">
           {/* Background Image */}
@@ -75,7 +75,7 @@ const AchatsVentes = () => {
                 <span className="text-sm font-medium text-white">Achats/Ventes de Biens</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white">
-                Achats & <span className="gradient-text">Ventes</span>
+                Achats & <span className="gradient-text-light">Ventes</span>
               </h1>
               <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
                 N'oubliez pas votre syndic pour la vente de votre bien ! Accompagnement de A à Z 
@@ -106,7 +106,7 @@ const AchatsVentes = () => {
               {/* Vente */}
               <div>
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
                     <Key className="w-6 h-6 text-white" />
                   </div>
                   <h2 className="text-3xl font-bold">
@@ -120,12 +120,12 @@ const AchatsVentes = () => {
                 <div className="space-y-3">
                   {servicesVente.map((service, index) => (
                     <div key={index} className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="w-5 h-5 text-primary-ink flex-shrink-0 mt-0.5" />
                       <span className="text-sm">{service}</span>
                     </div>
                   ))}
                 </div>
-                <Button className="mt-8 bg-green-500 hover:bg-green-600" asChild>
+                <Button className="mt-8 bg-primary hover:bg-primary" asChild>
                   <Link to="/contact">
                     Vendre mon bien
                     <ArrowRight className="ml-2 w-4 h-4" />
@@ -136,7 +136,7 @@ const AchatsVentes = () => {
               {/* Achat */}
               <div>
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center">
                     <Search className="w-6 h-6 text-white" />
                   </div>
                   <h2 className="text-3xl font-bold">
@@ -150,12 +150,12 @@ const AchatsVentes = () => {
                 <div className="space-y-3">
                   {servicesAchat.map((service, index) => (
                     <div key={index} className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                       <span className="text-sm">{service}</span>
                     </div>
                   ))}
                 </div>
-                <Button className="mt-8 bg-blue-500 hover:bg-blue-600" asChild>
+                <Button className="mt-8 bg-secondary hover:bg-secondary" asChild>
                   <Link to="/contact">
                     Trouver mon bien
                     <ArrowRight className="ml-2 w-4 h-4" />
@@ -207,13 +207,13 @@ const AchatsVentes = () => {
                 <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-6">
                   <Users className="w-8 h-8 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">Réseau Exclusif</h3>
+                <h3 className="mb-4 text-xl font-semibold">Syndic et vendeur</h3>
                 <p className="text-muted-foreground">
-                  Accès privilégié à un portefeuille de biens non diffusés publiquement
+                  Nous administrons des immeubles que nous vendons aussi : charges, travaux votés, procédures en cours, le dossier est connu avant l'acquéreur
                 </p>
               </Card>
               <Card className="glass-strong p-8 text-center border-0 shadow-card">
-                <div className="w-16 h-16 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-6">
                   <Handshake className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold mb-4">Négociation Experte</h3>
@@ -222,7 +222,7 @@ const AchatsVentes = () => {
                 </p>
               </Card>
               <Card className="glass-strong p-8 text-center border-0 shadow-card">
-                <div className="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-secondary rounded-xl flex items-center justify-center mx-auto mb-6">
                   <FileCheck className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold mb-4">Sécurité Juridique</h3>
@@ -262,43 +262,6 @@ const AchatsVentes = () => {
           </div>
         </section>
 
-        {/* Quick Actions */}
-        <section className="py-16 bg-gradient-subtle">
-          <div className="container mx-auto px-6">
-            <div className="glass rounded-2xl p-8 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold text-center mb-6">Actions rapides</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <Link to="/contact">
-                    <MessageSquare className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Échanger sur votre projet</div>
-                      <div className="text-sm text-muted-foreground">Achat ou vente</div>
-                    </div>
-                  </Link>
-                </Button>
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <Link to="/services/estimation-biens">
-                    <Calculator className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Estimation gratuite</div>
-                      <div className="text-sm text-muted-foreground">Évaluez votre bien</div>
-                    </div>
-                  </Link>
-                </Button>
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <a href="tel:0142257824">
-                    <Phone className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Appel direct</div>
-                      <div className="text-sm text-muted-foreground">01.42.25.78.24</div>
-                    </div>
-                  </a>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </div>

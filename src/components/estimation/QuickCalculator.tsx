@@ -85,7 +85,7 @@ const QuickCalculator = ({
   };
 
   return (
-    <section id="calculateur-rapide" className="py-16 bg-gray-50">
+    <section id="calculateur-rapide" className="py-16 bg-muted/40">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center space-x-3 mb-4">
@@ -136,7 +136,7 @@ const QuickCalculator = ({
                 </div>
                 
                 <div className="space-y-1">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  <label className="block text-sm font-semibold text-foreground mb-1">
                     <MapPinIcon className="w-4 h-4 inline mr-1" />
                     Adresse du bien *
                   </label>
@@ -178,7 +178,7 @@ const QuickCalculator = ({
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-foreground mb-1">
                       <Home className="w-4 h-4 inline mr-1" />
                       Surface (m²) *
                     </label>
@@ -191,7 +191,7 @@ const QuickCalculator = ({
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-foreground mb-1">
                       <Building className="w-4 h-4 inline mr-1" />
                       Pièces *
                     </label>
@@ -207,7 +207,7 @@ const QuickCalculator = ({
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-foreground mb-1">
                       <Building className="w-4 h-4 inline mr-1" />
                       Type de bien
                     </label>
@@ -225,7 +225,7 @@ const QuickCalculator = ({
                     </select>
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-foreground mb-1">
                       <TrendingUp className="w-4 h-4 inline mr-1" />
                       Étage
                     </label>
@@ -244,7 +244,7 @@ const QuickCalculator = ({
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  <label className="block text-sm font-semibold text-foreground mb-1">
                     <Star className="w-4 h-4 inline mr-1" />
                     État général
                   </label>
@@ -318,39 +318,39 @@ const QuickCalculator = ({
                         Estimation indicative
                       </div>
                       <div className="mt-3 inline-flex items-center space-x-2 bg-white/20 rounded-full px-3 py-1">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                        <div className="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
                         <span className="text-xs text-primary-foreground/90">Calcul terminé</span>
                       </div>
                     </div>
                     
                     {/* Informations compactes */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+                      <div className="p-4 bg-gradient-to-r from-secondary to-indigo-50 rounded-lg border border-secondary/20">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                            <MapPinIcon className="w-4 h-4 text-blue-600" />
+                          <div className="w-8 h-8 bg-secondary-soft rounded-full flex items-center justify-center">
+                            <MapPinIcon className="w-4 h-4 text-secondary" />
                           </div>
                           <div className="flex-1">
                             <div className="font-semibold text-gray-800 text-sm">
                               Données du marché
                             </div>
-                            <div className="text-xs text-gray-600">
+                            <div className="text-xs text-muted-foreground">
                               Prix moyens zone
                             </div>
                           </div>
                         </div>
                       </div>
                       
-                      <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-100">
+                      <div className="p-4 bg-gradient-to-r from-secondary to-emerald-50 rounded-lg border border-primary/20">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                            <Clock className="w-4 h-4 text-green-600" />
+                          <div className="w-8 h-8 bg-primary-soft rounded-full flex items-center justify-center">
+                            <Clock className="w-4 h-4 text-primary-ink" />
                           </div>
                           <div className="flex-1">
                             <div className="font-semibold text-gray-800 text-sm">Confiance</div>
                             <div className="flex items-center space-x-2">
                               <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                                <div className="h-full bg-green-500 w-3/4"></div>
+                                <div className="h-full bg-primary w-3/4"></div>
                               </div>
                               <span className="text-xs font-bold">75%</span>
                             </div>
@@ -360,12 +360,12 @@ const QuickCalculator = ({
                     </div>
 
                     {/* Sources compactes */}
-                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                      <h4 className="font-semibold text-blue-900 mb-2 text-sm flex items-center">
+                    <div className="p-4 bg-secondary-soft border border-secondary/20 rounded-lg">
+                      <h4 className="font-semibold text-foreground mb-2 text-sm flex items-center">
                         <FileText className="w-4 h-4 mr-2" />
                         Sources
                       </h4>
-                      <div className="text-xs text-blue-800 space-y-1">
+                      <div className="text-xs text-foreground space-y-1">
                         <div>• <strong>Base de données</strong> - Prix moyens par code postal</div>
                         <div>• <strong>Observatoires locaux</strong> - Notaires et agents</div>
                       </div>
@@ -395,10 +395,10 @@ const QuickCalculator = ({
                   </div>
                 ) : (
                   <div className="text-center p-12">
-                    <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
                       <Calculator className="w-10 h-10 text-gray-400" />
                     </div>
-                    <h4 className="text-lg font-semibold text-gray-700 mb-2">Prêt à calculer</h4>
+                    <h4 className="text-lg font-semibold text-foreground mb-2">Prêt à calculer</h4>
                     <p className="text-gray-500">Remplissez le formulaire pour obtenir votre estimation rapide</p>
                   </div>
                 )}
@@ -412,13 +412,13 @@ const QuickCalculator = ({
       {isSourcesModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] shadow-2xl overflow-hidden">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+            <div className="sticky top-0 bg-white border-b border-border px-6 py-4 flex items-center justify-between rounded-t-2xl">
               <h2 className="text-2xl font-bold">
                 Sources et <span className="gradient-text">méthodologie</span>
               </h2>
               <button
                 onClick={() => setIsSourcesModalOpen(false)}
-                className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+                className="w-8 h-8 bg-muted hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -432,27 +432,27 @@ const QuickCalculator = ({
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <Card className="glass-strong p-6 border-0 shadow-elegant">
                   <div className="text-center mb-6">
-                    <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <FileText className="w-8 h-8 text-green-600" />
+                    <div className="w-16 h-16 bg-primary-soft rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <FileText className="w-8 h-8 text-primary-ink" />
                     </div>
                     <h3 className="text-xl font-bold mb-2">API DVF Officielle</h3>
                     <p className="text-sm text-muted-foreground">Source prioritaire</p>
                   </div>
                   <div className="space-y-3 text-sm">
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-4 h-4 text-primary-ink flex-shrink-0 mt-0.5">✓</div>
                       <span>Transactions immobilières réelles depuis 2014</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-4 h-4 text-primary-ink flex-shrink-0 mt-0.5">✓</div>
                       <span>Direction Générale des Finances Publiques</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-4 h-4 text-primary-ink flex-shrink-0 mt-0.5">✓</div>
                       <span>Analyse dans un rayon de 1km</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-4 h-4 text-primary-ink flex-shrink-0 mt-0.5">✓</div>
                       <span>Confiance : 60-95% selon les données</span>
                     </div>
                   </div>
@@ -460,27 +460,27 @@ const QuickCalculator = ({
 
                 <Card className="glass-strong p-6 border-0 shadow-elegant">
                   <div className="text-center mb-6">
-                    <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <MapPinIcon className="w-8 h-8 text-blue-600" />
+                    <div className="w-16 h-16 bg-secondary-soft rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <MapPinIcon className="w-8 h-8 text-secondary" />
                     </div>
                     <h3 className="text-xl font-bold mb-2">Base de Données</h3>
                     <p className="text-sm text-muted-foreground">Source secondaire</p>
                   </div>
                   <div className="space-y-3 text-sm">
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5">✓</div>
                       <span>Prix moyens par code postal</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5">✓</div>
                       <span>Observatoires immobiliers locaux</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5">✓</div>
                       <span>Données notaires et agents</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5">✓</div>
+                      <div className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5">✓</div>
                       <span>Confiance : 60-80% selon la zone</span>
                     </div>
                   </div>

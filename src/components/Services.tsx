@@ -24,7 +24,7 @@ const Services = () => {
       // un texte alternatif ne ferait que le répéter aux lecteurs d'écran.
       alt: "",
       description: "Nous assurons la gestion de votre patrimoine. Les revenus c'est pour vous, la gestion c'est pour nous.",
-      color: "bg-blue-500"
+      color: "bg-secondary"
     },
     {
       icon: Building2,
@@ -33,7 +33,7 @@ const Services = () => {
       image: gestionCoproImage,
       alt: "",
       description: "La pérennité au service de votre immeuble avec une gestion professionnelle et transparente.",
-      color: "bg-green-500"
+      color: "bg-primary"
     },
     {
       icon: Calculator,
@@ -51,7 +51,7 @@ const Services = () => {
       image: achatVenteImage,
       alt: "",
       description: "N'oubliez pas votre syndic pour la vente de votre bien ! Accompagnement de A à Z.",
-      color: "bg-purple-500"
+      color: "bg-secondary"
     }
   ];
 
@@ -61,7 +61,7 @@ const Services = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Nos <span className="gradient-text">Prestations</span>
+            Nos <span className="gradient-text">prestations</span>
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Gérance, syndic, estimation et transaction : quatre métiers, une seule agence.

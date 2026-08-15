@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Send } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -208,6 +209,17 @@ const FormulaireContact = ({ idPrefix = 'contact' }: { idPrefix?: string }) => {
         <Send className="mr-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
         {envoiEnCours ? 'Envoi en cours…' : 'Envoyer le message'}
       </Button>
+
+      {/* Obligation d'information : le visiteur doit savoir ce qu'il advient de
+          ce qu'il écrit, à l'endroit où il l'écrit. */}
+      <p className="text-xs leading-relaxed text-muted-foreground">
+        Vos informations servent uniquement à traiter votre demande et ne sont ni cédées ni
+        revendues.{' '}
+        <Link to="/mentions-legales#donnees-personnelles" className="underline hover:text-primary">
+          En savoir plus
+        </Link>
+        .
+      </p>
 
       {retour && (
         <div

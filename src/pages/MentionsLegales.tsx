@@ -19,7 +19,7 @@ const Value = ({ children }: { children: string | null }) =>
   children ? (
     <span>{children}</span>
   ) : (
-    <span className="rounded bg-destructive/10 px-2 py-0.5 text-sm font-medium text-destructive">
+    <span className="rounded bg-destructive/10 px-2 py-0.5 text-sm font-medium text-destructive-ink">
       à compléter
     </span>
   );
@@ -137,7 +137,7 @@ const MentionsLegales = () => (
             Les informations transmises via les formulaires de contact et d'estimation servent
             uniquement à traiter votre demande et ne sont ni cédées ni revendues. Vous disposez
             d'un droit d'accès, de rectification, d'effacement et d'opposition, que vous pouvez
-            exercer à l'adresse <a className="text-primary" href={`mailto:${ADRESSE.email}`}>{ADRESSE.email}</a>{' '}
+            exercer à l'adresse <a className="text-primary-ink underline" href={`mailto:${ADRESSE.email}`}>{ADRESSE.email}</a>{' '}
             ou par courrier au siège de l'agence. Une réclamation peut être adressée à la CNIL.
           </p>
         </section>

@@ -6,26 +6,29 @@ import { Building2, Users, Award, Target, ArrowRight, Phone } from 'lucide-react
 import { Link } from 'react-router-dom';
 
 const About = () => {
+  // Excellence, Proximité, Transparence, Efficacité : quatre mots que tous les
+  // concurrents affichent aussi. Remplacés par ce qu'un visiteur peut vérifier
+  // en nous appelant.
   const values = [
     {
-      icon: Building2,
-      title: "Excellence",
-      description: "Une expertise reconnue dans la gestion immobilière parisienne depuis de nombreuses années."
-    },
-    {
       icon: Users,
-      title: "Proximité",
-      description: "Un accompagnement personnalisé et une relation de confiance avec nos clients."
+      title: "Un interlocuteur unique",
+      description: "Le même gestionnaire suit votre dossier du premier appel à la signature. Pas de standard, pas de dossier qui change de mains."
     },
     {
       icon: Award,
-      title: "Transparence",
-      description: "Une gestion rigoureuse et transparente de votre patrimoine immobilier."
+      title: "Une réponse sous 24 heures",
+      description: "Ouvrées. C'est l'engagement que nous tenons sur les appels comme sur les courriels."
+    },
+    {
+      icon: Building2,
+      title: "Gérance et syndic réunis",
+      description: "Nous gérons des immeubles et des appartements. Quand nous vendons un lot, nous connaissons déjà la copropriété."
     },
     {
       icon: Target,
-      title: "Efficacité",
-      description: "Des solutions adaptées et des résultats mesurables pour valoriser vos biens."
+      title: "Indépendante depuis 2011",
+      description: "Ni franchise, ni réseau : une agence de quartier, au 27 rue de Lisbonne, dirigée par ceux qui la portent."
     }
   ];
 
@@ -42,21 +45,21 @@ const About = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      <main>
+      <main role="main">
         {/* Hero Section */}
         <section className="pt-32 pb-16 bg-gradient-subtle">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-6">
                 <Building2 className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium text-primary">À propos de nous</span>
+                <span className="text-sm font-medium text-primary-ink">À propos de nous</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-bold mb-6">
                 Notre <span className="gradient-text">expertise</span> à votre service
               </h1>
               <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-                Depuis plus de 25 ans, nous accompagnons propriétaires et investisseurs 
-                dans la gestion et la valorisation de leur patrimoine immobilier parisien.
+                Depuis 2011, nous accompagnons propriétaires et copropriétés dans la gestion
+                et la valorisation de leur patrimoine immobilier parisien.
               </p>
             </div>
           </div>
@@ -76,9 +79,10 @@ const About = () => {
                   la proximité client et la transparence dans nos relations.
                 </p>
                 <p className="text-lg text-muted-foreground mb-8">
-                  Aujourd'hui, nous gérons un portefeuille de plus de 500 biens et accompagnons 
-                  nos clients dans tous leurs projets immobiliers, de la gestion locative à 
-                  l'administration de copropriété, en passant par l'achat-vente et l'estimation.
+                  Deux sociétés, deux métiers, une seule adresse : J.I.P. pour la gestion
+                  locative et le syndic, Jobard Immobilier Patrimoine pour la transaction et
+                  l'estimation. Le même interlocuteur suit votre dossier du premier appel à la
+                  signature.
                 </p>
                 <Button asChild className="hover-glow">
                   <Link to="/contact">
@@ -89,17 +93,17 @@ const About = () => {
               </div>
               <div className="space-y-6">
                 <Card className="glass-strong p-6 border-0 shadow-card">
-                  <h3 className="text-xl font-semibold mb-4 text-primary">Notre mission</h3>
+                  <h3 className="mb-4 text-xl font-semibold text-primary-ink">Ce que nous faisons</h3>
                   <p className="text-muted-foreground">
-                    Simplifier et optimiser la gestion de votre patrimoine immobilier 
-                    grâce à notre expertise locale et notre approche personnalisée.
+                    Nous gérons des appartements pour leurs propriétaires et des immeubles pour
+                    leurs copropriétaires : loyers, travaux, assemblées générales, comptes.
                   </p>
                 </Card>
                 <Card className="glass-strong p-6 border-0 shadow-card">
-                  <h3 className="text-xl font-semibold mb-4 text-primary">Notre vision</h3>
+                  <h3 className="mb-4 text-xl font-semibold text-primary-ink">Ce que nous ne faisons pas</h3>
                   <p className="text-muted-foreground">
-                    Être le partenaire de référence pour la gestion immobilière à Paris, 
-                    reconnu pour notre professionnalisme et notre innovation.
+                    Nous ne gérons pas au-delà de ce que nous pouvons suivre. Le portefeuille reste
+                    à la taille d'une agence où l'on connaît chaque immeuble.
                   </p>
                 </Card>
               </div>
@@ -111,11 +115,11 @@ const About = () => {
         <section className="py-16 bg-gradient-subtle">
           <div className="container mx-auto px-6">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">
-                Nos <span className="gradient-text">valeurs</span>
+              <h2 className="mb-4 text-4xl font-bold">
+                Nos <span className="gradient-text">engagements</span>
               </h2>
               <p className="text-lg text-muted-foreground">
-                Les piliers qui guident notre action quotidienne
+                Quatre choses que vous pouvez vérifier en nous appelant
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -143,13 +147,13 @@ const About = () => {
                 Nos <span className="gradient-text">chiffres clés</span>
               </h2>
               <p className="text-lg text-muted-foreground">
-                La confiance se mesure aussi en chiffres
+                Ce qui est vérifiable au registre du commerce
               </p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
-                  <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{stat.number}</div>
+                  <div className="mb-2 text-4xl font-bold text-primary-ink md:text-5xl">{stat.number}</div>
                   <div className="text-sm text-muted-foreground">{stat.label}</div>
                 </div>
               ))}

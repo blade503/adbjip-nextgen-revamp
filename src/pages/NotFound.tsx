@@ -12,15 +12,24 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <main role="main" className="flex min-h-screen items-center justify-center bg-muted/40 px-6">
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
+        <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-primary-ink">
+          Erreur 404
+        </p>
+        <h1 className="mb-4 text-4xl font-bold">Cette page n'existe pas</h1>
+        <p className="mx-auto mb-8 max-w-md text-muted-foreground">
+          Le lien est peut-être ancien : le site a été refait. Nos biens, nos services et nos
+          coordonnées sont accessibles depuis l'accueil.
+        </p>
+        <a
+          href="/"
+          className="inline-flex items-center rounded-lg bg-primary px-5 py-3 font-semibold text-primary-foreground transition hover:opacity-90"
+        >
+          Retour à l'accueil
         </a>
       </div>
-    </div>
+    </main>
   );
 };
 

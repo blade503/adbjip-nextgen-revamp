@@ -26,6 +26,12 @@
     --primary-foreground: 220 45% 25%;
     --primary-glow: 48 100% 55%;
     --primary-soft: 48 100% 97%;
+    /* Deux déclinaisons sombres du jaune, pour le texte sur fond clair. Le jaune
+       de marque y plafonne à 1,96:1 alors que la norme demande 4,5 — ou 3 pour
+       les grands titres. Mesuré : --primary-display atteint 3,20, --primary-ink
+       atteint 4,75. Le jaune vif reste pour les aplats et les pictogrammes. */
+    --primary-display: 48 95% 35%;
+    --primary-ink: 48 95% 28%;
 
     /* Professional Blue - Trust & expertise */
     --secondary: 220 45% 25%;
@@ -41,6 +47,9 @@
     /* Interactive States */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
+    /* Déclinaison sombre pour le texte : le rouge d'alerte sur son propre fond
+       clair ne dépasse pas 3,78:1. */
+    --destructive-ink: 0 84% 32%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
     --ring: 48 95% 45%;
@@ -97,6 +106,8 @@
 
     --primary: 48 95% 50%;
     --primary-foreground: 220 25% 8%;
+    --primary-display: 48 95% 60%;
+    --primary-ink: 48 95% 70%;
     --primary-glow: 48 100% 60%;
     --primary-soft: 48 95% 15%;
 
@@ -111,6 +122,7 @@
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 220 13% 95%;
+    --destructive-ink: 0 80% 78%;
     --border: 220 25% 20%;
     --input: 220 25% 18%;
     --ring: 48 95% 50%;
@@ -166,8 +178,23 @@
   }
 
   /* Gradient Text */
-  .gradient-text {
+  /* Deux variantes, parce que le même mot en jaune se lit sur fond clair ou sur
+     photo sombre, jamais avec la même densité.
+     .gradient-text        → fond clair, jaune assombri (3,20:1 sur blanc)
+     .gradient-text-light  → photo sombre, jaune de marque à pleine intensité */
+  .gradient-text-light {
     background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary-display)),
+      hsl(var(--primary-ink))
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

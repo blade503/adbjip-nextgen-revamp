@@ -43,8 +43,8 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-sm opacity-80 leading-relaxed mb-6">
-              Votre partenaire immobilier de confiance à Paris depuis plus de 15 ans. 
-              Nous vous accompagnons dans tous vos projets avec expertise et passion.
+              Gestion locative et syndic de copropriété à Paris 8ᵉ depuis 2011.
+              Un interlocuteur unique pour votre bien ou votre immeuble.
             </p>
             <div className="flex items-center space-x-2 text-sm">
               <Heart className="w-4 h-4 text-primary" />

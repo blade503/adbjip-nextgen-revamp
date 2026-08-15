@@ -29,43 +29,47 @@ const Partners = () => {
     }
   ];
 
+  // Les intitulés précédents — tarifs négociés, réactivité garantie, qualité
+  // contrôlée — promettaient des résultats sans dire comment ils sont obtenus.
+  // Ceux-ci décrivent ce que l'agence fait réellement.
   const benefits = [
     {
-      title: "Réseau de confiance",
-      description: "Des partenaires sélectionnés pour leur expertise et leur professionnalisme reconnus."
+      title: "Des intervenants que nous connaissons",
+      description: "Nous travaillons avec les mêmes artisans et les mêmes cabinets d'un immeuble à l'autre. Ils connaissent les bâtiments, nous connaissons leur travail."
     },
     {
-      title: "Tarifs négociés",
-      description: "Des conditions préférentielles obtenues grâce à notre volume d'affaires."
+      title: "Un seul interlocuteur",
+      description: "Vous ne cherchez pas l'entreprise, ne demandez pas les devis et ne relancez pas : l'agence s'en charge et vous rend compte."
     },
     {
-      title: "Réactivité garantie",
-      description: "Des interventions prioritaires et des délais d'exécution optimisés."
+      title: "Des devis comparés",
+      description: "Pour les travaux votés en assemblée, plusieurs devis sont présentés au conseil syndical avant décision."
     },
     {
-      title: "Qualité contrôlée",
-      description: "Un suivi rigoureux de la qualité des prestations de nos partenaires."
+      title: "Un suivi jusqu'à la réception",
+      description: "L'intervention n'est close qu'une fois le travail constaté sur place et la facture vérifiée."
     }
   ];
 
   return (
     <div className="min-h-screen">
       <Header />
-      <main>
+      <main role="main">
         {/* Hero Section */}
         <section className="pt-32 pb-16 bg-gradient-subtle">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-6">
                 <Handshake className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium text-primary">Nos Partenaires</span>
+                <span className="text-sm font-medium text-primary-ink">Nos Partenaires</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-bold mb-6">
                 Un réseau de <span className="gradient-text">partenaires</span> d'exception
               </h1>
               <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-                Nous collaborons avec un réseau de professionnels qualifiés pour vous offrir 
-                un service complet et des solutions adaptées à tous vos besoins immobiliers.
+                Notaires, avocats, artisans, diagnostiqueurs : gérer un bien suppose de faire
+                intervenir d'autres métiers. Nous travaillons avec les mêmes depuis des années.
+                Les noms vous sont communiqués sur demande, avant toute intervention chez vous.
               </p>
             </div>
           </div>
@@ -142,7 +146,7 @@ const Partners = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Card className="glass-strong p-6 border-0 shadow-card">
-                <div className="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-secondary rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Scale className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="font-semibold mb-3 text-center">Conseil Juridique</h3>
@@ -155,7 +159,7 @@ const Partners = () => {
               </Card>
 
               <Card className="glass-strong p-6 border-0 shadow-card">
-                <div className="w-16 h-16 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Building className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="font-semibold mb-3 text-center">Travaux & Rénovation</h3>
@@ -168,7 +172,7 @@ const Partners = () => {
               </Card>
 
               <Card className="glass-strong p-6 border-0 shadow-card">
-                <div className="w-16 h-16 bg-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-secondary rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Calculator className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="font-semibold mb-3 text-center">Financement</h3>

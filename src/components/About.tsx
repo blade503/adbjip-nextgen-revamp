@@ -30,16 +30,6 @@ const About = () => {
               efficacement dans tous vos projets.
             </p>
 
-            <div className="glass-strong rounded-xl p-8 mb-8 border-l-4 border-primary shadow-elegant">
-              <Quote className="w-10 h-10 text-primary mb-4" />
-              <blockquote className="text-lg font-medium mb-4">
-                "Notre mission est de transformer chaque projet immobilier en succès, 
-                en alliant expertise technique et relation humaine de qualité."
-              </blockquote>
-              <cite className="text-sm text-muted-foreground">
-                — L'équipe JIP
-              </cite>
-            </div>
 
             <Button size="lg" className="hover-glow" asChild>
               <Link to="/equipe">

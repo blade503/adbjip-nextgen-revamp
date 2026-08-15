@@ -66,7 +66,7 @@ const Header = () => {
                   to={item.href}
                   className={`whitespace-nowrap text-sm font-medium transition-colors duration-300 2xl:text-base ${
                     estCourante(item.href)
-                      ? 'text-primary underline decoration-2 underline-offset-8'
+                      ? 'text-secondary underline decoration-primary decoration-2 underline-offset-8'
                       : 'text-foreground hover:text-primary'
                   }`}
                   aria-current={estCourante(item.href) ? 'page' : undefined}
@@ -83,7 +83,7 @@ const Header = () => {
                   key={item.shortName}
                   to={item.href}
                   className={`whitespace-nowrap text-sm font-medium transition-colors duration-300 ${
-                    estCourante(item.href) ? 'text-primary' : 'text-foreground hover:text-primary'
+                    estCourante(item.href) ? 'font-semibold text-secondary' : 'text-foreground hover:text-primary'
                   }`}
                   aria-current={estCourante(item.href) ? 'page' : undefined}
                 >
@@ -124,7 +124,7 @@ const Header = () => {
                       to={item.href}
                       onClick={() => setIsMenuOpen(false)}
                       className={`block py-3 text-lg font-medium transition-colors ${
-                        estCourante(item.href) ? 'text-primary' : 'text-foreground hover:text-primary'
+                        estCourante(item.href) ? 'font-semibold text-secondary' : 'text-foreground hover:text-primary'
                       }`}
                       aria-current={estCourante(item.href) ? 'page' : undefined}
                     >

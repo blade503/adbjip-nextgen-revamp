@@ -57,7 +57,7 @@ const Contact = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      <main>
+      <main role="main">
         {/* Hero Section */}
         <section className="pt-32 pb-16 bg-gradient-subtle relative overflow-hidden">
           {/* Floating Elements for Visual Appeal */}
@@ -103,7 +103,9 @@ const Contact = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
               {/* Contact Form */}
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold mb-6">Formulaire de contact</h3>
+                <h3 id="contact-form" className="mb-6 scroll-mt-28 text-2xl font-bold">
+                  Formulaire de contact
+                </h3>
                 
                 <FormulaireContact idPrefix="page" />
               </div>
@@ -170,7 +172,7 @@ const Contact = () => {
                   </div>
                   <div className="absolute bottom-4 left-4 glass rounded-lg p-3 backdrop-blur-md">
                     <div className="flex items-center space-x-2 text-sm">
-                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
                       <div>
                         <p className="font-medium text-xs">Métro : Miromesnil</p>
                         <p className="text-xs text-muted-foreground">Ligne 9 - 2 min à pied</p>
@@ -181,39 +183,7 @@ const Contact = () => {
               </Card>
             </div>
 
-            {/* Quick Actions */}
-            <div className="glass rounded-2xl p-8 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold text-center mb-6">Actions rapides</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <Link to="/services/estimation-biens">
-                    <Calculator className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Estimation gratuite</div>
-                      <div className="text-sm text-muted-foreground">Évaluez votre bien</div>
-                    </div>
-                  </Link>
-                </Button>
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <Link to="/services/gestion-locative">
-                    <Building className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Gestion locative</div>
-                      <div className="text-sm text-muted-foreground">Faites gérer votre bien</div>
-                    </div>
-                  </Link>
-                </Button>
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <a href="tel:0142257824">
-                    <Phone className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Appel direct</div>
-                      <div className="text-sm text-muted-foreground">01.42.25.78.24</div>
-                    </div>
-                  </a>
-                </Button>
-              </div>
-            </div>
+            
           </div>
         </section>
       </main>

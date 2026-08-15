@@ -389,6 +389,8 @@ const EstimationBiens = () => {
       
       <Header />
 
+      <main role="main">
+
       {/* Hero Section */}
       <section className="pt-32 pb-16 relative overflow-hidden">
         {/* Background Image */}
@@ -416,11 +418,11 @@ const EstimationBiens = () => {
               <span className="text-sm font-medium text-white">Estimation de Biens</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
-              Connaissez la <span className="gradient-text">vraie valeur</span> de votre bien
+              Connaissez la <span className="gradient-text-light">vraie valeur</span> de votre bien
             </h1>
             <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
               Estimation gratuite et sans engagement par nos experts. 
-              Une évaluation précise basée sur l'analyse du marché parisien et notre expertise de 15 ans.
+              Une évaluation appuyée sur les transactions réellement enregistrées dans le secteur, et sur notre connaissance du marché parisien depuis 2011.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
@@ -711,6 +713,8 @@ const EstimationBiens = () => {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </>
