@@ -63,15 +63,15 @@ export interface Entite {
 }
 
 /**
- * Horaires d'ouverture — source unique, **confirmés par l'agence** le
- * 14/08/2026 : 9h-13h et 14h-17h, du lundi au vendredi.
+ * Horaires d'ouverture — source unique, repris de la fiche Google de l'agence
+ * le 14/08/2026 : 9h-13h et 14h-17h, du lundi au vendredi.
  *
- * Le site en affichait auparavant trois versions contradictoires — 9h-19h en
- * pied de page, 9h-18h sur la page contact — et la fiche Google annonce une
- * plage continue 9h-17h qui masque la fermeture du midi. Un visiteur qui se
- * présente à 13h30 trouve porte close : la pause doit être visible partout.
+ * Le site en affichait deux versions contradictoires, toutes deux fausses :
+ * 9h-19h en pied de page, 9h-18h sur la page contact. Aucune ne mentionnait la
+ * fermeture du midi — un visiteur qui se présente à 13h30 trouvait porte close.
  *
- * Reste à aligner la fiche Google, qui ne mentionne pas cette coupure.
+ * La fiche Google fait foi ici : c'est elle que les clients consultent en
+ * premier, et c'est l'agence qui la tient à jour.
  */
 export const HORAIRES = {
   semaine: 'Lun-Ven 9h-13h / 14h-17h',

@@ -72,8 +72,9 @@ export const SEO_CONFIG = {
       "email": "j.immo.p@orange.fr",
       "foundingDate": "2011",
       // Deux plages distinctes plutôt qu'une seule : l'agence ferme entre 13h
-      // et 14h, ce que la fiche Google ne dit pas aujourd'hui. Sans cette
-      // précision, Google affiche l'agence comme ouverte à l'heure du déjeuner.
+      // et 14h. Sans cette précision, les données structurées annonceraient
+      // l'agence ouverte à l'heure du déjeuner, en contradiction avec sa fiche
+      // Google — qui, elle, indique bien la coupure.
       "openingHoursSpecification": [
         {
           "@type": "OpeningHoursSpecification",

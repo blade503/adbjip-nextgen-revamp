@@ -46,11 +46,13 @@ const AvisGoogle = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {AVIS.map((avis) => (
             <Card key={`${avis.auteur}-${avis.date}`} className="glass-strong border-0 p-8 shadow-card">
-              <div className="mb-4 flex items-center gap-1" aria-label={`${avis.note} sur 5`}>
-                {Array.from({ length: avis.note }).map((_, index) => (
-                  <Star key={index} className="h-5 w-5 fill-current text-primary" />
-                ))}
-              </div>
+              {avis.note && (
+                <div className="mb-4 flex items-center gap-1" aria-label={`${avis.note} sur 5`}>
+                  {Array.from({ length: avis.note }).map((_, index) => (
+                    <Star key={index} className="h-5 w-5 fill-current text-primary" />
+                  ))}
+                </div>
+              )}
               <blockquote className="mb-6 italic leading-relaxed text-muted-foreground">
                 « {avis.texte} »
               </blockquote>
