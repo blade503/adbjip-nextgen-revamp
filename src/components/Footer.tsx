@@ -17,14 +17,12 @@ const Footer = () => {
   ];
 
   // Le pied de page est le seul endroit qui garantit qu'aucune page n'est
-  // orpheline : /equipe n'était atteignable que par un bouton en milieu de
-  // page, et /partenaires par aucun lien du tout.
+  // orpheline : /equipe n'était atteignable que par un bouton en milieu de page.
   const quickLinks = [
     { name: "Accueil", href: "/" },
     { name: "Nos biens", href: "/biens" },
     { name: "À propos", href: "/about" },
     { name: "Notre équipe", href: "/equipe" },
-    { name: "Nos partenaires", href: "/partenaires" },
     { name: "Contact", href: "/contact" }
   ];
 
