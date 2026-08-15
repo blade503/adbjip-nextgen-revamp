@@ -21,10 +21,8 @@ export interface AvisClient {
   /** Nom tel qu'affiché sur Google, sans retouche. */
   auteur: string;
   /**
-   * Note attribuée, de 1 à 5. Laissée vide tant qu'elle n'a pas été relevée :
-   * les étoiles ne s'affichent que si le chiffre est connu. Un avis élogieux
-   * n'est pas forcément noté 5, et l'inventer serait exactement ce qu'on
-   * reproche aux faux témoignages supprimés du site.
+   * Note attribuée, de 1 à 5, relevée sur la fiche. Facultative : les étoiles
+   * ne s'affichent que si le chiffre est connu, plutôt que d'être supposé.
    */
   note?: number;
   /** Texte intégral de l'avis, sans coupe ni retouche. */
@@ -36,6 +34,7 @@ export interface AvisClient {
 export const AVIS: AvisClient[] = [
   {
     auteur: 'georgi',
+    note: 5,
     texte:
       "J'ai eu des difficultés avec ma locataire qui avait dégradé mon appartement. " +
       "M. Jobard a su gérer mon appartement et être un très bon conciliateur dans la " +
@@ -45,6 +44,7 @@ export const AVIS: AvisClient[] = [
   },
   {
     auteur: 'Mathieu Brovillé',
+    note: 5,
     texte:
       "Syndic de mon immeuble depuis des années. A l'écoute, facilement joignable, " +
       "réactif et connaissant les dossiers de l'immeuble sur le bout des doigts. " +
@@ -53,6 +53,7 @@ export const AVIS: AvisClient[] = [
   },
   {
     auteur: 'Magali Barthonet',
+    note: 5,
     texte:
       'Une gestion locative irréprochable, des conseils avisés, un personnel à ' +
       "l'écoute et réactif. Merci au cabinet J.I.P, je vous le recommande!",
