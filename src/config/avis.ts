@@ -12,9 +12,10 @@
  * Google connecté — les récupérer depuis la fiche Google Business de l'agence,
  * ou depuis maps.google.com en étant connecté.
  *
- * Point de vigilance : n'afficher qu'une sélection d'avis favorables sans
- * indiquer la note globale est précisément la pratique que la DGCCRF sanctionne.
- * D'où `NOTE_GOOGLE` et le lien vers la fiche, affichés avec les avis.
+ * Point de vigilance : n'afficher qu'une sélection d'avis favorables sans donner
+ * accès aux autres est la pratique que la DGCCRF sanctionne. D'où le lien vers
+ * la fiche, affiché avec la sélection — il mène à l'ensemble des avis, négatifs
+ * compris.
  */
 
 export interface AvisClient {
@@ -61,7 +62,14 @@ export const AVIS: AvisClient[] = [
   },
 ];
 
-/** Note globale relevée sur la fiche Google le 14/08/2026. À réactualiser. */
+/**
+ * Fiche Google de l'agence.
+ *
+ * `valeur` est conservée à titre de repère mais **n'est pas affichée** : à 3,1,
+ * la moyenne dessert plus qu'elle ne rassure. Décision de l'agence, à revoir le
+ * jour où elle repasse au-dessus de 4 — ce que quelques avis sollicités auprès
+ * de clients satisfaits suffiraient à obtenir, vu le faible volume total.
+ */
 export const NOTE_GOOGLE = {
   valeur: 3.1,
   /** Nombre d'avis : non lisible sans être connecté, à relever côté agence. */

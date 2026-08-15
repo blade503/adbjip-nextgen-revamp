@@ -9,28 +9,25 @@ import { AVIS, NOTE_GOOGLE } from '@/config/avis';
  * Ne rend rien tant qu'aucun avis réel n'a été saisi : c'est volontaire, la
  * section ne doit jamais s'afficher avec du contenu de remplissage.
  *
- * La note globale et le lien vers l'ensemble des avis accompagnent toujours la
- * sélection — un extrait d'avis favorables présenté seul, sans la moyenne réelle
- * ni accès à la totalité, est trompeur.
+ * La sélection ne va jamais sans le lien vers l'ensemble des avis : le visiteur
+ * atteint la totalité en un clic, y compris les avis négatifs. La moyenne, elle,
+ * n'est pas affichée — décision de l'agence tant qu'elle reste sous 4 sur 5.
  */
 const AvisGoogle = () => {
   if (AVIS.length === 0) return null;
 
+  // Surface plate et filets de séparation : les sections voisines utilisent
+  // bg-gradient-subtle, qui *part* du blanc. Une section blanche placée avant se
+  // fondait donc dans la suivante, sans frontière visible.
   return (
-    <section className="py-20 bg-background">
+    <section className="border-y border-border/60 bg-muted/40 py-20">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">
             Ce qu'en disent <span className="gradient-text">nos clients</span>
           </h2>
           <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-muted-foreground">
-            <span className="font-semibold text-foreground">
-              {NOTE_GOOGLE.valeur.toString().replace('.', ',')} / 5
-            </span>
-            <span>
-              sur Google
-              {NOTE_GOOGLE.nombre ? ` · ${NOTE_GOOGLE.nombre} avis` : ''}
-            </span>
+            <span>Avis publiés sur Google</span>
             <a
               href={NOTE_GOOGLE.url}
               target="_blank"
