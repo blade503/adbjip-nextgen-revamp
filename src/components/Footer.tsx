@@ -125,7 +125,9 @@ const Footer = () => {
                 <div>
                   <p className="text-sm font-medium">Horaires d'ouverture</p>
                   <p className="text-xs opacity-80">{HORAIRES.semaine}</p>
-                  <p className="text-xs opacity-80">Samedi : {HORAIRES.samedi.toLowerCase()}</p>
+                  {HORAIRES.samedi && (
+                    <p className="text-xs opacity-80">Samedi : {HORAIRES.samedi.toLowerCase()}</p>
+                  )}
                 </div>
               </div>
             </div>

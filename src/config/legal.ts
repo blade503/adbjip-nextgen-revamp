@@ -63,21 +63,24 @@ export interface Entite {
 }
 
 /**
- * Horaires d'ouverture — source unique.
+ * Horaires d'ouverture — source unique, **confirmés par l'agence** le
+ * 14/08/2026 : 9h-13h et 14h-17h, du lundi au vendredi.
  *
- * Le site en affichait trois versions différentes au 14/08/2026 : 9h-19h en
- * pied de page, 9h-18h sur la page contact, 9h-17h sur la fiche Google. La
- * valeur retenue ici est celle que l'agence publie elle-même sur Google, la
- * plus prudente des trois : annoncer une fermeture plus tôt fait au pire venir
- * un client à l'heure, l'inverse lui fait trouver porte close.
+ * Le site en affichait auparavant trois versions contradictoires — 9h-19h en
+ * pied de page, 9h-18h sur la page contact — et la fiche Google annonce une
+ * plage continue 9h-17h qui masque la fermeture du midi. Un visiteur qui se
+ * présente à 13h30 trouve porte close : la pause doit être visible partout.
  *
- * À FAIRE CONFIRMER par l'agence, puis aligner la fiche Google.
+ * Reste à aligner la fiche Google, qui ne mentionne pas cette coupure.
  */
 export const HORAIRES = {
-  semaine: 'Lun-Ven 9h-17h',
-  detail: '9h - 17h',
+  semaine: 'Lun-Ven 9h-13h / 14h-17h',
+  detail: '9h - 13h · 14h - 17h',
   jours: 'Lundi au vendredi',
-  samedi: 'Sur rendez-vous',
+  /** Rien le samedi : l'agence n'ouvre que du lundi au vendredi. */
+  samedi: null as string | null,
+  /** Format schema.org, pour les données structurées et la fiche Google. */
+  schemaOrg: ['Mo-Fr 09:00-13:00', 'Mo-Fr 14:00-17:00'],
 };
 
 export const ADRESSE = {

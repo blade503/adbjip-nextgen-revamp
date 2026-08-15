@@ -71,6 +71,23 @@ export const SEO_CONFIG = {
       "telephone": "+33142257824",
       "email": "j.immo.p@orange.fr",
       "foundingDate": "2011",
+      // Deux plages distinctes plutôt qu'une seule : l'agence ferme entre 13h
+      // et 14h, ce que la fiche Google ne dit pas aujourd'hui. Sans cette
+      // précision, Google affiche l'agence comme ouverte à l'heure du déjeuner.
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "13:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "14:00",
+          "closes": "17:00"
+        }
+      ],
       "areaServed": {
         "@type": "Place",
         "name": "Île-de-France"
