@@ -6,11 +6,11 @@ import { cn } from "@/lib/utils"
 
 const Dialog = DialogPrimitive.Root
 
-const DialogTrigger = DialogPrimitive.Trigger
-
+/* `DialogPortal` et `DialogOverlay` ne sont plus exportés : ils ne servent
+   qu'à `DialogContent`, juste en dessous. Les définitions restent, l'API
+   publique du module se réduit à ce que les trois appelants emploient
+   réellement — Dialog, DialogContent, DialogHeader, DialogTitle. */
 const DialogPortal = DialogPrimitive.Portal
-
-const DialogClose = DialogPrimitive.Close
 
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
@@ -65,20 +65,6 @@ const DialogHeader = ({
 )
 DialogHeader.displayName = "DialogHeader"
 
-const DialogFooter = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-      className
-    )}
-    {...props}
-  />
-)
-DialogFooter.displayName = "DialogFooter"
-
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
@@ -94,27 +80,11 @@ const DialogTitle = React.forwardRef<
 ))
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
-const DialogDescription = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props}
-  />
-))
-DialogDescription.displayName = DialogPrimitive.Description.displayName
+/* DialogTrigger, DialogClose, DialogFooter et DialogDescription ont été
+   retirés le 27/08/2026 : jamais consommés. Les trois boîtes de dialogue du
+   site s'ouvrent par un état React et se ferment par le bouton intégré à
+   `DialogContent`, jamais par un déclencheur Radix. Si une description
+   accessible devient nécessaire, `DialogPrimitive.Description` est à une
+   ligne d'ici. */
 
-export {
-  Dialog,
-  DialogPortal,
-  DialogOverlay,
-  DialogClose,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
-  DialogDescription,
-}
+export { Dialog, DialogContent, DialogHeader, DialogTitle }
