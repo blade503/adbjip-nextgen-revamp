@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -16,6 +17,22 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === 'development' &&
     componentTagger(),
+    /**
+     * Carte du bundle, à la demande : `ANALYSE=1 npm run build` écrit
+     * `dist/bundle.html` (treemap) et `dist/bundle.json` (données brutes,
+     * exploitables en ligne de commande). Hors de cette variable, le plugin
+     * n'est pas chargé : le build de production reste identique.
+     */
+    process.env.ANALYSE === '1' &&
+    visualizer({
+      filename: 'dist/bundle.html',
+      template: 'treemap',
+      gzipSize: true,
+      brotliSize: true,
+      emitFile: false,
+    }),
+    process.env.ANALYSE === '1' &&
+    visualizer({ filename: 'dist/bundle.json', template: 'raw-data', gzipSize: true, emitFile: false }),
   ].filter(Boolean),
   resolve: {
     alias: {

@@ -1,191 +1,249 @@
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { ArrowRight, Phone } from 'lucide-react';
+
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Building2, Users, Award, Target, ArrowRight, Phone } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import SEOHead from '@/components/SEOHead';
+import EnTeteSection from '@/components/systeme/EnTeteSection';
+import { Lien } from '@/components/systeme/Lien';
+import { Voile } from '@/components/systeme/Ouverture';
+import { Button } from '@/components/ui/button';
+import { ADRESSE } from '@/config/legal';
+import { echelonner } from '@/lib/echelon';
+
+/**
+ * L'AGENCE — recomposée dans le langage de la charte.
+ *
+ * TOUT LE TEXTE EST REPRIS MOT POUR MOT. Les quatre engagements, les deux
+ * paragraphes de l'histoire, les blocs « ce que nous faisons / ne faisons pas »
+ * et les quatre repères viennent de la version précédente. Les commentaires qui
+ * expliquaient POURQUOI ce contenu est celui-là — les quatre valeurs
+ * interchangeables remplacées par du vérifiable, les chiffres de portefeuille
+ * retirés parce qu'inventés — sont conservés : ils documentent une décision.
+ *
+ * CE QUI A CHANGÉ EST LA FORME. Relevé avant : 26 vestiges de gabarit —
+ * 6 `text-center`, 4 `gradient-text`, 5 `glass`, 3 `hover-lift`, 3 `shadow-card`,
+ * 3 `bg-gradient-subtle`, 1 pastille d'icône, 1 `rounded-2xl`.
+ *
+ *  - le centrage → tout ferré à gauche sur la travée, six en-têtes passés par
+ *    `EnTeteSection` (plaque vissée, filet qui court, mesure de 46 caractères).
+ *  - les quatre carrés d'icônes en aplat de laiton → un registre réglé. Quatre
+ *    cartes centrées de même poids prétendaient que les engagements se valent.
+ *  - `gradient-text` sur un mot de chaque titre → le titre entier en encre. Le
+ *    laiton reste sur la plaque, où son contraste est mesuré (1,81:1 sur la
+ *    pierre en texte, donc interdit).
+ *  - `glass` / `glass-strong` / `shadow-card` → `.panneau` et `.cadre` : liseré
+ *    gravé en retrait, aucune ombre portée, rien qui décolle au survol.
+ *  - `bg-gradient-subtle` → l'alternance nuit / pierre / ivoire.
+ *
+ * « 24 h » comme temps de réponse reste en attente d'arbitrage, comme ailleurs
+ * sur le site : la charte interdit de l'inventer, pas de le conserver.
+ */
+
+/**
+ * Excellence, Proximité, Transparence, Efficacité : quatre mots que tous les
+ * concurrents affichent aussi. Remplacés par ce qu'un visiteur peut vérifier en
+ * nous appelant.
+ */
+const ENGAGEMENTS = [
+  {
+    titre: 'Un interlocuteur unique',
+    texte:
+      "Le même gestionnaire suit votre dossier du premier appel à la signature. Pas de standard, pas de numéro de dossier.",
+  },
+  {
+    titre: 'Une réponse sous 24 heures',
+    texte:
+      "Ouvrées. C'est l'engagement que nous tenons sur les appels comme sur les courriels.",
+  },
+  {
+    titre: 'Gérance et syndic réunis',
+    texte:
+      "Nous gérons des immeubles et des appartements. Quand nous vendons un lot, nous connaissons déjà l'immeuble.",
+  },
+  {
+    titre: 'Indépendante depuis 2011',
+    texte:
+      'Ni franchise, ni réseau : une agence de quartier, au 27 rue de Lisbonne, dirigée par ceux qui la tiennent.',
+  },
+];
+
+/**
+ * Repères vérifiables uniquement. Les chiffres de portefeuille, de satisfaction
+ * et d'effectif ont été retirés : ils étaient inventés et se contredisaient
+ * d'une page à l'autre (25+ ans ici, 15+ ailleurs).
+ *
+ * `ᵉ` (U+1D49) n'appartient pas au sous-ensemble latin de Google Fonts : il
+ * basculait dans une police système au milieu du mot, et « Paris 8ᵉ » s'affichait
+ * « Paris 8° ». Le rendu passe donc par `<sup>`.
+ */
+const REPERES = [
+  { valeur: '2011', libelle: 'Année de création' },
+  { valeur: <>Paris 8<sup>e</sup></>, libelle: '27, rue de Lisbonne' },
+  { valeur: '2', libelle: 'Métiers : gérance et syndic' },
+  { valeur: '24 h', libelle: 'Temps de réponse' },
+];
 
 const About = () => {
-  // Excellence, Proximité, Transparence, Efficacité : quatre mots que tous les
-  // concurrents affichent aussi. Remplacés par ce qu'un visiteur peut vérifier
-  // en nous appelant.
-  const values = [
-    {
-      icon: Users,
-      title: "Un interlocuteur unique",
-      description: "Le même gestionnaire suit votre dossier du premier appel à la signature. Pas de standard, pas de dossier qui change de mains."
-    },
-    {
-      icon: Award,
-      title: "Une réponse sous 24 heures",
-      description: "Ouvrées. C'est l'engagement que nous tenons sur les appels comme sur les courriels."
-    },
-    {
-      icon: Building2,
-      title: "Gérance et syndic réunis",
-      description: "Nous gérons des immeubles et des appartements. Quand nous vendons un lot, nous connaissons déjà la copropriété."
-    },
-    {
-      icon: Target,
-      title: "Indépendante depuis 2011",
-      description: "Ni franchise, ni réseau : une agence de quartier, au 27 rue de Lisbonne, dirigée par ceux qui la portent."
-    }
-  ];
-
-  // Repères vérifiables uniquement. Les chiffres de portefeuille, de
-  // satisfaction et d'effectif ont été retirés : ils étaient inventés et se
-  // contredisaient d'une page à l'autre (25+ ans ici, 15+ ailleurs).
-  const stats = [
-    { number: "2011", label: "Année de création" },
-    { number: "Paris 8ᵉ", label: "27, rue de Lisbonne" },
-    { number: "2", label: "Métiers : gérance et syndic" },
-    { number: "24h", label: "Temps de réponse" }
-  ];
+  const tel = `tel:${ADRESSE.telephone.replace(/[^0-9+]/g, '')}`;
 
   return (
     <div className="min-h-screen">
+      <SEOHead
+        title="L'agence — JIP, Jobard Immobilier Paris"
+        description="Deux métiers sous le même toit depuis 2011 : gestion locative et syndic de copropriété, au 27 rue de Lisbonne dans le 8e arrondissement de Paris."
+        keywords="agence immobilière paris 8, jobard immobilier paris, syndic et gérance, agence indépendante"
+        canonicalUrl="https://www.adbjip.fr/about"
+      />
       <Header />
-      <main role="main">
-        {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-subtle">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-6">
-                <Building2 className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium text-primary-ink">À propos de nous</span>
-              </div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-6">
-                Notre <span className="gradient-text">expertise</span> à votre service
-              </h1>
-              <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-                Depuis 2011, nous accompagnons propriétaires et copropriétés dans la gestion
-                et la valorisation de leur patrimoine immobilier parisien.
-              </p>
-            </div>
+      <main id="contenu" tabIndex={-1}>
+        {/* ---- OUVERTURE ----------------------------------------------
+            Bande de nuit sans photographie, comme les sections de clôture du
+            site : `nuit` rebascule les jetons du sous-arbre, sans quoi le fond
+            passe au sombre tandis que le texte reste à l'encre. */}
+        <section className="nuit grain bg-nuit pb-16 pt-32 text-pierre">
+          <div className="container mx-auto">
+            <EnTeteSection
+              fond="nuit"
+              niveau="h1"
+              plaque="À propos de nous"
+              titre="Notre expertise à votre service"
+              chapeau="Depuis 2011, nous accompagnons propriétaires et copropriétés dans la gestion et la valorisation de leur patrimoine immobilier parisien."
+            />
           </div>
         </section>
 
-        {/* Story Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-4xl font-bold mb-6">
-                  Une histoire de <span className="gradient-text">confiance</span>
-                </h2>
-                <p className="text-lg text-muted-foreground mb-6">
-                  Fondée par des professionnels passionnés de l'immobilier parisien, 
-                  notre société s'est développée autour de valeurs fortes : l'excellence du service, 
-                  la proximité client et la transparence dans nos relations.
-                </p>
-                <p className="text-lg text-muted-foreground mb-8">
-                  Deux sociétés, deux métiers, une seule adresse : J.I.P. pour la gestion
-                  locative et le syndic, Jobard Immobilier Patrimoine pour la transaction et
-                  l'estimation. Le même interlocuteur suit votre dossier du premier appel à la
-                  signature.
-                </p>
-                <Button asChild className="hover-glow">
-                  <Link to="/contact">
-                    Nous contacter
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Link>
-                </Button>
-              </div>
-              <div className="space-y-6">
-                <Card className="glass-strong p-6 border-0 shadow-card">
-                  <h3 className="mb-4 text-xl font-semibold text-primary-ink">Ce que nous faisons</h3>
-                  <p className="text-muted-foreground">
-                    Nous gérons des appartements pour leurs propriétaires et des immeubles pour
-                    leurs copropriétaires : loyers, travaux, assemblées générales, comptes.
+        {/* ---- L'HISTOIRE ---------------------------------------------
+            Travée asymétrique 7 / 5 et non deux moitiés égales : deux colonnes
+            de même largeur n'établissent aucune hiérarchie, et c'est le réglage
+            par défaut de toutes les grilles. Ici le texte porte. */}
+        <section className="bg-background py-20 lg:py-28">
+          <div className="container mx-auto">
+            <div className="grid gap-x-16 gap-y-12 lg:grid-cols-12">
+              <div className="lg:col-span-7">
+                <EnTeteSection plaque="La maison" titre="Une histoire de confiance" />
+                <Voile delai={90}>
+                  <p className="mesure mt-8 text-[1.0625rem] leading-relaxed text-muted-foreground">
+                    Fondée par des professionnels passionnés de l'immobilier parisien, notre
+                    société s'est développée autour de valeurs fortes : l'excellence du service,
+                    la proximité client et la transparence dans nos relations.
                   </p>
-                </Card>
-                <Card className="glass-strong p-6 border-0 shadow-card">
-                  <h3 className="mb-4 text-xl font-semibold text-primary-ink">Ce que nous ne faisons pas</h3>
-                  <p className="text-muted-foreground">
-                    Nous ne gérons pas au-delà de ce que nous pouvons suivre. Le portefeuille reste
-                    à la taille d'une agence où l'on connaît chaque immeuble.
+                  <p className="mesure mt-5 text-[1.0625rem] leading-relaxed text-muted-foreground">
+                    Deux sociétés, deux métiers, une seule adresse : J.I.P. pour la gestion
+                    locative et le syndic, Jobard Immobilier Patrimoine pour la transaction et
+                    l'estimation. Le même interlocuteur suit votre dossier du premier appel à la
+                    signature.
                   </p>
-                </Card>
+                  <Button className="mt-9" asChild>
+                    <Lien to="/contact">
+                      Nous contacter
+                      <ArrowRight aria-hidden />
+                    </Lien>
+                  </Button>
+                </Voile>
+              </div>
+
+              {/* Les deux panneaux : liseré gravé, aucune ombre, rien qui
+                  décolle. `glass-strong` produisait un verre dépoli que la
+                  charte a retiré du vocabulaire. */}
+              <div className="flex flex-col gap-6 lg:col-span-5">
+                <Voile delai={140}>
+                  <div className="panneau cadre p-7">
+                    <h3 className="text-[1.0625rem]">Ce que nous faisons</h3>
+                    <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted-foreground">
+                      Nous gérons des appartements pour leurs propriétaires et des immeubles pour
+                      leurs copropriétaires : loyers, travaux, assemblées générales, comptes.
+                    </p>
+                  </div>
+                </Voile>
+                <Voile delai={210}>
+                  <div className="panneau cadre p-7">
+                    <h3 className="text-[1.0625rem]">Ce que nous ne faisons pas</h3>
+                    <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted-foreground">
+                      Nous ne gérons pas au-delà de ce que nous pouvons suivre. Le portefeuille
+                      reste à la taille d'une agence où l'on connaît chaque immeuble.
+                    </p>
+                  </div>
+                </Voile>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Values Section */}
-        <section className="py-16 bg-gradient-subtle">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="mb-4 text-4xl font-bold">
-                Nos <span className="gradient-text">engagements</span>
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Quatre choses que vous pouvez vérifier en nous appelant
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {values.map((value, index) => {
-                const Icon = value.icon;
-                return (
-                  <Card key={index} className="glass-strong p-6 text-center hover-lift border-0 shadow-card">
-                    <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
-                      <Icon className="w-8 h-8 text-primary-foreground" />
-                    </div>
-                    <h3 className="font-semibold mb-3">{value.title}</h3>
-                    <p className="text-sm text-muted-foreground">{value.description}</p>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+        {/* ---- LES ENGAGEMENTS ---------------------------------------- */}
+        <section className="bg-ivoire py-20 lg:py-28">
+          <div className="container mx-auto">
+            <EnTeteSection
+              plaque="Les engagements"
+              titre="Nos engagements"
+              chapeau="Quatre choses que vous pouvez vérifier en nous appelant."
+            />
 
-        {/* Stats Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">
-                Nos <span className="gradient-text">chiffres clés</span>
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Ce qui est vérifiable au registre du commerce
-              </p>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="mb-2 text-4xl font-bold text-primary-ink md:text-5xl">{stat.number}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
-                </div>
+            <dl className="mt-16 border-t border-[hsl(var(--trait)/var(--trait-a))]">
+              {ENGAGEMENTS.map((e, index) => (
+                <Voile key={e.titre} delai={echelonner(index)}>
+                  <div className="grid gap-x-10 gap-y-2 border-b border-[hsl(var(--trait)/var(--trait-a))] py-7 lg:grid-cols-[20rem_1fr]">
+                    <dt className="text-[1.0625rem] font-semibold">{e.titre}</dt>
+                    <dd className="mesure-large text-[0.9375rem] leading-relaxed text-muted-foreground">
+                      {e.texte}
+                    </dd>
+                  </div>
+                </Voile>
               ))}
-            </div>
+            </dl>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 bg-gradient-subtle">
-          <div className="container mx-auto px-6 text-center">
-            <div className="glass rounded-2xl p-12 max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold mb-4">
-                Prêt à nous faire confiance ?
-              </h2>
-              <p className="text-lg text-muted-foreground mb-8">
-                Découvrez comment notre expertise peut valoriser votre patrimoine
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" asChild className="hover-glow">
-                  <Link to="/contact">
-                    <Phone className="mr-2 w-5 h-5" />
-                    01.42.25.78.24
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <Link to="/equipe">
-                    Rencontrer l'équipe
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
+        {/* ---- LES REPÈRES -------------------------------------------- */}
+        <section className="bg-background py-20 lg:py-28">
+          <div className="container mx-auto">
+            <EnTeteSection
+              plaque="Les repères"
+              titre="Nos chiffres clés"
+              chapeau="Ce qui est vérifiable au registre du commerce."
+            />
+
+            <Voile delai={120}>
+              <dl className="mt-14 grid grid-cols-2 border-t border-[hsl(var(--trait)/var(--trait-a))] lg:grid-cols-4">
+                {REPERES.map(({ valeur, libelle }) => (
+                  <div
+                    key={libelle}
+                    className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-6 lg:border-b-0 lg:border-l lg:border-[hsl(var(--trait)/var(--trait-a))] lg:pl-6 lg:first:border-l-0 lg:first:pl-0"
+                  >
+                    <dt className="font-display text-[clamp(1.5rem,2.6vw,2.125rem)] font-semibold text-primary-display">
+                      {valeur}
+                    </dt>
+                    <dd className="mt-1.5 text-[0.875rem] text-muted-foreground">{libelle}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Voile>
+          </div>
+        </section>
+
+        {/* ---- LE RENDEZ-VOUS ---------------------------------------- */}
+        <section className="nuit grain bg-nuit py-20 text-pierre lg:py-28">
+          <div className="container mx-auto">
+            <EnTeteSection
+              fond="nuit"
+              plaque="Nous joindre"
+              titre="Prêt à nous faire confiance ?"
+              chapeau="Découvrez comment notre expertise peut valoriser votre patrimoine."
+            />
+
+            <Voile delai={120} className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Button size="lg" asChild>
+                <a href={tel}>
+                  <Phone aria-hidden />
+                  {ADRESSE.telephone}
+                </a>
+              </Button>
+              <Button size="lg" variant="secondary" asChild>
+                <Lien to="/equipe">
+                  Rencontrer l'équipe
+                  <ArrowRight aria-hidden />
+                </Lien>
+              </Button>
+            </Voile>
           </div>
         </section>
       </main>

@@ -15,7 +15,9 @@ import {
   Info, 
   X,
   MapPin as MapPinIcon,
-  Users
+  Users,
+  Check,
+  AlertCircle,
 } from 'lucide-react';
 import MarketDataService from './MarketDataService';
 
@@ -94,10 +96,10 @@ const QuickCalculator = ({
             </h2>
             <button
               onClick={() => setIsSourcesModalOpen(true)}
-              className="w-8 h-8 bg-primary/10 hover:bg-primary/20 rounded-full flex items-center justify-center transition-colors group"
-              title="En savoir plus sur nos sources de données"
+              className="group flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 transition-colors hover:bg-primary/20"
+              aria-label="En savoir plus sur nos sources de données"
             >
-              <Info className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
+              <Info aria-hidden className="h-5 w-5 text-primary-ink transition-transform group-hover:scale-110" />
             </button>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -108,16 +110,14 @@ const QuickCalculator = ({
         <div className="max-w-6xl mx-auto">
           {/* Message d'erreur */}
           {errorMessage && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-3 animate-in slide-in-from-top-2 duration-300">
-              <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-white text-xs font-bold">!</span>
-              </div>
-              <p className="text-red-700 text-sm font-medium">{errorMessage}</p>
+            <div className="mb-6 p-4 bg-destructive/10 border border-destructive/30 rounded-lg flex items-center space-x-3 animate-in slide-in-from-top-2 duration-3">
+              <AlertCircle aria-hidden className="h-5 w-5 flex-shrink-0 text-destructive-ink" />
+              <p className="text-sm font-medium text-destructive-ink">{errorMessage}</p>
               <button 
                 onClick={() => {/* onClearError */}}
-                className="ml-auto text-red-500 hover:text-red-700 transition-colors"
+                className="ml-auto text-destructive-ink transition-opacity hover:opacity-70"
               >
-                <X className="w-4 h-4" />
+                <X aria-hidden className="w-4 h-4" />
               </button>
             </div>
           )}
@@ -136,41 +136,49 @@ const QuickCalculator = ({
                 </div>
                 
                 <div className="space-y-1">
-                  <label className="block text-sm font-semibold text-foreground mb-1">
-                    <MapPinIcon className="w-4 h-4 inline mr-1" />
+                  <label htmlFor="calc-adresse" className="block text-sm font-semibold text-foreground mb-1">
+                    <MapPinIcon aria-hidden className="w-4 h-4 inline mr-1" />
                     Adresse du bien *
                   </label>
                   <div className="space-y-2">
                     <Input
+                      id="calc-adresse"
+                      autoComplete="street-address"
                       type="text"
                       placeholder="Ex: 15 rue de Rivoli"
                       value={quickEstimation.address}
                       onChange={(e) => handleInputChange('address', e.target.value)}
-                      className="glass border-primary/20 focus:border-primary transition-all duration-200 hover:border-primary/40"
+                      className="glass border-primary/20 focus:border-primary transition-colors duration-2 hover:border-primary/40"
                     />
                     <div className="grid grid-cols-2 gap-2">
                       <div>
                         <Input
+                      id="calc-cp"
+                          aria-label="Code postal"
+                      autoComplete="postal-code"
                           type="text"
                           placeholder="Code postal"
                           value={quickEstimation.postalCode}
                           onChange={(e) => handleInputChange('postalCode', e.target.value)}
-                          className={`glass transition-all duration-200 hover:border-primary/40 ${
+                          className={`glass transition-colors duration-2 hover:border-primary/40 ${
                             validationErrors.postalCode 
-                              ? 'border-red-500 focus:border-red-500' 
+                              ? 'border-destructive focus:border-destructive' 
                               : 'border-primary/20 focus:border-primary'
                           }`}
                         />
                         {validationErrors.postalCode && (
-                          <p className="text-red-500 text-xs mt-1">{validationErrors.postalCode}</p>
+                          <p className="mt-1 text-xs text-destructive-ink">{validationErrors.postalCode}</p>
                         )}
                       </div>
                       <Input
+                      id="calc-ville"
+                        aria-label="Ville"
+                      autoComplete="address-level2"
                         type="text"
                         placeholder="Ville"
                         value={quickEstimation.city}
                         onChange={(e) => handleInputChange('city', e.target.value)}
-                        className="glass border-primary/20 focus:border-primary transition-all duration-200 hover:border-primary/40"
+                        className="glass border-primary/20 focus:border-primary transition-colors duration-2 hover:border-primary/40"
                       />
                     </div>
                   </div>
@@ -178,43 +186,46 @@ const QuickCalculator = ({
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="block text-sm font-semibold text-foreground mb-1">
-                      <Home className="w-4 h-4 inline mr-1" />
+                    <label htmlFor="calc-surface" className="block text-sm font-semibold text-foreground mb-1">
+                      <Home aria-hidden className="w-4 h-4 inline mr-1" />
                       Surface (m²) *
                     </label>
                     <Input
+                      id="calc-surface"
                       type="number"
                       placeholder="Ex: 75"
                       value={quickEstimation.surface}
                       onChange={(e) => handleInputChange('surface', e.target.value)}
-                      className="glass border-primary/20 focus:border-primary transition-all duration-200 hover:border-primary/40"
+                      className="glass border-primary/20 focus:border-primary transition-colors duration-2 hover:border-primary/40"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-sm font-semibold text-foreground mb-1">
-                      <Building className="w-4 h-4 inline mr-1" />
+                    <label htmlFor="calc-pieces" className="block text-sm font-semibold text-foreground mb-1">
+                      <Building aria-hidden className="w-4 h-4 inline mr-1" />
                       Pièces *
                     </label>
                     <Input
+                      id="calc-pieces"
                       type="number"
                       placeholder="Ex: 3"
                       value={quickEstimation.rooms}
                       onChange={(e) => handleInputChange('rooms', e.target.value)}
-                      className="glass border-primary/20 focus:border-primary transition-all duration-200 hover:border-primary/40"
+                      className="glass border-primary/20 focus:border-primary transition-colors duration-2 hover:border-primary/40"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="block text-sm font-semibold text-foreground mb-1">
-                      <Building className="w-4 h-4 inline mr-1" />
+                    <label htmlFor="calc-type" className="block text-sm font-semibold text-foreground mb-1">
+                      <Building aria-hidden className="w-4 h-4 inline mr-1" />
                       Type de bien
                     </label>
                     <select
+                      id="calc-type"
                       value={quickEstimation.type}
                       onChange={(e) => handleInputChange('type', e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg glass border-primary/20 focus:border-primary focus:outline-none transition-all duration-200 hover:border-primary/40"
+                      className="w-full px-4 py-3 rounded-lg glass border-primary/20 focus:border-primary focus:outline-none transition-colors duration-2 hover:border-primary/40"
                     >
                       <option value="">Sélectionnez</option>
                       <option value="appartement">Appartement</option>
@@ -225,14 +236,15 @@ const QuickCalculator = ({
                     </select>
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-sm font-semibold text-foreground mb-1">
-                      <TrendingUp className="w-4 h-4 inline mr-1" />
+                    <label htmlFor="calc-etage" className="block text-sm font-semibold text-foreground mb-1">
+                      <TrendingUp aria-hidden className="w-4 h-4 inline mr-1" />
                       Étage
                     </label>
                     <select
+                      id="calc-etage"
                       value={quickEstimation.floor}
                       onChange={(e) => handleInputChange('floor', e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg glass border-primary/20 focus:border-primary focus:outline-none transition-all duration-200 hover:border-primary/40"
+                      className="w-full px-4 py-3 rounded-lg glass border-primary/20 focus:border-primary focus:outline-none transition-colors duration-2 hover:border-primary/40"
                     >
                       <option value="">Sélectionnez</option>
                       <option value="rdc">Rez-de-chaussée</option>
@@ -244,14 +256,15 @@ const QuickCalculator = ({
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block text-sm font-semibold text-foreground mb-1">
-                    <Star className="w-4 h-4 inline mr-1" />
+                  <label htmlFor="calc-etat" className="block text-sm font-semibold text-foreground mb-1">
+                    <Star aria-hidden className="w-4 h-4 inline mr-1" />
                     État général
                   </label>
                   <select
+                      id="calc-etat"
                     value={quickEstimation.condition}
                     onChange={(e) => handleInputChange('condition', e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg glass border-primary/20 focus:border-primary focus:outline-none transition-all duration-200 hover:border-primary/40"
+                    className="w-full px-4 py-3 rounded-lg glass border-primary/20 focus:border-primary focus:outline-none transition-colors duration-2 hover:border-primary/40"
                   >
                     <option value="excellent">Excellent</option>
                     <option value="bon">Bon</option>
@@ -266,18 +279,20 @@ const QuickCalculator = ({
                     onClick={onCalculate}
                     disabled={isCalculating}
                     size="lg" 
-                    className="w-full bg-gradient-primary hover:bg-primary-glow text-primary-foreground hover-glow group shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="w-full bg-gradient-primary hover:bg-primary-glow text-primary-foreground hover-glow group shadow-lg hover:shadow-xl transition-colors duration-2"
                   >
                     {isCalculating ? (
                       <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                        Calcul en cours...
+                        <span role="status" className="flex items-center">
+                          <span className="attente mr-2 h-5 w-5 rounded-full border-b-2 border-white" />
+                          Calcul en cours…
+                        </span>
                       </>
                     ) : (
                       <>
-                        <Calculator className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
+                        <Calculator aria-hidden className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
                         Calculer mon estimation
-                        <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight aria-hidden className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
                   </Button>
@@ -298,14 +313,14 @@ const QuickCalculator = ({
                 {isCalculating || isLoadingData ? (
                   <div className="space-y-4">
                     <div className="text-center">
-                      <div className="animate-pulse bg-gray-200 h-8 w-48 mx-auto rounded mb-4"></div>
-                      <div className="animate-pulse bg-gray-200 h-6 w-32 mx-auto rounded mb-6"></div>
+                      <div className="animate-pulse bg-muted h-8 w-48 mx-auto rounded mb-4"></div>
+                      <div className="animate-pulse bg-muted h-6 w-32 mx-auto rounded mb-6"></div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="animate-pulse bg-gray-200 h-32 rounded-lg"></div>
-                      <div className="animate-pulse bg-gray-200 h-32 rounded-lg"></div>
+                      <div className="animate-pulse bg-muted h-32 rounded-lg"></div>
+                      <div className="animate-pulse bg-muted h-32 rounded-lg"></div>
                     </div>
-                    <div className="animate-pulse bg-gray-200 h-20 rounded-lg"></div>
+                    <div className="animate-pulse bg-muted h-20 rounded-lg"></div>
                   </div>
                 ) : estimationResult ? (
                   <div className="space-y-6">
@@ -314,24 +329,24 @@ const QuickCalculator = ({
                       <div className="text-4xl font-bold text-primary-foreground mb-2">
                         {estimationResult.toLocaleString('fr-FR')} €
                       </div>
-                      <div className="text-primary-foreground/80">
+                      <div className="text-sm font-medium text-primary-foreground">
                         Estimation indicative
                       </div>
-                      <div className="mt-3 inline-flex items-center space-x-2 bg-white/20 rounded-full px-3 py-1">
-                        <div className="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
+                      <div className="mt-3 inline-flex items-center space-x-2 bg-white/20 rounded-[2px] px-3 py-1">
+                        <div className="w-2 h-2 bg-secondary rounded-full"></div>
                         <span className="text-xs text-primary-foreground/90">Calcul terminé</span>
                       </div>
                     </div>
                     
                     {/* Informations compactes */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="p-4 bg-gradient-to-r from-secondary to-indigo-50 rounded-lg border border-secondary/20">
+                      <div className="p-4 rounded-lg border border-border bg-secondary-soft">
                         <div className="flex items-center space-x-3">
                           <div className="w-8 h-8 bg-secondary-soft rounded-full flex items-center justify-center">
-                            <MapPinIcon className="w-4 h-4 text-secondary" />
+                            <MapPinIcon aria-hidden className="w-4 h-4 text-secondary" />
                           </div>
                           <div className="flex-1">
-                            <div className="font-semibold text-gray-800 text-sm">
+                            <div className="font-semibold text-foreground text-sm">
                               Données du marché
                             </div>
                             <div className="text-xs text-muted-foreground">
@@ -341,15 +356,15 @@ const QuickCalculator = ({
                         </div>
                       </div>
                       
-                      <div className="p-4 bg-gradient-to-r from-secondary to-emerald-50 rounded-lg border border-primary/20">
+                      <div className="p-4 rounded-lg border border-border bg-primary-soft">
                         <div className="flex items-center space-x-3">
                           <div className="w-8 h-8 bg-primary-soft rounded-full flex items-center justify-center">
-                            <Clock className="w-4 h-4 text-primary-ink" />
+                            <Clock aria-hidden className="w-4 h-4 text-primary-ink" />
                           </div>
                           <div className="flex-1">
-                            <div className="font-semibold text-gray-800 text-sm">Confiance</div>
+                            <div className="font-semibold text-foreground text-sm">Confiance</div>
                             <div className="flex items-center space-x-2">
-                              <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                              <div className="w-16 h-1.5 bg-muted rounded-full overflow-hidden">
                                 <div className="h-full bg-primary w-3/4"></div>
                               </div>
                               <span className="text-xs font-bold">75%</span>
@@ -362,7 +377,7 @@ const QuickCalculator = ({
                     {/* Sources compactes */}
                     <div className="p-4 bg-secondary-soft border border-secondary/20 rounded-lg">
                       <h4 className="font-semibold text-foreground mb-2 text-sm flex items-center">
-                        <FileText className="w-4 h-4 mr-2" />
+                        <FileText aria-hidden className="w-4 h-4 mr-2" />
                         Sources
                       </h4>
                       <div className="text-xs text-foreground space-y-1">
@@ -373,8 +388,8 @@ const QuickCalculator = ({
 
                     {/* Note et CTA */}
                     <div className="space-y-3">
-                      <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                        <p className="text-xs text-amber-800">
+                      <div className="p-3 bg-primary-soft border border-primary/30 rounded-lg">
+                        <p className="text-xs text-primary-ink">
                           <strong>Note :</strong> Estimation indicative basée sur des données moyennes. 
                           Pour une évaluation précise, contactez nos experts.
                         </p>
@@ -384,22 +399,22 @@ const QuickCalculator = ({
                         type="button"
                         size="lg" 
                         variant="outline" 
-                        className="w-full border-2 border-primary/20 hover:border-primary hover:bg-primary/5 transition-all duration-200"
+                        className="w-full border-2 border-primary/20 hover:border-primary hover:bg-primary/5 transition-colors duration-2"
                         onClick={onShowMap}
                       >
-                        <MapPin className="mr-2 w-4 h-4" />
+                        <MapPin aria-hidden className="mr-2 w-4 h-4" />
                         Voir sur la carte
-                        <ArrowRight className="ml-2 w-4 h-4" />
+                        <ArrowRight aria-hidden className="ml-2 w-4 h-4" />
                       </Button>
                     </div>
                   </div>
                 ) : (
                   <div className="text-center p-12">
                     <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
-                      <Calculator className="w-10 h-10 text-gray-400" />
+                      <Calculator aria-hidden className="w-10 h-10 text-muted-foreground" />
                     </div>
                     <h4 className="text-lg font-semibold text-foreground mb-2">Prêt à calculer</h4>
-                    <p className="text-gray-500">Remplissez le formulaire pour obtenir votre estimation rapide</p>
+                    <p className="text-muted-foreground">Remplissez le formulaire pour obtenir votre estimation rapide</p>
                   </div>
                 )}
               </div>
@@ -418,9 +433,9 @@ const QuickCalculator = ({
               </h2>
               <button
                 onClick={() => setIsSourcesModalOpen(false)}
-                className="w-8 h-8 bg-muted hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+                className="w-8 h-8 bg-muted hover:bg-muted rounded-full flex items-center justify-center transition-colors"
               >
-                <X className="w-4 h-4" />
+                <X aria-hidden className="w-4 h-4" />
               </button>
             </div>
             
@@ -433,26 +448,26 @@ const QuickCalculator = ({
                 <Card className="glass-strong p-6 border-0 shadow-elegant">
                   <div className="text-center mb-6">
                     <div className="w-16 h-16 bg-primary-soft rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <FileText className="w-8 h-8 text-primary-ink" />
+                      <FileText aria-hidden className="w-8 h-8 text-primary-ink" />
                     </div>
                     <h3 className="text-xl font-bold mb-2">API DVF Officielle</h3>
                     <p className="text-sm text-muted-foreground">Source prioritaire</p>
                   </div>
                   <div className="space-y-3 text-sm">
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-primary-ink flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-ink" />
                       <span>Transactions immobilières réelles depuis 2014</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-primary-ink flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-ink" />
                       <span>Direction Générale des Finances Publiques</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-primary-ink flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-ink" />
                       <span>Analyse dans un rayon de 1km</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-primary-ink flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-ink" />
                       <span>Confiance : 60-95% selon les données</span>
                     </div>
                   </div>
@@ -461,26 +476,26 @@ const QuickCalculator = ({
                 <Card className="glass-strong p-6 border-0 shadow-elegant">
                   <div className="text-center mb-6">
                     <div className="w-16 h-16 bg-secondary-soft rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <MapPinIcon className="w-8 h-8 text-secondary" />
+                      <MapPinIcon aria-hidden className="w-8 h-8 text-secondary" />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">Base de Données</h3>
+                    <h3 className="text-xl font-bold mb-2">Base de données</h3>
                     <p className="text-sm text-muted-foreground">Source secondaire</p>
                   </div>
                   <div className="space-y-3 text-sm">
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-secondary" />
                       <span>Prix moyens par code postal</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-secondary" />
                       <span>Observatoires immobiliers locaux</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-secondary" />
                       <span>Données notaires et agents</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-secondary" />
                       <span>Confiance : 60-80% selon la zone</span>
                     </div>
                   </div>
@@ -488,27 +503,27 @@ const QuickCalculator = ({
 
                 <Card className="glass-strong p-6 border-0 shadow-elegant">
                   <div className="text-center mb-6">
-                    <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <Calculator className="w-8 h-8 text-orange-600" />
+                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-soft">
+                      <Calculator aria-hidden className="h-8 w-8 text-primary-ink" />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">Analyse Géographique</h3>
+                    <h3 className="text-xl font-bold mb-2">Analyse géographique</h3>
                     <p className="text-sm text-muted-foreground">Source de fallback</p>
                   </div>
                   <div className="space-y-3 text-sm">
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-orange-600 flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-ink" />
                       <span>Distance et contexte urbain</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-orange-600 flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-ink" />
                       <span>Données démographiques</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-orange-600 flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-ink" />
                       <span>Comparaisons régionales</span>
                     </div>
                     <div className="flex items-start space-x-2">
-                      <div className="w-4 h-4 text-orange-600 flex-shrink-0 mt-0.5">✓</div>
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-ink" />
                       <span>Confiance : 40-60% approximatif</span>
                     </div>
                   </div>

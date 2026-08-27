@@ -110,10 +110,46 @@ async function main() {
   for (const route of routes) {
     try {
       const html = await rendre(chrome, `http://localhost:${PORT}${BASE}${route}`);
-      // Un rendu vide signale un échec silencieux : mieux vaut garder le
-      // index.html d'origine que d'écrire une page blanche.
+
+      /**
+       * TROIS CONTRÔLES, ET LE TROISIÈME EST LE PLUS UTILE.
+       *
+       * Le seuil de 2 000 octets attrape le rendu tronqué ou vide. Mais il ne
+       * voit PAS le cas où React n'a jamais monté : le HTML de départ contient
+       * déjà le <head> complet, les balises Open Graph et le JSON-LD, ce qui
+       * dépasse largement le seuil. La page part alors avec un `#root` vide,
+       * donc sans un mot de contenu, et rien ne le signale. Ce trou était
+       * documenté dans `src/config/seo.ts` : le voici fermé.
+       *
+       * On garde l'original plutôt que d'écrire une page creuse. Pour `/`, cela
+       * signifie conserver le `dist/index.html` de Vite ; pour une sous-route,
+       * aucun fichier n'est écrit et le repli SPA (.htaccess) sert la coquille,
+       * que le navigateur hydrate. Dans les deux cas le visiteur voit le site —
+       * ce qui est perdu, c'est l'indexabilité, pas la page.
+       */
       if (!html.includes('</body>') || html.length < 2000) {
         log(`⚠ ${route} : rendu trop court (${html.length} o), page ignorée`);
+        continue;
+      }
+      if (/<div id="root">\s*<\/div>/.test(html)) {
+        log(`⚠ ${route} : #root vide — React n'a pas monté, page ignorée`);
+        continue;
+      }
+      /**
+       * QUATRIÈME CONTRÔLE, ajouté avec le découpage des routes.
+       *
+       * Depuis que les pages sont en `React.lazy`, un prérendu trop court écrit
+       * le REPLI de `<Suspense>` au lieu de la page. Ce HTML-là passe les trois
+       * contrôles précédents : il fait 60 ko, il a un `</body>`, et son `#root`
+       * n'est pas vide. Il ne contient simplement aucun contenu utile.
+       *
+       * Le marqueur est le texte du repli. S'il apparaît, augmenter
+       * `--virtual-time-budget` dans `rendre()` — 8 000 ms suffisent aujourd'hui
+       * pour les dix routes, vérifié.
+       */
+      if (html.includes('Chargement de la page')) {
+        log(`⚠ ${route} : repli de Suspense capturé au lieu de la page, ignorée`);
+        log(`  → augmenter --virtual-time-budget dans scripts/prerender.mjs`);
         continue;
       }
       const destination =
@@ -129,6 +165,21 @@ async function main() {
 
   serveur.close();
   log(`${rendues}/${routes.length} page(s) prérendue(s)`);
+
+  /**
+   * Le compte est le seul indicateur de santé du prérendu, et il passait
+   * inaperçu : un build qui tombe de 10/10 à 0/10 sortait quand même en 0, avec
+   * la même allure de succès. On ne change pas ce comportement — un prérendu
+   * manquant ne doit toujours pas casser un déploiement — mais on le rend
+   * impossible à manquer dans les journaux d'intégration continue.
+   */
+  if (rendues < routes.length) {
+    log(
+      `⚠ ${routes.length - rendues} page(s) NON prérendue(s) : ` +
+        `elles seront servies par le repli SPA et resteront non indexables. ` +
+        `Le repère sain de ce projet est ${routes.length}/${routes.length}.`,
+    );
+  }
 }
 
 main().catch((error) => {

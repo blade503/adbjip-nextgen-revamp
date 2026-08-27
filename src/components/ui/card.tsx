@@ -2,6 +2,12 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * `Card` est devenue le panneau du système — voir `.panneau` dans
+ * `src/index.css`. Le verre dépoli et l'ombre par défaut sont retirés : vingt
+ * usages dans les pages internes s'en trouvent corrigés sans les rouvrir.
+ */
+
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -9,7 +15,10 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      // Un panneau, pas une carte flottante : filet de 1 px, rayon de 2 px,
+      // aucune ombre par défaut. Les ombres se demandent au cas par cas
+      // (`shadow-pose`), elles ne sont plus le réglage de départ.
+      "panneau text-card-foreground",
       className
     )}
     {...props}

@@ -7,6 +7,49 @@ gestion locative et de syndic. Refonte destinée à remplacer le Symfony 3.3 de 
 production sur www.adbjip.fr. Le contenu, les commentaires et les messages de commit sont en
 français.
 
+## Règles de travail (valables pour toute session)
+
+**Avant d'écrire.** Lis les fichiers que tu vas modifier, en entier, et les fichiers qui les
+importent. Ne propose pas de plan avant. Si un fichier fait plus de 300 lignes, dis-moi ce
+qu'il fait avant de le toucher — c'est ma vérification que tu l'as lu.
+
+**Rien d'inventé.** Aucun chiffre, nom, avis, taux d'honoraires, horaire, numéro de carte
+professionnelle ou statistique ne s'écrit sans source. Une donnée manquante reste `null` et
+s'affiche « à compléter ». Si tu as besoin d'une valeur que je ne t'ai pas donnée, demande-la
+— ne la déduis pas, ne la rends pas plausible.
+
+**Préserver.** Ne supprime ni ne réécris un fichier qui marche pour le rendre « plus propre ».
+Si tu penses qu'une réécriture est nécessaire, explique ce qui casse aujourd'hui, et attends.
+Les commentaires existants expliquent souvent une décision : ne les enlève pas, mets-les à
+jour.
+
+**Vérifier, à chaque fin de tâche, sans exception :**
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
+
+Colle-moi la sortie des trois. `lint` sort avec un nombre d'erreurs préexistant : compare au
+repère (**19 erreurs, 4 avertissements**, cf. § Commandes), ne cherche pas zéro. Si `tsc` ou
+`build` échoue, corrige avant de me répondre. Ne dis jamais « c'est fait » sans ces sorties.
+
+**Voir avant d'affirmer.** Pour tout changement visuel, prends une capture d'écran et
+regarde-la. Sers le HTML avec un `<!doctype html>` : sans lui Chrome rend en mode quirks, où
+les tableaux n'héritent pas de la couleur, et le corps d'un tableau devient invisible sur fond
+clair. Cette page-là a déjà coûté une heure.
+
+**Portée.** Fais ce qui est demandé, pas ce qui serait bien aussi. Si tu vois un autre
+problème, signale-le en une phrase à la fin et n'y touche pas.
+
+**Langue.** Contenu, commentaires et messages de commit en français. Les commentaires
+expliquent *pourquoi*, jamais *quoi*.
+
+**Accessibilité, non négociable.** Contrastes calculés et non estimés ; focus visible ;
+navigable au clavier ; `prefers-reduced-motion` respecté sans jamais laisser un contenu
+invisible. Une régression d'accessibilité annule la tâche.
+
 ## Commandes
 
 ```bash
@@ -14,15 +57,53 @@ npm run dev                              # Vite sur le port 8080 (fixé dans vit
 npm run build                            # production → dist/
 npm run build:dev                        # build non minifié, utile pour déboguer un bundle
 npm run lint                             # ESLint 9 (flat config)
-npx tsc --noEmit -p tsconfig.app.json    # typecheck — `npm run build` NE type-vérifie PAS
+npm run typecheck                        # tsc --noEmit — `npm run build` NE type-vérifie PAS
+npm run test                             # Vitest — logique pure de src/lib/ UNIQUEMENT
 npm run biens:fetch                      # rapatrie les annonces + photos (voir plus bas)
 ```
 
-Aucun test n'est configuré : ni runner, ni fichier de test. Ne pas inventer `npm test`.
+### Le repère de vérification (relevé le 27/08/2026)
 
-`npm run lint` sort avec ~22 erreurs et 11 avertissements préexistants (surtout
-`no-explicit-any` dans `MarketDataService.tsx` et `react-refresh/only-export-components` dans
-`components/ui/`). Comparer avant/après plutôt que viser zéro.
+Les trois commandes ci-dessous sont le seul contrôle du projet. Leurs compteurs à l'état sain :
+
+| Commande             | Attendu                                                              |
+|----------------------|----------------------------------------------------------------------|
+| `npm run typecheck`  | **0 erreur**. Toute erreur est bloquante.                            |
+| `npm run lint`       | **23 problèmes — 19 erreurs, 4 avertissements.** Comparer, pas viser zéro. |
+| `npm run test`       | **31 cas verts**, ~200 ms. Logique pure de `src/lib/` seulement. |
+| `npm run build`      | **1 764 modules**, ~1,7 à 2,7 s, `[sitemap] 9 URL`, `[prerender] 10/10`. |
+
+Poids de sortie au repère : **JS 499,2 Ko**, **CSS 54,6 Ko** (non découpé — chantier ouvert).
+
+Les 19 erreurs de lint sont préexistantes, surtout `no-explicit-any` dans
+`MarketDataService.tsx` et un `no-require-imports` dans `tailwind.config.ts`. Un total
+supérieur à 23 signale une régression introduite par la tâche en cours.
+
+`[prerender] 10/10` correspond aux dix routes réelles de `src/App.tsx` (le catch-all `*` est
+exclu). `[sitemap] 9 URL` en compte une de moins : `/mentions-legales` en est volontairement
+absente. Ces deux nombres ne sont pas censés être égaux.
+
+**Les tests couvrent la logique pure de `src/lib/`, et rien d'autre** (Vitest, ajouté le
+27/08/2026, `vitest.config.ts` distinct de `vite.config.ts`). Périmètre volontairement
+étroit : `src/lib/biens.test.ts`, 31 cas sur le formatage des prix, la fenêtre de nouveauté,
+la baisse de prix, les mentions d'honoraires et le portefeuille réduit ou vide. **Pas de tests
+de composants** — ce qui se voit se vérifie par capture d'écran regardée, ce qui se calcule se
+vérifie ici. Deux tests portent sur `data/biens.json` réel : ils tombent si l'agence publie un
+prix sans sa mention d'honoraires.
+
+Dans ce projet, « tester » veut donc dire :
+
+1. `npm run typecheck` — 0 erreur ;
+2. `npm run lint` — au repère ;
+3. `npm run test` — 31 cas verts ;
+4. `npm run build` — termine, et prérend les 10 pages ;
+5. le **prérendu** vérifié (pas de page sous 2 000 octets, sinon échec silencieux) ;
+6. une **capture d'écran prise ET regardée** pour tout changement visuel.
+
+Les six, ou la tâche n'est pas terminée.
+Les 41 composants shadcn jamais utilisés ont été supprimés le 19/08/2026 : il en reste huit
+(accordion, badge, button, card, dialog, input, textarea, tooltip) et les dépendances ont été
+ramenées de 49 à 13. Ne pas réinstaller l'échafaudage complet « au cas où ».
 
 ## Prérequis avant le premier `npm run dev`
 
@@ -87,23 +168,190 @@ Passer par ce service plutôt que refaire un `fetch` : `InteractiveMap` a longte
 géocodage. N'afficher que les champs réellement renvoyés — pas de délai de vente ni d'évolution
 annuelle, qui ne sont pas calculés.
 
-### Design system
+### Design system — « Le hall » (27/08/2026)
 
-Les tokens sont des variables CSS HSL dans `src/index.css` (`--primary` jaune, `--secondary`
-marine, gradients, ombres), exposées à Tailwind par `tailwind.config.ts`. Utiliser les classes
-de tokens (`bg-primary`, `text-muted-foreground`, `shadow-card`) et non des couleurs brutes.
-Utilitaires maison dans la couche `components` : `glass`, `glass-strong`, `gradient-text`,
-`hover-lift`, `hover-glow`, `animate-slide-up`.
+Direction artistique complète, documentée en tête de `src/index.css`. Le principe
+tient en une phrase : **le public voit la façade, le syndic connaît le hall.** Une
+agence de gérance et de syndic ne vend pas un appartement ensoleillé, elle détient
+les clés, le registre et les comptes d'un immeuble sur vingt ans. Le site est donc
+posé dans le hall d'un immeuble haussmannien.
+
+**Le site est sombre par défaut sur sa coquille, et c'est une décision mesurée**,
+pas une humeur. Le jaune de l'enseigne plafonne à **1,81:1** sur un fond clair —
+inutilisable en texte, d'où les deux déclinaisons sombres qu'il avait fallu
+inventer pour pouvoir l'écrire quelque part. Sur le fond de nuit il atteint
+**8,91:1**. Inverser était la seule manière de rendre à l'agence sa couleur.
+
+Six matières, nommées par la matière et non par la fonction (`src/index.css`) :
+
+| jeton      | valeur         | rôle                          | ratios mesurés |
+|------------|----------------|-------------------------------|----------------|
+| `--nuit`   | `212 34% 9%`   | fond sombre, la boiserie      | pierre 16,08:1 · laiton 8,91:1 · zinc 7,41:1 |
+| `--marine` | `217 40% 15%`  | champ des plaques             | laiton 7,79:1 · pierre 14,05:1 |
+| `--pierre` | `40 26% 94%`   | fond clair, pierre de taille  | encre 15,02:1 |
+| `--ivoire` | `40 30% 97%`   | surface claire surélevée      | encre 15,98:1 |
+| `--encre`  | `214 34% 12%`  | texte sur pierre              | — |
+| `--zinc`   | `213 16% 66%`  | texte second sur la nuit      | — |
+| `--laiton` | `38 88% 55%`   | accent, et l'enseigne         | **1,81:1 sur pierre — interdit en texte** |
+
+**`.nuit` est le mécanisme central.** La classe rebascule tous les jetons pour son
+sous-arbre : `<section className="nuit bg-nuit">` et toute la bibliothèque de
+composants suit sans savoir qu'elle a changé de fond. **Toute section sombre doit
+la porter** — les quatre ouvertures de pages services étaient sombres sans elle,
+et affichaient de l'encre sur du marine. `.dark` reçoit la même définition, pour
+qu'il n'y ait pas deux palettes sombres divergentes dans le fichier.
+
+**L'unité du système est la plaque.** Dans un hall parisien, tout est plaqué : la
+plaque de rue, celle du syndic à côté de la porte, les boîtes aux lettres gravées,
+les numéros de lot. La plaque n'est donc pas un ornement au-dessus des titres,
+c'est la géométrie de tout ce qui est encadré : champ d'émail, **liseré gravé en
+retrait de 4 px** (`.cadre`, un `::after` et non une bordure — c'est ce qui
+distingue une plaque d'un rectangle cerné), capitales espacées. Boutons, badges,
+champs, images, panneaux : même cadre. Rayon de 2 px partout.
+`src/components/systeme/PlaqueDeRue.tsx` en est la version à l'échelle d'un objet,
+et c'est l'ouverture du site — le titre de la page d'accueil est une adresse.
+
+**Typographie : deux linéales, et le contraste est de LARGEUR.** Archivo pour les
+titres et les plaques (axe `wdth` 100..125, composée à 104–120), Inter pour le
+texte, la donnée et l'interface. Pas d'opposition serif / sans — trop attendue, et
+un romain à empattements s'opposait à la plaque, qui est de la signalétique. Les
+capitales élargies sont la proportion exacte d'une plaque émaillée.
+Coût mesuré : Archivo 87,9 Ko + Inter 71,3 Ko = **159,2 Ko contre 201,9 Ko avant**,
+parce que l'axe italique d'Inter était demandé (133,7 Ko) sans qu'une seule ligne
+du site soit en italique. Ajouter une famille a allégé la page.
+À savoir : borner les plages d'axes dans l'URL Google Fonts ne réduit pas le
+fichier — vérifié, `wght@400..700` et `wght@500..600` pèsent identique.
+
+**Mouvement : « ouverture »** (`src/components/systeme/Ouverture.tsx`). Trois
+gestes, une seule courbe (`--sortie`, sortie exponentielle sans dépassement) :
+le **trait** se tire de la gauche, le **voile** dévoile le contenu sous un
+`clip-path`, le **calage** pose l'image depuis 1,05 une seule fois. Le survol ne
+déplace RIEN : un lavis entre par la gauche, le liseré se réveille, l'image se
+cale de 3 % (`.rasante`).
+Le masquage est décidé en JavaScript et **seulement sous le pli** : `build` prérend
+dix pages en HTML statique, et un `[data-voile] { opacity: 0 }` en CSS pur aurait
+expédié ce HTML avec un contenu invisible. Rien de ce qui est déjà peint n'est
+jamais masqué.
+
+**Photographie.** Toute image d'atmosphère passe au duotone (`.photo-editoriale`,
+ombres vers le marine, lumières vers la pierre) pour que le site n'ait qu'un
+climat. **Jamais sur une photo d'annonce** : un acheteur a droit à la couleur
+réelle du bien. Ce qui unifie les annonces à la charte, c'est le cadre gravé, pas
+la colorimétrie.
+
+**Anciennes classes réaffectées, pas supprimées.** Onze pages s'en servaient ;
+les redéfinir a corrigé une centaine d'usages sans rouvrir onze fichiers :
+`glass` / `glass-strong` → `.panneau` (plus de `backdrop-filter`) ·
+`hover-lift` / `hover-glow` → `.rasante` (rien ne décolle) ·
+`gradient-text` → aplat · `bg-gradient-subtle` → aplat ·
+`animate-slide-up` → le voile · `shadow-elegant|card|float` → ombres d'encre ·
+`--radius*` et `rounded-2xl|3xl` → géométrie de plaque.
+**Ne pas réintroduire** le verre dépoli, les titres en dégradé, les cartes qui
+décollent, les halos jaunes, les pastilles d'icônes colorées, les gélules.
+
+### Le contrat de mouvement
+
+Le système « Ouverture » (3 courbes, 6 durées, 4 déplacements) est dans
+`src/index.css`. Ce qui suit n'est pas un style, c'est un contrat : le violer
+casse des choses mesurées.
+
+- **`transition: all` / `transition-all` est interdit.** Il y en avait 17, il en
+  reste 0. Une liste explicite de propriétés, toujours.
+- **Propriétés animables** : `opacity`, `transform`, `filter`, `box-shadow`,
+  `background-color`, `color`, `clip-path`, `mask-image`. **Jamais** `width`,
+  `height`, `top`, `left`, `margin`, `padding`. La seule exception est
+  `grid-template-rows` pour un dépliage — c'est ainsi que la ligne d'adresse de
+  l'en-tête se replie.
+- **Objectif CLS : zéro, et il est tenu.** Mesuré sur trois chargements :
+  0 / 0,000242 / 0. Le seul décalage est le remplacement de police à 94 ms (le
+  `<ul>` de navigation et la plaque du téléphone se réalignent en X). Le
+  défilement, lui, ne décale **rien** — l'en-tête garde 68 px constants, le logo
+  se réduit par `transform` et l'adresse par `grid-template-rows`.
+- **Un seul écouteur de défilement**, passif, dans `src/lib/defilement.ts`. Il
+  écrit deux choses sur `<html>` : `--descente` et `data-defile`. Tout le reste
+  en découle en CSS. Ne pas en ajouter un second.
+- **Un seul `IntersectionObserver`**, partagé, dans `components/systeme/Ouverture.tsx`.
+- **`will-change` jamais globale.** Deux emplacements, tous deux bornés au
+  survol : `.rasante:hover .calage` en CSS, et les copies masquées du héros
+  posées sur `pointerenter` / retirées sur `pointerleave`.
+- **Aucun défilement virtualisé.** Ni Lenis, ni Locomotive, ni équivalent. Le
+  défilement du navigateur est le seul qui reste accessible au clavier, à la
+  barre de défilement et aux outils d'assistance.
+- **`prefers-reduced-motion` ne retire jamais une information.** Les apparitions
+  se jouent instantanément (jamais `animation: none`, qui laisserait
+  `opacity: 0`), et les deux indicateurs d'attente continuent de tourner —
+  ralentis à 2400 ms via `*:not(.attente)`. Un bloc gris immobile se lit encore
+  comme un chargement ; un bloc gris immobile *sans* animation ne se lit plus.
+- **Deux boucles infinies au total**, les deux `@keyframes attente`.
+- **Exceptions documentées, à ne pas « normaliser »** : la chorégraphie du héros
+  (`.sequence`, un dépouillement calibré sur un plafond de lisibilité de 1,2 s
+  mesuré) et les deux fondus de lumière de l'ouverture (1,4 s et 1,6 s).
+
+### Les transitions de page
+
+`src/lib/passage.ts` + `src/components/systeme/Lien.tsx`. Les 40 liens internes
+passent par `<Lien>`, qui appelle `document.startViewTransition`. Trois pièges,
+tous vérifiés dans le navigateur :
+
+1. **La prop `viewTransition` de React Router 7 ne fonctionne pas ici.** Elle
+   n'est lue que par le routeur de données (`createBrowserRouter` +
+   `RouterProvider`) ; `App.tsx` utilise `BrowserRouter`, où `navigate()` la
+   reçoit et l'ignore, sans avertissement. Si le site passe un jour au routeur
+   de données, `passage.ts` et `Lien.tsx` disparaissent au profit de la prop.
+2. **`flushSync` est obligatoire.** `startViewTransition` photographie l'état
+   neuf à la frame suivante ; React 18 commit en microtâche. Sans forçage, la
+   transition peut fondre la page sur elle-même.
+3. **Le `view-transition-name` est sur le `<header>`, pas sur le logo** — la
+   plaque, c'est l'en-tête entier. Nommer le seul logo laissait la barre
+   clignoter autour de lui. Ce nom doit rester unique dans le document.
+
+Repli si l'API manque, ou en mouvement réduit : **aucune transition**. Ne pas
+écrire de simulation en JavaScript — elle imposerait de retenir l'ancienne page
+en mémoire, donc de retarder la nouvelle.
 
 ## Points de vigilance connus
 
-- **Contraste** : `--primary-foreground` est blanc sur le jaune `--primary`, soit **1,96:1**
-  (il en faut 4,5). Le marine donnerait 6,10:1. Ne pas aggraver en ajoutant du blanc sur jaune.
-- **`Header.tsx` rend un `<h1>`** pour le logo : chaque page en a donc deux.
-- **Chiffres inventés** dans plusieurs pages (« 500+ clients », « 98 % de satisfaction »,
-  témoignages fictifs, compteur d'estimations qui s'incrémente à chaque chargement). Signalé au
-  client, pas encore arbitré — ne pas en ajouter.
-- **~10 Mo de PNG** dans `src/assets/` partent tels quels dans `dist/`.
+- **Le jaune ne peut pas servir de couleur de texte sur fond clair.** `--laiton`
+  fait **1,81:1** sur `--pierre`, là où il en faut 4,5 (3 pour les grands titres).
+  C'est le constat qui a fait basculer la coquille du site sur la nuit, où il
+  atteint 8,91:1 et devient enfin du texte. Trois règles, toutes mesurées :
+  sur la pierre, employer `--primary-ink` (5,44:1, et 5,13:1 sur le voile teinté
+  des étiquettes — à 30 % de clarté il retombait à 4,61:1) ou `--primary-display`
+  pour les titres ≥ 24 px (3,62:1) ; sur aplat de laiton, le premier plan est
+  `--primary-foreground`, c'est-à-dire le marine (7,79:1), **jamais du blanc**
+  (1,88:1) ; le laiton vif est légitime dès qu'il est sur la nuit ou le marine.
+  Les ratios sont calculés, pas estimés — le script est reproductible.
+- **Texte sur photo : mesurer, pas estimer, et mesurer DANS LES DEUX SENS.** Les voiles ont
+  été recalculés sur les pixels rendus. Un voile horizontal (`to-r`) suppose un texte aligné à
+  gauche ; sous un contenu centré il ne couvre rien. Voir § 11 de `REPRISE.md`.
+  **Le trop est aussi une faute.** En corrigeant le bug d'échelle d'opacité Tailwind, les
+  quatre bandeaux services sont passés d'un voile directionnel à 80 % à un voile vertical à
+  **96 %** : le contraste était acquis, mais la photographie n'existait plus. Le plancher est
+  calculé sur le 99e percentile clair de chaque image (relevé : 0,48 à 0,57 selon la photo) et
+  sur la couleur de premier plan la plus faible, qui est le **laiton-display**, pas la pierre —
+  c'est lui qui fixe la limite. Valeur retenue : **0,86** (laiton-display 3,20:1 pour un seuil
+  de 3 ; zinc 5,34:1 ; pierre 11,60:1). À 0,84 le laiton tombait à 3,02, trop juste.
+- **`prefers-reduced-motion`** est traité globalement dans `src/index.css`. Les animations
+  d'apparition partent d'`opacity: 0` : les jouer instantanément, ne jamais les couper avec
+  `animation: none`, sinon le contenu reste invisible.
+- **Chiffres inventés** : deux `aggregateRating` fabriqués (4,9/500 et 4,8/127) ont été retirés
+  — Google interdit à une entreprise de baliser ses propres avis. Il reste un compteur
+  d'estimations qui s'incrémente à chaque chargement. Ne pas en ajouter : la seule note
+  publiable est celle de la fiche Google (`src/config/avis.ts`).
+- **~11 Mo de PNG dans `src/assets/`** : ce sont les **masters en 1536 × 1024**, dont les
+  `.webp` (700 × 467) sont des réductions. Ils ne partent **pas** dans `dist/` — Vite ne copie
+  que l'importé, et `dist/assets/` ne contient aucun PNG. Ne pas les supprimer : les bandeaux
+  des pages services consomment des variantes `-large.webp` régénérées depuis eux. À sortir du
+  dépôt vers un stockage dédié si le poids gêne, pas à détruire.
+- **Les exposants Unicode tombent hors police.** `ᵉ` (U+1D49) et `ᵗ` n'appartiennent
+  pas au sous-ensemble latin de Google Fonts : ils basculaient dans une police
+  système au milieu du mot, et « Paris 8ᵉ » s'affichait « Paris 8° ». Écrire
+  `8<sup>e</sup>`. Le caractère reste acceptable dans les métadonnées, qui ne sont
+  pas rendues dans la fonte du site — il en subsiste dans `config/seo.ts` et les
+  balises de `pages/`.
+- **Mode sombre** : `.dark` partage désormais la définition de `.nuit`, dont les
+  contrastes sont mesurés. Aucun sélecteur ne l'active toujours ; une bascule
+  serait maintenant crédible, mais reste à vérifier page par page.
 - Déploiement statique : un fallback SPA (`.htaccess`) est **indispensable** chez LWS, sinon
   `/biens` en accès direct renvoie un 404 Apache. Il n'est pas encore dans le dépôt.
 

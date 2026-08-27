@@ -169,15 +169,77 @@ export function descriptionLines(bien: Bien): string[] {
   return lines;
 }
 
+// ------------------------------------------------------------------- typographie
+
+export interface SegmentOrdinal {
+  texte: string;
+  /** Vrai si ce segment doit être rendu dans un `<sup>`. */
+  exposant?: boolean;
+}
+
+/**
+ * Découpe un texte en isolant les exposants ordinaux Unicode.
+ *
+ * POURQUOI. `ᵉ` (U+1D49) et `ᵗ` (U+1D57) n'appartiennent pas au sous-ensemble
+ * latin servi par Google Fonts : ils basculent dans une police système au milieu
+ * du mot, et « du 20ᵉ arrondissement » s'affiche « du 20° arrondissement ».
+ *
+ * POURQUOI ICI ET PAS DANS LA DONNÉE. Le caractère vient d'une description
+ * écrite par l'agence dans son logiciel de gestion, et la règle du projet est
+ * que les données ne se corrigent jamais dans le code — la source est le
+ * logiciel, pas ce dépôt. La correction est donc purement une correction
+ * d'AFFICHAGE : le texte stocké est intact, seul son rendu change.
+ *
+ * Le découpage renvoie des segments plutôt que du HTML : aucune insertion de
+ * balisage brut, donc aucune surface d'injection sur un texte qui vient d'une
+ * source externe. C'est le composant qui décide du `<sup>`.
+ */
+const EXPOSANTS: Record<string, string> = { 'ᵉ': 'e', 'ᵗ': 't', 'ʳ': 'r', 'ᵈ': 'd' };
+
+export function segmentsOrdinaux(texte: string): SegmentOrdinal[] {
+  const segments: SegmentOrdinal[] = [];
+  let courant = '';
+
+  for (const caractere of texte) {
+    const remplacement = EXPOSANTS[caractere];
+    if (remplacement === undefined) {
+      courant += caractere;
+      continue;
+    }
+    if (courant) segments.push({ texte: courant });
+    courant = '';
+    // Exposants consécutifs (« 1ᵉʳ ») : on les fusionne en un seul <sup>.
+    const dernier = segments[segments.length - 1];
+    if (dernier?.exposant) dernier.texte += remplacement;
+    else segments.push({ texte: remplacement, exposant: true });
+  }
+
+  if (courant) segments.push({ texte: courant });
+  return segments;
+}
+
 // -------------------------------------------------------------- mentions légales
 
 /**
  * Mention courte affichée sous le prix. Le taux d'honoraires doit accompagner
- * le prix partout où celui-ci apparaît, pas seulement dans le détail.
+ * le prix partout où celui-ci apparaît, pas seulement dans le détail : une
+ * carte d'annonce EST une annonce au sens de la réglementation.
+ *
+ * Vente : arrêté du 10 janvier 2017 — taux TTC et partie qui le supporte.
+ * Location : loi ALUR et décret 2015-1437 — charges ET honoraires à la charge
+ * du locataire. Ce second point manquait : la carte d'une location affichait le
+ * loyer et les charges, mais pas les honoraires du locataire, qui ne
+ * figuraient que dans le détail. Sur la réf. G60 du portefeuille, cela laissait
+ * 120 € TTC hors de l'annonce.
  */
 export function feeNote(bien: Bien): string {
   if (bien.transaction === 'location') {
-    return bien.charges != null ? `+ ${eur(bien.charges)} de charges par mois` : '';
+    const parts: string[] = [];
+    if (bien.charges != null) parts.push(`+ ${eur(bien.charges)} de charges par mois`);
+    if (bien.agencyRentalFee != null) {
+      parts.push(`honoraires locataire ${eur(bien.agencyRentalFee)} TTC`);
+    }
+    return parts.join(' · ');
   }
   if (bien.feePercentage == null || !bien.feesChargedTo) return '';
   return `Honoraires ${percent(bien.feePercentage)} % TTC à la charge de l'${bien.feesChargedTo}`;

@@ -72,13 +72,10 @@ const MentionsLegales = () => (
     />
     <Header />
 
-    <main role="main">
+    <main id="contenu" tabIndex={-1}>
       <section className="border-b border-border/60 bg-gradient-subtle pt-32 pb-12">
         <div className="container mx-auto px-6">
-          <span className="glass mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-primary">
-            <Scale className="h-4 w-4" />
-            Informations légales
-          </span>
+          <p className="plaque mb-6">Informations légales</p>
           <h1 className="text-4xl font-bold md:text-5xl">Mentions légales</h1>
         </div>
       </section>
@@ -86,7 +83,7 @@ const MentionsLegales = () => (
       <div className="container mx-auto max-w-3xl px-6 py-14">
         {legalIsIncomplete && (
           <div className="mb-10 flex gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-4">
-            <AlertTriangle className="h-5 w-5 shrink-0 text-destructive" />
+            <AlertTriangle aria-hidden className="h-5 w-5 shrink-0 text-destructive" />
             <p className="text-sm leading-relaxed">
               <strong>Page incomplète, à ne pas mettre en ligne en l'état.</strong> Les mentions
               marquées « à compléter » sont obligatoires au titre de la loi Hoguet. Elles figurent

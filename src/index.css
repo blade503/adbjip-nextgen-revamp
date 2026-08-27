@@ -1,150 +1,279 @@
-/* La police est chargée par index.html, en préchargement non bloquant.
-   Un @import ici la demandait une seconde fois, et en bloquant le rendu. */
+/* Les polices sont chargées par index.html, en préchargement non bloquant.
+   Un @import ici les demanderait une seconde fois, et en bloquant le rendu. */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* JIP 2025 Design System - Modern Real Estate Excellence */
+/* =====================================================================
+   JIP — « LE HALL ». Direction artistique.
+
+   Le public voit la façade ; le syndic connaît le hall. Une agence de
+   gérance et de syndic ne vend pas un rêve d'appartement ensoleillé :
+   elle détient les clés, le registre et les comptes d'un immeuble, sur
+   vingt ans. Le site est donc posé dans le hall d'un immeuble
+   haussmannien — boiseries marine, pierre, laiton, une seule lampe — et
+   non sur la façade éclairée du côté rue.
+
+   Ce choix n'est pas une humeur, il est mesuré. Le jaune de l'enseigne
+   plafonne à **1,81:1** sur un fond clair : inutilisable en texte, d'où
+   les contorsions de la version précédente (deux déclinaisons sombres
+   inventées pour pouvoir l'écrire quelque part). Sur le fond de nuit il
+   atteint **8,91:1**. Inverser le site est la seule manière de rendre à
+   l'agence sa couleur. Tous les ratios ci-dessous sont calculés, pas
+   estimés.
+
+   L'UNITÉ DU SYSTÈME EST LA PLAQUE. Dans un hall parisien, tout est
+   plaqué : la plaque de rue, celle du syndic à côté de la porte, les
+   boîtes aux lettres gravées, les numéros de lot, les étages. La plaque
+   n'est donc pas un ornement posé au-dessus des titres — c'est la
+   géométrie de tout ce qui est encadré sur ce site : champ d'émail,
+   liseré en retrait, capitales espacées. Boutons, champs de formulaire,
+   images, panneaux : même cadre. Un seul geste appuyé, répété.
+
+   CE QUI A ÉTÉ RETIRÉ, et ne doit pas revenir : le verre dépoli
+   (`backdrop-filter`), les titres en dégradé, les cartes qui décollent
+   au survol, les halos jaunes, les pastilles d'icônes colorées, les
+   angles à 16 px. C'étaient les marques de fabrique d'un gabarit.
+   ===================================================================== */
 
 @layer base {
   :root {
-    /* Base Colors - Elegant neutrals */
-    --background: 0 0% 100%;
-    --foreground: 220 15% 15%;
+    /* ---- Matières -------------------------------------------------
+       Sept couleurs, nommées par la matière et non par la fonction : on
+       les reconnaît dans l'immeuble avant de les reconnaître dans le
+       code.
 
-    /* Card System - Glass morphism ready */
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 15%;
-    --card-glass: 0 0% 100% / 0.8;
-    --card-border: 220 13% 91% / 0.5;
+       TOUS LES RATIOS DE CE FICHIER SONT REPRODUCTIBLES :
+           node scripts/contraste.mjs
+       Le script couvre les 29 couples réels du site, voiles compris, et
+       sort en erreur si l'un d'eux passe sous son seuil. Ne pas modifier
+       une couleur sans le relancer — et ne jamais recopier un ratio à la
+       main dans un commentaire sans l'avoir vu dans sa sortie.
 
-    /* JIP Brand - Modernized */
-    --primary: 48 95% 45%; /* Even darker yellow for optimal readability */
-    /* Marine et non blanc : le blanc sur ce jaune donne 1,96:1 là où
-       l'accessibilité en demande 4,5. Le marine de la charte monte à 6,10:1. */
-    --primary-foreground: 220 45% 25%;
-    --primary-glow: 48 100% 55%;
-    --primary-soft: 48 100% 97%;
-    /* Deux déclinaisons sombres du jaune, pour le texte sur fond clair. Le jaune
-       de marque y plafonne à 1,96:1 alors que la norme demande 4,5 — ou 3 pour
-       les grands titres. Mesuré : --primary-display atteint 3,20, --primary-ink
-       atteint 4,75. Le jaune vif reste pour les aplats et les pictogrammes. */
-    --primary-display: 48 95% 35%;
-    --primary-ink: 48 95% 28%;
+       Ratios calculés (WCAG 2.1, sRGB) :
 
-    /* Professional Blue - Trust & expertise */
-    --secondary: 220 45% 25%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-soft: 220 45% 97%;
+         pierre / nuit ........ 16,08:1
+         laiton / nuit .........  8,91:1
+         laiton / marine .......  7,79:1
+         zinc   / nuit .........  7,41:1
+         encre  / pierre ....... 15,02:1
+         laiton / pierre .......  1,81:1   ← interdit en texte
+    */
+    --nuit: 212 34% 9%;        /* #0f161f — la boiserie du hall, fond sombre */
+    --marine: 217 40% 15%;     /* #172336 — le champ des plaques */
+    --pierre: 40 26% 94%;      /* #f4f1ec — pierre de taille, fond clair */
+    --ivoire: 40 30% 97%;      /* #faf8f5 — surface claire surélevée */
+    --encre: 214 34% 12%;      /* #141d29 — le texte sur pierre */
+    --zinc: 213 16% 66%;       /* #9aa7b6 — le zinc des toits, texte second */
+    --laiton: 38 88% 55%;      /* #f1a727 — le laiton, et l'enseigne */
 
-    /* Premium Grays */
-    --muted: 220 13% 97%;
-    --muted-foreground: 220 13% 45%;
-    --accent: 220 13% 95%;
-    --accent-foreground: 220 15% 15%;
+    /* ---- Correspondance shadcn ------------------------------------
+       Le site est clair par défaut (les pages de contenu et les photos
+       de biens ont besoin du jour) ; la coquille — en-tête, ouverture,
+       conversion, pied de page — est de nuit, par la classe `.nuit`. */
+    --background: var(--pierre);
+    --foreground: var(--encre);
 
-    /* Interactive States */
-    --destructive: 0 84% 60%;
+    --card: var(--ivoire);
+    --card-foreground: var(--encre);
+
+    --primary: var(--laiton);
+    /* Le marine et non le blanc : le blanc sur ce laiton donne 2,04:1,
+       le marine 7,79:1. C'est aussi la couleur du texte d'une plaque.
+       (Ces deux ratios sortent de `node scripts/contraste.mjs laiton`. Le
+       commentaire annonçait 1,88:1 pour le blanc — c'était faux, et c'est
+       le script qui l'a attrapé. Aucun ratio ne se recopie de mémoire.) */
+    --primary-foreground: var(--marine);
+    --primary-glow: 38 88% 62%;
+    --primary-soft: 38 60% 95%;
+    /* Deux déclinaisons sombres, pour les rares cas où l'accent doit
+       s'écrire sur la pierre. Mesurées non pas sur la pierre nue mais
+       sur le voile teinté des étiquettes (`--primary/10`), là où le
+       piège se referme : --primary-ink tient 5,44:1 sur pierre et
+       5,13:1 sur ce voile. À 30 % de clarté il retombait à 4,61:1.
+       --primary-display est réservé aux titres de 24 px et plus (3,62:1). */
+    --primary-display: 38 88% 36%;
+    --primary-ink: 38 88% 28%;
+
+    --secondary: var(--marine);
+    --secondary-foreground: var(--pierre);
+    --secondary-soft: 217 24% 92%;
+
+    --muted: 40 20% 90%;
+    /* 40 % de clarté : à 45 % ce gris retombait à 4,45:1 sur les fonds
+       teintés. Mesuré ici à 5,36:1 sur pierre, 5,05:1 sur le voile de
+       laiton, 4,96:1 sur le lavis d'encre du survol. */
+    --muted-foreground: 215 14% 40%;
+    --accent: 40 22% 88%;
+    --accent-foreground: var(--encre);
+    --popover: var(--ivoire);
+    --popover-foreground: var(--encre);
+
+    --destructive: 4 68% 48%;
     --destructive-foreground: 0 0% 100%;
-    /* Déclinaison sombre pour le texte : le rouge d'alerte sur son propre fond
-       clair ne dépasse pas 3,78:1. */
-    --destructive-ink: 0 84% 32%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 48 95% 45%;
+    --destructive-ink: 4 72% 32%;
 
-    /* Modern Radius System */
-    --radius: 0.75rem;
-    --radius-sm: 0.5rem;
-    --radius-lg: 1rem;
-    --radius-xl: 1.5rem;
+    --border: 38 14% 85%;
+    --input: 38 14% 82%;
+    --ring: var(--laiton);
 
-    /* Gradients - 2025 Style */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
-    --gradient-glass: linear-gradient(135deg, hsl(var(--card-glass)), hsl(0 0% 100% / 0.4));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+    /* ---- Le trait -------------------------------------------------
+       Le filet est la ponctuation du site : il sépare les sections, il
+       souligne les liens, il encadre les plaques. Toujours 1 px, jamais
+       une ombre, jamais un contour de 2 px. Deux variables : la teinte
+       du trait, et celle du liseré gravé. */
+    --trait: 214 34% 12%;      /* encre, employée avec alpha */
+    --trait-a: 0.14;
+    --filet: 38 88% 55%;       /* laiton, le liseré de la plaque */
+    --filet-a: 0.42;
+    --lavis: 214 34% 12%;      /* le lavis de survol */
+    --lavis-a: 0.045;
+    /* Halo de focus : sur la pierre le laiton seul ne fait que 1,81:1,
+       en dessous des 3:1 exigés d'un indicateur non textuel. Le marine
+       derrière lui rétablit la lisibilité sur les deux fonds. */
+    --halo-focus: 217 40% 15% / 0.85;
 
-    /* Premium Shadows */
-    --shadow-elegant: 0 8px 40px -8px hsl(var(--primary) / 0.15);
-    --shadow-card: 0 4px 20px -4px hsl(220 15% 15% / 0.08);
-    --shadow-glass: 0 8px 32px -8px hsl(220 15% 15% / 0.12);
-    --shadow-float: 0 12px 60px -12px hsl(var(--primary) / 0.25);
+    /* ---- Géométrie de la plaque -----------------------------------
+       Une plaque émaillée n'a presque pas de rayon : 2 px, la trace de
+       l'outil. Les quatre échelons existent pour que les `rounded-*`
+       héritées des pages internes se resserrent d'elles-mêmes. */
+    --radius: 0.125rem;
+    --radius-sm: 0.0625rem;
+    --radius-lg: 0.1875rem;
+    --radius-xl: 0.25rem;
 
-    /* Animation Timings */
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    --transition-fast: all 0.2s ease-out;
+    /* ---- Ombres ---------------------------------------------------
+       Aucune ombre colorée, aucun halo. De l'encre diluée, très basse,
+       comme un objet posé sur une table : c'est ce qui distingue une
+       plaque vissée d'une carte qui flotte. */
+    --shadow-pose: 0 1px 2px hsl(var(--encre) / 0.06), 0 8px 24px -12px hsl(var(--encre) / 0.16);
+    --shadow-appui: 0 2px 4px hsl(var(--encre) / 0.08), 0 20px 48px -20px hsl(var(--encre) / 0.24);
+    --shadow-card: var(--shadow-pose);
+    --shadow-elegant: var(--shadow-pose);
+    --shadow-glass: var(--shadow-pose);
+    --shadow-float: var(--shadow-appui);
 
-    --sidebar-background: 0 0% 98%;
+    /* ---- Mouvement : « ouverture » --------------------------------
+       Tout entre en s'ouvrant et se pose. Rien ne rebondit, rien ne
+       flotte, rien ne s'allume. Le geste de référence est celui d'une
+       porte cochère lourde qu'on relâche : rapide au départ, longue à
+       l'arrivée.
+       TROIS COURBES, et pas une seule. Une sortie exponentielle sur un
+       changement de couleur de 180 ms paraît molle au départ, et elle est
+       fausse dès qu'un geste doit se jouer à l'envers.
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+         --sortie        ce qui ARRIVE et se pose : voile, trait, calage, lavis
+         --sortie-douce  ce qui CHANGE DE VALEUR : couleur, remplissage, liseré
+         --reversible    ce qui PART ET REVIENT : déroulé, chevron, hauteur
+                         d'en-tête. Symétrique, parce qu'elle doit être juste
+                         dans les deux sens — une sortie exponentielle jouée à
+                         l'envers donne une entrée brutale.
 
-    --sidebar-primary: 240 5.9% 10%;
+       Aucune n'a de dépassement : ni rebond, ni élastique, ni `ease-in`
+       seul, qui donne l'impression d'un objet jeté. */
+    --sortie: cubic-bezier(0.16, 1, 0.3, 1);
+    --sortie-douce: cubic-bezier(0.33, 1, 0.68, 1);
+    --reversible: cubic-bezier(0.65, 0, 0.35, 1);
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    /* ---- Durées : six pas, et pas dix-sept valeurs au jugé ---------
+       Le dépôt employait `duration-200`, `duration-300` et `duration-500`
+       côte à côte sans règle. L'échelle a été calée sur ces valeurs pour
+       que la reprise soit invisible à l'œil. Une durée absente de cette
+       liste n'a pas à apparaître dans le code. */
+    --d1: 120ms;   /* retour immédiat — l'appui d'un bouton */
+    --d2: 180ms;   /* état — couleur, remplissage, bordure, liseré */
+    --d3: 320ms;   /* petite course — filet d'un lien, chevron, déroulé */
+    --d4: 500ms;   /* surface — lavis de survol, panneau, passage de page */
+    --d5: 800ms;   /* arrivée — le voile et le trait */
+    --d6: 1200ms;  /* pose — le calage d'une image, une seule fois */
 
-    --sidebar-accent: 240 4.8% 95.9%;
+    /* ---- Courses : en `rem`, jamais en pixels ----------------------
+       En `rem`, le mouvement se réduit de lui-même là où la typographie se
+       réduit. Un système en pixels demande une requête média par palier,
+       et on l'oublie toujours. */
+    --t1: 0.375rem;  /* le décalage d'une flèche, d'un chevron */
+    --t2: 1.25rem;   /* la montée d'une arrivée */
+    --t3: 1.75rem;   /* le resserrement de l'en-tête au défilement */
+    --t4: 2.5rem;    /* budget de parallaxe CUMULÉ sur un écran entier */
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
+    /* Deux échelles d'image, et deux seulement. Au-delà, un bas-relief se
+       disloque et cesse d'être un bas-relief. */
+    --z1: 1.03;      /* survol */
+    --z2: 1.05;      /* pose à l'entrée */
+    --transition-smooth: color 0.3s var(--sortie-douce), background-color 0.3s var(--sortie-douce), border-color 0.3s var(--sortie-douce);
+    --transition-fast: color 0.18s var(--sortie-douce), background-color 0.18s var(--sortie-douce);
+    --transition-bounce: var(--transition-smooth);
 
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* ---- Dégradés hérités ----------------------------------------
+       Conservés sous leurs anciens noms parce que onze pages s'en
+       servent encore, mais vidés de leur dégradé : ce sont désormais
+       des aplats. Un titre en dégradé était la signature la plus
+       évidente du gabarit d'origine. */
+    --gradient-primary: linear-gradient(hsl(var(--laiton)), hsl(var(--laiton)));
+    --gradient-hero: linear-gradient(hsl(var(--nuit)), hsl(var(--nuit)));
+    --gradient-glass: linear-gradient(hsl(var(--ivoire)), hsl(var(--ivoire)));
+    --gradient-subtle: linear-gradient(hsl(var(--pierre)), hsl(var(--pierre)));
   }
 
+  /* ---- Le hall : le fond de nuit ---------------------------------
+     `.nuit` rebascule les jetons pour tout son sous-arbre. Toute la
+     bibliothèque de composants suit sans savoir qu'elle a changé de
+     fond — c'est le seul mécanisme qui permet d'alterner deux fonds
+     sur onze pages sans réécrire onze pages.
+
+     `.dark` reçoit la même définition : le mode sombre était déclaré
+     mais injoignable, et laisser deux palettes sombres divergentes
+     dans le fichier revenait à programmer la panne. */
+  .nuit,
   .dark {
-    /* Dark Mode - Premium Night Theme */
-    --background: 220 25% 8%;
-    --foreground: 220 13% 95%;
+    --background: var(--nuit);
+    --foreground: var(--pierre);
 
-    --card: 220 25% 10%;
-    --card-foreground: 220 13% 95%;
-    --card-glass: 220 25% 15% / 0.8;
-    --card-border: 220 25% 25% / 0.3;
+    --card: var(--marine);
+    --card-foreground: var(--pierre);
 
-    --primary: 48 95% 50%;
-    --primary-foreground: 220 25% 8%;
-    --primary-display: 48 95% 60%;
-    --primary-ink: 48 95% 70%;
-    --primary-glow: 48 100% 60%;
-    --primary-soft: 48 95% 15%;
+    /* Sur la nuit, le laiton est enfin du texte : 8,91:1. Les deux
+       déclinaisons sombres n'ont plus lieu d'être et pointent vers le
+       laiton lui-même, pour que les pages héritées cessent d'écrire en
+       ocre foncé sur du bleu nuit. */
+    --primary: var(--laiton);
+    --primary-foreground: var(--marine);
+    --primary-display: var(--laiton);
+    --primary-ink: var(--laiton);
+    --primary-soft: 217 40% 20%;
 
-    --secondary: 220 45% 85%;
-    --secondary-foreground: 220 25% 8%;
-    --secondary-soft: 220 45% 12%;
+    --secondary: var(--pierre);
+    --secondary-foreground: var(--marine);
+    --secondary-soft: 217 40% 20%;
 
-    --muted: 220 25% 15%;
-    --muted-foreground: 220 13% 65%;
-    --accent: 220 25% 18%;
-    --accent-foreground: 220 13% 95%;
+    --muted: 217 30% 18%;
+    /* zinc : 7,41:1 sur la nuit, 6,47:1 sur le marine, 6,61:1 sur le
+       lavis clair du survol. */
+    --muted-foreground: var(--zinc);
+    --accent: 217 34% 20%;
+    --accent-foreground: var(--pierre);
+    --popover: var(--marine);
+    --popover-foreground: var(--pierre);
 
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 220 13% 95%;
-    --destructive-ink: 0 80% 78%;
-    --border: 220 25% 20%;
-    --input: 220 25% 18%;
-    --ring: 48 95% 50%;
+    --destructive: 4 72% 58%;
+    --destructive-ink: 4 82% 76%;
 
-    /* Dark Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(220 25% 8%) 0%, hsl(var(--primary)) 100%);
-    --gradient-glass: linear-gradient(135deg, hsl(var(--card-glass)), hsl(220 25% 20% / 0.4));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+    --border: 213 22% 24%;
+    --input: 213 22% 30%;
 
-    /* Dark Shadows */
-    --shadow-elegant: 0 8px 40px -8px hsl(0 0% 0% / 0.3);
-    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.2);
-    --shadow-glass: 0 8px 32px -8px hsl(0 0% 0% / 0.25);
-    --shadow-float: 0 12px 60px -12px hsl(var(--primary) / 0.4);
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --trait: 40 26% 94%;
+    --trait-a: 0.16;
+    --filet-a: 0.5;
+    --lavis: 40 26% 94%;
+    --lavis-a: 0.055;
+    --halo-focus: 40 26% 94% / 0.35;
+
+    --shadow-pose: 0 1px 0 hsl(var(--pierre) / 0.04), 0 16px 40px -20px hsl(0 0% 0% / 0.7);
+    --shadow-appui: 0 1px 0 hsl(var(--pierre) / 0.06), 0 28px 64px -24px hsl(0 0% 0% / 0.8);
+
+    --gradient-glass: linear-gradient(hsl(var(--marine)), hsl(var(--marine)));
+    --gradient-subtle: linear-gradient(hsl(var(--nuit)), hsl(var(--nuit)));
   }
 }
 
@@ -156,93 +285,1130 @@
   body {
     @apply bg-background text-foreground font-inter;
     font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
   }
 
   html {
     scroll-behavior: smooth;
+    /* L'en-tête collant recouvrait les titres visés par une ancre. */
+    scroll-padding-top: 6rem;
+  }
+
+  /* ---- Deux voix ------------------------------------------------
+     Le sous-titrage d'un hall parisien est en capitales larges : les
+     plaques de rue, les boîtes aux lettres, les indications d'étage.
+     C'est une linéale, jamais un romain à empattements — et c'est
+     l'argument qui avait déjà fait retirer Spectral de ce projet.
+
+     On garde donc la linéale, mais on cesse de tout écrire avec la
+     même. Archivo apporte ce qu'Inter n'a pas : un axe de LARGEUR
+     (`wdth` 100..125). Les titres sont composés en 112–120 de largeur,
+     le texte courant en Inter à largeur normale. Le contraste ne vient
+     pas d'une opposition serif / sans — trop attendue — mais d'une
+     opposition étroit / large entre deux linéales. Les capitales
+     élargies sont exactement la proportion d'une plaque émaillée.
+
+     Coût : un fichier variable de plus (Archivo, latin, wdth 100..125
+     × wght 400..700). La police de repli est Inter, déjà chargée : il
+     n'y a donc pas de rendu nu pendant l'attente, seulement un
+     resserrement de la largeur au moment de la substitution. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: 'Archivo', 'Inter', system-ui, sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    text-wrap: balance;
+    color: hsl(var(--foreground));
+  }
+
+  h1 {
+    font-variation-settings: 'wdth' 112;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+  }
+
+  h2 {
+    font-variation-settings: 'wdth' 108;
+    letter-spacing: -0.024em;
+    line-height: 1.04;
+  }
+
+  h3,
+  h4 {
+    font-variation-settings: 'wdth' 104;
+    letter-spacing: -0.012em;
+    line-height: 1.2;
+  }
+
+  /* Chiffres alignés en colonne partout où ils se comparent — prix des
+     annonces, honoraires, surfaces, millièmes. Sans cela les colonnes
+     de chiffres tremblent d'une carte à l'autre. */
+  .tabulaire {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+
+  /* Anneau de focus. Le laiton seul ne fait que 1,81:1 sur la pierre,
+     là où un indicateur non textuel doit atteindre 3:1 — invisible,
+     donc. Le doublé laiton + halo passe sur les deux fonds : le laiton
+     ressort sur la nuit, le halo marine ressort sur la pierre. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--laiton));
+    outline-offset: 2px;
+    /**
+     * `!important` SUR LE HALO, ET IL EST NÉCESSAIRE.
+     *
+     * Les utilitaires Tailwind vivent dans `@layer utilities`, qui passe APRÈS
+     * `@layer base`. Une classe `shadow-lg` posée sur un bouton écrasait donc ce
+     * `box-shadow`, et le bouton perdait son halo sans que rien ne le signale :
+     * il ne restait que le liseré laiton, à 1,81:1 sur la pierre — invisible.
+     *
+     * Mesuré au vrai clavier : le bouton « Calculer mon estimation », seul
+     * élément focalisable du site à porter à la fois `shadow-lg` et un aplat
+     * clair, tombait à 1,92:1 contre son voisinage quand tous les autres
+     * étaient entre 8,8 et 18:1.
+     *
+     * L'ombre propre de l'élément disparaît pendant le focus. C'est voulu :
+     * l'indicateur de focus n'a pas à cohabiter avec une ombre portée qui le
+     * brouille.
+     */
+    box-shadow: 0 0 0 5px hsl(var(--halo-focus)) !important;
+  }
+
+  ::selection {
+    background: hsl(var(--laiton) / 0.28);
   }
 }
 
 @layer components {
-  /* Glass Morphism Components */
-  .glass {
-    background: var(--gradient-glass);
-    backdrop-filter: blur(20px);
-    border: 1px solid hsl(var(--card-border));
+  /* =================================================================
+     LA PLAQUE — l'unité du système.
+     Champ d'émail, liseré gravé en retrait de 4 px, capitales
+     espacées. Tout ce qui est encadré sur ce site l'est ainsi.
+     ================================================================= */
+
+  /* Le cadre seul : à poser sur une image, un panneau, un champ. Le
+     liseré est un `::after` et non une bordure, pour être *en retrait*
+     du bord — c'est le détail qui distingue une plaque gravée d'un
+     rectangle avec un contour. */
+  .cadre {
+    position: relative;
+    isolation: isolate;
   }
 
-  .glass-strong {
-    background: hsl(var(--card-glass));
-    backdrop-filter: blur(40px);
-    border: 1px solid hsl(var(--card-border));
+  .cadre::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    z-index: 2;
+    pointer-events: none;
+    border: 1px solid hsl(var(--filet) / var(--filet-a));
+    border-radius: 1px;
+    transition: border-color var(--d4) var(--sortie-douce), opacity var(--d4) var(--sortie-douce);
   }
 
-  /* Gradient Text */
-  /* Deux variantes, parce que le même mot en jaune se lit sur fond clair ou sur
-     photo sombre, jamais avec la même densité.
-     .gradient-text        → fond clair, jaune assombri (3,20:1 sur blanc)
-     .gradient-text-light  → photo sombre, jaune de marque à pleine intensité */
-  .gradient-text-light {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .cadre-discret::after {
+    border-color: hsl(var(--trait) / var(--trait-a));
   }
 
-  .gradient-text {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--primary-display)),
-      hsl(var(--primary-ink))
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* Le liseré gravé — un `::after` EN RETRAIT, jamais une bordure.
+     Une bordure occupe le bord ; ce filet est posé 3 px à l'intérieur, et
+     c'est ce retrait qui fait lire une plaque gravée au lieu d'un rectangle
+     cerné. C'est le détail le plus petit du système et le plus reconnaissable.
+
+     La couleur vient de `--filet-grave`, posée par la variante. La version
+     précédente peignait le champ dans une ombre intérieure et devait donc
+     répéter la couleur du champ quatre fois par variante — c'est exactement
+     ainsi qu'un liseré de laiton s'était retrouvé sur un champ de pierre, où
+     il fait 1,81:1 et ne se voit pas. Ici la variante ne déclare qu'une
+     couleur de filet, et jamais celle de son propre fond. */
+  .grave {
+    position: relative;
   }
 
-  /* Animation Classes */
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+  .grave::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    pointer-events: none;
+    border: 1px solid hsl(var(--filet-grave, var(--filet)) / var(--filet-grave-a, 0.3));
+    border-radius: 1px;
+    transition: border-color var(--d2) var(--sortie-douce);
   }
 
-  .animate-glow {
-    animation: glow 3s ease-in-out infinite alternate;
+  /* Deux pixels de retrait pour les petits objets : sur une étiquette de
+     18 px de haut, un retrait de 3 px ne laisse plus de champ visible. */
+  .grave-fin::after {
+    inset: 2px;
   }
 
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out forwards;
+  /* Le repère de section. Une seule par section, jamais deux à
+     l'écran : c'est la plaque vissée à côté de la porte, pas une
+     étiquette qu'on colle partout. */
+  .plaque {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 2px;
+    background: hsl(var(--marine));
+    box-shadow:
+      inset 0 0 0 3px hsl(var(--marine)),
+      inset 0 0 0 4px hsl(var(--laiton) / 0.55);
+    color: hsl(var(--pierre));
+    font-family: 'Archivo', 'Inter', system-ui, sans-serif;
+    font-variation-settings: 'wdth' 120;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1;
   }
 
-  /* Hover Effects */
-  .hover-lift {
-    transition: var(--transition-smooth);
+  /* Version claire, pour les sections de nuit : la plaque de pierre
+     gravée, à l'inverse de la plaque émaillée. */
+  .plaque-pierre {
+    background: hsl(var(--pierre));
+    box-shadow:
+      inset 0 0 0 3px hsl(var(--pierre)),
+      inset 0 0 0 4px hsl(var(--marine) / 0.5);
+    color: hsl(var(--marine));
   }
 
-  .hover-lift:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-float);
+  /* Le laiton nu, sans champ : pour les surtitres posés à même la
+     nuit, là où une seconde plaque ferait deux plaques à l'écran. */
+  .gravure {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'Archivo', 'Inter', system-ui, sans-serif;
+    font-variation-settings: 'wdth' 118;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1;
+    color: hsl(var(--laiton));
   }
 
+  /* =================================================================
+     LE TRAIT — la ponctuation.
+     ================================================================= */
+
+  .regle {
+    height: 1px;
+    border: 0;
+    background: hsl(var(--trait) / var(--trait-a));
+  }
+
+  /* Le trait se tire de la gauche à l'entrée de la section. C'est le
+     geste qui relie toutes les pages entre elles, et il ne coûte
+     qu'une transformation. */
+  [data-trait] {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--d5) var(--sortie);
+  }
+
+  [data-trait][data-visible] {
+    transform: scaleX(1);
+  }
+
+  /* Le titre de section posé *sur* le trait, avec sa plaque : la
+     composition est toujours alignée à gauche sur une mesure courte.
+     Rien n'est centré sur ce site, hormis les témoignages. */
+  .mesure {
+    max-width: 46ch;
+  }
+
+  .mesure-large {
+    max-width: 68ch;
+  }
+
+  /* =================================================================
+     LE LIEN — un filet de laiton qui se tire sous le mot.
+     Un seul comportement de lien sur tout le site.
+     ================================================================= */
+
+  .lien-trait {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+
+  .lien-trait::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.2em;
+    height: 1px;
+    background: hsl(var(--laiton));
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--d3) var(--sortie);
+  }
+
+  .lien-trait:hover::before,
+  .lien-trait:focus-visible::before {
+    transform: scaleX(1);
+  }
+
+  /* =================================================================
+     LA LUMIÈRE RASANTE — le survol.
+     Rien ne bouge, rien ne décolle, rien ne s'allume. Le lavis entre
+     par la gauche et le liseré se réveille. Les deux anciennes classes
+     `hover-lift` et `hover-glow` pointent ici : douze et seize usages
+     dans les pages internes se corrigent d'un coup.
+     ================================================================= */
+
+  .rasante,
+  .hover-lift,
   .hover-glow {
-    transition: var(--transition-smooth);
+    position: relative;
+    isolation: isolate;
+    transition: background-color var(--d4) var(--sortie-douce), box-shadow var(--d4) var(--sortie-douce);
   }
 
-  .hover-glow:hover {
-    box-shadow: var(--shadow-elegant);
+  .rasante::before,
+  .hover-lift::before,
+  .hover-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: hsl(var(--lavis) / var(--lavis-a));
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--d4) var(--sortie);
+  }
+
+  .rasante:hover::before,
+  .rasante:focus-within::before,
+  .hover-lift:hover::before,
+  .hover-glow:hover::before {
+    transform: scaleX(1);
+  }
+
+  .rasante:hover .cadre::after,
+  .rasante:focus-within .cadre::after,
+  .hover-lift:hover .cadre::after,
+  .hover-glow:hover .cadre::after {
+    border-color: hsl(var(--filet) / 0.95);
+  }
+
+  /* L'image se cale à l'intérieur de son cadre : elle est le seul
+     élément autorisé à bouger, et de 3 % seulement. */
+  .rasante .calage,
+  .hover-lift .calage,
+  .hover-glow .calage {
+    transition: transform var(--d5) var(--sortie), filter var(--d5) var(--sortie-douce);
+  }
+
+  /* `will-change` sur intention, version CSS : posée par `:hover`, retirée par
+     le navigateur dès que le survol cesse. C'est la seule forme de
+     `will-change` qui s'auto-nettoie, et le zoom d'une photo pleine largeur est
+     le cas où la promotion en couche a le plus à gagner. JAMAIS en global : une
+     déclaration hors `:hover` resterait posée pour toute la vie de la page. */
+  .rasante:hover .calage,
+  .rasante:focus-within .calage {
+    will-change: transform;
+  }
+
+  .rasante:hover .calage,
+  .rasante:focus-within .calage,
+  .hover-lift:hover .calage,
+  .hover-glow:hover .calage {
+    transform: scale(1.03);
+  }
+
+  /* =================================================================
+     PANNEAUX — anciennement `glass` et `glass-strong`.
+     Vingt-trois usages dans les pages internes. Le verre dépoli est
+     retiré : plus de `backdrop-filter`, plus de dégradé. Un panneau
+     est une plaque de pierre ou d'émail, avec son liseré.
+     ================================================================= */
+
+  .panneau,
+  .glass,
+  .glass-strong {
+    position: relative;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--trait) / var(--trait-a));
+    border-radius: 2px;
+  }
+
+  /* =================================================================
+     PHOTOGRAPHIE — le duotone.
+     Toute image d'atmosphère est ramenée dans la palette : les ombres
+     montent vers le marine, les hautes lumières descendent vers la
+     pierre. Le site n'a plus qu'un seul climat.
+
+     RÈGLE : ne jamais l'appliquer aux photos d'annonces. Un acheteur a
+     droit à la couleur réelle du bien qu'on lui montre. Le duotone est
+     de l'éditorial, pas de la description.
+     ================================================================= */
+
+  .photo-editoriale {
+    position: relative;
+    isolation: isolate;
+    background: hsl(var(--nuit));
+  }
+
+  .photo-editoriale > img {
+    filter: grayscale(1) contrast(1.06) brightness(0.94);
+  }
+
+  /* Deux fusions superposées : `lighten` remonte les noirs vers le
+     marine, `multiply` fait redescendre les blancs vers la pierre. */
+  .photo-editoriale::before,
+  .photo-editoriale::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Les deux teintes ont été relevées après capture : à 13 % de clarté côté
+     ombres et 88 % côté lumières, `lighten` et `multiply` ne mordaient que sur
+     les extrêmes de l'histogramme et l'image restait un noir et blanc froid.
+     À 21 % et 91 %, avec davantage de saturation, la bascule bleu / ambre
+     devient lisible sur les demi-teintes — c'est-à-dire sur la pierre, qui
+     occupe l'essentiel de la surface. */
+  .photo-editoriale::before {
+    background: hsl(215 48% 21%);
+    mix-blend-mode: lighten;
+  }
+
+  .photo-editoriale::after {
+    background: hsl(36 40% 91%);
+    mix-blend-mode: multiply;
+  }
+
+  /* Le grain. Trois pour cent, pour donner à la nuit la matière d'une
+     impression et surtout pour casser le dégradé de bandes que tout
+     aplat sombre fait apparaître sur un écran 8 bits. */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+
+  /* =================================================================
+     L'OUVERTURE — bas-relief, lumière rasante, fermeture au défilement.
+     Tout est en CSS : les cinq éclairages sont des jeux de variables, la
+     rasante deux copies masquées, la fermeture une seule propriété liée à
+     la position. Aucun WebGL — voir le § « Ce qu'on n'a pas eu besoin
+     d'aller chercher » dans REPRISE.md.
+     ================================================================= */
+
+  /* ---- Les cinq éclairages ---------------------------------------
+     Dessinés à la main, pas interpolés. Une interpolation continue sur
+     vingt-quatre heures produit des heures que personne n'a réglées, et
+     elle n'est pas testable état par état. Chaque état est un jeu de six
+     réglages, posé par une classe sur l'ouverture.
+
+     LES LANTERNES N'EN FONT PAS PARTIE. Elles étaient d'abord rangées ici,
+     allumées à l'aube et la nuit — c'est-à-dire précisément quand l'agence
+     est FERMÉE, l'inverse exact de ce que le dispositif annonce. Elles
+     dépendent des horaires d'ouverture, pas du soleil : c'est ce qui les
+     fait porter une information au lieu d'un ornement, et c'est la seule
+     raison pour laquelle cet effet a le droit d'exister. `--lanternes` est
+     donc posée en ligne par `Hero.tsx`, depuis l'horloge du visiteur.
+
+     Physiquement, une lanterne allumée à midi est une stylisation assumée :
+     le halo est discret, et l'information vaut mieux que la vraisemblance. */
+  .heure-aube {
+    --lum: 214 40% 74%; --omb: 218 46% 10%;
+    --f-lum: 0.34; --f-omb: 0.72; --rai: 150deg; --f-rai: 0.10;
+    --expo: 0.72; --sat: 0.62;
+  }
+  .heure-matin {
+    --lum: 210 24% 88%; --omb: 216 44% 12%;
+    --f-lum: 0.58; --f-omb: 0.66; --rai: 132deg; --f-rai: 0.15;
+    --expo: 1.05; --sat: 0.86;
+  }
+  .heure-midi {
+    --lum: 45 12% 94%; --omb: 215 38% 16%;
+    --f-lum: 0.42; --f-omb: 0.44; --rai: 176deg; --f-rai: 0.09;
+    --expo: 1.18; --sat: 0.90;
+  }
+  .heure-doree {
+    --lum: 38 90% 72%; --omb: 216 45% 12%;
+    --f-lum: 0.62; --f-omb: 0.70; --rai: 64deg; --f-rai: 0.20;
+    --expo: 1.00; --sat: 1.00;
+  }
+  .heure-nuit {
+    --lum: 34 86% 62%; --omb: 218 50% 8%;
+    --f-lum: 0.16; --f-omb: 0.86; --rai: 96deg; --f-rai: 0.04;
+    --expo: 0.34; --sat: 0.50;
+  }
+
+  /* ---- Le panneau et ses cinq plans ------------------------------
+     `--descente` va de 0 à 1 sur le premier écran, écrite par un unique
+     écouteur passif. `--reste` en est le complément : la lumière s'éteint
+     et le relief s'aplatit à mesure qu'on quitte la rue.
+
+     BUDGET DE COURSE : 2,5 rem cumulés, répartis 14 / 0 / −6 / −15 / −22 px.
+     C'est peu, et c'est volontaire : un bas-relief qui se disloque n'est
+     plus un bas-relief. La preuve que ça marche, c'est qu'on ne sait pas
+     dire ce qui a bougé. */
+  .travee {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    --reste: calc(1 - var(--descente, 0));
+  }
+
+  /* PLAN 1 · le ciel et la couverture — le plus loin, +14 px */
+  .plan-ciel {
+    position: absolute;
+    inset: -4% 0 62% 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(to bottom, hsl(var(--omb) / 0.85), hsl(var(--omb) / 0));
+    transform: translateY(calc(var(--descente, 0) * 14px));
+  }
+
+  /* PLAN 2 · le nu du mur — l'ancre, ne bouge pas */
+  .plan-mur {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .plan-mur img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 62%;
+    filter: brightness(calc(0.8 * var(--expo, 1))) saturate(var(--sat, 1)) contrast(1.04);
+    transition: filter var(--d6) var(--sortie);
+  }
+
+  /* PLAN 3 · les tableaux — embrasures et vitrages, en retrait, −6 px.
+     PLAN 4 · le balcon — dalle et consoles, en saillie, −15 px.
+     Les deux exigent un détourage, donc une photographie faite pour cela.
+     Ils ne sont PAS bloquants : le ciel, le mur et la ferronnerie portent
+     la profondeur à eux seuls, ce que la capture démontre. Ils viendront
+     avec le shooting, en amélioration progressive. */
+
+  /* PLAN 5 · la ferronnerie — devant le vide, −22 px.
+     DESSINÉE et non détourée : un garde-corps haussmannien est un motif
+     qui se répète, donc une unité et un `<pattern>`. C'est la logique déjà
+     appliquée au logo, et cela économise une demi-journée de détourage. */
+  .plan-fer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    height: 6.5rem;
+    pointer-events: none;
+    color: hsl(var(--nuit));
+    opacity: 0.92;
+    transform: translateY(calc(var(--descente, 0) * -22px));
+  }
+
+  .plan-fer svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ---- La lumière rasante ---------------------------------------
+     Deux copies de la même image — une éclaircie en `overlay`, une
+     assombrie et décalée de 3 px en `multiply` — masquées par des dégradés
+     radiaux centrés sur le pointeur. Aucune carte de normales, aucun
+     WebGL : deux `<span>` et un `mask-image`.
+
+     Le fichier est le même que celui du plan du mur : le navigateur le sert
+     depuis son cache, il n'y a pas de second téléchargement. */
+  .relief {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: var(--reste);
+  }
+
+  .relief > span {
+    position: absolute;
+    inset: 0;
+    display: block;
+    background-image: var(--facade);
+    background-size: cover;
+    background-position: 50% 62%;
+  }
+
+  .relief .lum {
+    filter: brightness(1.7) contrast(1.1) saturate(0.8);
+    mix-blend-mode: overlay;
+    opacity: var(--f-lum);
+    -webkit-mask-image: radial-gradient(30rem 30rem at var(--mx, 50%) var(--my, 42%), #000 0%, rgba(0, 0, 0, 0.55) 42%, transparent 72%);
+            mask-image: radial-gradient(30rem 30rem at var(--mx, 50%) var(--my, 42%), #000 0%, rgba(0, 0, 0, 0.55) 42%, transparent 72%);
+  }
+
+  .relief .omb {
+    filter: brightness(0.42) contrast(1.3);
+    mix-blend-mode: multiply;
+    opacity: var(--f-omb);
+    transform: translate(2px, 3px);
+    -webkit-mask-image: radial-gradient(36rem 36rem at var(--sx, 50%) var(--sy, 58%), #000 0%, rgba(0, 0, 0, 0.5) 46%, transparent 76%);
+            mask-image: radial-gradient(36rem 36rem at var(--sx, 50%) var(--sy, 58%), #000 0%, rgba(0, 0, 0, 0.5) 46%, transparent 76%);
+  }
+
+  /* ---- Le rai : la direction du soleil --------------------------
+     L'azimut réel de la façade est LA SEULE INCONNUE du dispositif : il se
+     relève sur place ou sur un plan cadastral. En attendant, la direction
+     est celle que trahissent les ombres du cliché source — donc juste pour
+     l'état « dorée », et cohérente pour les autres. */
+  .rai {
+    position: absolute;
+    inset: -20%;
+    z-index: 3;
+    pointer-events: none;
+    opacity: calc(var(--f-rai) * var(--reste));
+    background: linear-gradient(var(--rai), hsl(var(--lum) / 0) 30%, hsl(var(--lum) / 0.9) 52%, hsl(var(--lum) / 0) 74%);
+    mix-blend-mode: soft-light;
+    /* Exception documentée : la lumière de l'ouverture, pas un geste du système. */
+    transition: opacity 1.4s var(--sortie), background 1.4s var(--sortie);
+  }
+
+  /* ---- Les lanternes -------------------------------------------
+     Deux vraies lanternes dans la photographie. Elles s'allument quand
+     l'agence est ouverte : c'est le SEUL effet de l'ouverture qui porte une
+     information, et c'est ce qui l'empêche d'être un ornement. Positions
+     relevées sur ce recadrage (800 × 1080) — à recaler sur la photo
+     définitive. */
+  .lanterne {
+    position: absolute;
+    z-index: 4;
+    width: 13rem;
+    height: 13rem;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: calc(var(--lanternes) * var(--reste));
+    background: radial-gradient(closest-side, hsl(36 92% 76% / 0.55), hsl(34 88% 60% / 0.18) 32%, transparent 70%);
+    /* Exception documentée : la lumière de l'ouverture. */
+    transition: opacity 1.6s var(--sortie);
+  }
+
+  .lanterne-g { left: 20%; top: 75%; }
+  .lanterne-d { left: 55%; top: 74%; }
+
+  /* ---- Le raccord ----------------------------------------------
+     Le texte est sur la nuit pleine (16,08:1) : ce dégradé n'a PAS à
+     garantir un contraste, seulement à souder le panneau au fond pour que
+     l'arête ne se lise pas comme un collage. C'est toute la différence avec
+     un voile posé sous du texte. */
+  .raccord {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    pointer-events: none;
+    background: linear-gradient(to top, hsl(var(--nuit)) 0%, hsl(var(--nuit) / 0.55) 22%, hsl(var(--nuit) / 0) 55%);
+  }
+
+  @media (min-width: 64rem) {
+    .raccord {
+      background:
+        linear-gradient(to right, hsl(var(--nuit)) 0%, hsl(var(--nuit)) 7%, hsl(var(--nuit) / 0.42) 24%, hsl(var(--nuit) / 0) 46%),
+        linear-gradient(to top, hsl(var(--nuit) / 0.65) 0%, hsl(var(--nuit) / 0) 34%);
+    }
+  }
+
+  /* ---- La couture du seuil, tracée au premier défilement -------- */
+  .seuil {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 8;
+    height: 1px;
+    background: hsl(var(--laiton));
+    transform: scaleX(var(--descente, 0));
+    transform-origin: left center;
+  }
+
+  /* =================================================================
+     L'EN-TÊTE QUI SE RESSERRE — piloté par `data-defile`.
+     L'unique écouteur de défilement (`src/lib/defilement.ts`) pose l'attribut
+     sur <html> ; tout le reste est ici. Aucun rendu React n'a lieu.
+
+     AUCUNE PROPRIÉTÉ DE MISE EN PAGE N'EST ANIMÉE. Le rembourrage est
+     constant, le logo se resserre par `transform`, et la ligne d'adresse se
+     replie par `grid-template-rows` — la seule exception que le contrat
+     autorise, et seulement pour un replié. Le premier jet animait
+     `padding`, `height`, `max-height` et `margin` : quatre propriétés
+     interdites, chacune remettant la ligne en page à chaque trame.
+     ================================================================= */
+  html[data-defile='1'] .entete-logo {
+    transform: scale(0.8);
+  }
+
+  /* `min-height: 0` sur l'élément de grille : sans lui, `0fr` ne descend pas
+     en dessous du contenu minimal, et le replié gardait 6 px de rembourrage —
+     mesuré. C'est le piège classique de `grid-template-rows: 0fr`. */
+  .entete-adresse > * {
+    min-height: 0;
+  }
+
+  html[data-defile='1'] .entete-adresse {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+
+  /* =================================================================
+     LA SEULE BOUCLE PERMISE — l'attente.
+     Rien ne boucle sur ce site. L'exception unique est l'indication d'un
+     travail RÉELLEMENT en cours : elle démarre quand le travail démarre et
+     s'arrête quand il s'arrête. Un squelette qui pulse sur une page déjà
+     chargée, ou un anneau qui tourne alors que rien n'attend, sont des
+     mensonges d'interface.
+
+     La classe existe pour une raison précise : le bloc global de
+     `prefers-reduced-motion` met `animation-iteration-count: 1` sur TOUT.
+     Les deux anneaux de chargement tournaient donc une fois en une
+     milliseconde et s'arrêtaient sur un angle arbitraire — sous mouvement
+     réduit, il ne restait AUCUN signe qu'un calcul était en cours, et
+     l'interface passait pour figée. Le mouvement réduit ne doit jamais
+     retirer une information : `.attente` est exclue du bloc global et
+     ralentie à 2,4 s.
+
+     Les squelettes, eux, restent coupés : un bloc gris immobile dit encore
+     « ça charge », il ne perd rien à ne pas pulser.
+     ================================================================= */
+  .attente {
+    animation: attente 900ms linear infinite;
+  }
+
+  /* =================================================================
+     LE DÉROULÉ — les questions.
+     `<details>` apporte le comportement, le CSS apporte la tenue. Le
+     marqueur natif est retiré : c'est un triangle système qui n'appartient
+     à aucune charte.
+     ================================================================= */
+
+  .deroule > summary {
+    list-style: none;
+  }
+
+  .deroule > summary::-webkit-details-marker,
+  .deroule > summary::marker {
+    display: none;
+    content: '';
+  }
+
+  /* Le chevron, dessiné en bordures : deux traits, aucune icône à charger.
+     Il pivote sur la courbe réversible — il part et revient, donc une sortie
+     exponentielle serait fausse dans un des deux sens. */
+  .chevron {
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 1.5px solid hsl(var(--laiton));
+    border-bottom: 1.5px solid hsl(var(--laiton));
+    transform: rotate(45deg);
+    transition: transform var(--d3) var(--reversible);
+  }
+
+  .deroule[open] > summary .chevron {
+    transform: rotate(-135deg);
+  }
+
+  /* Ouverture animée là où le navigateur sait le faire, instantanée ailleurs.
+     `::details-content` et `interpolate-size` sont récents : les envelopper
+     dans un `@supports` donne une amélioration progressive au lieu d'une
+     dépendance. La mesure de hauteur en JavaScript est écartée exprès — c'est
+     la seule autre manière d'animer un `<details>`, et elle contredit la règle
+     « aucune animation ne touche à la mise en page ». */
+  @supports (interpolate-size: allow-keywords) {
+    .deroule::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition: block-size var(--d3) var(--reversible), content-visibility var(--d3) allow-discrete;
+    }
+
+    .deroule[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  /* =================================================================
+     LE CHAMP RÉGLÉ — les formulaires.
+     Pas de boîte. Un filet en pied de champ, qui passe au laiton à la
+     saisie. C'est ce que fait un registre : il règle la ligne, il
+     n'encadre pas le mot.
+     ================================================================= */
+
+  .champ-regle {
+    display: block;
+    width: 100%;
+    padding: 0.65rem 0.125rem;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid hsl(var(--trait) / 0.3);
+    border-radius: 0;
+    color: hsl(var(--foreground));
+    font-size: 1rem;
+    transition: border-color var(--d2) var(--sortie-douce), background-color var(--d2) var(--sortie-douce);
+  }
+
+  .champ-regle::placeholder {
+    color: hsl(var(--muted-foreground) / 0.75);
+  }
+
+  .champ-regle:focus {
+    outline: none;
+    border-bottom-color: hsl(var(--laiton));
+    background: hsl(var(--lavis) / var(--lavis-a));
+  }
+
+  /* Le focus clavier garde l'anneau : le seul filet du bas ne suffit
+     pas à signaler où l'on est quand on navigue au clavier. */
+  .champ-regle:focus-visible {
+    outline: 2px solid hsl(var(--laiton));
+    outline-offset: 2px;
+  }
+
+  /* La liste déroulante. `appearance: none` retire le fond et le cadre du
+     navigateur, mais emporte aussi le chevron : sans lui, plus rien n'indique
+     que le champ s'ouvre. Il est redessiné en image de fond, teinté au filet
+     du site. Le chevron avait d'abord été construit avec quatre utilitaires
+     `bg-[…]` empilés dans le balisage — ils se contredisaient et Chrome rendait
+     un carré noir. */
+  .champ-liste {
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    padding-right: 1.75rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' fill='none' stroke='%23586474' stroke-width='1.4' stroke-linecap='square'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.25rem center;
+  }
+
+  .nuit .champ-liste {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' fill='none' stroke='%239aa7b6' stroke-width='1.4' stroke-linecap='square'/%3E%3C/svg%3E");
+  }
+
+  .etiquette-champ {
+    display: block;
+    margin-bottom: 0.15rem;
+    font-family: 'Archivo', 'Inter', system-ui, sans-serif;
+    font-variation-settings: 'wdth' 112;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* =================================================================
+     LE VOILE — l'entrée.
+     Le contenu se dévoile de derrière le trait : il monte de 20 px et
+     son propre cadre s'ouvre par le bas. Il n'arrive pas en volant.
+     `animate-slide-up` (vingt-six usages) pointe ici.
+     ================================================================= */
+
+  .animate-slide-up,
+  .voile {
+    animation: voile var(--d5) var(--sortie) both;
+  }
+
+  [data-voile] {
+    opacity: 0;
+  }
+
+  [data-voile][data-visible] {
+    animation: voile var(--d5) var(--sortie) both;
+  }
+
+  /* Anciennes boucles décoratives, neutralisées : elles faisaient
+     respirer et clignoter des éléments d'interface. */
+  .animate-float,
+  .animate-glow {
+    animation: none;
+  }
+
+  /* Anciens titres en dégradé — trente usages. Le dégradé est retiré ;
+     reste un aplat qui suit le fond de la section. */
+  .gradient-text,
+  .gradient-text-light {
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    -webkit-text-fill-color: currentColor;
+    color: hsl(var(--primary-display));
   }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+@keyframes voile {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 -30% 0);
+  }
 }
 
-@keyframes glow {
-  from { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); }
-  to { box-shadow: 0 0 40px hsl(var(--primary) / 0.6); }
+
+/* ===================================================================
+   CHORÉGRAPHIE D'ENTRÉE DE L'OUVERTURE.
+   EN CSS PUR, donc active sans JavaScript — ce qui compte sur des pages
+   prérendues. Le plan de découpage est une arrivée de caméra : on allume
+   le bâtiment, le cadre s'assemble, l'objet se donne à lire, puis la
+   parole vient.
+
+   PLAFOND : l'accroche doit être LISIBLE AVANT 1,2 s. C'est cette
+   contrainte qui commande tout le reste du minutage, et non l'inverse.
+
+   TOUTE interaction porte la séquence à son état final immédiatement
+   (classe `coupee`, posée par le premier `wheel`, `pointerdown`,
+   `keydown` ou `touchstart`). La mise en scène cède au visiteur sans
+   délai et sans exception : c'est ce qui sépare une chorégraphie d'un
+   péage, et c'est la première chose qu'on oublie de faire.
+   =================================================================== */
+@keyframes h-jour {
+  from { filter: brightness(0.06) saturate(0.2) contrast(1.2); }
+  to   { filter: brightness(calc(0.8 * var(--expo, 1))) saturate(var(--sat, 1)) contrast(1.04); }
+}
+@keyframes h-rai {
+  from { opacity: 0; transform: translateX(-14%); }
+  to   { opacity: calc(var(--f-rai) * var(--reste)); transform: none; }
+}
+@keyframes h-fer {
+  from { opacity: 0; transform: translateY(1.75rem); }
+  to   { opacity: 0.92; transform: translateY(calc(var(--descente, 0) * -22px)); }
+}
+@keyframes h-champ {
+  from { opacity: 0; transform: translateY(1.25rem) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes h-grave { from { opacity: 0; } to { opacity: 1; } }
+
+/* SEULE EXCEPTION À L'ÉCHELLE DES SIX DURÉES, et elle est assumée : ce plan de
+   découpage est une séquence orchestrée jouée une seule fois, calée sur un
+   plafond mesuré (accroche lisible avant 1 200 ms). Les six jetons décrivent
+   des GESTES répétés — ils n'ont pas à décrire une arrivée de caméra. Les
+   valeurs ci-dessous sont donc lues comme un minutage de film, pas comme un
+   système, et c'est le seul endroit du projet où une durée s'écrit en clair.
+
+   LE PLAFOND COMMANDE LE MINUTAGE, et non l'inverse. Premier jet : accroche
+   à 1 050 ms — calculé, elle n'atteignait que 0,71 d'opacité à 1 200 ms, donc
+   elle *apparaissait* sans être posée. À 500 ms elle est à 1,00. C'est de là
+   que tout le reste a été recalé, en remontant. */
+.sequence .plan-mur img       { animation: h-jour  1.5s var(--sortie) both; }
+.sequence .rai                { animation: h-rai   1.6s var(--sortie) 0.20s both; }
+.sequence .plan-fer           { animation: h-fer   1.1s var(--sortie) 0.25s both; }
+.sequence .plaque-rue         { animation: h-champ 0.8s var(--sortie) 0.30s both; }
+.sequence .plaque-rue::after  { animation: h-grave 0.7s var(--sortie) 0.60s both; }
+.sequence .h-l1               { animation: voile 0.85s var(--sortie) 0.50s both; }
+.sequence .h-l2               { animation: voile 0.85s var(--sortie) 0.59s both; }
+.sequence .h-chapeau          { animation: voile 0.85s var(--sortie) 0.75s both; }
+.sequence .h-trait            { animation: h-trait 0.9s var(--sortie) 0.90s both; }
+.sequence .h-p1               { animation: voile 0.8s  var(--sortie) 1.00s both; }
+.sequence .h-p2               { animation: voile 0.8s  var(--sortie) 1.07s both; }
+.sequence .h-ouvert           { animation: voile 0.8s  var(--sortie) 1.20s both; }
+
+@keyframes h-trait { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.coupee .plan-mur img, .coupee .rai, .coupee .plan-fer, .coupee .plaque-rue,
+.coupee .plaque-rue::after, .coupee .h-l1, .coupee .h-l2, .coupee .h-chapeau,
+.coupee .h-trait, .coupee .h-p1, .coupee .h-p2, .coupee .h-ouvert {
+  animation-duration: 0.001s !important;
+  animation-delay: 0s !important;
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Le calage : l'image se pose depuis 1,05, une fois, à l'entrée. Jamais
+   en boucle — un travelling qui ne s'arrête pas est un écran de veille. */
+@keyframes attente {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes calage {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+[data-calage][data-visible] {
+  animation: calage var(--d6) var(--sortie) both;
+}
+
+/* Sans pointeur fin — tactile — la rasante n'a aucun curseur à suivre : les
+   deux copies ne sont même pas peintes. Sans cela l'effet ne fait que peser. */
+@media (hover: none) {
+  .relief .lum,
+  .relief .omb {
+    -webkit-mask-image: none;
+            mask-image: none;
+    opacity: 0;
+  }
+}
+
+/* ===================================================================
+   LE PASSAGE DE PAGE — geste 11.
+   Le fondu par défaut de l'API est un fondu croisé : il suffit, on ne le
+   remplace pas. On règle seulement sa durée sur `--d4` et on épingle la
+   plaque de l'en-tête pour qu'elle ne clignote pas.
+
+   `view-transition-name` doit être UNIQUE dans le document : une seule
+   plaque à la fois, ce qui est le cas — l'en-tête est rendu une fois.
+   =================================================================== */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--d4);
+  animation-timing-function: var(--sortie-douce);
+}
+
+/* La plaque de l'en-tête traverse la navigation au lieu d'être recréée : c'est
+   le fil narratif de la charte porté jusqu'au routage.
+
+   La cible est le `<header>` LUI-MÊME, pas le logo. L'en-tête est la plaque
+   vissée à côté de la porte — c'est le geste de la charte, et il est identique
+   sur les dix pages. Nommé, il sort de l'instantané racine et reçoit sa propre
+   paire ancien/nouveau : comme les deux sont visuellement identiques, le fondu
+   croisé est invisible et la plaque paraît immobile pendant que le contenu se
+   substitue dessous. Nommer le seul logo aurait laissé le reste de la barre
+   clignoter autour de lui.
+
+   `view-transition-name` doit être UNIQUE dans le document. L'en-tête est rendu
+   une fois par page, la contrainte est respectée — mais elle interdit de poser
+   ce nom sur un élément répété. */
+.entete-enseigne {
+  view-transition-name: enseigne;
+}
+
+/* Le mouvement réduit supprime le passage entièrement : il ne porte aucune
+   information, contrairement à l'indication d'attente. Le module JavaScript
+   court-circuite déjà, cette règle est la ceinture. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ===================================================================
+   L'INTERRUPTEUR — `?mouvement=0`.
+
+   Plus radical que le mouvement réduit : il coupe AUSSI les indicateurs
+   d'attente, parce que c'est un outil de mise au point et qu'on veut voir
+   la page telle qu'elle est peinte, pas telle qu'elle s'anime.
+
+   La règle commune est tenue : rien de ce qui porte une information ne
+   disparaît. Les apparitions sont forcées à `opacity: 1` et leur
+   `clip-path` levé — jamais `animation: none`, qui les laisserait
+   invisibles pour toujours.
+   =================================================================== */
+html[data-mouvement='0'] *,
+html[data-mouvement='0'] *::before,
+html[data-mouvement='0'] *::after {
+  animation-duration: 0.001s !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001s !important;
+  transition-delay: 0s !important;
+}
+
+html[data-mouvement='0'] [data-voile],
+html[data-mouvement='0'] [data-trait],
+html[data-mouvement='0'] [data-calage] {
+  opacity: 1 !important;
+  clip-path: none !important;
+  transform: none !important;
+}
+
+/* La chorégraphie du héros et les transitions de page, supprimées net. */
+html[data-mouvement='0'] .sequence *,
+html[data-mouvement='0'] .rai,
+html[data-mouvement='0'] .lanterne {
+  animation: none !important;
+  transition: none !important;
+}
+
+html[data-mouvement='0'] .relief .lum,
+html[data-mouvement='0'] .relief .omb {
+  opacity: 0 !important;   /* la rasante du pointeur : décorative, sans texte */
+}
+
+html[data-mouvement='0'] ::view-transition-group(*),
+html[data-mouvement='0'] ::view-transition-old(*),
+html[data-mouvement='0'] ::view-transition-new(*) {
+  animation: none !important;
+}
+
+/* Mouvement réduit.
+   Les entrées partent d'`opacity: 0` : les couper net laisserait le
+   contenu définitivement invisible. On les joue donc instantanément
+   plutôt que de les désactiver, et on remet à plat les éléments qui
+   attendaient un observateur d'intersection. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *:not(.attente),
+  *:not(.attente)::before,
+  *:not(.attente)::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* L'attente garde une rotation, ralentie. Elle est le seul mouvement que
+     `prefers-reduced-motion` ne doit pas supprimer, parce qu'elle porte une
+     information et non une intention esthétique. */
+  .attente {
+    animation: attente 2400ms linear infinite !important;
+  }
+
+  [data-voile] {
+    opacity: 1;
+    /* Le décalage entre frères est un `animation-delay` en ligne : le remettre
+       à zéro ici évite qu'une grille de six éléments s'affiche encore en
+       escalier sur 350 ms alors que le visiteur a demandé l'immobilité. */
+    animation-delay: 0s !important;
+  }
+
+  [data-trait] {
+    transform: none;
+  }
+
+  /* La rasante suppose un mouvement continu du pointeur — exactement ce
+     qu'on nous demande d'éviter. Elle se fige à une position choisie. */
+  .relief {
+    --mx: 46%;
+    --my: 42%;
+    --sx: 58%;
+    --sy: 62%;
+  }
+
+  .rasante:hover .calage,
+  .hover-lift:hover .calage,
+  .hover-glow:hover .calage {
+    transform: none;
+  }
 }

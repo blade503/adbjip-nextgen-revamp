@@ -3,18 +3,28 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * L'étiquette est une petite plaque, pas une pastille.
+ *
+ * `rounded-full` est retiré : la gélule est le signe le plus reconnaissable
+ * d'une interface montée sur gabarit, et sur les photos d'annonces elle se
+ * lisait comme un badge d'application. Une plaque rectangulaire à capitales
+ * espacées se lit comme une mention portée sur un document — ce qu'elle est
+ * (« vente », « location », « nouveau »).
+ */
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center rounded-[1px] px-2.5 py-1 font-display text-[0.625rem] font-semibold uppercase leading-none tracking-[0.14em] transition-colors",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+          "grave grave-fin bg-primary text-primary-foreground [--filet-grave:var(--primary-foreground)] [--filet-grave-a:0.35]",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "grave grave-fin bg-secondary text-secondary-foreground [--filet-grave:var(--secondary-foreground)] [--filet-grave-a:0.35]",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
+          "bg-destructive text-destructive-foreground",
+        outline:
+          "border border-foreground/25 text-foreground",
       },
     },
     defaultVariants: {

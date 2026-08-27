@@ -1,5 +1,41 @@
 import { useEffect } from 'react';
 
+import { SEO_CONFIG } from '@/config/seo';
+
+/**
+ * Métadonnées de la page, écrites dans le <head> après le montage.
+ *
+ * DEUX BLOCS DE DONNÉES STRUCTURÉES, ET C'EST LE CŒUR DU FICHIER.
+ *
+ *  - `data-seo="agence"` : le `RealEstateAgent` — adresse, téléphone, horaires
+ *    au format schema.org, zone desservie. Il est posé sur les DIX pages, sans
+ *    qu'aucune n'ait à le demander : c'est l'identité de l'agence, elle ne
+ *    dépend pas de la route.
+ *  - `data-seo="page"` : le balisage propre à la page (`ItemList` des annonces,
+ *    `Service` d'une prestation, `FAQPage` quand des réponses existent).
+ *    RETIRÉ quand la page n'en fournit pas.
+ *
+ * La version précédente n'avait qu'un bloc et le sélectionnait par
+ * `script[type="application/ld+json"]`, c'est-à-dire LE PREMIER du document.
+ * Deux conséquences, toutes deux constatées dans le prérendu :
+ *
+ *  1. `index.html` portait un `RealEstateAgent` statique, et ce sélecteur
+ *     l'écrasait dès le montage de React. Le bloc statique a été supprimé —
+ *     il était de toute façon une seconde source de vérité, déjà divergente.
+ *  2. Sur les pages qui fournissent leur propre balisage, `/biens` et
+ *     `/services/gestion-locative`, l'identité de l'agence disparaissait
+ *     purement et simplement du HTML livré. Vérifié dans `dist/`.
+ *
+ * Les attributs `data-seo` rendent les deux blocs adressables séparément, ce
+ * qui règle aussi la fuite inverse : sans retrait explicite, le balisage d'une
+ * page restait dans le <head> après navigation vers une page qui n'en a pas.
+ *
+ * AUCUN `aggregateRating`, ici ou ailleurs. Google interdit à une entreprise de
+ * baliser ses propres avis, et ce site en a déjà porté deux, fabriqués. La
+ * seule note publiable est celle de la fiche Google, vers laquelle renvoie la
+ * section Avis (`src/config/avis.ts`).
+ */
+
 interface SEOHeadProps {
   title: string;
   description: string;
@@ -9,97 +45,118 @@ interface SEOHeadProps {
   ogImage?: string;
   ogType?: string;
   twitterCard?: string;
+  /** Retire la page de l'index : réservé aux pages sans contenu propre (404). */
+  noindex?: boolean;
 }
 
-const SEOHead = ({ 
-  title, 
-  description, 
-  keywords, 
+/**
+ * L'image de partage. 1200 × 630 vérifié sur le fichier — le format attendu par
+ * Facebook, LinkedIn et X. Les dimensions sont déclarées dans les balises :
+ * sans elles, les moteurs d'aperçu doivent télécharger l'image avant de savoir
+ * comment la cadrer, et affichent parfois une vignette carrée en attendant.
+ */
+const OG_IMAGE = SEO_CONFIG.site.defaultImage;
+const OG_LARGEUR = '1200';
+const OG_HAUTEUR = '630';
+const OG_ALT = "Façade haussmannienne parisienne, immeuble de rapport avec ses deux lanternes";
+
+const SEOHead = ({
+  title,
+  description,
+  keywords,
   canonicalUrl,
   structuredData,
-  ogImage = "ar contr",
-  ogType = "website",
-  twitterCard = "summary_large_image"
+  ogImage = OG_IMAGE,
+  ogType = 'website',
+  twitterCard = 'summary_large_image',
+  noindex = false,
 }: SEOHeadProps) => {
   useEffect(() => {
-    // Update document title
     document.title = title;
-    
-    // Update meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', description);
-    }
-    
-    // Update keywords if provided
-    if (keywords) {
-      const metaKeywords = document.querySelector('meta[name="keywords"]');
-      if (metaKeywords) {
-        metaKeywords.setAttribute('content', keywords);
+
+    /**
+     * Pose une balise `meta`, en la créant au besoin. `parPropriete` distingue
+     * `property=` (Open Graph, qui est du RDFa) de `name=` (Twitter et les
+     * balises classiques) : les confondre produit des balises qu'aucun des deux
+     * ne lit.
+     */
+    const meta = (cle: string, contenu: string, parPropriete = true) => {
+      const selecteur = parPropriete ? `meta[property="${cle}"]` : `meta[name="${cle}"]`;
+      let balise = document.querySelector(selecteur) as HTMLMetaElement | null;
+      if (!balise) {
+        balise = document.createElement('meta');
+        balise.setAttribute(parPropriete ? 'property' : 'name', cle);
+        document.head.appendChild(balise);
       }
-    }
-    
-    // Update canonical URL if provided
-    if (canonicalUrl) {
-      let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
-      if (!canonicalLink) {
-        canonicalLink = document.createElement('link');
-        canonicalLink.rel = 'canonical';
-        document.head.appendChild(canonicalLink);
-      }
-      canonicalLink.href = canonicalUrl;
-    }
-    
-    // Add structured data if provided
-    if (structuredData) {
-      const existingScript = document.querySelector('script[type="application/ld+json"]');
-      if (existingScript) {
-        existingScript.textContent = JSON.stringify(structuredData);
-      } else {
-        const script = document.createElement('script');
-        script.type = 'application/ld+json';
-        script.textContent = JSON.stringify(structuredData);
-        document.head.appendChild(script);
-      }
-    }
-    
-    // Update Open Graph tags
-    const updateOrCreateMeta = (property: string, content: string, isProperty = true) => {
-      const selector = isProperty ? `meta[property="${property}"]` : `meta[name="${property}"]`;
-      let meta = document.querySelector(selector) as HTMLMetaElement;
-      if (!meta) {
-        meta = document.createElement('meta');
-        if (isProperty) {
-          meta.setAttribute('property', property);
-        } else {
-          meta.setAttribute('name', property);
-        }
-        document.head.appendChild(meta);
-      }
-      meta.setAttribute('content', content);
+      balise.setAttribute('content', contenu);
     };
 
-    // Open Graph tags
-    updateOrCreateMeta('og:title', title);
-    updateOrCreateMeta('og:description', description);
-    updateOrCreateMeta('og:type', ogType);
-    updateOrCreateMeta('og:image', ogImage);
-    updateOrCreateMeta('og:url', canonicalUrl || window.location.href);
-    updateOrCreateMeta('og:site_name', 'ABDJIP');
-    updateOrCreateMeta('og:locale', 'fr_FR');
-    
-    // Twitter Card tags
-    updateOrCreateMeta('twitter:card', twitterCard, false);
-    updateOrCreateMeta('twitter:title', title, false);
-    updateOrCreateMeta('twitter:description', description, false);
-    updateOrCreateMeta('twitter:image', ogImage, false);
-    updateOrCreateMeta('twitter:site', '@abdjip', false);
-    
-    // Additional SEO tags
-    updateOrCreateMeta('robots', 'index, follow', false);
-    updateOrCreateMeta('author', 'ABDJIP', false);
-    updateOrCreateMeta('viewport', 'width=device-width, initial-scale=1.0', false);
-  }, [title, description, keywords, canonicalUrl, structuredData, ogImage, ogType, twitterCard]);
+    meta('description', description, false);
+
+    /**
+     * Les mots-clés d'une page ne doivent pas survivre à la navigation vers une
+     * page qui n'en déclare pas : le contenu est écrit, pas vidé, donc sans ce
+     * `else` la page d'arrivée héritait des mots-clés de la précédente.
+     * (Google ignore `keywords` depuis longtemps ; d'autres moteurs le lisent
+     * encore, et une valeur fausse est pire qu'aucune.)
+     */
+    if (keywords) meta('keywords', keywords, false);
+    else document.querySelector('meta[name="keywords"]')?.remove();
+
+    // L'URL canonique est absolue sur les dix routes ; le repli sert au 404,
+    // qui est en `noindex` et n'a donc pas de canonique propre à déclarer.
+    const canonique = canonicalUrl || window.location.href;
+    let lien = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!lien) {
+      lien = document.createElement('link');
+      lien.rel = 'canonical';
+      document.head.appendChild(lien);
+    }
+    lien.href = canonique;
+
+    /** Écrit — ou retire — un bloc JSON-LD identifié par son `data-seo`. */
+    const jsonLd = (role: 'agence' | 'page', donnees: object | undefined) => {
+      const selecteur = `script[type="application/ld+json"][data-seo="${role}"]`;
+      const existant = document.querySelector(selecteur);
+      if (!donnees) {
+        existant?.remove();
+        return;
+      }
+      const script = (existant as HTMLScriptElement) || document.createElement('script');
+      if (!existant) {
+        script.type = 'application/ld+json';
+        script.setAttribute('data-seo', role);
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(donnees);
+    };
+
+    jsonLd('agence', {
+      '@context': 'https://schema.org',
+      ...SEO_CONFIG.structuredData.organization,
+    });
+    jsonLd('page', structuredData);
+
+    meta('og:title', title);
+    meta('og:description', description);
+    meta('og:type', ogType);
+    meta('og:url', canonique);
+    meta('og:image', ogImage);
+    meta('og:image:width', OG_LARGEUR);
+    meta('og:image:height', OG_HAUTEUR);
+    meta('og:image:alt', OG_ALT);
+    meta('og:site_name', SEO_CONFIG.site.name);
+    meta('og:locale', 'fr_FR');
+
+    meta('twitter:card', twitterCard, false);
+    meta('twitter:title', title, false);
+    meta('twitter:description', description, false);
+    meta('twitter:image', ogImage, false);
+    meta('twitter:image:alt', OG_ALT, false);
+
+    meta('robots', noindex ? 'noindex, follow' : 'index, follow', false);
+    meta('author', SEO_CONFIG.site.name, false);
+  }, [title, description, keywords, canonicalUrl, structuredData, ogImage, ogType, twitterCard, noindex]);
 
   return null;
 };

@@ -11,9 +11,13 @@
  * Lancé automatiquement avant chaque build (script `prebuild`).
  */
 
+import { execFile } from 'node:child_process';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
+
+const executer = promisify(execFile);
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://www.adbjip.fr';
@@ -35,6 +39,56 @@ const routesDepuisRouteur = (source) =>
     .map((m) => m[1])
     .filter((route) => !EXCLUES.has(route));
 
+/**
+ * Fichier source de chaque route, pour en tirer une date de modification qui
+ * corresponde au contenu.
+ *
+ * Une route absente de cette table retombe sur la date du build : c'est le
+ * comportement d'avant, gardé comme repli et non comme règle.
+ */
+const SOURCES = {
+  '/': 'src/pages/Index.tsx',
+  '/biens': 'src/pages/Biens.tsx',
+  '/services/gestion-locative': 'src/pages/services/GestionLocative.tsx',
+  '/services/gestion-copropriete': 'src/pages/services/GestionCopropriete.tsx',
+  '/services/estimation-biens': 'src/pages/services/EstimationBiens.tsx',
+  '/services/achats-ventes': 'src/pages/services/AchatsVentes.tsx',
+  '/about': 'src/pages/About.tsx',
+  '/contact': 'src/pages/Contact.tsx',
+  '/equipe': 'src/pages/Team.tsx',
+};
+
+/**
+ * Date du dernier commit touchant un fichier, en AAAA-MM-JJ.
+ *
+ * POURQUOI PAS LA DATE DU JOUR. `lastmod` annonce la dernière modification du
+ * CONTENU. En la remplissant avec la date du build, chaque déploiement
+ * déclarait les neuf pages modifiées le jour même, y compris celles que
+ * personne n'avait touchées depuis des mois. Un sitemap qui crie « tout est
+ * neuf » à chaque passage finit par être ignoré, et c'est documenté par Google.
+ *
+ * `%cs` est la date de commit courte, déjà au format ISO — pas de conversion,
+ * donc pas de piège de fuseau horaire.
+ *
+ * PIÈGE EN INTÉGRATION CONTINUE : `actions/checkout` clone en profondeur 1 par
+ * défaut. Un fichier non touché par l'unique commit récupéré ne renvoie alors
+ * aucune date, et la fonction retombe silencieusement sur le jour du build. Le
+ * décompte est journalisé pour que ce cas se voie dans la sortie du build au
+ * lieu de passer inaperçu.
+ */
+async function dateDuDernierCommit(fichier) {
+  try {
+    const { stdout } = await executer('git', ['log', '-1', '--format=%cs', '--', fichier], {
+      cwd: ROOT,
+    });
+    const date = stdout.trim();
+    return /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : null;
+  } catch {
+    // Pas de git, ou pas un dépôt : le repli suffit.
+    return null;
+  }
+}
+
 async function main() {
   const app = await readFile(path.join(ROOT, 'src', 'App.tsx'), 'utf8');
   const routes = routesDepuisRouteur(app);
@@ -51,18 +105,26 @@ async function main() {
   }
   const aujourdhui = new Date().toISOString().slice(0, 10);
 
-  const urls = routes
-    .map((route) => {
-      const { priority, changefreq } = metadonnees(route);
-      const lastmod = route === '/biens' ? dateBiens : aujourdhui;
-      return `  <url>
+  let sansDate = 0;
+  const lignes = [];
+  for (const route of routes) {
+    const { priority, changefreq } = metadonnees(route);
+    // /biens tient sa date des données, pas du code : son contenu change chaque
+    // nuit sans qu'un fichier source bouge.
+    let lastmod = dateBiens;
+    if (route !== '/biens') {
+      const source = SOURCES[route];
+      lastmod = (source && (await dateDuDernierCommit(source))) || aujourdhui;
+      if (!source || lastmod === aujourdhui) sansDate += 1;
+    }
+    lignes.push(`  <url>
     <loc>${SITE}${route === '/' ? '/' : route}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
-  </url>`;
-    })
-    .join('\n');
+  </url>`);
+  }
+  const urls = lignes.join('\n');
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -89,6 +151,12 @@ Disallow: /
   await writeFile(path.join(ROOT, 'public', 'sitemap.xml'), sitemap);
   await writeFile(path.join(ROOT, 'public', 'robots.txt'), robots);
   console.log(`[sitemap] ${routes.length} URL : ${routes.join(', ')}`);
+  if (sansDate) {
+    console.log(
+      `[sitemap] ⚠ ${sansDate} page(s) sans date de commit — repli sur la date du build. ` +
+        `En intégration continue, augmenter fetch-depth d'actions/checkout.`,
+    );
+  }
 }
 
 main().catch((error) => {

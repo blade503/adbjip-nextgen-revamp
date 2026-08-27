@@ -3,12 +3,23 @@
 # Vite recopie public/ dans dist/ : ce fichier part donc avec le build.
 # Vérifier après le premier envoi FTP qu'il est bien présent à la racine —
 # certains clients FTP masquent ou ignorent les fichiers commençant par un point.
+#
+# TOUTES LES RÈGLES DE CE FICHIER ONT ÉTÉ ÉPROUVÉES sous Apache 2.4.66 en local,
+# avec les modules de LWS (rewrite, alias, deflate, expires, headers, dir) et le
+# `dist/` réel. Les valeurs indiquées en commentaire sont des relevés, pas des
+# estimations. Reproduire : voir § « Vérification » de REPRISE.md.
 
 RewriteEngine On
 
 # --- HTTPS et domaine canonique ---------------------------------------------
 # Une seule adresse indexable : https://www.adbjip.fr
+#
+# `%{HTTPS}` est fourni par mod_ssl. Sur un mutualisé placé derrière un
+# répartiteur, il peut valoir « off » alors que le visiteur est déjà en HTTPS —
+# ce qui produit une boucle de redirection infinie. La seconde condition évite
+# ce cas : si le répartiteur annonce https, on ne redirige pas.
 RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 RewriteCond %{HTTP_HOST} ^adbjip\.fr$ [NC]
@@ -19,41 +30,92 @@ RewriteRule ^(.*)$ https://www.adbjip.fr/$1 [L,R=301]
 # page équivalente, pas à une erreur. Piège : /about était la page contact de
 # l'ancien site, alors que /about existe aussi dans la refonte avec un tout
 # autre contenu — d'où la redirection vers /contact.
+#
+# Ces quatre lignes emploient `Redirect` (mod_alias) et non `RewriteRule`.
+# Vérifié en local : mod_alias agit avant les règles de `.htaccess`, les quatre
+# 301 partent donc bien AVANT le repli monopage. Les quatre ont été testées une
+# par une, code et destination relevés.
 Redirect 301 /gerer-bien /services/gestion-locative
 Redirect 301 /gerer-copropriete /services/gestion-copropriete
 Redirect 301 /estimation /services/estimation-biens
 Redirect 301 /about /contact
 
+# --- Pages prérendues --------------------------------------------------------
+# `npm run build` écrit dix pages en HTML statique : dist/index.html et neuf
+# dossiers du type dist/biens/index.html.
+#
+# SANS CE BLOC, mod_dir voyait un dossier et renvoyait une 301 vers la forme
+# avec barre oblique finale. Mesuré : les NEUF routes répondaient 301 vers
+# `/biens/`, `/contact/`, etc. alors que la balise canonique et le sitemap
+# déclarent `/biens` sans barre. Google recevait donc une contradiction, et
+# chaque visite directe payait un aller-retour de plus.
+#
+# `DirectorySlash Off` est sans danger ici parce que `Options -Indexes` est
+# posé plus bas : aucun listing de dossier n'est possible.
+DirectorySlash Off
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.*[^/])$ /$1/index.html [L]
+
 # --- Application monopage ----------------------------------------------------
-# Sans cette règle, ouvrir /services/gestion-locative directement renvoie une
-# erreur 404 d'Apache : côté serveur, seul index.html existe.
+# Filet pour tout ce qui n'est pas prérendu. Sans cette règle, ouvrir une route
+# directement renvoie une erreur 404 d'Apache : côté serveur, seul index.html
+# existe.
+#
+# CONSÉQUENCE ASSUMÉE, à trancher : une URL inconnue répond 200 avec la coquille,
+# et React y affiche « Page introuvable ». C'est une « soft 404 » — Google
+# préfère un vrai 404. Elle est atténuée par le `noindex` que `SEOHead` pose sur
+# cette page. Pour renvoyer un vrai 404, supprimer les trois lignes suivantes :
+# les dix routes réelles sont déjà servies par le bloc précédent, et
+# `ErrorDocument` en bas de fichier rend la coquille avec le bon code. Non fait
+# ici parce qu'une route ajoutée sans prérendu répondrait alors 404.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.html [L]
 
 # --- Compression -------------------------------------------------------------
+# LES DEUX ORTHOGRAPHES DE CHAQUE TYPE SONT NÉCESSAIRES, et c'est un piège coûteux.
+# Apache 2.4 sert les .js en `text/javascript` (et non `application/javascript`)
+# et les .xml en `application/xml` (et non `text/xml`). La liste précédente ne
+# citait que les secondes : mesuré, le bundle partait en 348 953 octets NON
+# COMPRESSÉS, et le sitemap aussi.
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
-  AddOutputFilterByType DEFLATE application/javascript application/json
-  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE text/html text/css text/plain
+  AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE text/xml application/xml application/rss+xml
+  AddOutputFilterByType DEFLATE application/json image/svg+xml
 </IfModule>
 
 # --- Cache -------------------------------------------------------------------
 # Les fichiers de dist/assets portent une empreinte dans leur nom : ils peuvent
 # être mis en cache indéfiniment. index.html, lui, ne doit jamais l'être, sinon
 # un visiteur reste bloqué sur une ancienne version après chaque déploiement.
+#
+# Même piège que pour la compression : `text/javascript` était absent, donc le
+# bundle repartait SANS AUCUN en-tête de cache. Mesuré avant correction.
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/css "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType image/webp "access plus 1 year"
   ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType text/html "access plus 0 seconds"
   ExpiresByType application/xml "access plus 1 hour"
+  ExpiresByType text/plain "access plus 1 hour"
 </IfModule>
 
 <IfModule mod_headers.c>
+  # `immutable` dit au navigateur de ne même pas revalider : c'est exact pour un
+  # nom de fichier qui contient une empreinte du contenu.
+  <FilesMatch "\.(css|js|webp|jpe?g|png|svg|woff2?|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
   <FilesMatch "\.(html|php)$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
@@ -64,7 +126,7 @@ RewriteRule ^ index.html [L]
 
 # --- Sauvegarde des demandes --------------------------------------------------
 # contact.php consigne chaque demande dans leads.jsonl à titre de filet : ce
-# fichier ne doit jamais être servi.
+# fichier ne doit jamais être servi. Vérifié : 403.
 <Files "leads.jsonl">
   Require all denied
 </Files>
@@ -73,4 +135,6 @@ RewriteRule ^ index.html [L]
 Options -Indexes
 AddDefaultCharset UTF-8
 
+# La coquille rendue avec le bon code pour tout ce qui n'existe pas. Elle ne se
+# déclenche qu'en dernier recours, le repli monopage passant avant.
 ErrorDocument 404 /index.html

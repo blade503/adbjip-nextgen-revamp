@@ -1,44 +1,84 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
+import { lazy, Suspense } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollManager from "./components/ScrollManager";
+import Attente from "./components/systeme/Attente";
 import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import Biens from "./pages/Biens";
-import GestionLocative from "./pages/services/GestionLocative";
-import GestionCopropriete from "./pages/services/GestionCopropriete";
-import EstimationBiens from "./pages/services/EstimationBiens";
-import AchatsVentes from "./pages/services/AchatsVentes";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import MentionsLegales from "./pages/MentionsLegales";
-import Team from "./pages/Team";
+
+/**
+ * DÉCOUPAGE DES ROUTES — ce qui est chargé d'emblée, et ce qui attend.
+ *
+ * L'ACCUEIL RESTE STATIQUE, volontairement. C'est la page d'arrivée de la
+ * quasi-totalité des visites : la découper reviendrait à ajouter un aller-retour
+ * réseau devant le premier pixel utile. Elle arrive d'un bloc, avec le noyau
+ * React, le routeur, l'en-tête et le pied de page — que toutes les autres pages
+ * réutilisent ensuite sans rien retélécharger.
+ *
+ * TOUT LE RESTE EST EN `lazy`. Mesuré avant découpage (`ANALYSE=1 npm run build`) :
+ *   EstimationBiens .......... 28,4 Ko  + QuickCalculator 32,9 + MarketDataService 10,7
+ *                                       + InteractiveMap 8,0  = ~80 Ko à elle seule
+ *   GestionCopropriete ....... 27,1 Ko
+ *   Biens .................... 18,4 Ko  (+ data/biens.json, qui reste au noyau
+ *                                        car l'aperçu de l'accueil s'en sert)
+ *   AchatsVentes ............. 14,5 Ko
+ *   GestionLocative .......... 14,4 Ko
+ *   About .................... 10,7 Ko
+ *
+ * Le repli est `<Attente>` : hauteur minimale posée, `role="status"`, et la
+ * seule animation que le mouvement réduit conserve.
+ *
+ * PIÈGE VÉRIFIÉ : `scripts/prerender.mjs` doit laisser le temps aux morceaux
+ * d'arriver, sinon il écrit dix pages contenant le repli. Le contrôle du `#root`
+ * vide ne suffirait pas — le repli, lui, n'est pas vide. Le prérendu est donc
+ * revérifié sur le contenu réel après ce découpage.
+ */
+const Biens = lazy(() => import("./pages/Biens"));
+const GestionLocative = lazy(() => import("./pages/services/GestionLocative"));
+const GestionCopropriete = lazy(() => import("./pages/services/GestionCopropriete"));
+const EstimationBiens = lazy(() => import("./pages/services/EstimationBiens"));
+const AchatsVentes = lazy(() => import("./pages/services/AchatsVentes"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const MentionsLegales = lazy(() => import("./pages/MentionsLegales"));
+const Team = lazy(() => import("./pages/Team"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Atelier = lazy(() => import("./pages/Atelier"));
+
+/**
+ * Chemin de l'atelier de contrôle visuel, dans une constante et non en clair.
+ * `scripts/prerender.mjs` extrait les routes de ce fichier par une expression
+ * régulière sur l'attribut « path » des balises Route : un littéral ici aurait été prérendu, aurait
+ * ajouté un onzième fichier à `dist/` et aurait fait mentir le repère « 10/10 ».
+ */
+const CHEMIN_ATELIER = "/atelier";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
       <BrowserRouter basename={import.meta.env.BASE_URL}>
         <ScrollManager />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/biens" element={<Biens />} />
-          <Route path="/services/gestion-locative" element={<GestionLocative />} />
-          <Route path="/services/gestion-copropriete" element={<GestionCopropriete />} />
-          <Route path="/services/estimation-biens" element={<EstimationBiens />} />
-          <Route path="/services/achats-ventes" element={<AchatsVentes />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/mentions-legales" element={<MentionsLegales />} />
-          <Route path="/equipe" element={<Team />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<Attente />}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/biens" element={<Biens />} />
+            <Route path="/services/gestion-locative" element={<GestionLocative />} />
+            <Route path="/services/gestion-copropriete" element={<GestionCopropriete />} />
+            <Route path="/services/estimation-biens" element={<EstimationBiens />} />
+            <Route path="/services/achats-ventes" element={<AchatsVentes />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/mentions-legales" element={<MentionsLegales />} />
+            <Route path="/equipe" element={<Team />} />
+            {/* Atelier : développement uniquement. Absent du bundle de
+                production, donc le chemin y retombe sur la 404. */}
+            {import.meta.env.DEV && <Route path={CHEMIN_ATELIER} element={<Atelier />} />}
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useMemo, useState, type ReactNode } from 'react';
+
 import {
   Bed,
   Calculator,
@@ -40,6 +40,10 @@ import {
   ventes,
 } from '@/lib/biens';
 import { classesGrille } from '@/lib/grille';
+import { Lien } from '@/components/systeme/Lien';
+import Ordinaux from '@/components/systeme/Ordinaux';
+import EnTeteSection from '@/components/systeme/EnTeteSection';
+import { Voile } from '@/components/systeme/Ouverture';
 
 type Filter = 'tous' | 'vente' | 'location';
 
@@ -55,8 +59,27 @@ const factsOf = (bien: Bien) =>
     bien.surface ? { icon: Maximize, label: `${bien.surface} m²` } : null,
     bien.rooms ? { icon: Home, label: `${bien.rooms} pièce${bien.rooms > 1 ? 's' : ''}` } : null,
     bien.bedrooms ? { icon: Bed, label: `${bien.bedrooms} ch.` } : null,
-    bien.floor ? { icon: Layers, label: `${bien.floor}ᵉ étage` } : null,
-  ].filter(Boolean) as { icon: typeof Maximize; label: string }[];
+    bien.floor
+      ? {
+          icon: Layers,
+          // `ᵉ` (U+1D49) n'est pas dans le sous-ensemble latin de Google Fonts :
+          // il tombait dans une police système au milieu du mot. `label` reste
+          // du texte plat — c'est la clé de la liste — et `rendu` porte le
+          // <sup> effectivement affiché.
+          label: `${bien.floor}e étage`,
+          rendu: (
+            <>
+              {bien.floor}
+              <sup>e</sup> étage
+            </>
+          ),
+        }
+      : null,
+  ].filter(Boolean) as {
+    icon: typeof Maximize;
+    label: string;
+    rendu?: ReactNode;
+  }[];
 
 const priceLabel = (bien: Bien) => {
   if (bien.price == null) return 'Prix sur demande';
@@ -67,9 +90,16 @@ const DpeBadges = ({ bien, className = 'h-11' }: { bien: Bien; className?: strin
   if (!bien.badges?.dpeBadge) return null;
   return (
     <div className="flex items-end gap-3" aria-label="Diagnostic de performance énergétique">
+      {/* `width` et `height` posés depuis le viewBox réel des SVG produits par
+          `fetch-biens.mjs` (100 × 40, vérifié sur les fichiers). La hauteur est
+          imposée en CSS et la largeur suit ; sans ces attributs le navigateur
+          n'a aucun ratio avant l'arrivée du fichier et la ligne se décale à
+          l'affichage. Six badges par page de portefeuille. */}
       <img
         src={bien.badges.dpeBadge}
         alt={`Classe énergie ${bien.dpe.energyClass ?? ''}`}
+        width={100}
+        height={40}
         className={`${className} w-auto`}
         loading="lazy"
         decoding="async"
@@ -78,6 +108,8 @@ const DpeBadges = ({ bien, className = 'h-11' }: { bien: Bien; className?: strin
         <img
           src={bien.badges.gesBadge}
           alt={`Classe climat ${bien.dpe.gesClass ?? ''}`}
+          width={100}
+          height={40}
           className={`${className} w-auto`}
           loading="lazy"
           decoding="async"
@@ -94,7 +126,12 @@ const BienCard = ({ bien, index, onOpen }: { bien: Bien; index: number; onOpen: 
   const drop = priceDrop(bien);
 
   return (
-    <Card className="group flex flex-col overflow-hidden border-0 shadow-card hover-lift">
+    /* `rasante` remplace `hover-lift` : rien ne décolle, un lavis entre par la
+       gauche et le liseré se réveille. `cadre` grave le liseré en retrait de
+       4 px — c'est ce qui distingue une plaque d'un rectangle cerné. L'ombre
+       portée (`shadow-card`) est retirée : la charte encadre, elle ne surélève
+       pas. */
+    <Card className="rasante cadre group flex flex-col overflow-hidden border-0 bg-ivoire">
       <div className="relative aspect-[4/3] overflow-hidden bg-muted">
         {cover ? (
           <img
@@ -104,7 +141,7 @@ const BienCard = ({ bien, index, onOpen }: { bien: Bien; index: number; onOpen: 
             alt={cover.alt}
             width={800}
             height={600}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-4 group-hover:scale-105"
             loading={index < 3 ? 'eager' : 'lazy'}
             decoding="async"
           />
@@ -131,8 +168,8 @@ const BienCard = ({ bien, index, onOpen }: { bien: Bien; index: number; onOpen: 
         </div>
 
         {bien.photos.length > 1 && (
-          <span className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur">
-            <Camera className="h-3.5 w-3.5" />
+          <span className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-[2px] bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur">
+            <Camera aria-hidden className="h-3.5 w-3.5" />
             {bien.photos.length}
           </span>
         )}
@@ -162,29 +199,36 @@ const BienCard = ({ bien, index, onOpen }: { bien: Bien; index: number; onOpen: 
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold leading-snug">{bien.title}</h2>
+          <h2 className="text-lg font-semibold leading-snug"><Ordinaux texte={bien.title} /></h2>
           <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-            <MapPin className="h-4 w-4 flex-shrink-0" />
+            <MapPin aria-hidden className="h-4 w-4 flex-shrink-0" />
             {locationLabel(bien)}
           </p>
         </div>
 
         <ul className="flex flex-wrap gap-x-5 gap-y-2 border-y border-border/60 py-3">
-          {factsOf(bien).map(({ icon: Icon, label }) => (
+          {factsOf(bien).map(({ icon: Icon, label, rendu }) => (
             <li key={label} className="flex items-center gap-1.5 text-sm">
-              <Icon className="h-4 w-4 text-muted-foreground" />
-              {label}
+              <Icon aria-hidden className="h-4 w-4 text-muted-foreground" />
+              {/* Un seul élément flex : sans cette enveloppe, le `gap-1.5` du <li>
+                  s'insère AUSSI entre « 3 », le <sup>e</sup> et « étage », qui sont
+                  autant d'éléments flex anonymes. « 3ᵉ étage » s'affichait alors
+                  « 3 e étage ». Vu à la capture, pas dans le HTML — qui est correct. */}
+              <span>{rendu ?? label}</span>
             </li>
           ))}
         </ul>
 
         <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">
-          {descriptionLines(bien).join(' ')}
+          <Ordinaux texte={descriptionLines(bien).join(' ')} />
         </p>
 
         <div className="mt-auto space-y-4 pt-2">
           <DpeBadges bien={bien} />
-          <Button className="w-full" onClick={onOpen}>
+          {/* Plaque de pierre et non aplat de laiton : trois pavés jaunes
+              alignés sur une rangée écrasaient les prix, qui sont l'information
+              de la carte. Le laiton reste pour l'action principale de la page. */}
+          <Button variant="secondary" className="w-full" onClick={onOpen}>
             Voir le bien
           </Button>
         </div>
@@ -223,24 +267,30 @@ const BienDetail = ({ bien }: { bien: Bien }) => {
             {isNew(bien) && <Badge variant="outline">Nouveau</Badge>}
           </p>
           <p className="mt-2 flex items-center gap-1.5 text-muted-foreground">
-            <MapPin className="h-4 w-4" />
+            <MapPin aria-hidden className="h-4 w-4" />
             {locationLabel(bien)}
           </p>
           <p className="mt-4 text-3xl font-bold">{priceLabel(bien)}</p>
         </div>
 
         <ul className="flex flex-wrap gap-x-6 gap-y-2 border-y border-border/60 py-4">
-          {factsOf(bien).map(({ icon: Icon, label }) => (
+          {factsOf(bien).map(({ icon: Icon, label, rendu }) => (
             <li key={label} className="flex items-center gap-1.5 text-sm">
-              <Icon className="h-4 w-4 text-muted-foreground" />
-              {label}
+              <Icon aria-hidden className="h-4 w-4 text-muted-foreground" />
+              {/* Un seul élément flex : sans cette enveloppe, le `gap-1.5` du <li>
+                  s'insère AUSSI entre « 3 », le <sup>e</sup> et « étage », qui sont
+                  autant d'éléments flex anonymes. « 3ᵉ étage » s'affichait alors
+                  « 3 e étage ». Vu à la capture, pas dans le HTML — qui est correct. */}
+              <span>{rendu ?? label}</span>
             </li>
           ))}
         </ul>
 
         <div className="space-y-3 text-sm leading-relaxed text-muted-foreground">
           {descriptionLines(bien).map((line) => (
-            <p key={line}>{line}</p>
+            <p key={line}>
+              <Ordinaux texte={line} />
+            </p>
           ))}
         </div>
 
@@ -262,7 +312,7 @@ const BienDetail = ({ bien }: { bien: Bien }) => {
         <div className="flex flex-wrap gap-3">
           <Button asChild>
             <a href="tel:+33142257824">
-              <Phone className="mr-2 h-4 w-4" />
+              <Phone aria-hidden className="mr-2 h-4 w-4" />
               01.42.25.78.24
             </a>
           </Button>
@@ -272,7 +322,7 @@ const BienDetail = ({ bien }: { bien: Bien }) => {
                 `Bien réf. ${bien.reference} — ${bien.title}`,
               )}`}
             >
-              <Mail className="mr-2 h-4 w-4" />
+              <Mail aria-hidden className="mr-2 h-4 w-4" />
               Écrire à l'agence
             </a>
           </Button>
@@ -352,32 +402,43 @@ const Biens = () => {
       />
       <Header />
 
-      <main role="main">
-        <section className="border-b border-border/60 bg-gradient-subtle pt-24 md:pt-28">
-          <div className="container mx-auto px-6 pb-14">
-            <Badge className="glass mb-6 px-4 py-2 text-primary" variant="outline">
-              Portefeuille
-            </Badge>
-            <h1 className="max-w-3xl text-4xl font-bold leading-tight md:text-5xl">
-              Nos biens <span className="gradient-text">à vendre et à louer</span>
-            </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              {introduction}
-            </p>
+      <main id="contenu" tabIndex={-1}>
+        {/* ---- OUVERTURE ----------------------------------------------
+            Bande de nuit, comme les quatre pages services : le portefeuille
+            n'était pas raccordé à la coquille du site, il ouvrait sur un
+            dégradé clair sans plaque ni filet.
 
-            <div className="mt-8 flex flex-wrap gap-2" role="group" aria-label="Filtrer les biens">
-              {FILTERS.filter((item) => item.count > 0).map((item) => (
-                <Button
-                  key={item.value}
-                  variant={filter === item.value ? 'default' : 'outline'}
-                  className="rounded-full"
-                  aria-pressed={filter === item.value}
-                  onClick={() => setFilter(item.value)}
-                >
-                  {item.label} ({item.count})
-                </Button>
-              ))}
-            </div>
+            `nuit` est indispensable et non décoratif : sans cette portée le
+            fond passe au sombre tandis que `--foreground` reste l'encre. */}
+        <section className="nuit grain bg-nuit pb-16 pt-32 text-pierre">
+          <div className="container mx-auto">
+            <EnTeteSection
+              fond="nuit"
+              niveau="h1"
+              plaque="Portefeuille"
+              titre="Nos biens à vendre et à louer"
+              chapeau={introduction}
+            />
+
+            {/* Les filtres étaient des gélules (`rounded-full`), interdites par
+                la charte : tout ce qui est encadré sur ce site l'est en plaque,
+                rayon 2 px, liseré gravé en retrait. Le laiton marque l'état
+                actif, la pierre les autres — les deux sont mesurés sur la nuit
+                (laiton/nuit 8,91:1, pierre/nuit 16,08:1). */}
+            <Voile delai={200}>
+              <div className="mt-10 flex flex-wrap gap-3" role="group" aria-label="Filtrer les biens">
+                {FILTERS.filter((item) => item.count > 0).map((item) => (
+                  <Button
+                    key={item.value}
+                    variant={filter === item.value ? 'default' : 'secondary'}
+                    aria-pressed={filter === item.value}
+                    onClick={() => setFilter(item.value)}
+                  >
+                    {item.label} ({item.count})
+                  </Button>
+                ))}
+              </div>
+            </Voile>
           </div>
         </section>
 
@@ -394,32 +455,38 @@ const Biens = () => {
               ))}
             </div>
           ) : (
-            <div className="py-16 text-center">
-              <Search className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-              <p className="text-muted-foreground">Aucun bien ne correspond à ce filtre.</p>
+            /* Ferré à gauche comme le reste : rien n'est centré sur ce site,
+               pas même un état vide. La loupe passe en filet discret — 48 px au
+               milieu de la page dramatisaient un cas banal. */
+            <div className="border-t border-[hsl(var(--trait)/var(--trait-a))] py-16">
+              <p className="flex items-center gap-3 text-muted-foreground">
+                <Search aria-hidden className="h-4 w-4 shrink-0" />
+                Aucun bien ne correspond à ce filtre.
+              </p>
             </div>
           )}
         </section>
 
-        <section className="border-t border-border/60 bg-muted/40">
-          <div className="container mx-auto px-6 py-16 text-center">
-            <h2 className="text-3xl font-bold">Un projet de vente ou de location ?</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              Nos biens partent vite et ne restent pas tous en ligne. Dites-nous ce que vous
-              cherchez, nous vous prévenons avant la mise en publication.
-            </p>
-            <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+        <section className="nuit grain bg-nuit py-20 text-pierre lg:py-28">
+          <div className="container mx-auto">
+            <EnTeteSection
+              fond="nuit"
+              plaque="Votre recherche"
+              titre="Un projet de vente ou de location ?"
+              chapeau="Nos biens partent vite et ne restent pas tous en ligne. Dites-nous ce que vous cherchez, nous vous prévenons avant la mise en publication."
+            />
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Button size="lg" asChild>
-                <Link to="/contact">
-                  <Mail className="mr-2 h-5 w-5" />
+                <Lien to="/contact">
+                  <Mail aria-hidden className="mr-2 h-5 w-5" />
                   Nous contacter
-                </Link>
+                </Lien>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link to="/services/estimation-biens">
-                  <Calculator className="mr-2 h-5 w-5" />
+                <Lien to="/services/estimation-biens">
+                  <Calculator aria-hidden className="mr-2 h-5 w-5" />
                   Estimer mon bien
-                </Link>
+                </Lien>
               </Button>
             </div>
           </div>
@@ -433,7 +500,9 @@ const Biens = () => {
           {selected && (
             <>
               <DialogHeader>
-                <DialogTitle>{selected.title}</DialogTitle>
+                <DialogTitle>
+                  <Ordinaux texte={selected.title} />
+                </DialogTitle>
               </DialogHeader>
               <BienDetail bien={selected} />
             </>

@@ -110,10 +110,62 @@ await controle(
   estPreprod ? 'Préversion interdite à l\'indexation' : 'Site ouvert à l\'indexation',
   async () => {
     const robots = await (await recuperer('/robots.txt')).text();
-    const interdit = /Disallow:\s*\/\s*$/m.test(robots);
-    return { ok: estPreprod ? interdit : !interdit, detail: interdit ? 'Disallow: /' : 'indexation permise' };
+    /**
+     * ON NE LIT QUE LE GROUPE `User-agent: *`.
+     *
+     * Le test précédent cherchait `Disallow: /` n'importe où dans le fichier. Or
+     * `robots.txt` interdit nommément trois aspirateurs commerciaux (AhrefsBot,
+     * MJ12bot, DotBot) : la production faisait donc échouer ce contrôle à chaque
+     * passage, en affirmant que le site était fermé à l'indexation alors qu'il
+     * ne fermait la porte qu'à trois robots.
+     *
+     * Un faux positif qui crie n'est pas anodin : le jour de la bascule, on
+     * cesse de lire les alertes qui se déclenchent toujours.
+     */
+    const groupes = robots.split(/^(?=User-agent:)/im);
+    const etoile = groupes.find((g) => /^User-agent:\s*\*/im.test(g)) || '';
+    const interdit = /^Disallow:\s*\/\s*$/im.test(etoile);
+    return {
+      ok: estPreprod ? interdit : !interdit,
+      detail: interdit ? 'Disallow: / sur User-agent: *' : 'indexation permise',
+    };
   },
 );
+
+/**
+ * LES QUATRE REDIRECTIONS DE L'ANCIEN SITE, UNE PAR UNE.
+ *
+ * Ces URL sont indexées depuis huit ans. Chacune perdue est du référencement
+ * perdu, et une redirection qui ne part pas ne se voit pas : le visiteur arrive
+ * sur la coquille monopage, qui répond 200 avec un contenu sans rapport.
+ *
+ * Le piège est `/about` : il EXISTE dans la refonte, avec un tout autre
+ * contenu. Une redirection oubliée n'y produit donc aucune erreur visible —
+ * juste un visiteur qui cherchait le formulaire de contact et lit la
+ * présentation de l'agence.
+ *
+ * `redirect: 'manual'` est indispensable : sans lui `fetch` suit la
+ * redirection et on relève 200 au lieu de 301.
+ */
+const REDIRECTIONS = [
+  ['/gerer-bien', '/services/gestion-locative'],
+  ['/gerer-copropriete', '/services/gestion-copropriete'],
+  ['/estimation', '/services/estimation-biens'],
+  ['/about', '/contact'],
+];
+
+for (const [ancienne, attendue] of REDIRECTIONS) {
+  await controle(`301 ${ancienne} → ${attendue}`, async () => {
+    const r = await fetch(`${base}${ancienne}`, { redirect: 'manual' });
+    const cible = r.headers.get('location') || '';
+    const chemin = cible.replace(/^https?:\/\/[^/]+/, '');
+    const ok = r.status === 301 && chemin === attendue;
+    return {
+      ok,
+      detail: ok ? '' : `HTTP ${r.status}${cible ? ` → ${chemin}` : ' — aucune redirection'}`,
+    };
+  });
+}
 
 await controle(
   'Fichier de vérification Search Console',

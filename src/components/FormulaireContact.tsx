@@ -1,18 +1,37 @@
 import { useState } from 'react';
-import { Send } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { envoyerFormulaire } from '@/lib/forms';
+import {
+  Champ,
+  Leurre,
+  Liste,
+  MentionRgpd,
+  Rangee,
+  Retour,
+  ZoneTexte,
+} from '@/components/formulaire';
+import { useEnvoi } from '@/lib/formulaire';
+import type { DemandeFormulaire } from '@/lib/forms';
 
 /**
- * Formulaire de contact, partagé par la section d'accueil et la page /contact.
+ * Formulaire de contact.
  *
- * Les deux étaient jusqu'ici deux copies du même balisage, aucune des deux
- * n'envoyait quoi que ce soit. Un seul composant évite que l'une reparte en
- * arrière pendant qu'on corrige l'autre.
+ * Le balisage des champs n'est pas écrit ici : il vient de
+ * `@/components/formulaire`, partagé avec le formulaire d'estimation. Les deux
+ * pages avaient auparavant deux copies parallèles, qui avaient divergé — celle
+ * de l'estimation n'avait ni champ leurre, ni mention RGPD, ni repli `mailto`.
+ *
+ * PRÉSENTATION : le champ réglé — un filet en pied de champ qui passe au laiton
+ * à la saisie, pas de boîte. C'est ce que fait un registre : il règle la ligne,
+ * il n'encadre pas le mot. L'anneau de focus est conservé EN PLUS du filet : le
+ * filet seul ne suffit pas à signaler où l'on est au clavier.
+ *
+ * PRÉ-REMPLISSAGE : le service arrive par `?service=` depuis le pré-triage de la
+ * page d'accueil. La valeur est VALIDÉE contre la liste — une valeur inconnue
+ * dans l'URL laisserait la liste déroulante sur une option qui n'existe pas, et
+ * le visiteur enverrait une demande sans service.
  */
 
 const CHAMPS_VIDES = {
@@ -26,218 +45,100 @@ const CHAMPS_VIDES = {
   website: '',
 };
 
-const SERVICES = [
-  ['gestion-locative', 'Gestion Locative'],
-  ['gestion-copropriete', 'Gestion de Copropriété'],
-  ['achats-ventes', 'Achats & Ventes'],
-  ['estimation', 'Estimation de Biens'],
+/** Les valeurs sont celles du paramètre `?service=` — ne pas les renommer. */
+const SERVICES: [string, string][] = [
+  ['', 'À préciser'],
+  ['gestion-locative', 'Gérance locative'],
+  ['gestion-copropriete', 'Syndic de copropriété'],
+  ['achats-ventes', 'Achat et vente'],
+  ['estimation', 'Estimation'],
   ['autre', 'Autre'],
 ];
 
-/**
- * Repli quand le serveur ne répond pas : on ouvre le client mail du visiteur
- * avec le message déjà rédigé. C'est le seul envoi d'e-mail qu'un navigateur
- * sait faire seul — il dépend d'un client mail configuré, d'où son statut de
- * secours et non de solution principale.
- */
-const lienMailto = (champs: typeof CHAMPS_VIDES) => {
-  const corps = [
-    `Nom : ${champs.firstName} ${champs.lastName}`.trim(),
-    `E-mail : ${champs.email}`,
-    champs.phone ? `Téléphone : ${champs.phone}` : '',
-    champs.service ? `Service : ${champs.service}` : '',
-    '',
-    champs.message,
-  ]
-    .filter(Boolean)
-    .join('\n');
+const SERVICES_CONNUS = new Set(SERVICES.map(([valeur]) => valeur).filter(Boolean));
 
-  return `mailto:j.immo.p@orange.fr?subject=${encodeURIComponent(
-    'Demande depuis le site',
-  )}&body=${encodeURIComponent(corps)}`;
-};
-
-/** @param idPrefix distingue les identifiants quand les deux formulaires cohabitent. */
+/** @param idPrefix distingue les identifiants quand deux formulaires cohabitent. */
 const FormulaireContact = ({ idPrefix = 'contact' }: { idPrefix?: string }) => {
-  const [champs, setChamps] = useState(CHAMPS_VIDES);
-  const [envoiEnCours, setEnvoiEnCours] = useState(false);
-  const [retour, setRetour] = useState<{ ok: boolean; message: string; champs?: string[] } | null>(
-    null,
-  );
+  const [parametres] = useSearchParams();
+  const serviceInitial = parametres.get('service') ?? '';
 
-  const id = (nom: string) => `${idPrefix}-${nom}`;
+  const [champs, setChamps] = useState({
+    ...CHAMPS_VIDES,
+    service: SERVICES_CONNUS.has(serviceInitial) ? serviceInitial : '',
+  });
+  const { envoiEnCours, retour, envoyer } = useEnvoi();
 
   const modifier =
     (nom: keyof typeof CHAMPS_VIDES) =>
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
       setChamps((precedent) => ({ ...precedent, [nom]: event.target.value }));
 
+  const demande = (): DemandeFormulaire => ({
+    type: 'contact',
+    nom: `${champs.firstName} ${champs.lastName}`.trim(),
+    email: champs.email,
+    telephone: champs.phone,
+    service: champs.service,
+    message: champs.message,
+    website: champs.website,
+  });
+
   const soumettre = async (event: React.FormEvent) => {
     event.preventDefault();
-    setEnvoiEnCours(true);
-    setRetour(null);
-
-    const resultat = await envoyerFormulaire({
-      type: 'contact',
-      nom: `${champs.firstName} ${champs.lastName}`.trim(),
-      email: champs.email,
-      telephone: champs.phone,
-      service: champs.service,
-      message: champs.message,
-      website: champs.website,
-    });
-
-    setRetour(resultat);
-    setEnvoiEnCours(false);
+    const resultat = await envoyer(demande());
     if (resultat.ok) setChamps(CHAMPS_VIDES);
   };
 
   return (
-    <form className="space-y-6" onSubmit={soumettre} noValidate>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor={id('firstName')} className="block text-sm font-medium mb-2">
-            Prénom *
-          </label>
-          <Input
-            id={id('firstName')}
-            type="text"
-            placeholder="Votre prénom"
-            className="glass border-primary/20 focus:border-primary"
-            value={champs.firstName}
-            onChange={modifier('firstName')}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor={id('lastName')} className="block text-sm font-medium mb-2">
-            Nom *
-          </label>
-          <Input
-            id={id('lastName')}
-            type="text"
-            placeholder="Votre nom"
-            className="glass border-primary/20 focus:border-primary"
-            value={champs.lastName}
-            onChange={modifier('lastName')}
-            required
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor={id('email')} className="block text-sm font-medium mb-2">
-            Email *
-          </label>
-          <Input
-            id={id('email')}
-            type="email"
-            placeholder="votre@email.com"
-            className="glass border-primary/20 focus:border-primary"
-            value={champs.email}
-            onChange={modifier('email')}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor={id('phone')} className="block text-sm font-medium mb-2">
-            Téléphone
-          </label>
-          <Input
-            id={id('phone')}
-            type="tel"
-            placeholder="06 12 34 56 78"
-            className="glass border-primary/20 focus:border-primary"
-            value={champs.phone}
-            onChange={modifier('phone')}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor={id('service')} className="block text-sm font-medium mb-2">
-          Service souhaité
-        </label>
-        <select
-          id={id('service')}
-          className="w-full px-4 py-3 rounded-lg glass border-primary/20 focus:border-primary focus:outline-none transition-colors"
-          value={champs.service}
-          onChange={modifier('service')}
-        >
-          <option value="">Sélectionnez un service</option>
-          {SERVICES.map(([valeur, libelle]) => (
-            <option key={valeur} value={valeur}>
-              {libelle}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label htmlFor={id('message')} className="block text-sm font-medium mb-2">
-          Message *
-        </label>
-        <Textarea
-          id={id('message')}
-          placeholder="Décrivez votre projet ou votre demande..."
-          rows={6}
-          className="glass border-primary/20 focus:border-primary resize-none"
-          value={champs.message}
-          onChange={modifier('message')}
-          required
+    <form className="relative space-y-8" onSubmit={soumettre} noValidate>
+      <Rangee>
+        <Champ
+          prefixe={idPrefix} nom="prenom" etiquette="Prénom" requis
+          type="text" autoComplete="given-name"
+          enErreur={retour?.champs} value={champs.firstName} onChange={modifier('firstName')}
         />
-      </div>
+        <Champ
+          prefixe={idPrefix} nom="nom" etiquette="Nom" requis
+          type="text" autoComplete="family-name"
+          enErreur={retour?.champs} value={champs.lastName} onChange={modifier('lastName')}
+        />
+        <Champ
+          prefixe={idPrefix} nom="email" etiquette="Courriel" requis
+          type="email" autoComplete="email"
+          enErreur={retour?.champs} value={champs.email} onChange={modifier('email')}
+        />
+        <Champ
+          prefixe={idPrefix} nom="telephone" etiquette="Téléphone"
+          type="tel" autoComplete="tel"
+          enErreur={retour?.champs} value={champs.phone} onChange={modifier('phone')}
+        />
+      </Rangee>
 
-      <input
-        type="text"
-        name="website"
-        tabIndex={-1}
-        autoComplete="off"
-        aria-hidden="true"
-        value={champs.website}
-        onChange={modifier('website')}
-        className="absolute left-[-9999px] h-0 w-0 opacity-0"
+      <Liste
+        prefixe={idPrefix} nom="service" etiquette="Votre demande"
+        options={SERVICES} enErreur={retour?.champs}
+        value={champs.service} onChange={modifier('service')}
       />
 
-      <Button
-        type="submit"
-        size="lg"
-        disabled={envoiEnCours}
-        className="w-full bg-primary hover:bg-primary-glow text-primary-foreground hover-glow group"
-      >
-        <Send className="mr-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-        {envoiEnCours ? 'Envoi en cours…' : 'Envoyer le message'}
+      <ZoneTexte
+        prefixe={idPrefix} nom="message" etiquette="Message" requis
+        rows={5}
+        placeholder="Le bien ou l'immeuble concerné, son arrondissement, et ce que vous attendez."
+        enErreur={retour?.champs} value={champs.message} onChange={modifier('message')}
+      />
+
+      <Leurre valeur={champs.website} onChange={modifier('website')} />
+
+      <Button type="submit" size="lg" disabled={envoiEnCours} className="group w-full sm:w-auto">
+        {envoiEnCours ? 'Envoi en cours…' : 'Envoyer'}
+        <ArrowRight
+          aria-hidden
+          className="transition-transform duration-3 ease-sortie group-hover:translate-x-1"
+        />
       </Button>
 
-      {/* Obligation d'information : le visiteur doit savoir ce qu'il advient de
-          ce qu'il écrit, à l'endroit où il l'écrit. */}
-      <p className="text-xs leading-relaxed text-muted-foreground">
-        Vos informations servent uniquement à traiter votre demande et ne sont ni cédées ni
-        revendues.{' '}
-        <Link to="/mentions-legales#donnees-personnelles" className="underline hover:text-primary">
-          En savoir plus
-        </Link>
-        .
-      </p>
-
-      {retour && (
-        <div
-          role="status"
-          className={`rounded-lg border p-3 text-sm ${
-            retour.ok
-              ? 'border-primary/40 bg-primary-soft text-foreground'
-              : 'border-destructive/30 bg-destructive/5 text-destructive'
-          }`}
-        >
-          <p>{retour.message}</p>
-          {!retour.ok && (
-            <a href={lienMailto(champs)} className="mt-2 inline-block font-medium underline">
-              Ouvrir mon logiciel de messagerie avec ce message
-            </a>
-          )}
-        </div>
-      )}
+      <MentionRgpd />
+      <Retour retour={retour} demande={demande()} />
     </form>
   );
 };

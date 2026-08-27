@@ -1,170 +1,171 @@
-import { Phone, Mail, MapPin, Clock, Heart } from 'lucide-react';
-import { HORAIRES } from '@/config/legal';
-import { Link } from 'react-router-dom';
-import LogoJIP from '@/components/LogoJIP';
+import { Clock, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
 
+import PlaqueDeRue from '@/components/systeme/PlaqueDeRue';
+import { ADRESSE, HORAIRES } from '@/config/legal';
+import { Lien } from '@/components/systeme/Lien';
+
+/**
+ * Le pied de page ferme le mouvement sombre commencé aux avis : on est arrivé
+ * devant la porte, et la plaque de rue est reprise ici en petit — l'objet
+ * d'ouverture revient en signature, comme un cachet en fin de courrier.
+ *
+ * C'est aussi le seul endroit qui garantit qu'aucune page n'est orpheline :
+ * /equipe n'était atteignable que par un bouton en milieu de page.
+ */
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const annee = new Date().getFullYear();
+  const tel = `tel:${ADRESSE.telephone.replace(/[^0-9+]/g, '')}`;
 
-  // Les six entrées précédentes pointaient toutes vers la gestion locative, et
+  // Les six entrées d'origine pointaient toutes vers la gestion locative, et
   // deux d'entre elles — « Conseil Immobilier », « Syndic de Copropriété » — ne
-  // correspondaient à aucune page. Quatre services, quatre destinations.
-  const services = [
-    { name: "Gestion locative", href: "/services/gestion-locative" },
-    { name: "Gestion de copropriété", href: "/services/gestion-copropriete" },
-    { name: "Estimation de biens", href: "/services/estimation-biens" },
-    { name: "Achats et ventes", href: "/services/achats-ventes" }
+  // correspondaient à aucune page. Quatre métiers, quatre destinations.
+  const metiers = [
+    { nom: 'Gérance locative', href: '/services/gestion-locative' },
+    { nom: 'Syndic de copropriété', href: '/services/gestion-copropriete' },
+    { nom: 'Estimation', href: '/services/estimation-biens' },
+    { nom: 'Achat et vente', href: '/services/achats-ventes' },
   ];
 
-  // Le pied de page est le seul endroit qui garantit qu'aucune page n'est
-  // orpheline : /equipe n'était atteignable que par un bouton en milieu de page.
-  const quickLinks = [
-    { name: "Accueil", href: "/" },
-    { name: "Nos biens", href: "/biens" },
-    { name: "À propos", href: "/about" },
-    { name: "Notre équipe", href: "/equipe" },
-    { name: "Contact", href: "/contact" }
+  const pages = [
+    { nom: 'Accueil', href: '/' },
+    { nom: 'Le portefeuille', href: '/biens' },
+    { nom: "L'agence", href: '/about' },
+    { nom: "L'équipe", href: '/equipe' },
+    { nom: 'Contact', href: '/contact' },
+  ];
+
+  const colonnes = [
+    { titre: 'Nos métiers', liens: metiers },
+    { titre: 'Le site', liens: pages },
   ];
 
   return (
-    <footer className="bg-secondary text-secondary-foreground">
-      {/* Main Footer */}
-      <div className="container mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center space-x-3 mb-6">
-              <LogoJIP className="h-11 w-auto" />
-              <div>
-                <p className="text-xl font-bold">JIP</p>
-                <p className="text-sm opacity-80">Excellence & Professionnalisme</p>
-              </div>
-            </div>
-            <p className="text-sm opacity-80 leading-relaxed mb-6">
-              Gestion locative et syndic de copropriété à Paris 8ᵉ depuis 2011.
-              Un interlocuteur unique pour votre bien ou votre immeuble.
+    <footer className="nuit grain relative bg-nuit text-pierre">
+      <div className="container relative mx-auto border-t border-pierre/15 py-16 lg:py-20">
+        <div className="grid gap-x-12 gap-y-12 lg:grid-cols-12">
+          {/* ---- L'adresse --------------------------------------- */}
+          <div className="lg:col-span-4">
+            <PlaqueDeRue taille="moyenne" />
+            <p className="mesure mt-6 text-[0.875rem] leading-relaxed text-muted-foreground">
+              Agence indépendante depuis 2011. Un interlocuteur unique pour votre lot comme
+              pour votre immeuble.
             </p>
-            <div className="flex items-center space-x-2 text-sm">
-              <Heart className="w-4 h-4 text-primary" />
-              <span>Fait avec passion à Paris</span>
-            </div>
+            <Lien
+              to="/mentions-legales"
+              className="lien-trait mt-6 text-[0.8125rem] text-pierre/85"
+            >
+              <ShieldCheck aria-hidden className="h-4 w-4 shrink-0 text-primary" />
+              Cartes professionnelles et garanties
+            </Lien>
           </div>
 
-          {/* Services */}
-          <div>
-            <h4 className="text-lg font-semibold mb-6">Nos Services</h4>
-            <ul className="space-y-3">
-              {services.map((service) => (
-                <li key={service.href}>
-                  <Link
-                    to={service.href}
-                    className="text-sm opacity-80 transition-all duration-300 hover:text-primary hover:opacity-100"
-                  >
-                    {service.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-6">Liens Utiles</h4>
-            <ul className="space-y-3">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  {link.href === '#' ? (
-                    <a 
-                      href={link.href}
-                      className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300"
+          {/* ---- Les colonnes ------------------------------------ */}
+          {colonnes.map((colonne) => (
+            <nav key={colonne.titre} aria-label={colonne.titre} className="lg:col-span-2">
+              <h2 className="gravure">{colonne.titre}</h2>
+              <ul className="mt-5 space-y-3">
+                {colonne.liens.map((lien) => (
+                  <li key={lien.href}>
+                    <Lien
+                      to={lien.href}
+                      className="lien-trait text-[0.875rem] text-pierre/85 transition-colors hover:text-pierre"
                     >
-                      {link.name}
+                      {lien.nom}
+                    </Lien>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+
+          {/* ---- Les coordonnées -------------------------------- */}
+          <div className="lg:col-span-4">
+            <h2 className="gravure">Nous joindre</h2>
+            {/* UN SEUL NIVEAU DE `div` DANS UN `dl`.
+                La spécification n'admet comme enfant direct de `dl` qu'un `div`
+                groupant un ou plusieurs `dt` suivis d'un ou plusieurs `dd`. La
+                structure précédente était `dl > div > div > dt`, avec l'icône en
+                frère du groupe : deux niveaux, donc invalide, et une icône n'a de
+                toute façon pas sa place entre `dl` et `dt`.
+                Relevé par Lighthouse (`dlitem` et `definition-list`, 14 éléments sur
+                l'accueil). Ma passe d'accessibilité l'avait manqué : je vérifiais
+                les contrastes, le focus et le clavier, pas la validité du balisage.
+                L'icône vit maintenant DANS le `dd`. */}
+            <dl className="mt-5 space-y-4 text-[0.875rem]">
+              <div>
+                <dt className="sr-only">Téléphone</dt>
+                <dd className="flex gap-3">
+                  <Phone aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  <span><a
+                      href={tel}
+                      className="tabulaire font-display text-[1.0625rem] font-semibold text-primary transition-colors hover:text-primary-glow"
+                    >
+                      {ADRESSE.telephone}
+                    </a></span>
+                </dd>
+              </div>
+
+              <div>
+                <dt className="sr-only">Courriel</dt>
+                <dd className="flex gap-3">
+                  <Mail aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  <span><a href={`mailto:${ADRESSE.email}`} className="lien-trait">
+                      {ADRESSE.email}
                     </a>
-                  ) : (
-                    <Link 
-                      to={link.href}
-                      className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300"
-                    >
-                      {link.name}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h4 className="text-lg font-semibold mb-6">Contact</h4>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <Phone className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                {/* Pas d'horaires ici : le bloc « Horaires d'ouverture » plus
-                    bas les donne déjà, dans la même colonne. */}
-                <div>
-                  <p className="text-sm font-medium">01.42.25.78.24</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <Mail className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-medium">j.immo.p@orange.fr</p>
-                  <p className="text-xs opacity-80">Réponse sous 24h</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-medium">27, Rue de Lisbonne</p>
-                  <p className="text-xs opacity-80">75008 Paris</p>
-                </div>
+                    <span className="mt-1 block text-muted-foreground">
+                      Réponse sous 24 h ouvrées
+                    </span></span>
+                </dd>
               </div>
 
-              <div className="flex items-start space-x-3">
-                <Clock className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-medium">Horaires d'ouverture</p>
-                  <p className="text-xs opacity-80">{HORAIRES.semaine}</p>
-                  {HORAIRES.samedi && (
-                    <p className="text-xs opacity-80">Samedi : {HORAIRES.samedi.toLowerCase()}</p>
-                  )}
-                </div>
+              <div>
+                <dt className="sr-only">Adresse</dt>
+                <dd className="flex gap-3">
+                  <MapPin aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  <span>{ADRESSE.rue}
+                    <span className="mt-0.5 block text-muted-foreground">
+                      {ADRESSE.codePostal} {ADRESSE.ville}
+                    </span></span>
+                </dd>
               </div>
-            </div>
+
+              <div>
+                <dt className="sr-only">Horaires</dt>
+                <dd className="flex gap-3 tabulaire">
+                  <Clock aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  <span>{HORAIRES.jours}
+                    <span className="mt-0.5 block text-muted-foreground">{HORAIRES.detail}</span></span>
+                </dd>
+              </div>
+            </dl>
           </div>
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-secondary-foreground/10">
-        <div className="container mx-auto px-6 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-sm opacity-80 text-center md:text-left">
-              © {currentYear} JIP. Tous droits réservés.
-              <span className="mx-2 hidden opacity-50 sm:inline">·</span>
-              <span className="block sm:inline">
-                Réalisation{' '}
-                <a
-                  href="https://www.linkedin.com/in/alexandre-wetzler/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline decoration-transparent transition-all duration-300 hover:text-primary hover:decoration-current"
-                >
-                  Alexandre Wetzler
-                </a>
-              </span>
-            </div>
-            <div className="flex flex-wrap justify-center md:justify-end space-x-6 text-sm">
-              <Link to="/mentions-legales" className="opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300">
-                Mentions Légales
-              </Link>
-              <Link to="/mentions-legales#donnees-personnelles" className="opacity-80 hover:opacity-100 hover:text-primary transition-all duration-300">
-                Politique de confidentialité
-              </Link>
-            </div>
-          </div>
+      {/* ---- La ligne de bas de page -------------------------- */}
+      <div className="border-t border-pierre/15">
+        <div className="container mx-auto flex flex-col items-start justify-between gap-4 py-6 text-[0.75rem] text-muted-foreground md:flex-row md:items-center">
+          <p>
+            © {annee} J.I.P. — Jobard Immobilier Paris.
+            <span aria-hidden className="mx-2 opacity-40">·</span>
+            Réalisation{' '}
+            <a
+              href="https://www.linkedin.com/in/alexandre-wetzler/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="lien-trait text-pierre/85"
+            >
+              Alexandre Wetzler
+            </a>
+          </p>
+          <p className="flex flex-wrap gap-x-6 gap-y-2">
+            <Lien to="/mentions-legales" className="lien-trait">
+              Mentions légales
+            </Lien>
+            <Lien to="/mentions-legales#donnees-personnelles" className="lien-trait">
+              Données personnelles
+            </Lien>
+          </p>
         </div>
       </div>
     </footer>

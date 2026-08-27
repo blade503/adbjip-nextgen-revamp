@@ -95,7 +95,7 @@ const InteractiveMap = ({
           <div className="space-y-4">
             <div className="rounded-lg border border-border bg-muted/50 p-4">
               <div className="mb-2 flex items-center space-x-3">
-                <MapPin className="h-5 w-5 text-primary" />
+                <MapPin aria-hidden className="h-5 w-5 text-primary-ink" />
                 <h3 className="font-semibold">Adresse</h3>
               </div>
               <p className="text-sm text-muted-foreground">{fullAddress}</p>
@@ -104,7 +104,7 @@ const InteractiveMap = ({
             {estimationResult !== null && (
               <div className="rounded-lg border border-primary/30 bg-primary-soft p-4">
                 <div className="mb-2 flex items-center space-x-3">
-                  <Euro className="h-5 w-5 text-primary" />
+                  <Euro aria-hidden className="h-5 w-5 text-primary-ink" />
                   <h3 className="font-semibold">Estimation</h3>
                 </div>
                 <p className="text-2xl font-bold">
@@ -118,7 +118,7 @@ const InteractiveMap = ({
             {marketData && (
               <div className="rounded-lg border border-border bg-muted/50 p-4">
                 <div className="mb-2 flex items-center space-x-3">
-                  <TrendingUp className="h-5 w-5 text-primary" />
+                  <TrendingUp aria-hidden className="h-5 w-5 text-primary-ink" />
                   <h3 className="font-semibold">Marché local</h3>
                 </div>
                 <ul className="space-y-1.5 text-sm text-muted-foreground">
@@ -167,12 +167,18 @@ const InteractiveMap = ({
                 <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
                   {isLoading ? (
                     <div>
-                      <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-b-2 border-primary" />
-                      <p className="text-sm text-muted-foreground">Localisation en cours…</p>
+                      {/* `role="status"` : l'anneau se voit, le texte se lit, mais
+                          sans région vocale rien n'est annoncé. Le mouvement
+                          réduit conserve la rotation (voir `.attente`) ET
+                          l'annonce : deux canaux pour une même information. */}
+                      <div role="status">
+                        <div className="attente mx-auto mb-4 h-10 w-10 rounded-full border-b-2 border-primary" />
+                        <p className="text-sm text-muted-foreground">Localisation en cours…</p>
+                      </div>
                     </div>
                   ) : (
                     <div>
-                      <MapPin className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
+                      <MapPin aria-hidden className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
                       <p className="text-sm text-muted-foreground">
                         {failed
                           ? "Adresse introuvable : vérifiez le numéro, la voie et le code postal."
@@ -194,7 +200,7 @@ const InteractiveMap = ({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ExternalLink className="mr-2 h-4 w-4" />
+                  <ExternalLink aria-hidden className="mr-2 h-4 w-4" />
                   Ouvrir dans Google Maps
                 </a>
               </Button>

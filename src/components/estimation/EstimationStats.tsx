@@ -43,9 +43,9 @@ const EstimationStats = () => {
             return (
               <div key={index} className="text-center">
                 <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Icon className="w-8 h-8 text-primary-foreground" />
+                  <Icon aria-hidden className="w-8 h-8 text-primary-foreground" />
                 </div>
-                <div className="text-4xl font-bold text-primary mb-2">{stat.value}</div>
+                <div className="text-4xl font-bold text-primary-ink mb-2">{stat.value}</div>
                 <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
               </div>
             );

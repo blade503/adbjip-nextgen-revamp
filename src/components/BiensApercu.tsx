@@ -1,11 +1,16 @@
 import { ArrowRight, Camera, MapPin } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
+import EnTeteSection from '@/components/systeme/EnTeteSection';
+import { Calage, Voile } from '@/components/systeme/Ouverture';
+import { echelonner } from '@/lib/echelon';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { biens, eur, feeNote, isNew, locationLabel } from '@/lib/biens';
 import { classesGrille } from '@/lib/grille';
+import { Lien } from '@/components/systeme/Lien';
+import Ordinaux from '@/components/systeme/Ordinaux';
+
+/** Départements d'Île-de-France, pour le classement de la vitrine. */
+const DEPARTEMENTS_IDF = ['75', '77', '78', '91', '92', '93', '94', '95'];
 
 /**
  * Trois annonces du portefeuille, sur la page d'accueil.
@@ -14,16 +19,33 @@ import { classesGrille } from '@/lib/grille';
  * coûte rien et donne à la page d'accueil les seules images vraies dont
  * l'agence dispose — ses propres biens, et non une banque d'images.
  *
- * Les annonces les plus récentes d'abord, comme sur /biens — le portefeuille est
- * déjà classé à la synchronisation — mais sans les parkings : à 14 000 € et
- * photographiés depuis le trottoir, ils font une vitrine d'accueil désastreuse
- * alors qu'ils se vendent très bien depuis la page /biens, qui montre tout.
+ * LE DUOTONE NE S'APPLIQUE PAS ICI, et c'est une règle et non un oubli. Toute
+ * image d'atmosphère du site est ramenée dans la palette ; une photo d'annonce
+ * ne l'est jamais. Un acheteur a droit à la couleur réelle du bien qu'on lui
+ * montre — un parquet, une exposition, un ravalement se jugent sur la teinte.
+ * Le duotone est de l'éditorial, pas de la description. Ce qui unifie ces
+ * images à la charte, c'est le cadre gravé, pas la colorimétrie.
+ *
+ * La vitrine **classe** le portefeuille, elle ne le filtre pas : /biens continue
+ * de tout montrer, et l'agence n'a aucune raison de cacher qu'elle vend aussi
+ * hors Île-de-France. Trois critères, dans cet ordre :
+ *
+ *  1. les parkings en dernier — à 14 000 € et photographiés depuis le trottoir,
+ *     ils font une vitrine d'accueil désastreuse alors qu'ils se vendent très
+ *     bien depuis /biens ;
+ *  2. l'Île-de-France d'abord — une agence du 8ᵉ qui ouvre sur une vue
+ *     satellite de Charente-Maritime se présente mal, et c'était le cas ;
+ *  3. à égalité, l'ordre d'origine, déjà trié par récence à la synchronisation
+ *     (le tri de `Array.prototype.sort` est stable, la récence est préservée).
  *
  * La section disparaît si le portefeuille est vide.
  */
+const rangVitrine = (bien: (typeof biens)[number]) =>
+  (bien.propertyType === 'parking' ? 2 : 0) +
+  (DEPARTEMENTS_IDF.includes(bien.postalCode.slice(0, 2)) ? 0 : 1);
+
 const BiensApercu = () => {
-  const vitrine = biens.filter((bien) => bien.propertyType !== 'parking');
-  const selection = (vitrine.length >= 3 ? vitrine : biens).slice(0, 3);
+  const selection = [...biens].sort((a, b) => rangVitrine(a) - rangVitrine(b)).slice(0, 3);
   if (selection.length === 0) return null;
 
   const prix = (bien: (typeof biens)[number]) => {
@@ -32,35 +54,32 @@ const BiensApercu = () => {
   };
 
   return (
-    <section className="py-24">
-      <div className="container mx-auto px-6">
-        <div className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-          <div>
-            <h2 className="text-4xl font-bold md:text-5xl">
-              Nos biens <span className="gradient-text">du moment</span>
-            </h2>
-            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-              Le portefeuille est repris chaque nuit de notre logiciel de gestion. Ce que vous
-              voyez ici est disponible aujourd'hui.
-            </p>
-          </div>
-          <Button variant="outline" className="shrink-0" asChild>
-            <Link to="/biens">
-              Voir tous nos biens
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
+    <section className="bg-ivoire py-20 lg:py-28">
+      <div className="container mx-auto">
+        <EnTeteSection
+          plaque="Portefeuille"
+          titre="À vendre et à louer aujourd'hui"
+          chapeau="Le portefeuille est repris chaque nuit du logiciel de gestion de l'agence. Ce qui est affiché ici est disponible ce matin."
+          aparte={
+            <Lien
+              to="/biens"
+              className="lien-trait font-display text-[0.6875rem] font-semibold uppercase tracking-[0.13em] text-foreground"
+            >
+              Tout le portefeuille
+              <ArrowRight aria-hidden className="h-3.5 w-3.5" />
+            </Lien>
+          }
+        />
 
-        <div className={`grid grid-cols-1 gap-8 ${classesGrille(selection.length)}`}>
-          {selection.map((bien) => {
+        <div className={`mt-16 grid grid-cols-1 gap-x-8 gap-y-12 ${classesGrille(selection.length)}`}>
+          {selection.map((bien, index) => {
             const photo = bien.photos[0];
             const note = feeNote(bien);
 
             return (
-              <Card key={bien.id} className="group overflow-hidden border-0 shadow-card hover-lift">
-                <Link to="/biens" className="block">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+              <Voile key={bien.id} delai={echelonner(index)}>
+                <Lien to="/biens" className="rasante group block">
+                  <Calage className="cadre aspect-[4/3] w-full bg-muted">
                     {photo && (
                       <img
                         src={photo.medium}
@@ -69,45 +88,55 @@ const BiensApercu = () => {
                         alt={photo.alt}
                         width={800}
                         height={600}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full object-cover"
                         loading="lazy"
                         decoding="async"
                       />
                     )}
-                    <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-                      <Badge
-                        className="uppercase"
-                        variant={bien.transaction === 'location' ? 'secondary' : 'default'}
-                      >
+
+                    {/* Les mentions sont posées SUR la photo, donc dans un
+                        champ opaque : une étiquette translucide sur un ciel
+                        clair ou un mur sombre n'a pas de contraste garanti. */}
+                    <div className="absolute left-3 top-3 z-[3] flex flex-wrap gap-1.5">
+                      <Badge variant={bien.transaction === 'location' ? 'secondary' : 'default'}>
                         {bien.transaction === 'location' ? 'Location' : 'Vente'}
                       </Badge>
                       {isNew(bien) && (
-                        <Badge className="bg-background uppercase text-foreground" variant="outline">
+                        <Badge className="bg-pierre text-marine shadow-[inset_0_0_0_2px_hsl(var(--pierre)),inset_0_0_0_3px_hsl(var(--marine)/0.45)]">
                           Nouveau
                         </Badge>
                       )}
                     </div>
+
                     {bien.photos.length > 1 && (
-                      <span className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur">
-                        <Camera className="h-3.5 w-3.5" />
+                      <span className="tabulaire absolute bottom-3 right-3 z-[3] flex items-center gap-1.5 rounded-[1px] bg-nuit/80 px-2 py-1 text-[0.6875rem] font-medium text-pierre">
+                        <Camera aria-hidden className="h-3 w-3" />
                         {bien.photos.length}
                       </span>
                     )}
-                  </div>
+                  </Calage>
 
-                  <div className="p-6">
-                    <p className="text-2xl font-bold tracking-tight">{prix(bien)}</p>
-                    {note && <p className="mt-1 text-xs text-muted-foreground">{note}</p>}
+                  {/* Pas de boîte autour du texte : le cadre gravé de la photo
+                      suffit à tenir la fiche, et le prix se lit mieux posé à
+                      même la pierre que dans une carte de plus. */}
+                  <p className="tabulaire mt-5 font-display text-[1.625rem] font-semibold leading-none tracking-[-0.01em]">
+                    {prix(bien)}
+                  </p>
+                  {note && <p className="mt-2 text-[0.75rem] text-muted-foreground">{note}</p>}
 
-                    <h3 className="mt-3 text-lg font-semibold leading-snug group-hover:text-primary">
-                      {bien.title}
-                    </h3>
-                    <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-                      <MapPin className="h-4 w-4 flex-shrink-0" />
-                      {locationLabel(bien)}
-                    </p>
+                  <hr className="regle mt-4" />
 
-                    <p className="mt-3 text-sm text-muted-foreground">
+                  <h3 className="mt-4 text-[1.0625rem] leading-snug">
+                    <Ordinaux texte={bien.title} />
+                  </h3>
+
+                  <p className="mt-2 flex items-center gap-1.5 text-[0.8125rem] text-muted-foreground">
+                    <MapPin aria-hidden className="h-3.5 w-3.5 shrink-0" />
+                    {locationLabel(bien)}
+                  </p>
+
+                  {(bien.surface || bien.rooms) && (
+                    <p className="tabulaire mt-1 text-[0.8125rem] text-muted-foreground">
                       {[
                         bien.surface ? `${bien.surface} m²` : null,
                         bien.rooms ? `${bien.rooms} pièces` : null,
@@ -115,9 +144,9 @@ const BiensApercu = () => {
                         .filter(Boolean)
                         .join(' · ')}
                     </p>
-                  </div>
-                </Link>
-              </Card>
+                  )}
+                </Lien>
+              </Voile>
             );
           })}
         </div>
