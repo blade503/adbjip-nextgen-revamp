@@ -107,23 +107,55 @@ RewriteRule ^(.*[^/])$ /$1/index.html [L]
   ExpiresByType text/css "access plus 1 year"
   ExpiresByType text/javascript "access plus 1 year"
   ExpiresByType application/javascript "access plus 1 year"
-  ExpiresByType image/webp "access plus 1 year"
-  ExpiresByType image/jpeg "access plus 1 year"
-  ExpiresByType image/png "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 year"
-  ExpiresByType image/x-icon "access plus 1 year"
   ExpiresByType font/woff2 "access plus 1 year"
+  # LES IMAGES PASSENT À UN JOUR, et c'est un correctif — voir le bloc
+  # mod_headers juste en dessous. `ExpiresByType` ne sait filtrer que par type
+  # MIME, jamais par chemin : impossible d'y distinguer une image empreintée de
+  # /assets/ d'une photo d'annonce au nom stable. C'est donc `Cache-Control`,
+  # posé par chemin, qui tranche — et il l'emporte sur `Expires`. Cette valeur
+  # n'est plus qu'un repli pour les caches qui ignoreraient `Cache-Control`.
+  ExpiresByType image/webp "access plus 1 day"
+  ExpiresByType image/jpeg "access plus 1 day"
+  ExpiresByType image/png "access plus 1 day"
+  ExpiresByType image/svg+xml "access plus 1 day"
+  ExpiresByType image/x-icon "access plus 1 day"
   ExpiresByType text/html "access plus 0 seconds"
   ExpiresByType application/xml "access plus 1 hour"
   ExpiresByType text/plain "access plus 1 hour"
 </IfModule>
 
 <IfModule mod_headers.c>
-  # `immutable` dit au navigateur de ne même pas revalider : c'est exact pour un
-  # nom de fichier qui contient une empreinte du contenu.
-  <FilesMatch "\.(css|js|webp|jpe?g|png|svg|woff2?|ico)$">
-    Header set Cache-Control "public, max-age=31536000, immutable"
+  # `immutable` DIT AU NAVIGATEUR DE NE MÊME PAS REVALIDER PENDANT UN AN. Ce
+  # n'est exact que pour un nom de fichier qui contient une empreinte du
+  # contenu — donc uniquement ce que Vite écrit dans /assets/.
+  #
+  # LE DÉFAUT CORRIGÉ ICI, relevé le 27/08/2026 sur la préversion en ligne :
+  # `<FilesMatch>` filtre par EXTENSION, jamais par chemin. La règle unique qui
+  # se trouvait là appliquait donc `immutable` à `/biens/0125-1-medium.webp`
+  # comme à `/assets/index-a1b2c3.js`. Or le nom d'une photo d'annonce est
+  # STABLE : `<référence>-<index>-<variante>.webp`. Quand l'agence remplace la
+  # photo d'un bien déjà publié, `fetch-biens.mjs` écrase le fichier sous le même
+  # nom — et tout visiteur l'ayant déjà vue gardait l'ANCIENNE PHOTO pendant un
+  # an, sans jamais revalider. Sur un site dont les annonces sont la seule donnée
+  # dynamique, une baisse de prix pouvait s'afficher avec la photo d'avant. Même
+  # piège pour les badges DPE, régénérés sous le même nom.
+  #
+  # `SetEnvIf Request_URI` filtre par CHEMIN, ce que `FilesMatch` ne sait pas
+  # faire. mod_setenvif est chargé chez LWS — vérifié sous Apache 2.4.66 local
+  # avec la même liste de modules.
+  SetEnvIf Request_URI "^/assets/" EMPREINTE=1
+
+  # Empreinté : immuable, un an, aucune revalidation.
+  Header set Cache-Control "public, max-age=31536000, immutable" env=EMPREINTE
+
+  # Nom stable, contenu qui change : photos d'annonces, badges DPE, favicons,
+  # image de partage. Un jour — la cadence de la synchronisation nocturne — puis
+  # revalidation. Elle est bon marché : l'`ETag` et le `Last-Modified` d'Apache
+  # renvoient un 304 sans corps.
+  <FilesMatch "\.(webp|jpe?g|png|svg|ico|css|js|woff2?)$">
+    Header set Cache-Control "public, max-age=86400, must-revalidate" env=!EMPREINTE
   </FilesMatch>
+
   <FilesMatch "\.(html|php)$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>

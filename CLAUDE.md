@@ -452,6 +452,20 @@ en mémoire, donc de retarder la nouvelle.
   `/biens/truc` → **404** avec la page de marque ; `/biens` sans barre finale → 200 et
   **zéro redirection** ; HTML en `no-cache` gzippé (71 505 → 14 360 octets), actifs empreintés
   en `immutable` un an, sitemap à 1 h.
+- **`<FilesMatch>` filtre par extension, jamais par chemin — et ça a mis les photos
+  d'annonces en cache immuable pendant un an.** Relevé le 27/08/2026 sur la préversion :
+  `0125-1-medium.webp` recevait `public, max-age=31536000, immutable`, le même en-tête que
+  `/assets/index-a1b2c3.js`. Or le nom d'une photo d'annonce est **stable** —
+  `<référence>-<index>-<variante>.webp` — et `fetch-biens.mjs` l'écrase sous le même nom quand
+  l'agence remplace la photo d'un bien déjà publié. Tout visiteur l'ayant déjà vue gardait
+  l'ancienne photo un an, **sans jamais revalider**. Sur un site dont les annonces sont la seule
+  donnée dynamique, une baisse de prix pouvait s'afficher avec la photo d'avant. Même piège pour
+  les badges DPE, régénérés sous le même nom, et pour `og-image.jpg` et les favicons.
+  Corrigé par `SetEnvIf Request_URI "^/assets/"`, qui filtre par chemin : `immutable` un an sous
+  `/assets/`, et **un jour puis revalidation** partout ailleurs — la cadence de la synchronisation
+  nocturne. Éprouvé sous Apache 2.4.66 local : `/assets/*` immuable, `/biens/*.webp` et `*.svg`,
+  `og-image.jpg`, `favicon.ico` à 86 400 s avec `must-revalidate`, HTML en `no-cache`, et
+  `If-None-Match` renvoie bien **304 avec 0 octet de corps**.
 - **LWS place un cache de périphérie devant Apache, et il ignore le `no-cache`.**
   Relevé le 27/08/2026 : `/agence`, route créée par le déploiement, répondait **404 à `fetch` et
   200 à `curl` au même instant** — `x-cache-status: HIT`, `edge-cache-engine-mode: ACTIVE`, et un
