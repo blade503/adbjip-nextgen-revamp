@@ -61,11 +61,41 @@ const obtenirObservateur = () => {
       }
     },
     {
-      // −12 % en bas : l'élément doit être franchement entré dans l'écran, pas
-      // seulement affleurer le bord. Sans cette marge, l'animation se joue
-      // sous le pli et le visiteur ne voit arriver qu'un contenu déjà posé.
-      rootMargin: '0px 0px -12% 0px',
-      threshold: 0.04,
+      /**
+       * QUAND L'APPARITION SE DÉCLENCHE — deux réglages, et ils se cumulent.
+       *
+       * La marge basse retire un bandeau du bas de l'écran : l'élément doit être
+       * entré d'autant avant que l'observateur ne le signale. Sans elle,
+       * l'animation se jouerait pendant que l'élément affleure le bord, et le
+       * visiteur ne verrait arriver qu'un contenu déjà posé.
+       *
+       * MESURÉ, pas estimé. Sonde : `MutationObserver` sur `data-visible`
+       * pendant un défilement par pas de 24 px avec attente de deux trames — le
+       * rappel de l'observateur est cadencé sur la trame, et un pas plus large
+       * attribuait à l'élément une position relevée un ou deux pas APRÈS son
+       * déclenchement réel. Médiane de la distance entre le HAUT de l'élément et
+       * le BAS de l'écran au moment du déclenchement, sur trois pages, écran de
+       * 390 × 844 :
+       *
+       *     −12 % / seuil 0,04 .... 103 · 93 · 104 px   (l'ancien réglage)
+       *     −7 %  / seuil 0 .......  49 · 43 ·  55 px   ← retenu
+       *     −2 %  / seuil 0 .......   1 ·  1 ·   8 px   (trop tôt)
+       *
+       * À −2 % l'élément se déclenche à l'instant où son bord touche le bas de
+       * l'écran : les 800 ms d'animation sont consommées avant qu'il soit
+       * vraiment visible, et le geste est perdu. −7 % divise l'attente par deux
+       * sans tomber dans ce piège.
+       *
+       * LE SEUIL PASSE DE 0,04 À 0, et c'est la moitié du gain. Un seuil est une
+       * FRACTION DE LA SURFACE de l'élément : 4 % d'un bloc de 1 200 px, c'est
+       * 48 px de haut à faire entrer EN PLUS de la marge. Les blocs hauts
+       * attendaient donc bien plus longtemps que les petits, sans raison — deux
+       * sections voisines n'apparaissaient pas au même endroit de l'écran. À 0,
+       * le déclenchement ne dépend plus que de la marge, donc de la géométrie de
+       * l'écran, la même pour tous.
+       */
+      rootMargin: '0px 0px -7% 0px',
+      threshold: 0,
     },
   );
   return observateur;

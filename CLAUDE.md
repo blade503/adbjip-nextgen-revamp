@@ -316,6 +316,25 @@ casse des choses mesurées.
   écrit deux choses sur `<html>` : `--descente` et `data-defile`. Tout le reste
   en découle en CSS. Ne pas en ajouter un second.
 - **Un seul `IntersectionObserver`**, partagé, dans `components/systeme/Ouverture.tsx`.
+  **Point de déclenchement des apparitions : `rootMargin: '0px 0px -7% 0px'`, `threshold: 0`.**
+  Réglé le 27/08/2026 sur la mesure, l'apparition arrivant trop tard. Sonde :
+  `MutationObserver` sur `data-visible` pendant un défilement par pas de 24 px avec attente de
+  deux trames — le rappel de l'observateur est cadencé sur la trame, et un pas plus large
+  attribuait à l'élément une position relevée un ou deux pas APRÈS son déclenchement réel (des
+  maxima à 500 px qui n'étaient qu'un artefact). Médiane de la distance entre le haut de
+  l'élément et le bas de l'écran au déclenchement, trois pages, 390 × 844 :
+  **−12 % / seuil 0,04 → 103 · 93 · 104 px** (l'ancien réglage) · **−7 % / seuil 0 → 49 · 43 ·
+  55 px** (retenu) · −2 % / seuil 0 → 1 · 1 · 8 px, trop tôt : les 800 ms sont consommées avant
+  que l'élément soit visible et le geste est perdu.
+  **Le passage du seuil de 0,04 à 0 est la moitié du gain.** Un seuil est une FRACTION DE LA
+  SURFACE : 4 % d'un bloc de 1 200 px, c'est 48 px à faire entrer en plus de la marge. Les blocs
+  hauts attendaient donc bien plus longtemps que les petits — deux sections voisines
+  n'apparaissaient pas au même endroit de l'écran. À 0, le déclenchement ne dépend plus que de la
+  géométrie de l'écran, la même pour tous : relevé après correction, min 39 et max 122 px sur
+  cinq pages, contre un étalement de 87 à 621 avant.
+  Contrôlé dans les quatre modes — normal, mouvement réduit, `?mouvement=0`, sans JavaScript :
+  **aucun contenu ne reste invisible**, et rien n'est masqué en deçà du seuil de 90 % de la
+  hauteur d'écran posé au montage.
 - **`will-change` jamais globale.** Deux emplacements, tous deux bornés au
   survol : `.rasante:hover .calage` en CSS, et les copies masquées du héros
   posées sur `pointerenter` / retirées sur `pointerleave`.
