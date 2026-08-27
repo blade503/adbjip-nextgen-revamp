@@ -298,8 +298,23 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* ---- Le panneau : la travée à son format propre ----------- */}
-      <div ref={panneau} className="travee order-first aspect-[4/5] lg:order-none lg:aspect-auto">
+      {/* ---- Le panneau : la travée à son format propre -----------
+          SUR TÉLÉPHONE, LE CADRE EST BORNÉ, ET C'EST UNE MESURE.
+          En `aspect-[4/5]`, la photo prenait 488 px sur un écran de 390 (58 %
+          du pli) et 469 sur un 375 (70 %) : sur un iPhone SE le titre passait
+          ENTIÈREMENT sous le pli, et l'on arrivait sur un immeuble sans un mot.
+          Relevé au protocole de débogage, pas estimé.
+          `aspect-[7/5]` ramène la photo à 268 px (40 %) et fait remonter la
+          plaque et les trois lignes du titre au-dessus du pli. Le fronton
+          reste centré et lisible : on ne perd que la répétition des étages.
+          `max-h-[42svh]` prend le relais sur tablette, où le seul ratio
+          redonnerait une bannière de 548 px. Les deux sont remis à zéro en
+          `lg:`, où la travée retrouve son format portrait dans la demi-page
+          droite — c'est là qu'elle n'est pas agrandie du tout. */}
+      <div
+        ref={panneau}
+        className="travee order-first aspect-[7/5] max-h-[42svh] lg:order-none lg:aspect-auto lg:max-h-none"
+      >
         <div className="plan-mur">
           <img
             ref={facade}
@@ -310,7 +325,15 @@ const Hero = () => {
             width={800}
             height={1080}
             loading="eager"
-            fetchPriority="high"
+            /* EN MINUSCULES, ET C'EST OBLIGATOIRE EN REACT 18. `fetchPriority`
+               en camelCase n'est reconnu qu'à partir de React 19 : sur 18.3.1 il
+               déclenche « React does not recognize the `fetchPriority` prop »
+               à CHAQUE chargement, avec la consigne explicite de l'écrire en
+               minuscules. L'attribut finissait bien dans le HTML (React sert les
+               props inconnues telles quelles, en bas de casse), donc la priorité
+               était appliquée — mais au prix d'une erreur de console permanente.
+               Relevé le 27/08/2026 en lisant la console du serveur de dev. */
+            fetchpriority="high"
             decoding="sync"
           />
         </div>

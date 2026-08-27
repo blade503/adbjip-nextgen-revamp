@@ -8,6 +8,26 @@ export default {
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
 	],
+	/**
+	 * LES CINQ ÉTATS D'ÉCLAIRAGE DE L'OUVERTURE, PROTÉGÉS DE LA PURGE.
+	 *
+	 * Ils sont déclarés dans `@layer components` de `src/index.css`, donc soumis
+	 * au balayage. Or la classe est composée à l'exécution par le script
+	 * synchrone d'`index.html` (`'heure-' + e`) : Tailwind ne voit jamais le nom
+	 * complet, et `index.html` n'est de toute façon pas dans `content`.
+	 *
+	 * Conséquence CONSTATÉE dans le CSS livré : quatre des cinq règles avaient
+	 * disparu. Toutes les variables qu'elles posent (`--lum`, `--omb`, `--f-lum`,
+	 * `--f-omb`, `--rai`, `--f-rai`, `--expo`, `--sat`) étaient donc indéfinies.
+	 * Une `opacity: var(--f-lum)` sans variable n'est pas ignorée : elle est
+	 * invalide, donc l'opacité retombe à sa valeur initiale, 1. Les deux copies
+	 * masquées de la lumière rasante tournaient à PLEINE PUISSANCE en permanence,
+	 * au lieu de 0,62 et 0,70 — c'est le voile orange brumeux sur la façade.
+	 *
+	 * Le bogue est silencieux par construction : rien ne casse, la page reste
+	 * lisible, seul le rendu se dégrade.
+	 */
+	safelist: ['heure-aube', 'heure-matin', 'heure-midi', 'heure-doree', 'heure-nuit'],
 	prefix: "",
 	theme: {
 		container: {

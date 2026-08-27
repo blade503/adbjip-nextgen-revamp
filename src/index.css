@@ -766,7 +766,26 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    /* DEUX VERROUS, PAS UN. `.rai` est posée en `inset: -20%` : sur un cadre de
+       440 px elle fait 616 px et dépasse de 88 px de chaque côté. Elle ne tenait
+       que par l'`overflow: hidden` ci-dessus — et elle porte un
+       `mix-blend-mode`, la combinaison précise où WebKit ne découpe pas. Signalé
+       depuis un iPhone 16 Pro Max : le document faisait 528 px pour une fenêtre
+       de 440 (440 + 88, au pixel), le bouton du menu passait hors écran et le
+       chapô du héros était coupé en plein mot.
+       `contain: paint` garantit le découpage par une autre voie que le
+       débordement, sans créer de conteneur de défilement. Le second verrou est
+       sur `#ouverture` (voir plus bas) : si l'un lâche, l'autre tient. */
+    contain: paint;
     --reste: calc(1 - var(--descente, 0));
+  }
+
+  /* Le filet de sécurité de l'ouverture entière. `clip` et NON `hidden` :
+     `hidden` créerait un conteneur de défilement, ce qui casserait tout
+     `position: sticky` à l'intérieur et permettrait un défilement horizontal
+     par programme. `clip` découpe sans rien de tout cela. */
+  #ouverture {
+    overflow-x: clip;
   }
 
   /* PLAN 1 · le ciel et la couverture — le plus loin, +14 px */
@@ -806,13 +825,18 @@
      DESSINÉE et non détourée : un garde-corps haussmannien est un motif
      qui se répète, donc une unité et un `<pattern>`. C'est la logique déjà
      appliquée au logo, et cela économise une demi-journée de détourage. */
+  /* HAUTEUR PROPORTIONNÉE, PLAFONNÉE. À 6,5 rem fixes, la ferronnerie
+     dessinée occupait 39 % d'un cadre de téléphone raccourci et couvrait
+     exactement la porte cochère — le sujet. Le plancher de 3,25 rem lui garde
+     son épaisseur de plan ; le plafond de 6,5 rem est la valeur d'origine,
+     atteinte dès que le panneau dépasse 400 px, donc sur tout le bureau. */
   .plan-fer {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 5;
-    height: 6.5rem;
+    height: clamp(3.25rem, 26%, 6.5rem);
     pointer-events: none;
     color: hsl(var(--nuit));
     opacity: 0.92;
@@ -917,7 +941,11 @@
     inset: 0;
     z-index: 6;
     pointer-events: none;
-    background: linear-gradient(to top, hsl(var(--nuit)) 0%, hsl(var(--nuit) / 0.55) 22%, hsl(var(--nuit) / 0) 55%);
+    /* Arrêts resserrés : sur un cadre de téléphone raccourci, 22 % et 55 %
+       de moins de hauteur laissaient encore le fondu manger la porte
+       cochère. Le raccord doit coudre l'arête, pas éteindre le bas de
+       l'image. */
+    background: linear-gradient(to top, hsl(var(--nuit)) 0%, hsl(var(--nuit) / 0.55) 14%, hsl(var(--nuit) / 0) 40%);
   }
 
   @media (min-width: 64rem) {
