@@ -178,15 +178,21 @@ const About = () => {
               chapeau="Quatre choses que vous pouvez vérifier en nous appelant."
             />
 
+            {/* UN SEUL NIVEAU DE `div` DANS UN `dl`.
+                `<Voile>` rend lui-même un `div` : lui ajouter un `div.grid`
+                à l'intérieur en faisait DEUX, et la spécification n'en admet
+                qu'un — celui qui groupe les `dt`/`dd`. Les classes de grille
+                sont donc portées par le `Voile`.
+                Relevé par Lighthouse (`dlitem` et `definition-list`) : le
+                même défaut que j'avais corrigé sur le pied de page, et que
+                j'ai réintroduit en recomposant ces pages. */}
             <dl className="mt-16 border-t border-[hsl(var(--trait)/var(--trait-a))]">
               {ENGAGEMENTS.map((e, index) => (
-                <Voile key={e.titre} delai={echelonner(index)}>
-                  <div className="grid gap-x-10 gap-y-2 border-b border-[hsl(var(--trait)/var(--trait-a))] py-7 lg:grid-cols-[20rem_1fr]">
-                    <dt className="text-[1.0625rem] font-semibold">{e.titre}</dt>
-                    <dd className="mesure-large text-[0.9375rem] leading-relaxed text-muted-foreground">
-                      {e.texte}
-                    </dd>
-                  </div>
+                <Voile key={e.titre} delai={echelonner(index)} className="grid gap-x-10 gap-y-2 border-b border-[hsl(var(--trait)/var(--trait-a))] py-7 lg:grid-cols-[20rem_1fr]">
+                  <dt className="text-[1.0625rem] font-semibold">{e.titre}</dt>
+                  <dd className="mesure-large text-[0.9375rem] leading-relaxed text-muted-foreground">
+                    {e.texte}
+                  </dd>
                 </Voile>
               ))}
             </dl>

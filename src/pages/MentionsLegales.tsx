@@ -13,30 +13,36 @@ import {
   MEDIATEUR,
   legalIsIncomplete,
 } from '@/config/legal';
+import EnTeteSection from '@/components/systeme/EnTeteSection';
 
 /** Une valeur manquante se voit, elle ne se devine pas. */
 const Value = ({ children }: { children: string | null }) =>
   children ? (
     <span>{children}</span>
   ) : (
-    <span className="rounded bg-destructive/10 px-2 py-0.5 text-sm font-medium text-destructive-ink">
+    <span className="rounded-[2px] bg-destructive/10 px-2 py-0.5 text-[0.8125rem] font-medium text-destructive-ink">
       à compléter
     </span>
   );
 
 const Row = ({ label, children }: { label: string; children: string | null }) => (
-  <div className="flex flex-col gap-1 border-b border-border/60 py-3 sm:flex-row sm:gap-6">
-    <dt className="w-full text-sm text-muted-foreground sm:w-64 sm:shrink-0">{label}</dt>
-    <dd className="text-sm font-medium">
+  <div className="flex flex-col gap-1 border-b border-[hsl(var(--trait)/var(--trait-a))] py-3.5 sm:flex-row sm:gap-6">
+    <dt className="w-full text-[0.8125rem] text-muted-foreground sm:w-64 sm:shrink-0">{label}</dt>
+    <dd className="text-[0.875rem] font-medium">
       <Value>{children}</Value>
     </dd>
   </div>
 );
 
+/**
+ * Une section de mentions : plaque vissée, filet qui court, puis la liste
+ * réglée. Le titre était un `h2` nu de 20 px, sans repère visuel : la page
+ * n'avait aucune des trois marques de la charte.
+ */
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <section className="mb-12">
-    <h2 className="mb-4 text-xl font-bold">{title}</h2>
-    <dl>{children}</dl>
+  <section className="mt-14 first:mt-0">
+    <EnTeteSection plaque="Mention" titre={title} />
+    <dl className="mt-8 border-t border-[hsl(var(--trait)/var(--trait-a))]">{children}</dl>
   </section>
 );
 
@@ -73,16 +79,24 @@ const MentionsLegales = () => (
     <Header />
 
     <main id="contenu" tabIndex={-1}>
-      <section className="border-b border-border/60 bg-gradient-subtle pt-32 pb-12">
-        <div className="container mx-auto px-6">
-          <p className="plaque mb-6">Informations légales</p>
-          <h1 className="text-4xl font-bold md:text-5xl">Mentions légales</h1>
+      {/* Bande de nuit comme les autres pages : les mentions légales n'étaient
+          pas raccordées à la coquille du site, elles ouvraient sur un dégradé
+          clair sans filet. `nuit` rebascule les jetons du sous-arbre. */}
+      <section className="nuit grain bg-nuit pb-16 pt-32 text-pierre">
+        <div className="container mx-auto">
+          <EnTeteSection
+            fond="nuit"
+            niveau="h1"
+            plaque="Informations légales"
+            titre="Mentions légales"
+            chapeau="Éditeur du site, cartes professionnelles, garanties financières, médiation et hébergement."
+          />
         </div>
       </section>
 
-      <div className="container mx-auto max-w-3xl px-6 py-14">
+      <div className="container mx-auto max-w-[52rem] py-20 lg:py-28">
         {legalIsIncomplete && (
-          <div className="mb-10 flex gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-4">
+          <div className="mb-14 flex gap-3 border-l-2 border-destructive bg-destructive/5 py-4 pl-4 pr-5">
             <AlertTriangle aria-hidden className="h-5 w-5 shrink-0 text-destructive" />
             <p className="text-sm leading-relaxed">
               <strong>Page incomplète, à ne pas mettre en ligne en l'état.</strong> Les mentions
@@ -121,16 +135,17 @@ const MentionsLegales = () => (
           <Row label="Site">{HEBERGEUR.site}</Row>
         </Section>
 
-        <section className="space-y-4 text-sm leading-relaxed text-muted-foreground">
-          <h2 className="text-xl font-bold text-foreground">Propriété intellectuelle</h2>
-          <p>
+        <section className="mt-14">
+          <EnTeteSection plaque="Mention" titre="Propriété intellectuelle" />
+          <p className="mesure-large mt-8 text-[0.9375rem] leading-relaxed text-muted-foreground">
             L'ensemble des contenus de ce site — textes, photographies, marques et logos — est
             protégé. Les photographies des biens proposés sont diffusées par l'agence dans le cadre
             de ses mandats et ne peuvent être reproduites sans autorisation.
           </p>
 
-          <h2 id="donnees-personnelles" className="text-xl font-bold text-foreground">Données personnelles</h2>
-          <p>
+          <span id="donnees-personnelles" className="mt-14 block" />
+          <EnTeteSection plaque="Mention" titre="Données personnelles" />
+          <p className="mesure-large mt-8 text-[0.9375rem] leading-relaxed text-muted-foreground">
             Les informations transmises via les formulaires de contact et d'estimation servent
             uniquement à traiter votre demande et ne sont ni cédées ni revendues. Vous disposez
             d'un droit d'accès, de rectification, d'effacement et d'opposition, que vous pouvez

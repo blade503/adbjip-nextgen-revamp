@@ -69,10 +69,17 @@ const EnTeteSection = ({
           Le trait est masqué sous sm : à 480 px de large il ne reste pas de
           place entre la plaque et l'aparté, et un filet de 12 px n'est plus une
           ponctuation, c'est un défaut. */}
-      <div className="flex items-center gap-4 sm:gap-6">
+      {/* `flex-wrap` : l'aparté passe à la ligne quand il n'y a plus la place.
+          Sans lui, un aparté de 196 px (« Sources et méthodologie » sur la page
+          d'estimation) poussait le document à 448 px de large sur un téléphone
+          de 390 — mesuré, et c'était le seul débordement horizontal du site.
+          Le filet reste masqué sous sm : à 480 px il ne reste pas de place entre
+          la plaque et l'aparté, et un filet de 12 px n'est plus une ponctuation,
+          c'est un défaut. */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3 sm:gap-x-6">
         <p className={cn('plaque shrink-0', fond === 'nuit' && 'plaque-pierre')}>{plaque}</p>
         <Trait className="hidden min-w-0 flex-1 sm:block" />
-        {aparte && <div className="shrink-0">{aparte}</div>}
+        {aparte && <div className="min-w-0 shrink-0">{aparte}</div>}
       </div>
 
       <Voile delai={90} className="mt-7">

@@ -1,11 +1,10 @@
 import { lazy, Suspense, useState, useEffect, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { CheckCircle, ArrowRight, Phone, TrendingUp, FileText, Send, Building, Zap, Info, X, Calculator, Award, Users, Star } from 'lucide-react';
+import { ArrowRight, Phone, TrendingUp, FileText, Send, Building, X, Calculator, Award, Users, Star } from 'lucide-react';
 /**
  * TROIS LARGEURS POUR LE BANDEAU D'OUVERTURE.
  *
@@ -38,6 +37,10 @@ import {
 } from '@/components/formulaire';
 import SEOOptimizedImage from '@/components/SEOOptimizedImage';
 import { Lien } from '@/components/systeme/Lien';
+import EnTeteSection from '@/components/systeme/EnTeteSection';
+import { Voile } from '@/components/systeme/Ouverture';
+import { ADRESSE } from '@/config/legal';
+import { echelonner } from '@/lib/echelon';
 
 /**
  * LES DEUX PLUS GROS MORCEAUX DE LA PAGE, DIFFÉRÉS.
@@ -246,9 +249,6 @@ const EstimationBiens = () => {
 
       const totalEstimation = Math.round(adjustedPrice * surface);
       setEstimationResult(totalEstimation);
-      
-      // Incrémenter les compteurs
-        
     } catch (error) {
       console.error('Erreur lors du calcul:', error);
       setErrorMessage('Une erreur est survenue lors du calcul. Veuillez réessayer.');
@@ -455,9 +455,9 @@ const EstimationBiens = () => {
         `gradient-text` en ocre foncé sur marine — deux textes illisibles.
         La classe rebascule tout le sous-arbre, et les composants suivent
         sans le savoir. Toute section sombre du site doit la porter. */}
-      <section className="nuit bg-nuit pt-32 pb-16 relative overflow-hidden">
+      <section className="nuit grain relative isolate overflow-hidden bg-nuit pb-20 pt-32 text-pierre lg:pb-28">
         {/* Background Image */}
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 -z-10">
           <SEOOptimizedImage 
             src={estimationBienImage}
             srcSet={estimationBienImageSet}
@@ -478,39 +478,33 @@ const EstimationBiens = () => {
         </div>
         
         
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <p className="plaque mb-6">Estimation de biens</p>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
-              Connaissez la <span className="gradient-text-light">vraie valeur</span> de votre bien
-            </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-              Estimation gratuite et sans engagement par nos experts. 
-              Une évaluation appuyée sur les transactions réellement enregistrées dans le secteur, et sur notre connaissance du marché parisien depuis 2011.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                onClick={() => document.getElementById('calculateur-rapide')?.scrollIntoView({ behavior: 'smooth' })}
-                className="hover-glow"
-              >
-                <Calculator aria-hidden className="mr-2 w-5 h-5" />
-                Estimation express
-                <ArrowRight aria-hidden className="ml-2 w-5 h-5" />
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                asChild 
-                className="glass border-primary/30"
-              >
-                <Lien to="/contact">
-                  <Phone aria-hidden className="mr-2 w-5 h-5" />
-                  01.42.25.78.24
-                </Lien>
-              </Button>
-            </div>
-          </div>
+        <div className="container relative mx-auto">
+          <EnTeteSection
+            fond="nuit"
+            niveau="h1"
+            plaque="Estimation de biens"
+            titre="Connaissez la vraie valeur de votre bien"
+            chapeau="Estimation gratuite et sans engagement par nos experts. Une évaluation appuyée sur les transactions réellement enregistrées dans le secteur, et sur notre connaissance du marché parisien depuis 2011."
+          />
+
+          <Voile delai={200} className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <Button
+              size="lg"
+              onClick={() =>
+                document.getElementById('calculateur-rapide')?.scrollIntoView({ behavior: 'smooth' })
+              }
+            >
+              <Calculator aria-hidden />
+              Estimation express
+              <ArrowRight aria-hidden />
+            </Button>
+            <Button size="lg" variant="secondary" asChild>
+              <a href={`tel:${ADRESSE.telephone.replace(/[^0-9+]/g, '')}`}>
+                <Phone aria-hidden />
+                {ADRESSE.telephone}
+              </a>
+            </Button>
+          </Voile>
         </div>
       </section>
 
@@ -524,6 +518,11 @@ const EstimationBiens = () => {
         errorMessage={errorMessage}
         onCalculate={calculateEstimation}
         onShowMap={() => setIsMapOpen(true)}
+        /* Les indicateurs affichés par le calculateur (confiance, taille
+           d'échantillon, source) viennent de ce calcul et non d'une constante :
+           « 75 % » y était écrit en dur alors que `MarketDataService` renvoie la
+           vraie valeur, déjà détenue ici et déjà passée à la carte. */
+        marketData={estimationData}
       />
       </Suspense>
 
@@ -553,108 +552,125 @@ const EstimationBiens = () => {
       {/* Statistiques */}
       <EstimationStats />
 
-      {/* Types d'estimation */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">Nos types d'estimation</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Nous adaptons notre expertise à vos besoins spécifiques
-            </p>
-          </div>
+      {/* ---- LES TROIS MOTIFS D'ESTIMATION -------------------------
+          Un registre et non trois cartes égales : les trois motifs ne se
+          valent pas — une succession n'est pas un projet de vente — et une
+          liste laisse l'ordre dire la hiérarchie. Les trois gélules
+          d'icône (`rounded-full`) disparaissent avec les cartes. */}
+      <section className="bg-background py-20 lg:py-28">
+        <div className="container mx-auto">
+          <EnTeteSection
+            plaque="Les motifs"
+            titre="Nos types d'estimation"
+            chapeau="Nous adaptons notre expertise à vos besoins spécifiques."
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* UN SEUL NIVEAU DE `div` DANS UN `dl`.
+              `<Voile>` rend lui-même un `div` : lui ajouter un `div.grid`
+              à l'intérieur en faisait DEUX, et la spécification n'en admet
+              qu'un — celui qui groupe les `dt`/`dd`. Les classes de grille
+              sont donc portées par le `Voile`.
+              Relevé par Lighthouse (`dlitem` et `definition-list`) : le
+              même défaut que j'avais corrigé sur le pied de page, et que
+              j'ai réintroduit en recomposant ces pages. */}
+          <dl className="mt-16 border-t border-[hsl(var(--trait)/var(--trait-a))]">
             {types.map((type, index) => (
-              <Card key={index} className="p-8 text-center hover:shadow-lg transition-shadow">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <type.icon aria-hidden className="w-8 h-8 text-primary-ink" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4">{type.title}</h3>
-                <p className="text-muted-foreground">{type.description}</p>
-              </Card>
+              <Voile key={type.title} delai={echelonner(index)} className="grid gap-x-10 gap-y-2 border-b border-[hsl(var(--trait)/var(--trait-a))] py-7 lg:grid-cols-[18rem_1fr]">
+                <dt className="text-[1.0625rem] font-semibold">{type.title}</dt>
+                <dd className="mesure-large text-[0.9375rem] leading-relaxed text-muted-foreground">
+                  {type.description}
+                </dd>
+              </Voile>
             ))}
-          </div>
+          </dl>
         </div>
       </section>
 
-      {/* Critères d'évaluation */}
-      <section className="py-24 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-4xl font-bold mb-6">
-                Notre méthode d'évaluation
-              </h2>
-              <p className="text-xl text-muted-foreground mb-8">
-                Une approche rigoureuse et complète pour une estimation précise
-              </p>
-              
-              <div className="space-y-4">
-                {criteria.map((criterion, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <CheckCircle aria-hidden className="w-6 h-6 text-primary-ink flex-shrink-0" />
-                    <span className="text-lg">{criterion}</span>
-                  </div>
+      {/* ---- LA MÉTHODE -------------------------------------------
+          Travée asymétrique 7 / 5 : les huit critères portent, le panneau
+          accompagne. Deux moitiés égales n'établissaient aucune hiérarchie.
+          Les pictogrammes `CheckCircle` deviennent des filets de laiton —
+          huit coches vertes alignées étaient du décor. */}
+      <section className="bg-background py-20 lg:py-28">
+        <div className="container mx-auto">
+          <div className="grid gap-x-16 gap-y-14 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              <EnTeteSection
+                plaque="La méthode"
+                titre="Notre méthode d'évaluation"
+                chapeau="Une approche rigoureuse et complète pour une estimation précise."
+              />
+              <ul className="mt-12 border-t border-[hsl(var(--trait)/var(--trait-a))]">
+                {criteria.map((critere, index) => (
+                  <Voile as="li" key={critere} delai={echelonner(index)}>
+                    <div className="flex gap-3 border-b border-[hsl(var(--trait)/var(--trait-a))] py-3.5">
+                      <span aria-hidden className="mt-[0.7rem] h-px w-3 shrink-0 bg-primary-ink" />
+                      <span className="text-[0.9375rem] leading-relaxed">{critere}</span>
+                    </div>
+                  </Voile>
                 ))}
-              </div>
+              </ul>
             </div>
 
-            <Card className="p-8">
-              <div className="mb-6">
-                <Zap aria-hidden className="w-12 h-12 text-primary-ink mb-4" />
-                <h3 className="text-2xl font-bold mb-2">Pourquoi nous choisir ?</h3>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <Info aria-hidden className="w-5 h-5 text-primary-ink mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold mb-1">Données Officielles</h4>
-                    <p className="text-sm text-muted-foreground">Accès aux bases DVF et données notariales</p>
-                  </div>
+            <div className="lg:col-span-5">
+              <Voile delai={140}>
+                <div className="panneau cadre p-7 lg:p-8">
+                  <h3 className="text-[clamp(1.25rem,2vw,1.5rem)]">Pourquoi nous choisir ?</h3>
+                  {/* Les trois arguments, libellés tels quels. « 15+ années
+                      d'expérience » reste en attente d'arbitrage : aucune
+                      source, et la charte interdit d'inventer, pas de garder. */}
+                  <dl className="mt-6 border-t border-[hsl(var(--trait)/var(--trait-a))]">
+                    {[
+                      { titre: 'Données officielles', detail: 'Accès aux bases DVF et données notariales' },
+                      { titre: 'Expertise locale', detail: "15+ années d'expérience sur l'Île-de-France" },
+                      { titre: 'Rapidité', detail: 'Estimation en ligne immédiate' },
+                    ].map((x) => (
+                      <div
+                        key={x.titre}
+                        className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-4 last:border-0"
+                      >
+                        <dt className="text-[0.9375rem] font-semibold">{x.titre}</dt>
+                        <dd className="mt-1 text-[0.875rem] leading-relaxed text-muted-foreground">
+                          {x.detail}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Info aria-hidden className="w-5 h-5 text-primary-ink mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold mb-1">Expertise Locale</h4>
-                    <p className="text-sm text-muted-foreground">15+ années d'expérience sur l'Île-de-France</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Info aria-hidden className="w-5 h-5 text-primary-ink mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold mb-1">Rapidité</h4>
-                    <p className="text-sm text-muted-foreground">Estimation en ligne immédiate</p>
-                  </div>
-                </div>
-              </div>
-            </Card>
+              </Voile>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Formulaire détaillé */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6">Demande d'estimation détaillée</h2>
-              <p className="text-xl text-muted-foreground">
-                Pour une évaluation complète et personnalisée de votre bien
-              </p>
-            </div>
+      {/* ---- LE FORMULAIRE DÉTAILLÉ -------------------------------
+          Le titre passe par `EnTeteSection`, le caisson par `.panneau .cadre`.
+          Le rappel de l'estimation rapide devient une plaque gravée : c'est un
+          chiffre, il mérite le champ d'émail et non un fond teinté à coins
+          arrondis. */}
+      <section className="bg-ivoire py-20 lg:py-28">
+        <div className="container mx-auto">
+          <div className="max-w-[52rem]">
+            <EnTeteSection
+              plaque="Aller plus loin"
+              titre="Demande d'estimation détaillée"
+              chapeau="Pour une évaluation complète et personnalisée de votre bien."
+            />
 
-            <Card className="p-8">
+            <div className="panneau cadre mt-14 p-7 lg:p-9">
               {estimationResult && (
-                <div className="mb-8 p-6 bg-primary/10 border border-primary/20 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-2">Votre estimation rapide</h3>
-                  <p className="text-2xl font-bold text-primary-ink mb-4">
+                <div className="cadre mb-8 bg-nuit p-6 text-pierre nuit">
+                  <p className="tabulaire font-display text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-primary">
+                    Votre estimation rapide
+                  </p>
+                  <p className="tabulaire mt-2 font-display text-[clamp(1.5rem,3vw,2.125rem)] font-semibold">
                     {estimationResult.toLocaleString('fr-FR')} €
                   </p>
                   <Button
                     onClick={transferDataToDetailedForm}
-                    variant="outline"
+                    variant="secondary"
                     size="sm"
+                    className="mt-4"
                   >
                     Utiliser ces données
                   </Button>
@@ -756,7 +772,7 @@ const EstimationBiens = () => {
                 <MentionRgpd />
                 <Retour retour={retourFormulaire} demande={demandeEstimation()} />
               </form>
-            </Card>
+            </div>
           </div>
         </div>
       </section>

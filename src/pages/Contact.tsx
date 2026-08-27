@@ -106,8 +106,11 @@ const Contact = () => {
                     pas deux, et l'icône n'a pas sa place entre `dl` et `dt`. */}
                 <dl className="mt-10 border-t border-[hsl(var(--trait)/var(--trait-a))]">
                   {COORDONNEES.map((c, index) => (
-                    <Voile key={c.intitule} delai={echelonner(index)}>
-                      <div className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-5">
+                    <Voile
+                      key={c.intitule}
+                      delai={echelonner(index)}
+                      className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-5"
+                    >
                         <dt className="tabulaire font-display text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-primary-ink">
                           {c.intitule}
                         </dt>
@@ -127,7 +130,6 @@ const Contact = () => {
                             {c.precision}
                           </span>
                         </dd>
-                      </div>
                     </Voile>
                   ))}
                 </dl>

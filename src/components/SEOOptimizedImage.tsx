@@ -43,7 +43,7 @@ const SEOOptimizedImage = ({
         width={width}
         height={height}
         loading={loading}
-        fetchPriority={fetchpriority}
+        fetchpriority={fetchpriority}
         sizes={sizes}
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}

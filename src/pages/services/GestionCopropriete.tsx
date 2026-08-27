@@ -226,7 +226,7 @@ const GestionCopropriete = () => {
               width={1536}
               height={1024}
               loading="eager"
-              fetchPriority="high"
+              fetchpriority="high"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-nuit/[0.90] via-nuit/[0.86] to-nuit/[0.92]" />
           </div>
@@ -289,20 +289,30 @@ const GestionCopropriete = () => {
               chapeau="Syndic de copropriétés parisiennes depuis 2011, JIP s'impose comme le partenaire de confiance pour la préservation et la valorisation de votre patrimoine immobilier."
             />
 
+            {/* UN SEUL NIVEAU DE `div` DANS UN `dl`.
+                `<Voile>` rend lui-même un `div` : lui ajouter un `div.grid`
+                à l'intérieur en faisait DEUX, et la spécification n'en admet
+                qu'un — celui qui groupe les `dt`/`dd`. Les classes de grille
+                sont donc portées par le `Voile`.
+                Relevé par Lighthouse (`dlitem` et `definition-list`) : le
+                même défaut que j'avais corrigé sur le pied de page, et que
+                j'ai réintroduit en recomposant ces pages. */}
             <dl className="mt-16 border-t border-[hsl(var(--trait)/var(--trait-a))]">
               {ATOUTS.map((atout, index) => (
-                <Voile key={atout.titre} delai={echelonner(index)}>
-                  <div className="grid gap-x-10 gap-y-2 border-b border-[hsl(var(--trait)/var(--trait-a))] py-7 lg:grid-cols-[18rem_1fr]">
-                    <div>
-                      <dt className="text-[1.0625rem] font-semibold">{atout.titre}</dt>
-                      <p className="tabulaire mt-1 font-display text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-primary-ink">
-                        {atout.intitule}
-                      </p>
-                    </div>
-                    <dd className="mesure-large text-[0.9375rem] leading-relaxed text-muted-foreground">
-                      {atout.texte}
-                    </dd>
-                  </div>
+                <Voile key={atout.titre} delai={echelonner(index)} className="grid gap-x-10 gap-y-2 border-b border-[hsl(var(--trait)/var(--trait-a))] py-7 lg:grid-cols-[18rem_1fr]">
+                  {/* L'intitulé entre DANS le `dt` : sous son `div` de groupe, un
+                      `dl` n'admet que des `dt` et des `dd`. Un `<p>` frère du `dt`,
+                      enveloppé dans un second `div`, faisait deux fautes d'un coup —
+                      relevé par Lighthouse (`dlitem`, `definition-list`). */}
+                  <dt className="text-[1.0625rem] font-semibold">
+                    {atout.titre}
+                    <span className="tabulaire mt-1 block font-display text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-primary-ink">
+                      {atout.intitule}
+                    </span>
+                  </dt>
+                  <dd className="mesure-large text-[0.9375rem] leading-relaxed text-muted-foreground">
+                    {atout.texte}
+                  </dd>
                 </Voile>
               ))}
             </dl>

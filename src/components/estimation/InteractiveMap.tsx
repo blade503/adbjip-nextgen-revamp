@@ -86,8 +86,10 @@ const InteractiveMap = ({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-h-[90vh] max-w-6xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="pr-8 text-2xl">
-            Situation du bien — <span className="gradient-text">estimation</span>
+          {/* Plus de mot en dégradé : le laiton ne fait que 1,81:1 sur la
+              pierre en texte, il reste sur les plaques où il est mesuré. */}
+          <DialogTitle className="pr-8 text-[clamp(1.375rem,2.6vw,1.75rem)]">
+            Situation du bien — estimation
           </DialogTitle>
         </DialogHeader>
 
