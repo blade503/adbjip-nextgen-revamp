@@ -111,6 +111,38 @@ jobs:
             vendor/**
             .quarantaine/**
 
+      # AJOUTÉ le 27/08/2026 — LE GARDE-FOU DU PRÉRENDU.
+      #
+      # Rien d'existant n'est modifié : c'est une étape de plus, en fin de course.
+      #
+      # Pourquoi elle est devenue nécessaire : `prerender.mjs` sort en 0 même
+      # quand il n'a rien produit (pas de Chrome sur le runner, par exemple). Le
+      # déploiement continuait donc, et le site partait non indexable SANS AUCUNE
+      # ALERTE. Depuis que le repli monopage a été retiré du `.htaccess` pour
+      # renvoyer de vraies 404, l'enjeu a changé d'échelle : un prérendu vide ne
+      # dégrade plus le site, il fait répondre 404 à TOUTES les routes.
+      #
+      # `verifier-deploiement.mjs` connaît les deux cibles : sur la préversion il
+      # EXIGE `Disallow: /`, sur la production il exige l'inverse. Il sort en 1
+      # dès qu'un des contrôles échoue, ce qui passe le run au rouge.
+      #
+      # SI CETTE ÉTAPE EST UN JOUR RETIRÉE, remettre les trois lignes du repli
+      # monopage dans `public/.htaccess` : c'est écrit à l'endroit exact.
+      - name: Vérifier la mise en ligne
+        # L'URL est calculée ici et non dans `run` : une expression `${{ }}` sur
+        # plusieurs lignes à l'intérieur d'un bloc `run: |` garderait ses retours
+        # à la ligne, le bloc littéral ne les repliant pas. En `env`, le scalaire
+        # replié `>-` s'en charge.
+        env:
+          CIBLE_URL: >-
+            ${{ (inputs.cible || 'preprod') == 'production'
+                && (vars.URL_PRODUCTION || 'https://www.adbjip.fr')
+                || (vars.URL_PREPROD || 'https://preprod.adbjip.fr') }}
+        run: |
+          # Laisser à l'hébergeur le temps de servir les fichiers tout juste envoyés.
+          sleep 20
+          npm run verifier -- "$CIBLE_URL"
+
       - name: Rappel
         run: |
           echo "Déployé sur ${{ inputs.cible || 'preprod' }}."

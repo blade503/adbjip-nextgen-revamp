@@ -163,8 +163,56 @@ async function main() {
     }
   }
 
+  /**
+   * LA PAGE 404, PRÉRENDUE À PART — ajoutée le 27/08/2026 avec le retrait du
+   * repli SPA du `.htaccess`.
+   *
+   * Le catch-all `*` est exclu de la liste des routes : le prérendre sous son
+   * propre chemin produirait un onzième dossier dans `dist/` et ferait mentir le
+   * repère. Il est donc rendu depuis un chemin qui n'existe pas — n'importe
+   * lequel atteint le catch-all — et écrit à la RACINE sous `404.html`, où
+   * `ErrorDocument 404` d'Apache va le chercher.
+   *
+   * Elle est comptée séparément : le repère reste « 10/10 routes », plus la 404.
+   */
+  let quatreCentQuatre = false;
+  try {
+    // Construit comme les autres routes — avec sa barre oblique. Sans elle et
+    // `BASE` vide, l'URL devenait `localhost:8799__inexistant` : Chrome l'a
+    // traitée comme une recherche et a rendu sa page de nouvel onglet, écrite
+    // en 87 ko de HTML qui passait les trois contrôles.
+    const html = await rendre(chrome, `http://localhost:${PORT}${BASE}/__inexistant`);
+    // Le marqueur est le TITRE de la page, pas sa taille : la page de nouvel
+    // onglet de Chrome faisait 87 ko et passait les contrôles génériques.
+    if (
+      html.length >= 2000 &&
+      html.includes('</body>') &&
+      !html.includes('Chargement de la page') &&
+      html.includes('Page introuvable')
+    ) {
+      await writeFile(path.join(DIST, '404.html'), html);
+      quatreCentQuatre = true;
+      log(`404 → ${(html.length / 1024).toFixed(0)} ko`);
+    } else {
+      log('⚠ page 404 : rendu inutilisable, non écrite');
+    }
+  } catch (error) {
+    log(`⚠ page 404 : ${error.message}`);
+  }
+
   serveur.close();
-  log(`${rendues}/${routes.length} page(s) prérendue(s)`);
+  log(`${rendues}/${routes.length} page(s) prérendue(s)${quatreCentQuatre ? ' + la page 404' : ''}`);
+
+  /**
+   * SANS LA PAGE 404, LE SITE N'A PLUS DE FILET. Le repli SPA a été retiré du
+   * `.htaccess` pour que les URL inconnues répondent un vrai 404 : c'est
+   * `404.html` qui rend cette réponse lisible. Absente, Apache sert sa page
+   * d'erreur par défaut — fonctionnelle, mais sans la charte ni le lien vers
+   * l'accueil.
+   */
+  if (!quatreCentQuatre) {
+    log('⚠ 404.html absente : les URL inconnues afficheront la page d\'erreur brute d\'Apache.');
+  }
 
   /**
    * Le compte est le seul indicateur de santé du prérendu, et il passait

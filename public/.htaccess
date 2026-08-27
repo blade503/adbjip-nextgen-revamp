@@ -58,21 +58,24 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}/index.html -f
 RewriteRule ^(.*[^/])$ /$1/index.html [L]
 
-# --- Application monopage ----------------------------------------------------
-# Filet pour tout ce qui n'est pas prérendu. Sans cette règle, ouvrir une route
-# directement renvoie une erreur 404 d'Apache : côté serveur, seul index.html
-# existe.
+# --- Pas de repli monopage, et c'est un arbitrage daté du 27/08/2026 ---------
 #
-# CONSÉQUENCE ASSUMÉE, à trancher : une URL inconnue répond 200 avec la coquille,
-# et React y affiche « Page introuvable ». C'est une « soft 404 » — Google
-# préfère un vrai 404. Elle est atténuée par le `noindex` que `SEOHead` pose sur
-# cette page. Pour renvoyer un vrai 404, supprimer les trois lignes suivantes :
-# les dix routes réelles sont déjà servies par le bloc précédent, et
-# `ErrorDocument` en bas de fichier rend la coquille avec le bon code. Non fait
-# ici parce qu'une route ajoutée sans prérendu répondrait alors 404.
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.html [L]
+# Il y avait ici trois lignes qui servaient `index.html` pour TOUT ce qui n'est
+# pas un fichier : c'était le filet de l'application monopage. Conséquence : une
+# URL inconnue répondait **200** avec la coquille, et React y affichait « Page
+# introuvable ». Une « soft 404 » — Google indexe alors des pages d'erreur.
+#
+# Elles sont retirées. Les dix routes réelles sont servies par le bloc
+# précédent, qui trouve `<route>/index.html` produit par `scripts/prerender.mjs`.
+# Tout le reste tombe sur l'`ErrorDocument` en bas de ce fichier, avec un vrai
+# code 404.
+#
+# CE QUE CELA REND CRITIQUE, ET IL FAUT LE SAVOIR : sans repli, un prérendu raté
+# ne dégrade plus le site — il le CASSE. Si `prerender.mjs` ne produit rien (pas
+# de Chrome sur le runner), aucune route n'a de fichier et TOUTES répondent 404.
+# Le garde-fou est l'étape « Vérifier la mise en ligne » de
+# `.github/workflows/deploy.yml`, qui fait échouer le run si les contrôles ne
+# passent pas. **Si cette étape est un jour retirée, remettre les trois lignes.**
 
 # --- Compression -------------------------------------------------------------
 # LES DEUX ORTHOGRAPHES DE CHAQUE TYPE SONT NÉCESSAIRES, et c'est un piège coûteux.
@@ -135,6 +138,9 @@ RewriteRule ^ index.html [L]
 Options -Indexes
 AddDefaultCharset UTF-8
 
-# La coquille rendue avec le bon code pour tout ce qui n'existe pas. Elle ne se
-# déclenche qu'en dernier recours, le repli monopage passant avant.
-ErrorDocument 404 /index.html
+# La page 404 prérendue, rendue avec le bon code. Depuis le retrait du repli
+# monopage (voir plus haut), c'est le passage OBLIGÉ de toute URL inconnue — et
+# non plus un dernier recours jamais atteint. Elle est produite par
+# `scripts/prerender.mjs`, qui la rend depuis un chemin inexistant et l'écrit à
+# la racine sous ce nom.
+ErrorDocument 404 /404.html
