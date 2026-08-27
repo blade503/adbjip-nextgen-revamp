@@ -151,9 +151,24 @@ jobs:
                 && (vars.URL_PRODUCTION || 'https://www.adbjip.fr')
                 || (vars.URL_PREPROD || 'https://preprod.adbjip.fr') }}
         run: |
-          # Laisser à l'hébergeur le temps de servir les fichiers tout juste envoyés.
-          sleep 20
-          npm run verifier -- "$CIBLE_URL"
+          # ON RÉESSAIE AU LIEU DE DEVINER UN DÉLAI.
+          #
+          # L'envoi FTP est terminé quand cette étape démarre, mais l'hébergeur
+          # met quelques secondes à servir un fichier ou un DOSSIER tout juste
+          # créé. Relevé le 27/08/2026 : un `sleep 20` fixe a suffi au run #17
+          # et pas au #18, où /agence — un dossier créé par ce déploiement même —
+          # répondait encore 404 vingt secondes après l'envoi, puis 200 deux
+          # minutes plus tard. Un délai fixe transforme ce garde-fou en tirage au
+          # sort, et un garde-fou qui crie au hasard finit par ne plus être lu.
+          for essai in 1 2 3 4 5; do
+            sleep 15
+            if npm run verifier -- "$CIBLE_URL"; then
+              exit 0
+            fi
+            echo "::warning::Vérification en échec à l'essai $essai — nouvelle tentative"
+          done
+          echo "::error::Les contrôles de mise en ligne échouent après 5 essais."
+          exit 1
 
       - name: Rappel
         run: |
