@@ -959,6 +959,18 @@ Ce qui NE marche pas, testé un par un :
 3. **Vider le cache dans le panneau LWS fait partie de la bascule**, juste après
    l'envoi et avant toute vérification. À ajouter entre les étapes 8 et 9.
 
+**Le cache stocke aussi les EN-TÊTES, et c'est ce qui rend la purge
+indispensable.** Constaté le 27/08/2026 en corrigeant le `Cache-Control` des
+photos d'annonces : le serveur renvoyait bien la nouvelle valeur
+(`max-age=86400, must-revalidate`, vérifié avec un paramètre de requête), mais
+l'URL nue continuait de servir l'ancienne (`immutable`, un an) depuis le cache.
+
+Conséquence : tout visiteur servi pendant cette fenêtre reçoit l'ancien en-tête
+et met le fichier dans le cache de SON navigateur pour la durée qu'il annonce.
+Un mauvais `Cache-Control` servi dix minutes empoisonne donc des caches pour un
+an, et aucun déploiement ultérieur n'y change rien. **La purge n'est pas une
+finition, c'est une étape de la bascule.**
+
 `npm run verifier` sait maintenant faire la différence : il interroge les URL
 **nues**, celles que les visiteurs demandent, et quand l'une échoue il redemande
 la même en contournant le cache. Si elle réussit alors, le message le dit —

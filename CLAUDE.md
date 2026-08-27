@@ -473,6 +473,11 @@ en mémoire, donc de retarder la nouvelle.
   pour une seule URL. Ni `Cache-Control: no-cache` ni `Pragma: no-cache` en requête n'y changent
   quoi que ce soit, testés ; le `Cache-Control` de réponse du `.htaccess` non plus, ni un
   `last-modified` plus récent. Seul un paramètre de requête unique change la clé.
+  **Le cache stocke aussi les EN-TÊTES.** Constaté en corrigeant le `Cache-Control` des photos :
+  le serveur renvoyait la bonne valeur, l'URL nue servait encore l'ancienne. Un visiteur servi
+  pendant cette fenêtre met le fichier dans le cache de SON navigateur pour la durée annoncée —
+  un mauvais `Cache-Control` servi dix minutes empoisonne des caches pour un an, et aucun
+  déploiement ultérieur n'y change rien.
   **Vider le cache dans le panneau LWS fait partie de la bascule** — voir REPRISE.md § 13,
   étape 8b. `npm run verifier` distingue désormais « déploiement raté » de « cache périmé » : il
   interroge les URL nues et, en cas d'échec, redemande hors cache pour nommer la cause.
