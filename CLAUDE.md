@@ -70,10 +70,13 @@ Les trois commandes ci-dessous sont le seul contrôle du projet. Leurs compteurs
 |----------------------|----------------------------------------------------------------------|
 | `npm run typecheck`  | **0 erreur**. Toute erreur est bloquante.                            |
 | `npm run lint`       | **23 problèmes — 19 erreurs, 4 avertissements.** Comparer, pas viser zéro. |
-| `npm run test`       | **31 cas verts**, ~200 ms. Logique pure de `src/lib/` seulement. |
-| `npm run build`      | **1 764 modules**, ~1,7 à 2,7 s, `[sitemap] 9 URL`, `[prerender] 10/10`. |
+| `npm run test`       | **39 cas verts**, ~200 ms. Logique pure de `src/lib/` seulement. |
+| `npm run build`      | **1 727 modules**, ~1,7 à 2,7 s, `[sitemap] 9 URL`, `[prerender] 10/10 + la page 404`. |
 
-Poids de sortie au repère : **JS 499,2 Ko**, **CSS 54,6 Ko** (non découpé — chantier ouvert).
+Poids de sortie au repère (relevé le 27/08/2026, après découpage des routes et retrait des
+deux dépendances mortes) : morceau d'entrée **JS 273,0 Ko → 88,2 Ko gzip**, **CSS 55,8 Ko →
+12,2 Ko gzip**, **474,7 Ko** pour l'ensemble de `dist/assets/`. Le CSS n'est pas découpé par
+route — chantier ouvert, sans urgence à ce poids.
 
 Les 19 erreurs de lint sont préexistantes, surtout `no-explicit-any` dans
 `MarketDataService.tsx` et un `no-require-imports` dans `tailwind.config.ts`. Un total
@@ -101,15 +104,28 @@ Dans ce projet, « tester » veut donc dire :
 6. une **capture d'écran prise ET regardée** pour tout changement visuel.
 
 Les six, ou la tâche n'est pas terminée.
-Les 41 composants shadcn jamais utilisés ont été supprimés le 19/08/2026 : il en reste huit
-(accordion, badge, button, card, dialog, input, textarea, tooltip) et les dépendances ont été
-ramenées de 49 à 13. Ne pas réinstaller l'échafaudage complet « au cas où ».
+Les 41 composants shadcn jamais utilisés ont été supprimés le 19/08/2026 : il en reste **sept**
+(accordion, badge, button, card, dialog, input, textarea) et les dépendances ont été ramenées de
+49 à **11**. Ne pas réinstaller l'échafaudage complet « au cas où ».
+
+Le 27/08/2026, deuxième passe : `tooltip` retiré (une seule info-bulle affichée sur tout le site :
+aucune), et avec lui `@radix-ui/react-tooltip` ; `@tanstack/react-query` retiré aussi, il n'était
+plus qu'un `QueryClientProvider` vide autour du routeur — pas un `useQuery` dans le dépôt.
+**Mesuré : morceau d'entrée 110,3 → 88,2 Ko gzip, soit −22,1 Ko sur chaque première visite**, et
+1 783 → 1 727 modules. `src/App.tsx` porte le commentaire qui explique pourquoi il n'y a plus de
+fournisseur autour du `BrowserRouter`.
+
+Dans le même geste, les **14 exports jamais consommés** ont disparu : les cinq sous-composants de
+`card` (88 → 34 lignes, seul `Card` subsiste), et six de `dialog` (120 → 90 lignes ; l'API publique
+se réduit à `Dialog`, `DialogContent`, `DialogHeader`, `DialogTitle`, ce que les trois appelants
+emploient réellement). **`DialogPortal` et `DialogOverlay` gardent leur définition** — ils sont
+consommés en interne par `DialogContent` — mais ne sont plus exportés.
 
 ## Prérequis avant le premier `npm run dev`
 
 `npm run biens:fetch` **est obligatoire sur un clone neuf** : `src/lib/biens.ts` importe
 `data/biens.json` à la compilation, et les photos vivent dans `public/biens/` qui est en
-`.gitignore` (9,6 Mo régénérables). Sans cette commande, le build casse ou la page `/biens`
+`.gitignore` (5,4 Mo régénérables — 9,6 Mo avant le passage au WebP). Sans cette commande, le build casse ou la page `/biens`
 s'affiche sans images.
 
 ## Architecture
@@ -139,7 +155,20 @@ API agence  →  scripts/fetch-biens.mjs  →  data/biens.json + public/biens/*.
 
 - **`scripts/fetch-biens.mjs`** : `SOURCE=bienici` (défaut, endpoint public sans clé) ou
   `SOURCE=gedeon` (+ `GEDEON_KEY`, branche **non testée**). Normalise, télécharge chaque photo
-  en 3 variantes, rapatrie les badges DPE/GES, purge les orphelins, `FORCE=1` retélécharge.
+  en 3 variantes **et les convertit en WebP**, rapatrie les badges DPE/GES, purge les orphelins,
+  `FORCE=1` retélécharge, `SANS_WEBP=1` écrit les JPEG tels quels.
+  **La conversion est locale parce que le service d'images de l'agence ignore `format`** :
+  `format=webp` et `format=avif` renvoient tous deux du JPEG — vérifié sur les trois largeurs
+  par la signature du fichier, pas par l'en-tête. Réglage retenu : `quality: 78, effort: 6`.
+  Mesuré sur les 102 fichiers réels : **9,37 Mo → 5,19 Mo, −44,6 %**, 7,9 s d'encodage. (q72
+  descendrait à 4,65 Mo, −50,3 %, mais la source est déjà un JPEG de qualité 75 : la conversion
+  est une seconde passe avec perte, et ces photos servent à acheter un appartement. Comparaison
+  de pixels faite sur du feuillage, le cas le plus dur : indistinguables, q78 laisse la marge.)
+  L'encodeur est **`sharp`, en devDependency** : jamais dans le bundle du navigateur, et
+  l'hébergement n'en a pas besoin — LWS ne reçoit que `dist/` par FTP. Les trois workflows font
+  `npm ci` sans `--omit=dev`, **aucun n'est à modifier**. L'`import` est optionnel : sans sharp,
+  les JPEG sont écrits tels quels avec un avertissement, parce que la première règle du script
+  est de ne jamais vider la page `/biens`.
   En cas d'échec il **conserve le jeu précédent et sort en 0** : ne pas « corriger » ce
   comportement, c'est ce qui empêche la page de se vider en production.
 - **`src/lib/biens.ts`** : types, formatage et surtout les **mentions réglementaires**
@@ -262,10 +291,26 @@ casse des choses mesurées.
   `height`, `top`, `left`, `margin`, `padding`. La seule exception est
   `grid-template-rows` pour un dépliage — c'est ainsi que la ligne d'adresse de
   l'en-tête se replie.
-- **Objectif CLS : zéro, et il est tenu.** Mesuré sur trois chargements :
-  0 / 0,000242 / 0. Le seul décalage est le remplacement de police à 94 ms (le
-  `<ul>` de navigation et la plaque du téléphone se réalignent en X). Le
-  défilement, lui, ne décale **rien** — l'en-tête garde 68 px constants, le logo
+- **CLS : 0,001914 à froid, et le chiffre de 0 était faux.** Les premières
+  mesures (0 / 0,000242 / 0) avaient été prises avec les polices en cache : le
+  remplacement n'avait alors jamais lieu. Relevé le 27/08/2026, cache désactivé,
+  390 × 844, réseau bridé à 1,6 Mb/s et 150 ms, **reproductible à la sixième
+  décimale sur quatre chargements** : `0,001914`. Deux décalages, à 2 700 ms
+  (Archivo) et 2 880 ms (Inter), tous deux dans la plaque de rue du héros, qui
+  repousse le titre, le filet et les boutons. Le seuil des Core Web Vitals est
+  0,1 : on est cinquante fois en dessous.
+  **Ne pas précharger les woff2 pour corriger cela — c'est mesuré perdant.**
+  Deux `<link rel="preload" as="font">` ramènent le CLS à 0,000555 (−71 %) mais
+  font passer le **LCP de 1 657 à 2 440 ms (+783)**. Chronologie relevée : les
+  polices (72 + 88 Ko) partent à 308 ms, l'image du héros (78 Ko,
+  `fetchPriority="high"`) à 309 ms ; sur un lien bridé elles se partagent la
+  bande passante et l'image — qui **est** l'élément LCP, vérifié par
+  `PerformanceObserver` — finit à 2 409 ms. On échangeait 0,00136 de CLS sur un
+  seuil de 0,1 contre 783 ms de LCP sur un seuil de 2 500. L'essai est documenté
+  en commentaire dans `index.html`, à l'endroit exact où la tentation revient.
+  La vraie correction du résidu serait une **police de repli aux métriques
+  ajustées** (`size-adjust`, `ascent-override`) : coût réseau nul. Non faite.
+  Le défilement, lui, ne décale **rien** — l'en-tête garde 68 px constants, le logo
   se réduit par `transform` et l'adresse par `grid-template-rows`.
 - **Un seul écouteur de défilement**, passif, dans `src/lib/defilement.ts`. Il
   écrit deux choses sur `<html>` : `--descente` et `data-defile`. Tout le reste
@@ -331,13 +376,52 @@ en mémoire, donc de retarder la nouvelle.
   sur la couleur de premier plan la plus faible, qui est le **laiton-display**, pas la pierre —
   c'est lui qui fixe la limite. Valeur retenue : **0,86** (laiton-display 3,20:1 pour un seuil
   de 3 ; zinc 5,34:1 ; pierre 11,60:1). À 0,84 le laiton tombait à 3,02, trop juste.
+- **Le cadre du héros sur téléphone est borné, et c'est une mesure.** En
+  `aspect-[4/5]`, la travée prenait 469 px sur un écran de 375 (**70 % du pli**) et 488 sur un
+  390 (58 %) : sur un iPhone SE le `h1` passait **entièrement sous le pli**, et l'on arrivait
+  sur un immeuble sans un mot. Corrigé en `aspect-[7/5]` + `max-h-[42svh]` (la tablette, où le
+  seul ratio redonnait une bannière de 548 px), les deux remis à zéro en `lg:`. Relevé après :
+  268 px / 40 % sur un 375, 279 px / 33 % sur un 390, titre au-dessus du pli dans les deux cas.
+  Deux corrections l'accompagnent, sans lesquelles le recadrage ne sert à rien : `.plan-fer`
+  avait une **hauteur fixe de 6,5 rem** et avalait 39 % d'un cadre raccourci en couvrant
+  exactement la porte cochère — devenue `clamp(3.25rem, 26%, 6.5rem)`, soit 70 px sur téléphone
+  et **104 px inchangés sur bureau** ; et les arrêts de `.raccord` passent de 22/55 % à 14/40 %,
+  le fondu éteignait le bas de l'image.
+- **`.rai` déborde de son cadre par construction, et deux verrous l'en empêchent.**
+  Elle est posée en `inset: -20%` : sur un cadre de 440 px elle fait **616 px** et dépasse de
+  88 px de chaque côté. Elle ne tenait que par l'`overflow: hidden` de `.travee`.
+  Signalé depuis Chrome, mode appareil, iPhone 16 Pro Max (440 × 956) : le bouton du menu
+  passait hors écran et le chapô du héros était coupé en plein mot. **Reproduction du
+  mécanisme** : en neutralisant le découpage de `.travee`, `scrollWidth` passe de 440 à
+  **exactement 528** (440 + 88), le chiffre déduit de la capture.
+  **La cause première n'est PAS établie, et il faut le dire.** Le défaut n'est reproductible
+  ni sous Chrome sur le build, ni sur le serveur de dev, ni sur la préversion, à 375, 390, 430,
+  440 ni 768 px. L'hypothèse la plus probable est une feuille de style servie **incomplète** par
+  le serveur de dev pendant une réécriture de `src/index.css` (une écriture qui tronque puis
+  réécrit laisse une fenêtre de quelques millisecondes) : transitoire, donc invisible ensuite.
+  Ce qui est fait ne dépend pas de l'hypothèse : `contain: paint` sur `.travee` garantit le
+  découpage par une autre voie que le débordement, et `overflow-x: clip` sur `#ouverture` sert
+  de second filet — `clip` et non `hidden`, qui créerait un conteneur de défilement et
+  casserait tout `position: sticky` à l'intérieur. Contrôle automatisé : `scrollWidth` comparé à
+  `innerWidth` sur les dix pages, à 375, 390, 430, 440 et 768 px.
+- **`fetchpriority` s'écrit en MINUSCULES.** `fetchPriority` en camelCase n'est reconnu qu'à
+  partir de React 19 : sur 18.3.1 il déclenche « React does not recognize the `fetchPriority`
+  prop » à chaque chargement, avec la consigne explicite de le mettre en bas de casse.
+  L'attribut finissait bien dans le HTML livré — React sert les props inconnues telles quelles,
+  en minuscules — donc la priorité était appliquée, mais au prix d'une erreur de console
+  permanente. Corrigé dans les quatre fichiers concernés le 27/08/2026. Console du serveur de
+  dev : propre.
 - **`prefers-reduced-motion`** est traité globalement dans `src/index.css`. Les animations
   d'apparition partent d'`opacity: 0` : les jouer instantanément, ne jamais les couper avec
   `animation: none`, sinon le contenu reste invisible.
 - **Chiffres inventés** : deux `aggregateRating` fabriqués (4,9/500 et 4,8/127) ont été retirés
-  — Google interdit à une entreprise de baliser ses propres avis. Il reste un compteur
-  d'estimations qui s'incrémente à chaque chargement. Ne pas en ajouter : la seule note
-  publiable est celle de la fiche Google (`src/config/avis.ts`).
+  — Google interdit à une entreprise de baliser ses propres avis. La seule note publiable est
+  celle de la fiche Google (`src/config/avis.ts`). **Le compteur d'estimations qui
+  s'incrémentait à chaque chargement n'existe plus** : vérifié le 27/08/2026, il ne subsistait
+  qu'un commentaire orphelin dans `EstimationBiens.tsx`, retiré. Aucun compteur du site ne
+  fabrique plus de valeur — recherche de `++`, `+= 1` et `Date.now()` divisé : zéro résultat.
+  Les quatre repères d'`EstimationStats` sont statiques (2011, DVF, Gratuit, « 24 h » — ce
+  dernier reste en attente d'arbitrage comme partout ailleurs).
 - **~11 Mo de PNG dans `src/assets/`** : ce sont les **masters en 1536 × 1024**, dont les
   `.webp` (700 × 467) sont des réductions. Ils ne partent **pas** dans `dist/` — Vite ne copie
   que l'importé, et `dist/assets/` ne contient aucun PNG. Ne pas les supprimer : les bandeaux
@@ -352,8 +436,31 @@ en mémoire, donc de retarder la nouvelle.
 - **Mode sombre** : `.dark` partage désormais la définition de `.nuit`, dont les
   contrastes sont mesurés. Aucun sélecteur ne l'active toujours ; une bascule
   serait maintenant crédible, mais reste à vérifier page par page.
-- Déploiement statique : un fallback SPA (`.htaccess`) est **indispensable** chez LWS, sinon
-  `/biens` en accès direct renvoie un 404 Apache. Il n'est pas encore dans le dépôt.
+- **Le repli monopage a été RETIRÉ du `.htaccess` le 27/08/2026, et c'est un arbitrage à
+  connaître.** Il servait `index.html` pour tout : une URL inconnue répondait **200** avec la
+  coquille et React y affichait « Page introuvable » — une « soft 404 », que Google indexe.
+  Désormais les dix routes sont servies depuis leur prérendu (`<route>/index.html`) et tout le
+  reste tombe sur `ErrorDocument 404 /404.html`, une **onzième page prérendue** écrite à la
+  racine par `scripts/prerender.mjs` depuis un chemin inexistant.
+  **Contrepartie : sans repli, un prérendu raté ne dégrade plus le site, il le casse** — aucune
+  route n'aurait de fichier et toutes répondraient 404. Le garde-fou est l'étape « Vérifier la
+  mise en ligne » ajoutée à `deploy.yml`, qui lance `npm run verifier` après l'envoi FTP et fait
+  échouer le run. **Si cette étape disparaît, remettre les trois lignes du repli** : la consigne
+  est écrite à l'endroit exact dans `public/.htaccess`.
+  Éprouvé sous **Apache 2.4.66 local** avec les modules de LWS et le `dist/` réel :
+  `/`, `/biens`, `/services/gestion-locative` → 200 avec la bonne page ; `/inexistant` et
+  `/biens/truc` → **404** avec la page de marque ; `/biens` sans barre finale → 200 et
+  **zéro redirection** ; HTML en `no-cache` gzippé (71 505 → 14 360 octets), actifs empreintés
+  en `immutable` un an, sitemap à 1 h.
+- **Le CSS n'a rien à découper par route, mesuré.** `cssCodeSplit` est déjà à sa valeur par
+  défaut (`true`) et n'émet qu'un fichier : tout le CSS vient d'un unique `import './index.css'`
+  dans l'entrée, et les onze morceaux de route n'importent aucun style propre. Couverture réelle
+  relevée par `CSS.startRuleUsageTracking` sur les dix pages : chaque page emploie **31 % en
+  moyenne** des 56,0 Ko (de 26 % pour `/mentions-legales` à 42 % pour l'accueil), soit ~38 Ko
+  non employés — **8,5 Ko gzip**. Le gain ne vaut que pour la PREMIÈRE visite, le fichier étant
+  ensuite mis en cache un an en `immutable`. En face : découper obligerait à fragmenter
+  `src/index.css`, qui porte la direction artistique, et ajouterait un CSS bloquant à chaque
+  navigation interne — visible pendant les transitions de page. **Non fait.**
 
 ## REPRISE.md
 

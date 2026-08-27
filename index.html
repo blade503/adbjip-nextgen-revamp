@@ -124,6 +124,30 @@
          Préchargement non bloquant : la page s'affiche avant les fontes. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- PRÉCHARGER LES DEUX WOFF2 A ÉTÉ ESSAYÉ, ET MESURÉ PERDANT.
+
+         Deux `<link rel="preload" as="font">` sur les fichiers latins d'Archivo
+         et d'Inter suppriment bien le premier décalage. Relevé sur quatre
+         chargements à froid, 390 × 844, réseau bridé à 1,6 Mb/s et 150 ms :
+
+             CLS  0,001914  →  0,000555   (−71 %)
+             LCP     1 657  →     2 440 ms  (+783)
+
+         La chronologie explique tout : les deux polices (72 + 88 Ko) partent à
+         308 ms, l'image du héros (78 Ko, `fetchPriority="high"`) à 309 ms. Sur
+         un lien bridé elles se partagent la bande passante, et l'image — qui
+         EST l'élément LCP, vérifié par PerformanceObserver — finit à 2 409 ms
+         au lieu de ~1 600.
+
+         On échangeait donc 0,00136 de CLS, sur un seuil de 0,1, contre 783 ms
+         de LCP, sur un seuil de 2 500 où l'on passait à 72 ms près. Perte
+         nette : non retenu.
+
+         Le décalage résiduel (0,000555, la plaque de rue à 2 526 ms) ne se
+         corrige pas par le réseau mais par une POLICE DE REPLI AUX MÉTRIQUES
+         AJUSTÉES (`size-adjust`, `ascent-override`) : coût réseau nul. Non
+         fait — c'est un changement de la pile de polices, pas un réglage. -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=Inter:opsz,wght@14..32,100..900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=Inter:opsz,wght@14..32,100..900&display=swap"></noscript>
 
