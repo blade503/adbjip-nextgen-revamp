@@ -33,7 +33,19 @@ name: Déploiement LWS
 
 on:
   push:
-    branches: [refonte/mise-en-conformite]
+    # ALIGNÉ SUR LA BRANCHE DE TRAVAIL le 27/08/2026 — étape 3 de la liste de
+    # bascule de REPRISE.md § 13. Le workflow écoutait encore
+    # `refonte/mise-en-conformite`, où plus rien n'est poussé : aucun push ne
+    # déployait la préversion, et la préversion en ligne datait du 15/08, douze
+    # jours avant la direction artistique, dont elle ne portait aucun marqueur.
+    #
+    # Conséquence à connaître : chaque push sur cette branche déploie sur la
+    # PRÉVERSION. Jamais sur la production, qui n'est atteignable que par
+    # `workflow_dispatch` avec `cible: production`, et dont le compte FTP n'existe
+    # pas encore. Retour en arrière : annuler ce commit.
+    #
+    # À réaligner le jour où la branche change de nom ou fusionne.
+    branches: [refonte/direction-artistique-hall]
   workflow_dispatch:
     inputs:
       cible:
