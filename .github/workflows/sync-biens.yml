@@ -1,0 +1,79 @@
+name: Synchronisation des annonces
+
+# Le cron GitHub est en UTC : 04:00 UTC = 06:00 à Paris l'été, 05:00 l'hiver.
+# Les exécutions planifiées partent souvent avec 5 à 30 minutes de retard, et
+# sont parfois sautées ; c'est acceptable pour une mise à jour quotidienne.
+#
+# ATTENTION : GitHub désactive un workflow planifié après 60 jours sans aucune
+# activité sur le dépôt. Si les annonces cessent de se mettre à jour, vérifier
+# ce point en premier (Actions → le workflow affiche « disabled »).
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+    inputs:
+      source:
+        description: "Source des annonces"
+        type: choice
+        options: [bienici, gedeon]
+        default: bienici
+
+concurrency:
+  group: sync-biens
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.diff.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      # En cas d'échec de la source, le script conserve data/biens.json tel quel
+      # et sort en 0 : la page en ligne garde les annonces de la veille.
+      - name: Récupérer les annonces et les photos
+        env:
+          SOURCE: ${{ inputs.source || 'bienici' }}
+          GEDEON_KEY: ${{ secrets.GEDEON_API_KEY }}
+        run: node scripts/fetch-biens.mjs
+
+      - name: Détecter un changement du portefeuille
+        id: diff
+        run: |
+          if git diff --quiet -- data/biens.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Portefeuille inchangé."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --stat -- data/biens.json
+          fi
+
+      - name: Versionner le portefeuille
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/biens.json
+          git commit -m "chore(biens): mise à jour du portefeuille"
+          git push
+
+  # Le portefeuille a bougé : la préversion doit refléter les nouvelles annonces.
+  # La production n'est jamais déployée automatiquement (voir deploy.yml).
+  deploiement:
+    needs: sync
+    if: needs.sync.outputs.changed == 'true'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      cible: preprod
+    secrets: inherit

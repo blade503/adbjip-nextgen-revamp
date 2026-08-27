@@ -3,109 +3,174 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JIP - Gestion Immobilière Paris 8ème | Excellence & Professionnalisme</title>
-    <meta name="description" content="JIP, votre expert en gestion immobilière à Paris 8ème. Gestion locative, copropriété, estimation, achat-vente. 15 ans d'expérience. Contactez-nous !" />
+    <title>JIP — Gérance et syndic, 27 rue de Lisbonne, Paris 8ᵉ</title>
+    <meta name="description" content="JIP — Jobard Immobilier Paris : gestion locative et syndic de copropriété au 27, rue de Lisbonne, Paris 8e. Agence indépendante depuis 2011." />
     <meta name="author" content="JIP" />
     <meta name="keywords" content="immobilier paris, gestion locative, syndic copropriété, estimation bien, achat vente appartement paris 8" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://jip-immobilier.fr/" />
+    <link rel="canonical" href="https://www.adbjip.fr/" />
+    <!-- %BASE_URL% suit le chemin de base : la préversion n'est pas servie à la racine.
+         Le SVG est prioritaire là où il est reconnu ; le .ico reste pour le reste. -->
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="%BASE_URL%favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="%BASE_URL%apple-touch-icon.png" />
     
-    <!-- Preload critical fonts for performance -->
+    <!-- L'ÉCLAIRAGE DE L'OUVERTURE, POSÉ AVANT LA PREMIÈRE PEINTURE.
+         Le prérendu écrit dix pages HTML statiques : s'il portait la classe
+         d'heure, il figerait l'heure de la machine de BUILD. Constaté — le HTML
+         sortait en « heure-midi », et un visiteur arrivant à 22 h voyait la
+         façade en plein soleil le temps que React s'hydrate.
+
+         La classe est donc posée sur <html> par ce script, en tête et de façon
+         synchrone : elle est là avant le premier pixel, et React n'y touche
+         jamais puisqu'elle n'est pas sur un élément qu'il rend.
+
+         Les bornes suivront le lever et le coucher du soleil à Paris par une
+         table de douze valeurs mensuelles ; les bornes fixes suffisent d'abord. -->
+    <!-- L'INTERRUPTEUR DE MOUVEMENT, posé avant la première peinture.
+         `?mouvement=0` coupe tout le système d'animation, `?mouvement=1` le
+         rétablit, et le choix tient pour la session — on navigue donc d'une page
+         à l'autre sans réécrire le paramètre.
+
+         Ici et pas dans le bundle : si l'attribut arrivait avec React, la page
+         s'animerait le temps du chargement, ce qui est précisément ce qu'on
+         cherche à supprimer. Voir `src/lib/mouvement.ts`. -->
+    <script>
+      (function () {
+        try {
+          var p = new URLSearchParams(location.search).get('mouvement');
+          var m = p !== null ? p : sessionStorage.getItem('jip:mouvement');
+          if (p !== null) sessionStorage.setItem('jip:mouvement', p);
+          if (m === '0') document.documentElement.dataset.mouvement = '0';
+        } catch (e) {
+          // sessionStorage refusé : on retombe sur le seul paramètre d'URL.
+          if (/[?&]mouvement=0/.test(location.search))
+            document.documentElement.dataset.mouvement = '0';
+        }
+      })();
+    </script>
+
+    <script>
+      (function () {
+        // Le prérendu exécute ce script lui aussi : le HTML statique part donc
+        // avec la classe de l'heure de BUILD. On la retire avant de poser la
+        // bonne, sinon les deux cohabitent et c'est l'ordre du CSS qui tranche,
+        // pas l'ordre d'ajout.
+        var r = document.documentElement;
+        r.className = r.className.replace(/\bheure-\w+\b/g, '').trim();
+        var h = new Date().getHours();
+        var e = h >= 6 && h < 8 ? 'aube'
+              : h >= 8 && h < 11 ? 'matin'
+              : h >= 11 && h < 15 ? 'midi'
+              : h >= 15 && h < 21 ? 'doree'
+              : 'nuit';
+        document.documentElement.classList.add('heure-' + e);
+      })();
+    </script>
+
+    <!-- SANS JAVASCRIPT, RIEN N'EST MASQUÉ.
+         Mesuré : le prérendu exécute React, qui pose `data-voile` sur les
+         éléments sous le pli, et `[data-voile] { opacity: 0 }` s'applique alors
+         au HTML STATIQUE. Résultat constaté à la capture, scripts désactivés :
+         l'accueil n'affichait que son héros et trois plaques, tout le reste —
+         les quatre métiers, le portefeuille, la présentation de l'agence —
+         était dans le DOM mais invisible.
+
+         Ce `<noscript>` ne coûte rien quand les scripts tournent (il est inerte)
+         et rend tout visible quand ils ne tournent pas. Il ne peut pas produire
+         de scintillement, contrairement à un retrait de l'attribut au prérendu :
+         celui-ci ferait apparaître le contenu, puis React le masquerait à
+         l'hydratation.
+
+         L'observateur d'intersection reste le seul maître du masquage quand le
+         JavaScript est là. -->
+    <noscript>
+      <style>
+        [data-voile],
+        [data-trait],
+        [data-calage] {
+          opacity: 1 !important;
+          clip-path: none !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
+
+    <!-- Deux linéales, deux axes.
+         Inter (opsz 14..32) pour le texte, la donnée et l'interface.
+         Archivo pour les titres et les plaques : elle porte un axe de LARGEUR
+         (wdth 100..125) qu'Inter n'a pas, et les capitales élargies sont la
+         proportion d'une plaque de rue parisienne. Inter est le repli déclaré
+         d'Archivo : pendant l'attente le texte est rendu dans une police déjà
+         présente, jamais nu — seule la largeur se resserre à la substitution.
+
+         COÛT, MESURÉ le 27/08/2026 sur le sous-ensemble latin :
+             Archivo (wdth + wght) ....  88,0 Ko
+             Inter   (opsz + wght) ....  71,3 Ko
+             ------------------------------------
+             total ....................  159,3 Ko
+         contre 201,9 Ko auparavant pour Inter seule — parce que l'axe italique
+         était demandé (133,7 Ko à lui seul) et qu'aucune ligne du site n'est en
+         italique. Ajouter une seconde famille allège donc la page de 42,6 Ko.
+
+         À savoir : borner les plages d'axes dans l'URL ne réduit PAS le fichier.
+         Vérifié le 27/08/2026 — `wdth,wght@100..125,400..700`, `…,500..600` et
+         `wdth@110..118,wght@500..550` renvoient les mêmes 90 096 octets exactement.
+         Google Fonts ne découpe que par sous-ensemble de caractères, pas par
+         plage d'axe. Retirer complètement `wdth` ferait tomber Archivo à
+         34,1 Ko (mesuré), mais l'axe de largeur est tout l'argument typographique du
+         projet : c'est lui qui sépare les titres du texte.
+
+         Préchargement non bloquant : la page s'affiche avant les fontes. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"></noscript>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=Inter:opsz,wght@14..32,100..900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=Inter:opsz,wght@14..32,100..900&display=swap"></noscript>
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="JIP - Votre Expert Immobilier Paris 8ème" />
-    <meta property="og:description" content="Gestion immobilière professionnelle à Paris. Gestion locative, copropriété, estimation gratuite. Équipe dynamique avec 15 ans d'expérience." />
+    <!-- Open Graph — valeurs de repli, réécrites par `SEOHead` après le montage.
+         Elles servent aux robots qui ne rendent pas le JavaScript et aux pages
+         non prérendues. Le nom du site est celui de `SEO_CONFIG.site.name` :
+         il portait « JIP Immobilier » ici et « JIP — Jobard Immobilier Paris »
+         là, et un aperçu de partage montrait donc une raison sociale que le
+         site n'emploie nulle part.
+
+         `og:image` fait 1200 × 630 — vérifié sur le fichier. Déclarer les
+         dimensions évite que l'aperçu se cadre en carré le temps du
+         téléchargement. -->
+    <meta property="og:title" content="JIP — Gérance locative et syndic de copropriété, Paris 8e" />
+    <meta property="og:description" content="Gestion locative et syndic de copropriété à Paris 8e. Agence indépendante depuis 2011, 27 rue de Lisbonne." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://jip-immobilier.fr/" />
-    <meta property="og:image" content="https://jip-immobilier.fr/og-image.jpg" />
+    <meta property="og:url" content="https://www.adbjip.fr/" />
+    <meta property="og:image" content="https://www.adbjip.fr/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Façade haussmannienne parisienne, immeuble de rapport avec ses deux lanternes" />
     <meta property="og:locale" content="fr_FR" />
-    <meta property="og:site_name" content="JIP Immobilier" />
+    <meta property="og:site_name" content="JIP — Jobard Immobilier Paris" />
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="JIP - Votre Expert Immobilier Paris 8ème" />
-    <meta name="twitter:description" content="Gestion immobilière professionnelle à Paris. Gestion locative, copropriété, estimation gratuite." />
-    <meta name="twitter:image" content="https://jip-immobilier.fr/og-image.jpg" />
+    <meta name="twitter:title" content="JIP — Gérance locative et syndic de copropriété, Paris 8e" />
+    <meta name="twitter:description" content="Gestion locative et syndic de copropriété à Paris 8e. Agence indépendante depuis 2011." />
+    <meta name="twitter:image" content="https://www.adbjip.fr/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Façade haussmannienne parisienne, immeuble de rapport avec ses deux lanternes" />
 
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "RealEstateAgent",
-      "name": "JIP",
-      "description": "Agence immobilière spécialisée en gestion locative, copropriété et estimation de biens à Paris 8ème",
-      "url": "https://jip-immobilier.fr",
-      "logo": "https://jip-immobilier.fr/logo.png",
-      "image": "https://jip-immobilier.fr/og-image.jpg",
-      "telephone": "+33 1 XX XX XX XX",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Paris 8ème",
-        "addressLocality": "Paris",
-        "postalCode": "75008",
-        "addressCountry": "FR"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "48.8738",
-        "longitude": "2.3088"
-      },
-      "priceRange": "€€",
-      "serviceArea": {
-        "@type": "City",
-        "name": "Paris"
-      },
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Services Immobiliers",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Gestion Locative",
-              "description": "Gestion complète de votre patrimoine locatif"
-            }
-          },
-          {
-            "@type": "Offer", 
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Gestion de Copropriété",
-              "description": "Gestion professionnelle et transparente de copropriété"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service", 
-              "name": "Estimation de Biens",
-              "description": "Estimation gratuite selon le juste prix du marché"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Achats/Ventes de Biens",
-              "description": "Accompagnement complet de A à Z"
-            }
-          }
-        ]
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "500"
-      },
-      "foundingDate": "2009",
-      "slogan": "Notre professionnalisme est votre garantie"
-    }
-    </script>
+    <!-- LES DONNÉES STRUCTURÉES NE SONT PLUS ICI.
+         Un `RealEstateAgent` statique vivait dans ce fichier. Deux raisons de
+         l'avoir retiré, toutes deux vérifiées dans `dist/` :
+
+         1. `SEOHead` le sélectionnait par `script[type="application/ld+json"]`
+            — le PREMIER du document — et l'écrasait dès le montage de React.
+            Il n'a jamais été livré aux moteurs autrement que sur les pages
+            sans balisage propre.
+         2. C'était une seconde source de vérité, et elle avait déjà divergé :
+            elle déclarait `serviceArea: City/Paris` quand `seo.ts` déclarait
+            `areaServed: Place/Île-de-France`, et des coordonnées géographiques
+            fausses de 558 m (mesuré contre la Base Adresse Nationale).
+
+         La source unique est `src/config/seo.ts`, qui dérive lui-même adresse,
+         téléphone, courriel et horaires de `src/config/legal.ts`. `SEOHead`
+         pose le bloc agence sur les dix pages. -->
   </head>
 
   <body>

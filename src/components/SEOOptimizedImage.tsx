@@ -3,6 +3,8 @@ import { useState } from 'react';
 interface SEOOptimizedImageProps {
   src: string;
   alt: string;
+  /** Jeu de largeurs, quand plusieurs variantes du même visuel existent. */
+  srcSet?: string;
   className?: string;
   width?: number;
   height?: number;
@@ -13,7 +15,8 @@ interface SEOOptimizedImageProps {
 
 const SEOOptimizedImage = ({ 
   src, 
-  alt, 
+  alt,
+  srcSet,
   className = "", 
   width,
   height,
@@ -32,8 +35,9 @@ const SEOOptimizedImage = ({
       
       <img
         src={src}
+        srcSet={srcSet}
         alt={alt}
-        className={`${className} transition-opacity duration-300 ${
+        className={`${className} transition-opacity duration-3 ${
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
         width={width}

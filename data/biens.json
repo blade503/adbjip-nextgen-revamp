@@ -1,0 +1,509 @@
+{
+  "source": "bienici",
+  "generatedAt": "2026-08-27T11:16:38.477Z",
+  "count": 5,
+  "biens": [
+    {
+      "id": "gedeon-32757098",
+      "reference": "0125",
+      "slug": "0125-planchat-1-sous-sol",
+      "transaction": "vente",
+      "propertyType": "parking",
+      "propertyLabel": "Parking",
+      "title": "PLANCHAT 1 sous sol",
+      "titleIsFallback": false,
+      "description": "Située 60 rue Planchat – 75020 Paris, dans un quartier calme et commerçant du 20ᵉ arrondissement de Paris, place de stationnement automobile au sein d’une\nrésidence sécurisée et bien entretenue.\nSuperficie : 12 m²\nDimensions : 5 m x 2,40 m\nEmplacement : 1er sous-sol\nAccès véhicule : rampe sécurisée\nAccès piéton : système Vigik avec sas sécurisé (2 portes)\nAccès étages : ascenseur avec contacteur à clé ou escalier\nRésidence avec gardien.\nPlace facile d’accès et adaptée à tout type de véhicule (citadine, berline, SUV).\nIdéal pour résident du quartier ou investisseur.",
+      "city": "Paris 20e",
+      "postalCode": "75020",
+      "district": "Père Lachaise - Réunion",
+      "departmentCode": "75",
+      "price": 14000,
+      "priceWithoutFees": 12500,
+      "pricePerSquareMeter": 568,
+      "feePercentage": 12,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": 180,
+      "surface": 22,
+      "rooms": null,
+      "bedrooms": null,
+      "floor": null,
+      "floorQuantity": null,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": false,
+        "cellar": false,
+        "balcony": false,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": false,
+        "separateToilet": false,
+        "inCondominium": true,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": 150,
+      "dpe": {
+        "energyValue": null,
+        "energyClass": null,
+        "gesValue": null,
+        "gesClass": null,
+        "date": null,
+        "minEnergyConsumption": null,
+        "maxEnergyConsumption": null,
+        "isJuly2021": false
+      },
+      "photos": [
+        {
+          "alt": "PLANCHAT 1 sous sol — photo 1",
+          "small": "/biens/0125-1-small.jpg",
+          "medium": "/biens/0125-1-medium.jpg",
+          "large": "/biens/0125-1-large.jpg"
+        },
+        {
+          "alt": "PLANCHAT 1 sous sol — photo 2",
+          "small": "/biens/0125-2-small.jpg",
+          "medium": "/biens/0125-2-medium.jpg",
+          "large": "/biens/0125-2-large.jpg"
+        },
+        {
+          "alt": "PLANCHAT 1 sous sol — photo 3",
+          "small": "/biens/0125-3-small.jpg",
+          "medium": "/biens/0125-3-medium.jpg",
+          "large": "/biens/0125-3-large.jpg"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-08-21T01:45:49.811Z"
+    },
+    {
+      "id": "gedeon-32524918",
+      "reference": "v027",
+      "slug": "v027-3-pieces-immeuble-renove",
+      "transaction": "vente",
+      "propertyType": "flat",
+      "propertyLabel": "Appartement",
+      "title": "3 pièces immeuble rénové",
+      "titleIsFallback": false,
+      "description": "ST FARGEAU - PORTE DES LILAS, idéal 3/4pièces dans une résidence tout confort :dans un parc arboré immeuble pierre de taille des années 1950 avec isolation thermique et chauffage ressent \n- ravalement neuf avec isolation thermique par l’extérieur \n- espace vert \n- GRAND local vélo\n- stationnement voiture dans le parc \n- gardien \nsitué au 3ème étage de la résidence avec double ascenseur paire et impaire desservant également les caves.\ncette appartement familial et fonctionnel est composé :\n- un entrée avec 3 placards de rangement \n- cuisine indépendant\n- séjour salle à manger avec son balcon \n- salon \n- deux chambres\n- salle d'eau \n- WC séparer \nafin de compléter ce bien une cave de 7,5m² avec 2,80 m² de hauteur sous plafond. \neau chaude individuel électrique, chauffage collectif New système de régulation de chauffage \nFIBRE, lumineux et calme petit travaux a prévoir",
+      "city": "Paris 20e",
+      "postalCode": "75020",
+      "district": "Gambetta",
+      "departmentCode": "75",
+      "price": 580000,
+      "priceWithoutFees": 565000,
+      "pricePerSquareMeter": 7063,
+      "feePercentage": 2.6548672566371683,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 80,
+      "rooms": 3,
+      "bedrooms": 2,
+      "floor": 3,
+      "floorQuantity": 9,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": true,
+        "cellar": true,
+        "balcony": true,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": true,
+        "separateToilet": true,
+        "inCondominium": false,
+        "parkingPlaces": 1
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 189,
+        "energyClass": "D",
+        "gesValue": 27,
+        "gesClass": "C",
+        "date": "2025-03-13",
+        "minEnergyConsumption": 1220,
+        "maxEnergyConsumption": 1690,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "3 pièces immeuble rénové — photo 1",
+          "small": "/biens/v027-1-small.jpg",
+          "medium": "/biens/v027-1-medium.jpg",
+          "large": "/biens/v027-1-large.jpg"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 2",
+          "small": "/biens/v027-2-small.jpg",
+          "medium": "/biens/v027-2-medium.jpg",
+          "large": "/biens/v027-2-large.jpg"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 3",
+          "small": "/biens/v027-3-small.jpg",
+          "medium": "/biens/v027-3-medium.jpg",
+          "large": "/biens/v027-3-large.jpg"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 4",
+          "small": "/biens/v027-4-small.jpg",
+          "medium": "/biens/v027-4-medium.jpg",
+          "large": "/biens/v027-4-large.jpg"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 5",
+          "small": "/biens/v027-5-small.jpg",
+          "medium": "/biens/v027-5-medium.jpg",
+          "large": "/biens/v027-5-large.jpg"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 6",
+          "small": "/biens/v027-6-small.jpg",
+          "medium": "/biens/v027-6-medium.jpg",
+          "large": "/biens/v027-6-large.jpg"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 7",
+          "small": "/biens/v027-7-small.jpg",
+          "medium": "/biens/v027-7-medium.jpg",
+          "large": "/biens/v027-7-large.jpg"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 8",
+          "small": "/biens/v027-8-small.jpg",
+          "medium": "/biens/v027-8-medium.jpg",
+          "large": "/biens/v027-8-large.jpg"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 9",
+          "small": "/biens/v027-9-small.jpg",
+          "medium": "/biens/v027-9-medium.jpg",
+          "large": "/biens/v027-9-large.jpg"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 10",
+          "small": "/biens/v027-10-small.jpg",
+          "medium": "/biens/v027-10-medium.jpg",
+          "large": "/biens/v027-10-large.jpg"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 11",
+          "small": "/biens/v027-11-small.jpg",
+          "medium": "/biens/v027-11-medium.jpg",
+          "large": "/biens/v027-11-large.jpg"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-08-19T01:46:26.714Z",
+      "badges": {
+        "dpeBadge": "/biens/v027-dpe.svg",
+        "gesBadge": "/biens/v027-ges.svg"
+      }
+    },
+    {
+      "id": "gedeon-32925567",
+      "reference": "G60",
+      "slug": "g60-parking-planchat-75020",
+      "transaction": "location",
+      "propertyType": "parking",
+      "propertyLabel": "Parking",
+      "title": "PARKING PLANCHAT 75020",
+      "titleIsFallback": false,
+      "description": "DANS UNE COPROPRIÉTÉ sécurise parking au 1 sous sol \navec entrée par immeuble et ascenseur pieton \n\nrampe acces pour les voitures",
+      "city": "Paris 20e",
+      "postalCode": "75020",
+      "district": "Père Lachaise - Réunion",
+      "departmentCode": "75",
+      "price": 85,
+      "priceWithoutFees": null,
+      "pricePerSquareMeter": 7,
+      "feePercentage": null,
+      "feesChargedTo": null,
+      "charges": 15,
+      "safetyDeposit": 85,
+      "agencyRentalFee": 120,
+      "annualCondominiumFees": null,
+      "surface": 12,
+      "rooms": null,
+      "bedrooms": null,
+      "floor": null,
+      "floorQuantity": null,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": false,
+        "cellar": false,
+        "balcony": false,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": false,
+        "separateToilet": false,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": null,
+        "energyClass": null,
+        "gesValue": null,
+        "gesClass": null,
+        "date": null,
+        "minEnergyConsumption": null,
+        "maxEnergyConsumption": null,
+        "isJuly2021": false
+      },
+      "photos": [
+        {
+          "alt": "PARKING PLANCHAT 75020 — photo 1",
+          "small": "/biens/g60-1-small.jpg",
+          "medium": "/biens/g60-1-medium.jpg",
+          "large": "/biens/g60-1-large.jpg"
+        },
+        {
+          "alt": "PARKING PLANCHAT 75020 — photo 2",
+          "small": "/biens/g60-2-small.jpg",
+          "medium": "/biens/g60-2-medium.jpg",
+          "large": "/biens/g60-2-large.jpg"
+        },
+        {
+          "alt": "PARKING PLANCHAT 75020 — photo 3",
+          "small": "/biens/g60-3-small.jpg",
+          "medium": "/biens/g60-3-medium.jpg",
+          "large": "/biens/g60-3-large.jpg"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-08-19T01:46:26.628Z"
+    },
+    {
+      "id": "gedeon-31461841",
+      "reference": "012",
+      "slug": "012-maison-8-pieces-l-houmeau",
+      "transaction": "vente",
+      "propertyType": "house",
+      "propertyLabel": "Maison",
+      "title": "Maison 8 pièces — L'Houmeau",
+      "titleIsFallback": true,
+      "description": "propriété avec un parc  arboré d environ  5300 m². à  3 km de l'océan  par piste cyclable et 2 km du centre du village de L HOUMEAU \nLa maison sur un étage offre avec ses 280 m² de bel espace de vie qui peut  être diviser en 3 unités distingues avec chacun ses sanitaires, pièces de vie et chambre \n\nEn rez-de-chaussée, un hall, séjour/salon, cuisine aménagée et équipée, lingerie , suite spéciale handicape avec salle d eau \n\nUn vaste local de 130m² avec une belle hauteur sous plafond , vous permettra de créer un atelier , salle d exposition ou festivité \n\nEnfin un appartement de 55 m² environ comprenant  sejour  cuisine et chambre  +salle de bain pour recevoir en toute indépendance\n\nLe parc boisselée vous assure la tranquillité et la discrétion . Il restera à réhabiliter la piscine qui demande à être couverte . .",
+      "city": "L'Houmeau",
+      "postalCode": "17137",
+      "district": "L'Houmeau",
+      "departmentCode": "17",
+      "price": 1136000,
+      "priceWithoutFees": 1100000,
+      "pricePerSquareMeter": 2594,
+      "feePercentage": 3,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 424,
+      "rooms": 8,
+      "bedrooms": 5,
+      "floor": null,
+      "floorQuantity": null,
+      "exposition": "SUD EST",
+      "heating": "Gaz",
+      "features": {
+        "elevator": false,
+        "cellar": true,
+        "balcony": false,
+        "terrace": true,
+        "fireplace": true,
+        "caretaker": false,
+        "separateToilet": true,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 106,
+        "energyClass": "C",
+        "gesValue": 21,
+        "gesClass": "C",
+        "date": "2025-01-20",
+        "minEnergyConsumption": 2500,
+        "maxEnergyConsumption": 3500,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 1",
+          "small": "/biens/012-1-small.jpg",
+          "medium": "/biens/012-1-medium.jpg",
+          "large": "/biens/012-1-large.jpg"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 2",
+          "small": "/biens/012-2-small.jpg",
+          "medium": "/biens/012-2-medium.jpg",
+          "large": "/biens/012-2-large.jpg"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 3",
+          "small": "/biens/012-3-small.jpg",
+          "medium": "/biens/012-3-medium.jpg",
+          "large": "/biens/012-3-large.jpg"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 4",
+          "small": "/biens/012-4-small.jpg",
+          "medium": "/biens/012-4-medium.jpg",
+          "large": "/biens/012-4-large.jpg"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-07-30T16:13:30.999Z",
+      "badges": {
+        "dpeBadge": "/biens/012-dpe.svg",
+        "gesBadge": "/biens/012-ges.svg"
+      }
+    },
+    {
+      "id": "gedeon-33450645",
+      "reference": "V029",
+      "slug": "v029-boutique-et-logement",
+      "transaction": "vente",
+      "propertyType": "flat",
+      "propertyLabel": "Appartement",
+      "title": "Boutique et logement",
+      "titleIsFallback": false,
+      "description": "Boutique et logement\n\nCharmante boutique idéalement située à l’angle de l’avenue Mozart.\n\nBénéficiant d’une belle hauteur sous plafond comprise entre 2,80 m et 3 m, ce bien commercial se compose d’une boutique sur rue en rez-de-chaussée offrant une surface de 15,44 m² dédiée à l’accueil, ainsi que d’un sous-sol aménagé de 13,70 m², équipé en électricité et en informatique. Accessible par un escalier intérieur, ce dernier dispose d’une trappe à ouverture électrique.\n\nAu premier étage, relié au rez-de-chaussée par un magnifique escalier en fer forgé, se trouve un espace d’habitation comprenant une belle chambre, une salle d’eau avec WC ainsi qu’un branchement pour machine à laver.\n\nRare, élégant et fonctionnel, ce bien climatisé saura répondre à vos projets professionnels tout en offrant un espace de vie confortable.\n\nCharges annuelles de copropriété 2025 : 540,92 €, soit 135,23 € par trimestre.",
+      "city": "Paris 16e",
+      "postalCode": "75016",
+      "district": "Auteuil-Nord - Jasmin - Mirabeau",
+      "departmentCode": "75",
+      "price": 390000,
+      "priceWithoutFees": 370000,
+      "pricePerSquareMeter": 6852,
+      "feePercentage": 5.405405405405405,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 54,
+      "rooms": 3,
+      "bedrooms": 1,
+      "floor": 0,
+      "floorQuantity": null,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": false,
+        "cellar": false,
+        "balcony": false,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": false,
+        "separateToilet": false,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 146,
+        "energyClass": "C",
+        "gesValue": 4,
+        "gesClass": "B",
+        "date": "2025-11-04",
+        "minEnergyConsumption": 610,
+        "maxEnergyConsumption": 840,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "Boutique et logement — photo 1",
+          "small": "/biens/v029-1-small.jpg",
+          "medium": "/biens/v029-1-medium.jpg",
+          "large": "/biens/v029-1-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 2",
+          "small": "/biens/v029-2-small.jpg",
+          "medium": "/biens/v029-2-medium.jpg",
+          "large": "/biens/v029-2-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 3",
+          "small": "/biens/v029-3-small.jpg",
+          "medium": "/biens/v029-3-medium.jpg",
+          "large": "/biens/v029-3-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 4",
+          "small": "/biens/v029-4-small.jpg",
+          "medium": "/biens/v029-4-medium.jpg",
+          "large": "/biens/v029-4-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 5",
+          "small": "/biens/v029-5-small.jpg",
+          "medium": "/biens/v029-5-medium.jpg",
+          "large": "/biens/v029-5-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 6",
+          "small": "/biens/v029-6-small.jpg",
+          "medium": "/biens/v029-6-medium.jpg",
+          "large": "/biens/v029-6-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 7",
+          "small": "/biens/v029-7-small.jpg",
+          "medium": "/biens/v029-7-medium.jpg",
+          "large": "/biens/v029-7-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 8",
+          "small": "/biens/v029-8-small.jpg",
+          "medium": "/biens/v029-8-medium.jpg",
+          "large": "/biens/v029-8-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 9",
+          "small": "/biens/v029-9-small.jpg",
+          "medium": "/biens/v029-9-medium.jpg",
+          "large": "/biens/v029-9-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 10",
+          "small": "/biens/v029-10-small.jpg",
+          "medium": "/biens/v029-10-medium.jpg",
+          "large": "/biens/v029-10-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 11",
+          "small": "/biens/v029-11-small.jpg",
+          "medium": "/biens/v029-11-medium.jpg",
+          "large": "/biens/v029-11-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 12",
+          "small": "/biens/v029-12-small.jpg",
+          "medium": "/biens/v029-12-medium.jpg",
+          "large": "/biens/v029-12-large.jpg"
+        },
+        {
+          "alt": "Boutique et logement — photo 13",
+          "small": "/biens/v029-13-small.jpg",
+          "medium": "/biens/v029-13-medium.jpg",
+          "large": "/biens/v029-13-large.jpg"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-08-17T01:45:19.223Z",
+      "firstSeenAt": "2026-06-23T13:27:41.215Z",
+      "badges": {
+        "dpeBadge": "/biens/v029-dpe.svg",
+        "gesBadge": "/biens/v029-ges.svg"
+      }
+    }
+  ]
+}

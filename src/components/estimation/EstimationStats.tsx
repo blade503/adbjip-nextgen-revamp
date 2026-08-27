@@ -1,28 +1,22 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Award, Calculator, Users, Star } from 'lucide-react';
 
-interface EstimationStatsProps {
-  weeklyDemands: number;
-  monthlyEstimations: number;
-  weeklyPercentage: number;
-}
-
-const EstimationStats = ({ weeklyDemands, monthlyEstimations, weeklyPercentage }: EstimationStatsProps) => {
+const EstimationStats = () => {
   const stats = [
     {
       icon: Award,
-      value: "15+",
-      label: "Années d'expérience"
+      value: "2011",
+      label: "Agence créée en"
     },
     {
       icon: Calculator,
-      value: "2000+",
-      label: "Biens estimés"
+      value: "DVF",
+      label: "Données publiques DGFiP"
     },
     {
       icon: Users,
-      value: "98%",
-      label: "Clients satisfaits"
+      value: "Gratuit",
+      label: "Sans engagement"
     },
     {
       icon: Star,
@@ -39,7 +33,7 @@ const EstimationStats = ({ weeklyDemands, monthlyEstimations, weeklyPercentage }
             Pourquoi nous faire <span className="gradient-text">confiance</span> ?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Nos résultats parlent d'eux-mêmes
+            Une estimation adossée aux transactions réellement enregistrées
           </p>
         </div>
         
@@ -49,9 +43,9 @@ const EstimationStats = ({ weeklyDemands, monthlyEstimations, weeklyPercentage }
             return (
               <div key={index} className="text-center">
                 <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Icon className="w-8 h-8 text-primary-foreground" />
+                  <Icon aria-hidden className="w-8 h-8 text-primary-foreground" />
                 </div>
-                <div className="text-4xl font-bold text-primary mb-2">{stat.value}</div>
+                <div className="text-4xl font-bold text-primary-ink mb-2">{stat.value}</div>
                 <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
               </div>
             );

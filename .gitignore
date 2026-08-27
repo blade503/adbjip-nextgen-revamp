@@ -23,3 +23,13 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Photos des annonces : 9,6 Mo régénérés par scripts/fetch-biens.mjs, et
+# recopiées dans dist/ par Vite au build. data/biens.json reste versionné —
+# c'est le filet de sécurité si la source tombe, et le déclencheur de la
+# détection de changement.
+public/biens/
+
+# Demandes reçues via contact.php (données personnelles) : jamais dans git.
+public/leads.jsonl
+dist/leads.jsonl

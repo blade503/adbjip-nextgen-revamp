@@ -1,7 +1,23 @@
-import { useEffect, useRef, useState } from 'react';
-import { Card } from '@/components/ui/card';
+import { useEffect, useState } from 'react';
+import { Euro, ExternalLink, MapPin, TrendingUp } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
-import { X, MapPin, Euro, TrendingUp } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import MarketDataService from '@/components/estimation/MarketDataService';
+
+interface MarketData {
+  basePricePerM2: number;
+  /** Indice de confiance du service, entre 0 et 1. */
+  confidence: number;
+  /** Nombre de transactions retenues pour le calcul. */
+  sampleSize: number;
+  source: 'DVF' | 'Database' | 'Geographic' | string;
+}
 
 interface InteractiveMapProps {
   isOpen: boolean;
@@ -10,184 +26,189 @@ interface InteractiveMapProps {
   city: string;
   postalCode: string;
   estimationResult: number | null;
+  /** Données renvoyées par MarketDataService lors du calcul. */
+  marketData?: MarketData | null;
 }
 
-const InteractiveMap = ({ isOpen, onClose, address, city, postalCode, estimationResult }: InteractiveMapProps) => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
+const SOURCE_LABELS: Record<string, string> = {
+  DVF: 'Demandes de valeurs foncières (DGFiP)',
+  Database: 'Références internes par code postal',
+  Geographic: 'Estimation géographique — aucune transaction proche',
+};
 
-  // Géocodage de l'adresse
+const InteractiveMap = ({
+  isOpen,
+  onClose,
+  address,
+  city,
+  postalCode,
+  estimationResult,
+  marketData = null,
+}: InteractiveMapProps) => {
+  const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  const fullAddress = `${address}, ${postalCode} ${city}`;
+
+  // Le géocodage passe par MarketDataService : même appel, même cache que le
+  // calculateur, plutôt qu'un second aller-retour vers l'API Adresse.
   useEffect(() => {
-    if (isOpen && address && city && postalCode) {
-      geocodeAddress();
-    }
+    if (!isOpen || !address || !city || !postalCode) return;
+
+    let cancelled = false;
+    setIsLoading(true);
+    setFailed(false);
+
+    MarketDataService.getInstance()
+      .geocodeAddress(address, city, postalCode)
+      .then((coords) => {
+        if (cancelled) return;
+        if (coords) setCoordinates([coords[0], coords[1]]);
+        else setFailed(true);
+      })
+      .finally(() => !cancelled && setIsLoading(false));
+
+    return () => {
+      cancelled = true;
+    };
   }, [isOpen, address, city, postalCode]);
 
-  const geocodeAddress = async () => {
-    setIsLoading(true);
-    try {
-      const fullAddress = `${address}, ${postalCode} ${city}`;
-      const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(fullAddress)}&limit=1`);
-      const data = await response.json();
-      
-      if (data.features && data.features.length > 0) {
-        const coords = data.features[0].geometry.coordinates;
-        setCoordinates([coords[0], coords[1]]);
-        initializeMap(coords[0], coords[1]);
-      }
-    } catch (error) {
-      console.error('Erreur de géocodage:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const [lng, lat] = coordinates ?? [];
 
-  const initializeMap = (lng: number, lat: number) => {
-    if (!mapContainer.current || map.current) return;
-
-    // Simulation d'une carte Mapbox (en attendant l'intégration réelle)
-    // Ici on créerait une vraie carte avec Mapbox GL JS
-    map.current = {
-      setCenter: () => {},
-      addMarker: () => {},
-      remove: () => {}
-    };
-
-    // Pour l'instant, on simule juste l'initialisation
-    console.log('Map initialized at:', lng, lat);
-  };
-
-  const cleanup = () => {
-    if (map.current) {
-      map.current.remove();
-      map.current = null;
-    }
-  };
-
-  useEffect(() => {
-    return cleanup;
-  }, []);
-
-  if (!isOpen) return null;
+  // Embed Google en tuiles raster : pas de clé d'API, et surtout pas de WebGL
+  // requis — l'embed OpenStreetMap, lui, refuse de s'afficher sans.
+  const mapSrc = coordinates
+    ? `https://maps.google.com/maps?q=${lat},${lng}&z=16&hl=fr&output=embed`
+    : null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-6xl h-[80vh] p-6 relative">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-2xl font-bold">
-            Carte Interactive - <span className="gradient-text">Estimation</span>
-          </h3>
-          <Button
-            onClick={onClose}
-            variant="ghost"
-            size="sm"
-            className="absolute top-4 right-4"
-          >
-            <X className="w-4 h-4" />
-          </Button>
-        </div>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="max-h-[90vh] max-w-6xl overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="pr-8 text-2xl">
+            Situation du bien — <span className="gradient-text">estimation</span>
+          </DialogTitle>
+        </DialogHeader>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
-          {/* Informations */}
-          <div className="lg:col-span-1 space-y-4">
-            <div className="space-y-4">
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <div className="flex items-center space-x-3 mb-2">
-                  <MapPin className="w-5 h-5 text-blue-600" />
-                  <h4 className="font-semibold text-blue-900">Adresse</h4>
+        <div className="grid gap-6 lg:grid-cols-3">
+          <div className="space-y-4">
+            <div className="rounded-lg border border-border bg-muted/50 p-4">
+              <div className="mb-2 flex items-center space-x-3">
+                <MapPin aria-hidden className="h-5 w-5 text-primary-ink" />
+                <h3 className="font-semibold">Adresse</h3>
+              </div>
+              <p className="text-sm text-muted-foreground">{fullAddress}</p>
+            </div>
+
+            {estimationResult !== null && (
+              <div className="rounded-lg border border-primary/30 bg-primary-soft p-4">
+                <div className="mb-2 flex items-center space-x-3">
+                  <Euro aria-hidden className="h-5 w-5 text-primary-ink" />
+                  <h3 className="font-semibold">Estimation</h3>
                 </div>
-                <p className="text-sm text-blue-800">
-                  {address}, {postalCode} {city}
+                <p className="text-2xl font-bold">
+                  {estimationResult.toLocaleString('fr-FR')} €
                 </p>
               </div>
+            )}
 
-              {estimationResult && (
-                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <div className="flex items-center space-x-3 mb-2">
-                    <Euro className="w-5 h-5 text-green-600" />
-                    <h4 className="font-semibold text-green-900">Estimation</h4>
-                  </div>
-                  <p className="text-2xl font-bold text-green-800">
-                    {estimationResult.toLocaleString('fr-FR')} €
-                  </p>
+            {/* Uniquement ce que le service renvoie réellement : pas de délai de
+                vente ni d'évolution annuelle, que nous ne calculons pas. */}
+            {marketData && (
+              <div className="rounded-lg border border-border bg-muted/50 p-4">
+                <div className="mb-2 flex items-center space-x-3">
+                  <TrendingUp aria-hidden className="h-5 w-5 text-primary-ink" />
+                  <h3 className="font-semibold">Marché local</h3>
                 </div>
-              )}
-
-              <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
-                <div className="flex items-center space-x-3 mb-2">
-                  <TrendingUp className="w-5 h-5 text-orange-600" />
-                  <h4 className="font-semibold text-orange-900">Marché Local</h4>
-                </div>
-                <div className="space-y-2 text-sm text-orange-800">
-                  <div>• Prix moyen au m² : ~8 500 €</div>
-                  <div>• Évolution : +2.3% sur 12 mois</div>
-                  <div>• Délai de vente : 45 jours</div>
-                </div>
+                <ul className="space-y-1.5 text-sm text-muted-foreground">
+                  <li>
+                    Prix moyen au m² :{' '}
+                    <span className="font-medium text-foreground">
+                      {Math.round(marketData.basePricePerM2).toLocaleString('fr-FR')} €
+                    </span>
+                  </li>
+                  <li>
+                    Transactions analysées :{' '}
+                    <span className="font-medium text-foreground">{marketData.sampleSize}</span>
+                  </li>
+                  <li>
+                    Indice de confiance :{' '}
+                    <span className="font-medium text-foreground">
+                      {Math.round(marketData.confidence * 100)} %
+                    </span>
+                  </li>
+                  <li className="pt-1 text-xs">
+                    Source : {SOURCE_LABELS[marketData.source] ?? marketData.source}
+                  </li>
+                </ul>
               </div>
-            </div>
+            )}
 
-            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
-              <h4 className="font-semibold text-gray-900 mb-2">Informations</h4>
-              <div className="space-y-2 text-sm text-gray-700">
-                <div>• Estimation basée sur les données DVF</div>
-                <div>• Analyse dans un rayon de 1km</div>
-                <div>• Données mises à jour mensuellement</div>
-                <div>• Confiance : 85%</div>
-              </div>
-            </div>
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              Estimation indicative, calculée à partir des transactions publiques du secteur.
+              Elle ne remplace pas une visite : la configuration, l'état et l'exposition du bien
+              peuvent la faire varier sensiblement.
+            </p>
           </div>
 
-          {/* Carte */}
           <div className="lg:col-span-2">
-            <div className="h-full bg-gray-100 rounded-lg border border-gray-200 relative overflow-hidden">
-              {isLoading ? (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-                    <p className="text-gray-600">Chargement de la carte...</p>
-                  </div>
-                </div>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-muted lg:aspect-[16/10]">
+              {mapSrc ? (
+                <iframe
+                  key={mapSrc}
+                  src={mapSrc}
+                  title={`Carte — ${fullAddress}`}
+                  className="absolute inset-0 h-full w-full"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
               ) : (
-                <div className="h-full flex items-center justify-center">
-                  <div className="text-center text-gray-500">
-                    <MapPin className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-                    <h3 className="text-lg font-semibold mb-2">Carte Interactive</h3>
-                    <p className="text-sm">
-                      {coordinates ? 
-                        `Coordonnées: ${coordinates[1].toFixed(4)}, ${coordinates[0].toFixed(4)}` :
-                        'Géocodage en cours...'
-                      }
-                    </p>
-                    <p className="text-xs mt-2 text-gray-400">
-                      Intégration Mapbox en cours de développement
-                    </p>
-                  </div>
+                <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
+                  {isLoading ? (
+                    <div>
+                      {/* `role="status"` : l'anneau se voit, le texte se lit, mais
+                          sans région vocale rien n'est annoncé. Le mouvement
+                          réduit conserve la rotation (voir `.attente`) ET
+                          l'annonce : deux canaux pour une même information. */}
+                      <div role="status">
+                        <div className="attente mx-auto mb-4 h-10 w-10 rounded-full border-b-2 border-primary" />
+                        <p className="text-sm text-muted-foreground">Localisation en cours…</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <MapPin aria-hidden className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">
+                        {failed
+                          ? "Adresse introuvable : vérifiez le numéro, la voie et le code postal."
+                          : 'Renseignez une adresse pour afficher la carte.'}
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
-              
-              {/* Placeholder pour la vraie carte Mapbox */}
-              <div 
-                ref={mapContainer} 
-                className="absolute inset-0"
-                style={{ display: 'none' }}
-              />
+            </div>
+
+            <div className="mt-4 flex flex-wrap justify-end gap-3">
+              <Button variant="outline" onClick={onClose}>
+                Fermer
+              </Button>
+              <Button asChild>
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink aria-hidden className="mr-2 h-4 w-4" />
+                  Ouvrir dans Google Maps
+                </a>
+              </Button>
             </div>
           </div>
         </div>
-
-        <div className="mt-4 flex justify-end space-x-3">
-          <Button variant="outline" onClick={onClose}>
-            Fermer
-          </Button>
-          <Button>
-            <MapPin className="w-4 h-4 mr-2" />
-            Voir sur Google Maps
-          </Button>
-        </div>
-      </Card>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

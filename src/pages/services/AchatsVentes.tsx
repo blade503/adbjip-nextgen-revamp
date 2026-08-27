@@ -1,10 +1,26 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import SEOHead from '@/components/SEOHead';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Handshake, CheckCircle, ArrowRight, Phone, Key, Search, Users, FileCheck, MessageSquare, Calculator, Building } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import AchatVenteImage from '@/assets/VenteDeBiens.png';
+/**
+ * TROIS LARGEURS POUR LE BANDEAU D'OUVERTURE.
+ *
+ * Mesuré avant : le seul fichier servi était le 1536 px, soit 106,5 Ko — envoyé
+ * tel quel à un téléphone de 390 px de large, qui n'en affiche jamais plus de
+ * 1170 px physiques et souvent 780. Les trois variantes sont produites depuis le
+ * master PNG de `src/assets/`, qui reste en place et n'est jamais livré.
+ *
+ * `sizes="100vw"` est exact ici : le bandeau occupe toute la largeur de la fenêtre
+ * à toutes les tailles. L'annoncer permet au navigateur de choisir AVANT de
+ * connaître la mise en page, donc avant le premier rendu.
+ */
+import AchatVenteImage from '@/assets/VenteDeBiens-large.webp';
+import AchatVenteImage1024 from '@/assets/VenteDeBiens-1024.webp';
+import AchatVenteImage700 from '@/assets/VenteDeBiens.webp';
+const AchatVenteImageSet = `${AchatVenteImage700} 700w, ${AchatVenteImage1024} 1024w, ${AchatVenteImage} 1536w`;
+import { Lien } from '@/components/systeme/Lien';
 
 const AchatsVentes = () => {
   const servicesVente = [
@@ -14,8 +30,8 @@ const AchatsVentes = () => {
     "Négociation optimisée du prix de vente",
     "Accompagnement juridique complet",
     "Suivi jusqu'à la signature chez le notaire",
-    "Conseil en défiscalisation",
-    "Garantie de discrétion"
+    "Rédaction et suivi du compromis",
+    "Discrétion sur les ventes sensibles"
   ];
 
   const servicesAchat = [
@@ -54,28 +70,44 @@ const AchatsVentes = () => {
 
   return (
     <div className="min-h-screen">
+      <SEOHead
+        title="Achat et vente immobilière à Paris — JIP"
+        description="Accompagnement de l'estimation à la signature chez le notaire, pour vendre ou acheter à Paris. Agence JIP, 27 rue de Lisbonne, Paris 8ᵉ."
+        canonicalUrl="https://www.adbjip.fr/services/achats-ventes"
+      />
       <Header />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 relative overflow-hidden">
+        {/* `nuit` — INDISPENSABLE, et pas décoratif. Cette ouverture est sombre
+            depuis toujours, mais elle n'avait aucune portée de jetons : le fond
+            passait au marine tandis que `--foreground` restait l'encre. Résultat
+            mesuré après l'inversion de la charte : le bouton « outline » du
+            numéro s'affichait en encre sur marine, et les mots mis en accent par
+            `gradient-text` en ocre foncé sur marine — deux textes illisibles.
+            La classe rebascule tout le sous-arbre, et les composants suivent
+            sans le savoir. Toute section sombre du site doit la porter. */}
+        <section className="nuit bg-nuit pt-32 pb-16 relative overflow-hidden">
           {/* Background Image */}
           <div className="absolute inset-0">
-            <img 
+            <img
               src={AchatVenteImage}
-              alt="Achats et ventes immobilières professionnelles"
-              className="w-full h-full object-cover"
+              srcSet={AchatVenteImageSet}
+              sizes="100vw"
+              alt=""
+              className="h-full w-full object-cover"
+              width={1536}
+              height={1024}
+              loading="eager"
+              fetchPriority="high"
             />
-            <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-secondary/80 via-secondary/50 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-nuit/[0.90] via-nuit/[0.86] to-nuit/[0.92]"></div>
           </div>
           
           <div className="container mx-auto px-6 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center space-x-2 bg-white/30 backdrop-blur-md border border-white/40 rounded-full px-6 py-3 mb-6">
-                <Handshake className="w-5 h-5 text-white" />
-                <span className="text-sm font-medium text-white">Achats/Ventes de Biens</span>
-              </div>
+              <p className="plaque mb-6">Achats et ventes</p>
               <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white">
-                Achats & <span className="gradient-text">Ventes</span>
+                Achats & <span className="gradient-text-light">Ventes</span>
               </h1>
               <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
                 N'oubliez pas votre syndic pour la vente de votre bien ! Accompagnement de A à Z 
@@ -83,16 +115,16 @@ const AchatsVentes = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" asChild className="hover-glow">
-                  <Link to="/contact">
+                  <Lien to="/contact">
                     Échanger sur votre projet
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Link>
+                    <ArrowRight aria-hidden className="ml-2 w-5 h-5" />
+                  </Lien>
                 </Button>
                 <Button size="lg" variant="outline" className="glass border-primary/30" asChild>
-                  <Link to="/contact">
-                    <Phone className="mr-2 w-5 h-5" />
+                  <Lien to="/contact">
+                    <Phone aria-hidden className="mr-2 w-5 h-5" />
                     01.42.25.78.24
-                  </Link>
+                  </Lien>
                 </Button>
               </div>
             </div>
@@ -106,8 +138,8 @@ const AchatsVentes = () => {
               {/* Vente */}
               <div>
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
-                    <Key className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+                    <Key aria-hidden className="w-6 h-6 text-primary-foreground" />
                   </div>
                   <h2 className="text-3xl font-bold">
                     Vendre votre <span className="gradient-text">bien</span>
@@ -120,24 +152,24 @@ const AchatsVentes = () => {
                 <div className="space-y-3">
                   {servicesVente.map((service, index) => (
                     <div key={index} className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <CheckCircle aria-hidden className="w-5 h-5 text-primary-ink flex-shrink-0 mt-0.5" />
                       <span className="text-sm">{service}</span>
                     </div>
                   ))}
                 </div>
-                <Button className="mt-8 bg-green-500 hover:bg-green-600" asChild>
-                  <Link to="/contact">
+                <Button className="mt-8 bg-primary hover:bg-primary" asChild>
+                  <Lien to="/contact">
                     Vendre mon bien
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Link>
+                    <ArrowRight aria-hidden className="ml-2 w-4 h-4" />
+                  </Lien>
                 </Button>
               </div>
 
               {/* Achat */}
               <div>
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
-                    <Search className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center">
+                    <Search aria-hidden className="w-6 h-6 text-white" />
                   </div>
                   <h2 className="text-3xl font-bold">
                     Acheter un <span className="gradient-text">bien</span>
@@ -150,16 +182,16 @@ const AchatsVentes = () => {
                 <div className="space-y-3">
                   {servicesAchat.map((service, index) => (
                     <div key={index} className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                      <CheckCircle aria-hidden className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                       <span className="text-sm">{service}</span>
                     </div>
                   ))}
                 </div>
-                <Button className="mt-8 bg-blue-500 hover:bg-blue-600" asChild>
-                  <Link to="/contact">
+                <Button variant="secondary" className="mt-8" asChild>
+                  <Lien to="/contact">
                     Trouver mon bien
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Link>
+                    <ArrowRight aria-hidden className="ml-2 w-4 h-4" />
+                  </Lien>
                 </Button>
               </div>
             </div>
@@ -183,7 +215,7 @@ const AchatsVentes = () => {
                 return (
                   <Card key={index} className="glass-strong p-6 text-center hover-lift border-0 shadow-card">
                     <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
-                      <Icon className="w-8 h-8 text-primary-foreground" />
+                      <Icon aria-hidden className="w-8 h-8 text-primary-foreground" />
                     </div>
                     <h3 className="font-semibold mb-2">{step.title}</h3>
                     <p className="text-sm text-muted-foreground">{step.description}</p>
@@ -205,27 +237,27 @@ const AchatsVentes = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="glass-strong p-8 text-center border-0 shadow-card">
                 <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-6">
-                  <Users className="w-8 h-8 text-primary-foreground" />
+                  <Users aria-hidden className="w-8 h-8 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">Réseau Exclusif</h3>
+                <h3 className="mb-4 text-xl font-semibold">Syndic et vendeur</h3>
                 <p className="text-muted-foreground">
-                  Accès privilégié à un portefeuille de biens non diffusés publiquement
+                  Nous administrons des immeubles que nous vendons aussi : charges, travaux votés, procédures en cours, le dossier est connu avant l'acquéreur
                 </p>
               </Card>
               <Card className="glass-strong p-8 text-center border-0 shadow-card">
-                <div className="w-16 h-16 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-6">
-                  <Handshake className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-6">
+                  <Handshake aria-hidden className="w-8 h-8 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">Négociation Experte</h3>
+                <h3 className="text-xl font-semibold mb-4">Négociation experte</h3>
                 <p className="text-muted-foreground">
                   Optimisation des conditions d'achat et de vente grâce à notre expertise
                 </p>
               </Card>
               <Card className="glass-strong p-8 text-center border-0 shadow-card">
-                <div className="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center mx-auto mb-6">
-                  <FileCheck className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 bg-secondary rounded-xl flex items-center justify-center mx-auto mb-6">
+                  <FileCheck aria-hidden className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">Sécurité Juridique</h3>
+                <h3 className="text-xl font-semibold mb-4">Sécurité juridique</h3>
                 <p className="text-muted-foreground">
                   Vérifications approfondies et accompagnement juridique complet
                 </p>
@@ -246,59 +278,22 @@ const AchatsVentes = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" asChild className="hover-glow">
-                  <Link to="/contact">
-                    <Phone className="mr-2 w-5 h-5" />
+                  <Lien to="/contact">
+                    <Phone aria-hidden className="mr-2 w-5 h-5" />
                     01.42.25.78.24
-                  </Link>
+                  </Lien>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link to="/contact">
+                  <Lien to="/contact">
                     Prendre rendez-vous
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Link>
+                    <ArrowRight aria-hidden className="ml-2 w-5 h-5" />
+                  </Lien>
                 </Button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Quick Actions */}
-        <section className="py-16 bg-gradient-subtle">
-          <div className="container mx-auto px-6">
-            <div className="glass rounded-2xl p-8 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold text-center mb-6">Actions rapides</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <Link to="/contact">
-                    <MessageSquare className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Échanger sur votre projet</div>
-                      <div className="text-sm text-muted-foreground">Achat ou vente</div>
-                    </div>
-                  </Link>
-                </Button>
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <Link to="/services/estimation-biens">
-                    <Calculator className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Estimation gratuite</div>
-                      <div className="text-sm text-muted-foreground">Évaluez votre bien</div>
-                    </div>
-                  </Link>
-                </Button>
-                <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3" asChild>
-                  <a href="tel:0142257824">
-                    <Phone className="w-8 h-8 text-primary" />
-                    <div className="text-center">
-                      <div className="font-semibold">Appel direct</div>
-                      <div className="text-sm text-muted-foreground">01.42.25.78.24</div>
-                    </div>
-                  </a>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </div>

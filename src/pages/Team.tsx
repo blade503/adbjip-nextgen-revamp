@@ -1,62 +1,61 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import SEOHead from '@/components/SEOHead';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Users, Mail, Phone, Linkedin, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import florentImage from '@/assets/equipe-florent-jobard.webp';
+import francisImage from '@/assets/equipe-francis-jobard.webp';
+import florentImage440 from '@/assets/equipe-florent-jobard-440.webp';
+import francisImage440 from '@/assets/equipe-francis-jobard-440.webp';
+
+/* Deux largeurs : les portraits s'affichent à ~340 px sur une colonne, jamais
+   plus de 700. Le 440 px pèse 8,7 Ko contre 20,2 Ko pour le 700. */
+const JEUX_PORTRAITS: Record<string, string> = {
+  [florentImage]: `${florentImage440} 440w, ${florentImage} 700w`,
+  [francisImage]: `${francisImage440} 440w, ${francisImage} 700w`,
+};
+import { Lien } from '@/components/systeme/Lien';
 
 const Team = () => {
+  // Uniquement les personnes réellement présentes dans l'agence — les deux
+  // autres profils étaient inventés, avec des adresses e-mail qui n'existent
+  // pas. À compléter par le client, pas par le code.
   const team = [
     {
       name: "Florent Jobard",
+      photo: florentImage,
       role: "Directeur Général",
-      location: "143, Rue Saint Denis - 75002 Paris",
       phone: "06.62.91.73.35",
       email: "j.immo.p@orange.fr",
       specialties: ["Gestion Locative", "Négociation", "Développement Commercial"],
-      description: "Plus de 20 ans d'expérience dans l'immobilier parisien, expert en gestion locative et négociation."
+      description: "Dirige Jobard Immobilier Patrimoine, qui porte la transaction, l'achat-vente et l'estimation."
     },
     {
       name: "Francis Jobard",
+      photo: francisImage,
       role: "Directeur des Copropriétés",
-      location: "27, Rue de Lisbonne - 75008 Paris",
       phone: "01.42.25.78.24",
       email: "copro@adbjip.fr",
       specialties: ["Gestion de Copropriété", "Conseil Juridique", "Assemblées Générales"],
-      description: "Spécialiste reconnu en droit de la copropriété avec une expertise approfondie des réglementations."
+      description: "Préside J.I.P. et suit personnellement les copropriétés : assemblées générales, travaux, comptes."
     },
-    {
-      name: "Marie Dubois",
-      role: "Responsable Gestion Locative",
-      location: "27, Rue de Lisbonne - 75008 Paris",
-      phone: "01.42.25.78.24",
-      email: "gerance@adbjip.fr",
-      specialties: ["Relations Locataires", "États des Lieux", "Contentieux"],
-      description: "Experte en relations locatives et résolution de conflits, garante de la sérénité de nos propriétaires."
-    },
-    {
-      name: "Antoine Martin",
-      role: "Expert en Estimation",
-      location: "27, Rue de Lisbonne - 75008 Paris",
-      phone: "01.42.25.78.24",
-      email: "estimation@adbjip.fr",
-      specialties: ["Évaluation Immobilière", "Analyse de Marché", "Conseil en Investissement"],
-      description: "Analyste du marché immobilier parisien, spécialiste des estimations précises et argumentées."
-    }
   ];
 
   return (
     <div className="min-h-screen">
+      <SEOHead
+        title="Notre équipe — JIP, Jobard Immobilier Paris"
+        description="Les interlocuteurs de l'agence JIP pour la gestion de votre bien et le syndic de votre copropriété, à Paris 8ᵉ."
+        canonicalUrl="https://www.adbjip.fr/equipe"
+      />
       <Header />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         {/* Hero Section */}
         <section className="pt-32 pb-16 bg-gradient-subtle">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-6">
-                <Users className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium text-primary">Notre Équipe</span>
-              </div>
+              <p className="plaque mb-6">Notre équipe</p>
               <h1 className="text-5xl md:text-7xl font-bold mb-6">
                 Rencontrez notre <span className="gradient-text">équipe</span>
               </h1>
@@ -75,21 +74,31 @@ const Team = () => {
               {team.map((member, index) => (
                 <Card key={index} className="glass-strong p-8 hover-lift border-0 shadow-card">
                   <div className="flex items-start space-x-6">
-                    <div className="w-24 h-24 bg-primary rounded-2xl flex items-center justify-center flex-shrink-0">
-                      <Users className="w-12 h-12 text-primary-foreground" />
+                    <div className="h-28 w-24 flex-shrink-0 overflow-hidden rounded-2xl bg-muted">
+                      <img
+                        src={member.photo}
+                        srcSet={JEUX_PORTRAITS[member.photo]}
+                        sizes="(min-width: 768px) 45vw, 100vw"
+                        alt={`${member.name}, ${member.role.toLowerCase()}`}
+                        width={700}
+                        height={875}
+                        className="h-full w-full object-cover object-top"
+                        loading="lazy"
+                        decoding="async"
+                      />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                      <p className="text-primary font-semibold mb-3">{member.role}</p>
+                      <h2 className="text-xl font-bold mb-1">{member.name}</h2>
+                      <p className="mb-3 font-semibold text-primary-ink">{member.role}</p>
                       <p className="text-muted-foreground text-sm mb-4">{member.description}</p>
                       
                       <div className="space-y-2 mb-4">
                         <div className="flex items-center space-x-2 text-sm">
-                          <Phone className="w-4 h-4 text-primary" />
+                          <Phone aria-hidden className="w-4 h-4 text-primary-ink" />
                           <span>{member.phone}</span>
                         </div>
                         <div className="flex items-center space-x-2 text-sm">
-                          <Mail className="w-4 h-4 text-primary" />
+                          <Mail aria-hidden className="w-4 h-4 text-primary-ink" />
                           <span>{member.email}</span>
                         </div>
                       </div>
@@ -98,7 +107,7 @@ const Team = () => {
                         <p className="text-xs text-muted-foreground mb-2">Spécialités :</p>
                         <div className="flex flex-wrap gap-2">
                           {member.specialties.map((specialty, idx) => (
-                            <span key={idx} className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
+                            <span key={idx} className="rounded-[2px] bg-primary/10 px-2 py-1 text-xs font-medium text-primary-ink">
                               {specialty}
                             </span>
                           ))}
@@ -126,7 +135,7 @@ const Team = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <Card className="glass-strong p-6 text-center border-0 shadow-card">
                   <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <Users className="w-8 h-8 text-primary-foreground" />
+                    <Users aria-hidden className="w-8 h-8 text-primary-foreground" />
                   </div>
                   <h3 className="font-semibold mb-3">Esprit d'équipe</h3>
                   <p className="text-sm text-muted-foreground">
@@ -135,8 +144,8 @@ const Team = () => {
                 </Card>
                 
                 <Card className="glass-strong p-6 text-center border-0 shadow-card">
-                  <div className="w-16 h-16 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <ArrowRight className="w-8 h-8 text-white" />
+                  <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <ArrowRight aria-hidden className="w-8 h-8 text-primary-foreground" />
                   </div>
                   <h3 className="font-semibold mb-3">Innovation</h3>
                   <p className="text-sm text-muted-foreground">
@@ -145,8 +154,8 @@ const Team = () => {
                 </Card>
                 
                 <Card className="glass-strong p-6 text-center border-0 shadow-card">
-                  <div className="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <Phone className="w-8 h-8 text-white" />
+                  <div className="w-16 h-16 bg-secondary rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <Phone aria-hidden className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="font-semibold mb-3">Proximité</h3>
                   <p className="text-sm text-muted-foreground">
@@ -170,16 +179,16 @@ const Team = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" asChild className="hover-glow">
-                  <Link to="/contact">
-                    <Phone className="mr-2 w-5 h-5" />
+                  <Lien to="/contact">
+                    <Phone aria-hidden className="mr-2 w-5 h-5" />
                     Nous contacter
-                  </Link>
+                  </Lien>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link to="/services/gestion-locative">
+                  <Lien to="/services/gestion-locative">
                     Découvrir nos services
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Link>
+                    <ArrowRight aria-hidden className="ml-2 w-5 h-5" />
+                  </Lien>
                 </Button>
               </div>
             </div>

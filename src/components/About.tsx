@@ -1,139 +1,106 @@
-import { Card } from '@/components/ui/card';
+import { ArrowRight } from 'lucide-react';
+
+import EnTeteSection from '@/components/systeme/EnTeteSection';
+import { Calage, Voile } from '@/components/systeme/Ouverture';
 import { Button } from '@/components/ui/button';
-import { 
-  Target, 
-  Heart, 
-  Shield, 
-  Zap,
-  ArrowRight,
-  Quote
-} from 'lucide-react';
+import { ENTITES } from '@/config/legal';
+import bureauImage from '@/assets/agence-bureau.webp';
+import bureauImage800 from '@/assets/agence-bureau-800.webp';
 
+/* Deux largeurs : l'image accompagne une colonne 7/12, elle ne dépasse jamais
+   ~760 px. Le 1200 px pesait 111 Ko pour rien sous cette largeur. */
+const bureauJeu = `${bureauImage800} 800w, ${bureauImage} 1200w`;
+import { Lien } from '@/components/systeme/Lien';
+
+/**
+ * L'AGENCE.
+ *
+ * La travée est asymétrique — 5 / 7 — et non deux moitiés égales : deux colonnes
+ * de même largeur n'établissent aucune hiérarchie, et c'est le réglage par
+ * défaut de toutes les grilles. Ici le texte porte, l'image accompagne.
+ *
+ * Les deux dirigeants sont nommés, avec leur société et leur métier, repris de
+ * `src/config/legal.ts` — donc du registre national des entreprises. C'est le
+ * seul argument de confiance qu'une maison familiale de quinze ans peut avancer
+ * sans inventer de chiffre, et c'est plus fort qu'un compteur de biens gérés :
+ * un propriétaire qui confie un lot veut savoir à qui il le confie.
+ */
 const About = () => {
-  const values = [
-    {
-      icon: Target,
-      title: "Excellence",
-      description: "Nous visons l'excellence dans chaque mission pour garantir votre satisfaction."
-    },
-    {
-      icon: Heart,
-      title: "Confiance",
-      description: "Relations basées sur la transparence et l'écoute de vos besoins spécifiques."
-    },
-    {
-      icon: Shield,
-      title: "Sécurité",
-      description: "Transactions sécurisées avec un accompagnement juridique complet."
-    },
-    {
-      icon: Zap,
-      title: "Réactivité",
-      description: "Réponses rapides et solutions efficaces pour tous vos projets immobiliers."
-    }
-  ];
-
   return (
-    <section id="about" className="py-24 bg-gradient-subtle relative overflow-hidden">
-      {/* Floating Elements for Visual Appeal */}
-      <div className="absolute top-20 right-20 w-32 h-32 bg-primary/5 rounded-full blur-3xl animate-float hidden lg:block"></div>
-      <div className="absolute bottom-32 left-32 w-24 h-24 bg-primary-glow/10 rounded-full blur-2xl animate-float hidden lg:block" style={{animationDelay: '2s'}}></div>
-      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-primary/8 rounded-full blur-xl animate-float hidden lg:block" style={{animationDelay: '4s'}}></div>
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left Content */}
-          <div>
-            <div className="inline-flex items-center space-x-2 bg-white/30 backdrop-blur-md border border-white/40 rounded-full px-6 py-3 mb-6">
-              <span className="text-sm font-medium text-white">Qui sommes-nous ?</span>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Une équipe <span className="gradient-text">jeune et dynamique</span>
-            </h2>
-            
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              JIP réunit une équipe de professionnels passionnés par l'immobilier parisien. 
-              Notre approche moderne et notre expertise reconnue nous permettent de vous accompagner 
-              efficacement dans tous vos projets.
-            </p>
+    <section id="agence" className="bg-background py-20 lg:py-28">
+      <div className="container mx-auto">
+        <EnTeteSection
+          plaque="L'agence"
+          titre="Les mêmes personnes, depuis 2011"
+          chapeau="Deux sociétés, une famille, un bureau. Le dossier de gérance et le dossier de syndic du même immeuble sont tenus dans la même pièce — c'est ce qui fait qu'un appel trouve une réponse au lieu d'un transfert."
+        />
 
-            <div className="glass-strong rounded-xl p-8 mb-8 border-l-4 border-primary shadow-elegant">
-              <Quote className="w-10 h-10 text-primary mb-4" />
-              <blockquote className="text-lg font-medium mb-4">
-                "Notre mission est de transformer chaque projet immobilier en succès, 
-                en alliant expertise technique et relation humaine de qualité."
-              </blockquote>
-              <cite className="text-sm text-muted-foreground">
-                — L'équipe JIP
-              </cite>
-            </div>
-
-            <Button size="lg" className="hover-glow">
-              Découvrir notre équipe
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </div>
-
-          {/* Right Content - Values */}
-          <div className="space-y-6">
-            <div className="text-center lg:text-left mb-8">
-              <h3 className="text-2xl font-bold mb-2">Nos valeurs fondamentales</h3>
-              <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto lg:mx-0"></div>
-            </div>
-            
-            {values.map((value, index) => {
-              const Icon = value.icon;
-              return (
-                <Card 
-                  key={value.title}
-                  className="glass-strong p-6 hover-lift group border border-primary/10 shadow-elegant"
-                  style={{animationDelay: `${index * 0.1}s`}}
+        {/* `items-center` et non `items-start` : la colonne de texte est plus
+            courte que la photographie, et alignée en haut elle laissait 350 px
+            de vide sous le bouton. Centrée, le blanc se répartit de part et
+            d'autre et se lit comme une composition au lieu d'un trou. */}
+        <div className="mt-16 grid items-center gap-x-16 gap-y-12 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            {/* Le registre des dirigeants. Filets horizontaux, chiffres
+                tabulaires, capitales espacées : la mise en page d'un extrait
+                Kbis plutôt que d'une carte « notre équipe » avec une photo
+                ronde et un titre inventé. */}
+            <dl className="border-t border-[hsl(var(--trait)/var(--trait-a))]">
+              {ENTITES.map((entite) => (
+                <div
+                  key={entite.siren}
+                  className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-5"
                 >
-                  <div className="flex items-start space-x-4">
-                    <div className="w-14 h-14 bg-gradient-primary rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-elegant">
-                      <Icon className="w-7 h-7 text-primary-foreground" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                        {value.title}
-                      </h4>
-                      <p className="text-muted-foreground leading-relaxed">
-                        {value.description}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Stats Section */}
-        <div className="mt-24">
-          <div className="glass rounded-2xl p-8 lg:p-12">
-            <h3 className="text-3xl font-bold text-center mb-12">
-              Nos chiffres parlent d'eux-mêmes
-            </h3>
-            
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                { number: "15+", label: "Années d'expérience", color: "text-blue-500" },
-                { number: "500+", label: "Biens gérés", color: "text-green-500" },
-                { number: "98%", label: "Clients satisfaits", color: "text-primary" },
-                { number: "24h", label: "Temps de réponse", color: "text-purple-500" }
-              ].map((stat, index) => (
-                <div key={stat.label} className="text-center">
-                  <div className={`text-4xl lg:text-5xl font-bold ${stat.color} mb-2`}>
-                    {stat.number}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {stat.label}
-                  </div>
+                  <dt className="font-display text-[1.0625rem] font-semibold">
+                    {entite.president}
+                  </dt>
+                  <dd className="mt-1.5 text-[0.875rem] leading-relaxed text-muted-foreground">
+                    {entite.role.replace(' — éditeur du site', '')}
+                  </dd>
+                  <dd className="tabulaire mt-2 font-display text-[0.625rem] uppercase tracking-[0.16em] text-muted-foreground">
+                    {entite.raisonSociale} · SIREN {entite.siren} · depuis{' '}
+                    {entite.dateCreation.replace('1er janvier ', '').replace('17 juin ', '')}
+                  </dd>
                 </div>
               ))}
-            </div>
+            </dl>
+
+            <Voile delai={120}>
+              <Button variant="outline" size="lg" className="mt-8" asChild>
+                <Lien to="/equipe">
+                  Rencontrer l'équipe
+                  <ArrowRight aria-hidden />
+                </Lien>
+              </Button>
+            </Voile>
           </div>
+
+          <Voile delai={60} className="lg:col-span-7">
+            <figure className="m-0">
+              <Calage className="cadre aspect-[3/2] w-full">
+                <div className="photo-editoriale h-full w-full">
+                  <img
+                    src={bureauImage}
+                    srcSet={bureauJeu}
+                    sizes="(min-width: 1024px) 58vw, 100vw"
+                    alt="Le bureau de l'agence : dossiers de gérance et de syndic, plans, vue sur la rue"
+                    width={1200}
+                    height={900}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              </Calage>
+              <figcaption className="mt-4 flex gap-3 text-[0.8125rem] leading-relaxed text-muted-foreground">
+                <span aria-hidden className="mt-[0.55rem] h-px w-6 shrink-0 bg-primary" />
+                <span>
+                  Le bureau, 27 rue de Lisbonne. Les dossiers de gérance et de syndic y sont
+                  tenus par les mêmes personnes.
+                </span>
+              </figcaption>
+            </figure>
+          </Voile>
         </div>
       </div>
     </section>
