@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Récupère le portefeuille d'annonces, le normalise vers data/biens.json et
- * rapatrie les photos en trois variantes dans public/biens/.
+ * rapatrie les photos en trois variantes dans public/biens/, converties en WebP.
  *
  * Deux sources derrière la même sortie :
  *   SOURCE=bienici (défaut) — endpoint public, sans clé
@@ -14,12 +14,35 @@
  *   SOURCE      bienici | gedeon        (défaut: bienici)
  *   GEDEON_KEY  clé API Gédéon          (requis si SOURCE=gedeon)
  *   FORCE=1     retélécharge les photos déjà présentes
+ *   SANS_WEBP=1 écrit les JPEG tels quels, sans conversion
  */
 
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+/**
+ * L'ENCODEUR EST OPTIONNEL, ET C'EST VOLONTAIRE.
+ *
+ * `sharp` est une devDependency : elle n'entre jamais dans le bundle du
+ * navigateur, et l'hébergement n'en a pas besoin — LWS ne reçoit que `dist/`
+ * par FTP. Les trois workflows font `npm ci` sans `--omit=dev`, donc le runner
+ * l'a. Mais un `import` sec ferait échouer le script partout où elle manque,
+ * et ce script a pour première règle de ne jamais vider la page /biens.
+ *
+ * En son absence : les JPEG sont écrits tels quels, avec un avertissement. Le
+ * portefeuille reste juste, seulement plus lourd.
+ */
+async function chargerEncodeur() {
+  if (process.env.SANS_WEBP === '1') return null;
+  try {
+    const { default: sharp } = await import('sharp');
+    return sharp;
+  } catch {
+    return null;
+  }
+}
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_FILE = path.join(ROOT, 'data', 'biens.json');
@@ -37,6 +60,30 @@ const VARIANTS = [
   { key: 'medium', w: 800, h: 600 },
   { key: 'large', w: 1200, h: null },
 ];
+
+/**
+ * WEBP q78, effort 6 — RÉGLAGE MESURÉ, PAS CHOISI PAR HABITUDE.
+ *
+ * Le service d'images de l'agence accepte un paramètre `format`, mais il
+ * l'IGNORE : `format=webp` et `format=avif` renvoient tous deux du JPEG,
+ * vérifié sur les trois largeurs (signature de fichier, pas en-tête). La
+ * conversion doit donc être locale.
+ *
+ * Relevé sur les 102 fichiers réels du portefeuille (9,37 Mo de JPEG) :
+ *
+ *     q72 effort 4 .... 4,65 Mo   −50,3 %   4,3 s
+ *     q78 effort 4 .... 5,38 Mo   −42,6 %   4,5 s
+ *     q78 effort 6 .... 5,19 Mo   −44,6 %   7,9 s   ← retenu
+ *     q82 effort 6 .... 6,08 Mo   −35,1 %   8,7 s
+ *
+ * q72 gagne 0,54 Mo de plus, soit ~5 Ko par image. On ne les prend pas : la
+ * source est déjà un JPEG de qualité 75, la conversion est donc une SECONDE
+ * passe avec perte, et ces photos servent à acheter un appartement. Comparaison
+ * de pixels faite sur la plus détaillée des « large » (feuillage, le cas le
+ * plus dur) : q78 et q72 sont indistinguables, q78 laisse la marge.
+ * Les 8 secondes sont payées une fois par nuit, par la tâche planifiée.
+ */
+const WEBP = { quality: 78, effort: 6 };
 
 // ---------------------------------------------------------------- utilitaires
 
@@ -340,9 +387,23 @@ function photoUrl(base, variant) {
 
 async function downloadPhotos(biens) {
   await mkdir(PHOTO_DIR, { recursive: true });
+  const encodeur = await chargerEncodeur();
+  // UNE SEULE EXTENSION POUR TOUTE L'EXÉCUTION. Décider par fichier rendrait le
+  // saut de téléchargement (`existsSync`) ambigu et le manifeste incohérent.
+  const ext = encodeur ? 'webp' : 'jpg';
+  if (!encodeur) {
+    log(
+      process.env.SANS_WEBP === '1'
+        ? 'SANS_WEBP=1 : photos écrites en JPEG.'
+        : '⚠ sharp introuvable — photos écrites en JPEG, sans conversion. ' +
+          '`npm ci` doit l\'installer (devDependency).',
+    );
+  }
   const expected = new Set();
   let downloaded = 0;
   let skipped = 0;
+  let octetsSource = 0;
+  let octetsEcrits = 0;
 
   for (const bien of biens) {
     const sources = bien.photos;
@@ -352,7 +413,7 @@ async function downloadPhotos(biens) {
       const entry = { alt: `${bien.title} — photo ${index + 1}` };
 
       for (const variant of VARIANTS) {
-        const name = `${refSlug(bien.reference)}-${index + 1}-${variant.key}.jpg`;
+        const name = `${refSlug(bien.reference)}-${index + 1}-${variant.key}.${ext}`;
         const dest = path.join(PHOTO_DIR, name);
         expected.add(name);
         entry[variant.key] = `/biens/${name}`;
@@ -362,7 +423,21 @@ async function downloadPhotos(biens) {
           continue;
         }
         const buffer = await fetchWithRetry(photoUrl(base, variant), { json: false });
-        await writeFile(dest, buffer);
+        octetsSource += buffer.length;
+        // Si la conversion échoue sur UNE image (fichier corrompu côté agence),
+        // on écrit l'original plutôt que de perdre la photo. Le nom reste en
+        // `.webp` : le type réel est déduit du contenu par le navigateur, et un
+        // JPEG servi sous ce nom s'affiche. Mieux qu'une image manquante.
+        let sortie = buffer;
+        if (encodeur) {
+          try {
+            sortie = await encodeur(buffer).webp(WEBP).toBuffer();
+          } catch (error) {
+            log(`⚠ conversion impossible pour ${name} : ${error.message} — JPEG conservé`);
+          }
+        }
+        octetsEcrits += sortie.length;
+        await writeFile(dest, sortie);
         downloaded += 1;
       }
       photos.push(entry);
@@ -373,7 +448,13 @@ async function downloadPhotos(biens) {
   }
 
   await pruneOrphans(expected);
-  log(`Photos : ${downloaded} téléchargée(s), ${skipped} déjà à jour`);
+  const gain =
+    octetsSource > 0
+      ? ` — ${(octetsSource / 1024 / 1024).toFixed(2)} Mo reçus, ` +
+        `${(octetsEcrits / 1024 / 1024).toFixed(2)} Mo écrits ` +
+        `(−${((1 - octetsEcrits / octetsSource) * 100).toFixed(1)} %)`
+      : '';
+  log(`Photos : ${downloaded} téléchargée(s), ${skipped} déjà à jour${gain}`);
 }
 
 /**
@@ -415,7 +496,10 @@ async function pruneOrphans(expected) {
   let removed = 0;
   for (const file of files) {
     if (expected.has(file)) continue;
-    if (!/\.(jpg|svg)$/i.test(file)) continue;
+    // `webp` ajouté le 27/08/2026 : sans lui, les anciens JPEG resteraient
+    // éternellement dans public/biens/ après le passage au WebP, et le
+    // répertoire doublerait de taille sans que rien ne le signale.
+    if (!/\.(jpe?g|webp|svg)$/i.test(file)) continue;
     await rm(path.join(PHOTO_DIR, file));
     removed += 1;
   }

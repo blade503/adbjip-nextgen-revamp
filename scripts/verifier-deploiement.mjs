@@ -62,7 +62,9 @@ await controle('Contenu prérendu présent dans le HTML', async () => {
 
 await controle('Photos des annonces', async () => {
   const html = await (await recuperer('/biens')).text();
-  const photo = html.match(/src="([^"]*\/biens\/[^"]+\.jpg)"/);
+  // Les deux extensions : le portefeuille est passé au WebP le 27/08/2026, mais
+  // une préversion plus ancienne peut encore servir des JPEG.
+  const photo = html.match(/src="([^"]*\/biens\/[^"]+\.(?:jpe?g|webp))"/);
   if (!photo) return { ok: false, detail: 'aucune photo référencée' };
   const r = await recuperer(photo[1]);
   return { ok: r.ok, detail: `${photo[1]} → HTTP ${r.status}` };
