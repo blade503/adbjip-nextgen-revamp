@@ -452,6 +452,16 @@ en mémoire, donc de retarder la nouvelle.
   `/biens/truc` → **404** avec la page de marque ; `/biens` sans barre finale → 200 et
   **zéro redirection** ; HTML en `no-cache` gzippé (71 505 → 14 360 octets), actifs empreintés
   en `immutable` un an, sitemap à 1 h.
+- **LWS place un cache de périphérie devant Apache, et il ignore le `no-cache`.**
+  Relevé le 27/08/2026 : `/agence`, route créée par le déploiement, répondait **404 à `fetch` et
+  200 à `curl` au même instant** — `x-cache-status: HIT`, `edge-cache-engine-mode: ACTIVE`, et un
+  `last-modified` antérieur au déploiement. La clé inclut `Accept-Encoding`, d'où deux réponses
+  pour une seule URL. Ni `Cache-Control: no-cache` ni `Pragma: no-cache` en requête n'y changent
+  quoi que ce soit, testés ; le `Cache-Control` de réponse du `.htaccess` non plus, ni un
+  `last-modified` plus récent. Seul un paramètre de requête unique change la clé.
+  **Vider le cache dans le panneau LWS fait partie de la bascule** — voir REPRISE.md § 13,
+  étape 8b. `npm run verifier` distingue désormais « déploiement raté » de « cache périmé » : il
+  interroge les URL nues et, en cas d'échec, redemande hors cache pour nommer la cause.
 - **Le CSS n'a rien à découper par route, mesuré.** `cssCodeSplit` est déjà à sa valeur par
   défaut (`true`) et n'émet qu'un fichier : tout le CSS vient d'un unique `import './index.css'`
   dans l'entrée, et les onze morceaux de route n'importent aucun style propre. Couverture réelle

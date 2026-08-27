@@ -35,6 +35,56 @@ async function controle(intitule, executer, { essentiel = true } = {}) {
 
 const recuperer = (chemin, options) => fetch(`${base}${chemin}`, options);
 
+/**
+ * LWS A UN CACHE DE PÉRIPHÉRIE QUI PEUT SERVIR UN 404 PÉRIMÉ, ET IL NE
+ * RESPECTE PAS LE `no-cache`. Relevé le 27/08/2026, en clair dans les en-têtes :
+ *
+ *     x-cache-status: HIT
+ *     edge-cache-engine-mode: ACTIVE
+ *     last-modified: (antérieur au déploiement)
+ *
+ * Le cas exact : `/agence`, créé par le déploiement, répondait 404 à `fetch` et
+ * 200 à `curl` AU MÊME INSTANT. La clé du cache inclut `Accept-Encoding` —
+ * undici demande `gzip, deflate` et tombait sur l'entrée périmée, curl demandait
+ * autre chose et passait à travers.
+ *
+ * Ce qui NE marche pas, testé : `Cache-Control: no-cache` et `Pragma: no-cache`
+ * en en-tête de requête sont ignorés, le HIT est servi quand même. Et le
+ * `.htaccess` envoie déjà `Cache-Control: no-cache, must-revalidate` en réponse,
+ * que ce cache ignore aussi.
+ *
+ * Ce qui marche : un paramètre de requête unique, qui change la clé.
+ *
+ * ON NE S'EN SERT PAS POUR MASQUER LE PROBLÈME. Les contrôles interrogent les
+ * URL NUES, celles que les visiteurs demandent. Cette fonction ne sert qu'au
+ * DIAGNOSTIC : quand une URL nue échoue, on redemande la même en contournant le
+ * cache. Si elle réussit alors, le déploiement est bon et c'est le cache qu'il
+ * faut vider — un message très différent d'un déploiement raté.
+ */
+const CACHE_BUSTER = `_cb=${Date.now().toString(36)}${Math.floor(Math.random() * 1e6)}`;
+const recupererHorsCache = (chemin, options) =>
+  fetch(`${base}${chemin}${chemin.includes('?') ? '&' : '?'}${CACHE_BUSTER}`, options);
+
+/**
+ * Diagnostic d'un chemin qui vient d'échouer : l'échec vient-il du cache ?
+ * Renvoie un complément de message, vide si le cache n'est pas en cause.
+ */
+async function diagnostiquerCache(chemin) {
+  try {
+    const nu = await recuperer(chemin, { redirect: 'manual' });
+    const frais = await recupererHorsCache(chemin, { redirect: 'manual' });
+    if (nu.status === frais.status) return '';
+    return (
+      ` — CACHE DE PÉRIPHÉRIE : l'URL nue répond ${nu.status} ` +
+      `(x-cache-status: ${nu.headers.get('x-cache-status') || '—'}) ` +
+      `mais ${frais.status} en contournant le cache. Le déploiement est bon : ` +
+      `vider le cache LWS.`
+    );
+  } catch {
+    return '';
+  }
+}
+
 console.log(`\nContrôle de ${base}\n`);
 
 // Une URL profonde ouverte directement : c'est ce que fait un visiteur qui
@@ -175,7 +225,10 @@ const REDIRECTIONS = [
 await controle('/agence sert la page de l\'agence', async () => {
   const reponse = await recuperer('/agence', { redirect: 'manual' });
   if (reponse.status !== 200) {
-    return { ok: false, detail: `HTTP ${reponse.status} au lieu de 200` };
+    return {
+      ok: false,
+      detail: `HTTP ${reponse.status} au lieu de 200${await diagnostiquerCache('/agence')}`,
+    };
   }
   const html = await reponse.text();
   return {
@@ -183,6 +236,46 @@ await controle('/agence sert la page de l\'agence', async () => {
     detail: `HTTP 200, ${(html.length / 1024).toFixed(0)} ko`,
   };
 });
+
+/**
+ * Le cache de périphérie, contrôlé pour lui-même et sur les DIX routes.
+ *
+ * Non essentiel : il ne fait pas échouer un déploiement, parce que ce n'est pas
+ * le déploiement qui est en cause. Mais il doit se voir, parce qu'un visiteur
+ * peut recevoir la réponse périmée alors que tous les autres contrôles passent.
+ */
+await controle(
+  'Cache de périphérie — aucune réponse périmée',
+  async () => {
+    const routes = [
+      '/',
+      '/biens',
+      '/services/gestion-locative',
+      '/services/gestion-copropriete',
+      '/services/estimation-biens',
+      '/services/achats-ventes',
+      '/agence',
+      '/contact',
+      '/mentions-legales',
+      '/equipe',
+    ];
+    const perimees = [];
+    for (const route of routes) {
+      const nu = await recuperer(route, { redirect: 'manual' });
+      const frais = await recupererHorsCache(route, { redirect: 'manual' });
+      if (nu.status !== frais.status) {
+        perimees.push(`${route} (${nu.status} au lieu de ${frais.status})`);
+      }
+    }
+    return {
+      ok: perimees.length === 0,
+      detail: perimees.length
+        ? `${perimees.length} route(s) périmée(s) : ${perimees.join(', ')} — vider le cache LWS`
+        : `${routes.length} routes cohérentes`,
+    };
+  },
+  { essentiel: false },
+);
 
 for (const [ancienne, attendue] of REDIRECTIONS) {
   await controle(`301 ${ancienne} → ${attendue}`, async () => {

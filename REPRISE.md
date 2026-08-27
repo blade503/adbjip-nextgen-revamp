@@ -921,6 +921,51 @@ temps du test.
 5. **Passer le site principal en PHP 8.3** (il est en 5.6 pour le Symfony).
 6. **Clé Gédéon** — non bloquant, Bien'ici dépanne.
 
+### Le cache de périphérie de LWS — piège majeur, relevé le 27/08/2026
+
+**LWS place un cache devant Apache, et il ne respecte pas le `no-cache`.**
+En-têtes relevés en clair sur `preprod.adbjip.fr` :
+
+```
+x-cache-status: HIT
+edge-cache-engine-mode: ACTIVE
+last-modified: (antérieur au déploiement)
+```
+
+Le cas exact, reproduit six fois de suite : `/agence`, créé par le déploiement,
+répondait **404 à `fetch` et 200 à `curl`, au même instant**. La clé du cache
+inclut `Accept-Encoding` — undici demande `gzip, deflate` et tombait sur
+l'entrée périmée, curl demandait autre chose et passait à travers. Deux
+visiteurs, deux réponses, pour la même URL.
+
+Ce qui NE marche pas, testé un par un :
+
+| Tentative | Résultat |
+|---|---|
+| `Cache-Control: no-cache` en requête | ignoré, HIT servi |
+| `Pragma: no-cache` en requête | ignoré, HIT servi |
+| `Cache-Control: no-cache, must-revalidate` en réponse (déjà dans `.htaccess`) | ignoré |
+| `last-modified` du fichier plus récent que l'entrée | ne déclenche aucune revalidation |
+| `Accept-Encoding: identity` ou `br` | MISS, réponse fraîche — mais c'est un contournement, pas une purge |
+| paramètre de requête unique | MISS, réponse fraîche |
+
+**Conséquences pour la bascule en production, à ne pas découvrir le jour J :**
+
+1. Après un envoi FTP, une route **nouvellement créée** peut répondre 404 à une
+   partie des visiteurs pendant la durée de vie de l'entrée en cache.
+2. Symétriquement, l'ancien contenu peut continuer d'être servi après la
+   bascule. C'est le risque le plus grave : le Symfony éteint pourrait rester
+   visible pour certains clients.
+3. **Vider le cache dans le panneau LWS fait partie de la bascule**, juste après
+   l'envoi et avant toute vérification. À ajouter entre les étapes 8 et 9.
+
+`npm run verifier` sait maintenant faire la différence : il interroge les URL
+**nues**, celles que les visiteurs demandent, et quand l'une échoue il redemande
+la même en contournant le cache. Si elle réussit alors, le message le dit —
+« le déploiement est bon : vider le cache LWS » — au lieu de laisser croire à un
+déploiement raté. Un contrôle non essentiel balaie en plus les dix routes pour
+signaler toute réponse périmée.
+
 ### Liste de contrôle de bascule
 
 À faire dans cet ordre. Chaque ligne indique **comment revenir en arrière**.
@@ -935,6 +980,7 @@ temps du test.
 | 6 | Passer le site principal en PHP 8.3 (panneau LWS) | `htdocs/` répond encore ; l'ancien Symfony va casser, c'est attendu | Repasser en 5.6 : le Symfony revient |
 | 7 | Créer le compte FTP de production (« Répertoire » vide) et renseigner les trois secrets | Un run `cible: production` en mode « dry run » si disponible, sinon vérifier les identifiants au client FTP | Supprimer le compte FTP |
 | 8 | Déployer sur **production** (`workflow_dispatch`, `cible: production`) | `npm run verifier https://www.adbjip.fr` → 14/14 | **Le point de non-retour du contenu.** Restaurer `.quarantaine/` par FTP ; `JIPV3/` et `vendor/` n'ont pas été touchés, l'ancien site redevient servable |
+| 8b | **Vider le cache de périphérie dans le panneau LWS** | `npm run verifier` ne signale plus de route périmée | Sans objet : c'est une purge |
 | 9 | Vérifier les quatre 301 une par une sur le domaine réel | Les quatre contrôles `301 …` du vérificateur | Corriger `.htaccess` et renvoyer le seul fichier |
 | 10 | Vérifier `https://www.adbjip.fr/googlea5ff7faf806fdf23.html` | HTTP 200 | Le renvoyer par FTP depuis `public/` |
 | 11 | Search Console : soumettre `https://www.adbjip.fr/sitemap.xml`, demander l'indexation des six anciennes URL | Le sitemap est accepté, 9 URL lues | Sans objet |
