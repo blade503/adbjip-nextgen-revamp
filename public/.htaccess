@@ -27,9 +27,14 @@ RewriteRule ^(.*)$ https://www.adbjip.fr/$1 [L,R=301]
 
 # --- Redirections depuis l'ancien site Symfony ------------------------------
 # Les URL de 2017 sont indexées depuis huit ans : elles doivent conduire à la
-# page équivalente, pas à une erreur. Piège : /about était la page contact de
-# l'ancien site, alors que /about existe aussi dans la refonte avec un tout
-# autre contenu — d'où la redirection vers /contact.
+# page équivalente, pas à une erreur.
+#
+# /about était la page CONTACT de l'ancien site, d'où sa redirection vers
+# /contact. Cette URL était aussi, jusqu'au 27/08/2026, la page « L'agence » de
+# la refonte : la redirection masquait donc une page réelle du site, prérendue,
+# déclarée au sitemap et cible du lien « L'agence » du menu. Relevé sur la
+# préversion, pas déduit. La page a été déplacée sur /agence ; il n'y a plus de
+# collision. NE PAS recréer de route /about.
 #
 # Ces quatre lignes emploient `Redirect` (mod_alias) et non `RewriteRule`.
 # Vérifié en local : mod_alias agit avant les règles de `.htaccess`, les quatre

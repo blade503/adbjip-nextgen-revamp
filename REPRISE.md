@@ -58,7 +58,23 @@ Entités Doctrine : `Annonce` (title, description, **link** sortant, image),
 | `/gerer-bien` | `/services/gestion-locative` |
 | `/gerer-copropriete` | `/services/gestion-copropriete` |
 | `/estimation` | `/services/estimation-biens` |
-| `/about` | **`/contact`** — piège : `/about` existe dans le revamp mais avec un autre contenu |
+| `/about` | **`/contact`** — l'ancienne page contact. La collision est réglée : voir ci-dessous |
+
+**Le piège `/about` a été supprimé à la source le 27/08/2026.** Cette URL était à la
+fois la redirection héritée ci-dessus ET la page « L'agence » de la refonte —
+prérendue, déclarée au sitemap, canonique sur `/about`, et cible du lien
+« L'agence » de l'en-tête et du pied de page. **Relevé sur la préversion réelle,
+pas déduit** : la redirection masquait la page. En navigation interne React Router
+l'affichait, mais au rechargement, en accès direct, depuis un moteur ou par un lien
+partagé, on atterrissait sur `/contact` — et Google recevait une URL de sitemap qui
+redirige, donc une page jamais indexée. `npm run verifier` ne le voyait pas : il
+**validait** la redirection, une attente devenue fausse.
+
+La page a été déplacée sur **`/agence`**, qui est aussi le seul chemin du site qui
+n'était pas en français. La redirection héritée reste inchangée, l'URL de 2017 garde
+son intention, et un contrôle « /agence sert la page de l'agence » a été ajouté au
+vérificateur pour qu'une collision réintroduite ne passe plus inaperçue.
+**Ne pas recréer de route `/about`.**
 
 ### Régressions à corriger avant mise en ligne
 

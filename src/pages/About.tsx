@@ -92,7 +92,7 @@ const About = () => {
         title="L'agence — JIP, Jobard Immobilier Paris"
         description="Deux métiers sous le même toit depuis 2011 : gestion locative et syndic de copropriété, au 27 rue de Lisbonne dans le 8e arrondissement de Paris."
         keywords="agence immobilière paris 8, jobard immobilier paris, syndic et gérance, agence indépendante"
-        canonicalUrl="https://www.adbjip.fr/about"
+        canonicalUrl="https://www.adbjip.fr/agence"
       />
       <Header />
       <main id="contenu" tabIndex={-1}>

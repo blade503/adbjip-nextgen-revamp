@@ -78,7 +78,7 @@ const Header = () => {
     { nom: 'Gérance', nomLong: 'Gérance locative', href: '/services/gestion-locative' },
     { nom: 'Copropriété', nomLong: 'Syndic de copropriété', href: '/services/gestion-copropriete' },
     { nom: 'Biens', nomLong: 'Biens à vendre', href: '/biens' },
-    { nom: 'Agence', nomLong: "L'agence", href: '/about' },
+    { nom: 'Agence', nomLong: "L'agence", href: '/agence' },
     { nom: 'Contact', nomLong: 'Contact', href: '/contact' },
   ];
 

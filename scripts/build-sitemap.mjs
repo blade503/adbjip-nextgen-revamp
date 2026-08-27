@@ -53,7 +53,7 @@ const SOURCES = {
   '/services/gestion-copropriete': 'src/pages/services/GestionCopropriete.tsx',
   '/services/estimation-biens': 'src/pages/services/EstimationBiens.tsx',
   '/services/achats-ventes': 'src/pages/services/AchatsVentes.tsx',
-  '/about': 'src/pages/About.tsx',
+  '/agence': 'src/pages/About.tsx',
   '/contact': 'src/pages/Contact.tsx',
   '/equipe': 'src/pages/Team.tsx',
 };

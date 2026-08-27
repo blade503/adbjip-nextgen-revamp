@@ -29,7 +29,7 @@ const Footer = () => {
   const pages = [
     { nom: 'Accueil', href: '/' },
     { nom: 'Le portefeuille', href: '/biens' },
-    { nom: "L'agence", href: '/about' },
+    { nom: "L'agence", href: '/agence' },
     { nom: "L'équipe", href: '/equipe' },
     { nom: 'Contact', href: '/contact' },
   ];

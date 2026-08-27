@@ -76,7 +76,7 @@ const App = () => (
         <Route path="/services/gestion-copropriete" element={<GestionCopropriete />} />
         <Route path="/services/estimation-biens" element={<EstimationBiens />} />
         <Route path="/services/achats-ventes" element={<AchatsVentes />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/agence" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/mentions-legales" element={<MentionsLegales />} />
         <Route path="/equipe" element={<Team />} />

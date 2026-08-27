@@ -141,10 +141,22 @@ await controle(
  * perdu, et une redirection qui ne part pas ne se voit pas : le visiteur arrive
  * sur la coquille monopage, qui répond 200 avec un contenu sans rapport.
  *
- * Le piège est `/about` : il EXISTE dans la refonte, avec un tout autre
- * contenu. Une redirection oubliée n'y produit donc aucune erreur visible —
- * juste un visiteur qui cherchait le formulaire de contact et lit la
- * présentation de l'agence.
+ * LE PIÈGE `/about` A ÉTÉ SUPPRIMÉ À LA SOURCE le 27/08/2026.
+ *
+ * `/about` était à la fois cette URL héritée ET la page « L'agence » de la
+ * refonte — prérendue, déclarée au sitemap, canonique sur `/about`, et cible du
+ * lien « L'agence » de l'en-tête et du pied de page. Relevé sur la préversion :
+ * la redirection masquait la page. En navigation interne React Router
+ * l'affichait, mais au rechargement, en accès direct, depuis un moteur ou par un
+ * lien partagé, on atterrissait sur `/contact` — et Google recevait une URL de
+ * sitemap qui redirige, donc une page jamais indexée.
+ *
+ * Ce contrôle-ci ne le voyait pas : il VALIDAIT la redirection. Une attente
+ * fausse est pire qu'une absence de contrôle.
+ *
+ * La page a été déplacée sur `/agence`. La redirection héritée reste, l'URL de
+ * 2017 garde son intention, et le contrôle ci-dessous redevient juste. Le
+ * contrôle « /agence sert bien la page » est ajouté juste après.
  *
  * `redirect: 'manual'` est indispensable : sans lui `fetch` suit la
  * redirection et on relève 200 au lieu de 301.
@@ -155,6 +167,22 @@ const REDIRECTIONS = [
   ['/estimation', '/services/estimation-biens'],
   ['/about', '/contact'],
 ];
+
+/**
+ * La contrepartie du déplacement : `/agence` doit servir la page, sans
+ * redirection. Sans ce contrôle, réintroduire une collision passerait inaperçu.
+ */
+await controle('/agence sert la page de l\'agence', async () => {
+  const reponse = await recuperer('/agence', { redirect: 'manual' });
+  if (reponse.status !== 200) {
+    return { ok: false, detail: `HTTP ${reponse.status} au lieu de 200` };
+  }
+  const html = await reponse.text();
+  return {
+    ok: html.includes("L'agence"),
+    detail: `HTTP 200, ${(html.length / 1024).toFixed(0)} ko`,
+  };
+});
 
 for (const [ancienne, attendue] of REDIRECTIONS) {
   await controle(`301 ${ancienne} → ${attendue}`, async () => {
