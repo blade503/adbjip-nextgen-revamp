@@ -268,9 +268,45 @@ describe('portefeuille réellement présent sur disque', () => {
 });
 
 describe('segmentsOrdinaux', () => {
-  it('laisse un texte sans exposant en un seul segment', () => {
+  it('isole aussi un ordinal écrit en ASCII', () => {
+    // CONTRAT ÉLARGI LE 28/08/2026. Ce test attendait auparavant un segment
+    // unique : la fonction ne traitait que les exposants Unicode. Mais
+    // `locationLabel` compose « Paris 20e » avec un « e » ordinaire, et la même
+    // carte affichait donc « 3ᵉ étage » en exposant et « Paris 20e » à plat.
     expect(segmentsOrdinaux('Paris 8e arrondissement')).toEqual([
-      { texte: 'Paris 8e arrondissement' },
+      { texte: 'Paris 8' },
+      { texte: 'e', exposant: true },
+      { texte: ' arrondissement' },
+    ]);
+  });
+
+  it('compose « Paris 20e · quartier » comme la donnée réelle le produit', () => {
+    expect(segmentsOrdinaux('Paris 20e · Gambetta')).toEqual([
+      { texte: 'Paris 20' },
+      { texte: 'e', exposant: true },
+      { texte: ' · Gambetta' },
+    ]);
+  });
+
+  it('prend le suffixe le plus long : « 1er » et non « 1e » suivi d\'un r', () => {
+    expect(segmentsOrdinaux('1er étage')).toEqual([
+      { texte: '1' },
+      { texte: 'er', exposant: true },
+      { texte: ' étage' },
+    ]);
+  });
+
+  it("ne coupe pas un mot qui commence par la même lettre", () => {
+    // Sans la condition « rien d'alphabétique derrière », « 2eme » sortirait en
+    // « 2 » + <sup>e</sup> + « me », et « 3ery » se ferait couper aussi.
+    for (const texte of ['2eme étage', '3ery', 'H2ero', '4escalier']) {
+      expect(segmentsOrdinaux(texte)).toEqual([{ texte }]);
+    }
+  });
+
+  it("ne touche pas un chiffre sans suffixe ordinal", () => {
+    expect(segmentsOrdinaux('80 m², 3 pièces, 2 ch.')).toEqual([
+      { texte: '80 m², 3 pièces, 2 ch.' },
     ]);
   });
 
@@ -313,7 +349,7 @@ describe('segmentsOrdinaux', () => {
     expect(reconstitue).toBe(source.replace(/ᵉ/g, 'e').replace(/ʳ/g, 'r'));
   });
 
-  it("n'introduit aucun segment superflu sur une description sans exposant", () => {
+  it("n'introduit aucun segment superflu sur une description sans ordinal", () => {
     expect(segmentsOrdinaux('Appartement 3 pièces, 62 m², balcon.')).toHaveLength(1);
   });
 

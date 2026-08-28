@@ -132,7 +132,10 @@ const BiensApercu = () => {
 
                   <p className="mt-2 flex items-center gap-1.5 text-[0.8125rem] text-muted-foreground">
                     <MapPin aria-hidden className="h-3.5 w-3.5 shrink-0" />
-                    {locationLabel(bien)}
+                    {/* Un seul élément flex : voir `Biens.tsx`. */}
+                    <span>
+                      <Ordinaux texte={locationLabel(bien)} />
+                    </span>
                   </p>
 
                   {(bien.surface || bien.rooms) && (

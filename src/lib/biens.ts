@@ -196,9 +196,41 @@ export interface SegmentOrdinal {
  */
 const EXPOSANTS: Record<string, string> = { 'ᵉ': 'e', 'ᵗ': 't', 'ʳ': 'r', 'ᵈ': 'd' };
 
+/**
+ * DEUXIÈME CAS, AJOUTÉ LE 28/08/2026 : L'ORDINAL ÉCRIT EN ASCII.
+ *
+ * La fonction ne traitait que les exposants Unicode, ce qui était juste au
+ * regard de son objet d'origine — sauver un caractère qui tombe hors police.
+ * Mais `locationLabel` compose « Paris 20e » avec un « e » ordinaire, et la
+ * MÊME CARTE affichait donc « 3ᵉ étage » en exposant et « Paris 20e » à plat.
+ * Relevé sur le rendu : 6 ordinaux plats, tous venus de cette fonction-là.
+ *
+ * Le motif reste étroit à dessein : un ou plusieurs chiffres, puis `er`, `re`
+ * ou `e`, et RIEN d'alphabétique derrière. Sans cette dernière condition,
+ * « 2eme » ou « 3ery » seraient coupés au milieu d'un mot. Les suffixes sont
+ * essayés du plus long au plus court, sinon « 1er » sortirait en « 1ᵉ r ».
+ */
+const ORDINAL_ASCII = /(\d)(ers|er|res|re|es|e)(?![\p{L}])/gu;
+
 export function segmentsOrdinaux(texte: string): SegmentOrdinal[] {
   const segments: SegmentOrdinal[] = [];
   let courant = '';
+
+  const pousser = () => {
+    if (!courant) return;
+    // Le texte accumulé peut contenir des ordinaux ASCII : on le redécoupe.
+    let dernierIndex = 0;
+    for (const trouve of courant.matchAll(ORDINAL_ASCII)) {
+      const debut = trouve.index ?? 0;
+      const avant = courant.slice(dernierIndex, debut) + trouve[1];
+      if (avant) segments.push({ texte: avant });
+      segments.push({ texte: trouve[2], exposant: true });
+      dernierIndex = debut + trouve[0].length;
+    }
+    const reste = courant.slice(dernierIndex);
+    if (reste) segments.push({ texte: reste });
+    courant = '';
+  };
 
   for (const caractere of texte) {
     const remplacement = EXPOSANTS[caractere];
@@ -206,15 +238,14 @@ export function segmentsOrdinaux(texte: string): SegmentOrdinal[] {
       courant += caractere;
       continue;
     }
-    if (courant) segments.push({ texte: courant });
-    courant = '';
+    pousser();
     // Exposants consécutifs (« 1ᵉʳ ») : on les fusionne en un seul <sup>.
     const dernier = segments[segments.length - 1];
     if (dernier?.exposant) dernier.texte += remplacement;
     else segments.push({ texte: remplacement, exposant: true });
   }
 
-  if (courant) segments.push({ texte: courant });
+  pousser();
   return segments;
 }
 

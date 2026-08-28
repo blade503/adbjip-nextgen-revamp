@@ -61,6 +61,47 @@ const Header = () => {
     };
   }, [menuOuvert]);
 
+  /**
+   * LE DÉFILEMENT EST BLOQUÉ PENDANT QUE LE PANNEAU EST OUVERT.
+   *
+   * Mesuré avant correction : menu ouvert, un `scrollTo(0, 600)` déplaçait la
+   * page de 598 px DERRIÈRE le panneau. On se retrouvait à lire le menu
+   * par-dessus une tout autre section, et sur un téléphone un geste destiné au
+   * menu faisait défiler la page.
+   *
+   * `overflow: hidden` sur le corps, et non `position: fixed` : le second
+   * remettrait la page en haut à la fermeture, ce qui perdrait la position de
+   * lecture. Il ne casse pas le `position: sticky` de l'en-tête.
+   *
+   * LE REMBOURRAGE COMPENSE LA BARRE DE DÉFILEMENT. Sur téléphone elle vaut 0
+   * — les barres y sont superposées — mais sur un navigateur de bureau réduit
+   * sous 1024 px elle fait une quinzaine de pixels, et la masquer élargirait la
+   * page de cette largeur : tout le contenu sauterait vers la droite à
+   * l'ouverture du menu. C'est le genre de décalage que le contrat de mouvement
+   * interdit.
+   */
+  useEffect(() => {
+    if (!menuOuvert) return;
+
+    // C'EST `<html>` QUI DÉFILE, PAS `<body>`. Un premier jet ne bloquait que le
+    // corps : mesuré, `scrollTo(0, 1600)` déplaçait quand même la page à 1596.
+    // En mode standard l'élément de défilement du document est la racine ;
+    // masquer le débordement du corps n'y change rien.
+    const racine = document.documentElement;
+    const corps = document.body;
+    const debordementAvant = racine.style.overflow;
+    const rembourrageAvant = corps.style.paddingRight;
+    const barre = window.innerWidth - racine.clientWidth;
+
+    racine.style.overflow = 'hidden';
+    if (barre > 0) corps.style.paddingRight = `${barre}px`;
+
+    return () => {
+      racine.style.overflow = debordementAvant;
+      corps.style.paddingRight = rembourrageAvant;
+    };
+  }, [menuOuvert]);
+
   // Refermer en changeant de page : sinon le panneau survit à la navigation.
   useEffect(() => setMenuOuvert(false), [pathname]);
 
@@ -268,6 +309,23 @@ const Header = () => {
           </div>
         )}
       </header>
+
+      {/* ---- Le voile derrière le panneau --------------------------
+          Le panneau ne fait que 421 px sur un écran de 844 : la page restait
+          visible dessous, et rien ne disait laquelle des deux surfaces était
+          active. Le voile l'assombrit sans la cacher — on garde le repère de
+          l'endroit où l'on était.
+
+          IL EST DEHORS DE L'EN-TÊTE, ET C'EST NÉCESSAIRE. Placé dedans, il était
+          couvert par `enteteRef.contains(cible)` : l'écouteur `pointerdown` le
+          prenait pour un clic À L'INTÉRIEUR et ne refermait pas. Dehors, la
+          logique de fermeture déjà en place le traite comme un clic à côté —
+          une seule logique, pas deux.
+
+          `z-40` : sous l'en-tête et le panneau, qui sont en z-50. */}
+      {menuOuvert && (
+        <div aria-hidden className="voile fixed inset-0 z-40 bg-nuit/75 lg:hidden" />
+      )}
     </>
   );
 };

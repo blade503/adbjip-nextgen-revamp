@@ -202,7 +202,16 @@ const BienCard = ({ bien, index, onOpen }: { bien: Bien; index: number; onOpen: 
           <h2 className="text-lg font-semibold leading-snug"><Ordinaux texte={bien.title} /></h2>
           <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
             <MapPin aria-hidden className="h-4 w-4 flex-shrink-0" />
-            {locationLabel(bien)}
+            {/* « Paris 20e » et « 3e étage » cohabitaient dans la même carte, le
+                second en exposant et le premier à plat. L'arrondissement passe
+                par le même traitement que le titre et la description.
+                LE `<span>` EST INDISPENSABLE : `Ordinaux` rend plusieurs
+                éléments, et le `gap-1.5` de ce `<p>` en flex s'insérerait ENTRE
+                « Paris 20 » et son exposant — relevé à l'écran, « Paris 20 ᵉ ».
+                C'est le même piège que la rangée de caractéristiques plus bas. */}
+            <span>
+              <Ordinaux texte={locationLabel(bien)} />
+            </span>
           </p>
         </div>
 
@@ -225,10 +234,17 @@ const BienCard = ({ bien, index, onOpen }: { bien: Bien; index: number; onOpen: 
 
         <div className="mt-auto space-y-4 pt-2">
           <DpeBadges bien={bien} />
-          {/* Plaque de pierre et non aplat de laiton : trois pavés jaunes
-              alignés sur une rangée écrasaient les prix, qui sont l'information
-              de la carte. Le laiton reste pour l'action principale de la page. */}
-          <Button variant="secondary" className="w-full" onClick={onOpen}>
+          {/* NI LAITON NI APLAT : UN LISERÉ.
+              Le laiton avait été écarté d'abord — trois pavés jaunes alignés sur
+              une rangée écrasaient les prix, qui sont l'information de la carte.
+              Mais `secondary` est la MATIÈRE INVERSE, donc le marine sur une
+              carte de pierre : mesuré, un aplat #172336 de 294 × 44 répété une
+              fois par annonce. La liste se lisait comme une pile de barres
+              sombres, et l'action la plus banale du site — ouvrir une fiche —
+              avait le poids visuel le plus fort, devant le prix.
+              `outline` est le troisième degré que la charte prévoit pour
+              exactement ce cas : un geste répété à l'intérieur d'un cadre. */}
+          <Button variant="outline" className="w-full" onClick={onOpen}>
             Voir le bien
           </Button>
         </div>
@@ -268,7 +284,10 @@ const BienDetail = ({ bien }: { bien: Bien }) => {
           </p>
           <p className="mt-2 flex items-center gap-1.5 text-muted-foreground">
             <MapPin aria-hidden className="h-4 w-4" />
-            {locationLabel(bien)}
+            {/* Même raison que dans la carte : un seul élément flex. */}
+            <span>
+              <Ordinaux texte={locationLabel(bien)} />
+            </span>
           </p>
           <p className="mt-4 text-3xl font-bold">{priceLabel(bien)}</p>
         </div>
@@ -417,7 +436,9 @@ const Biens = () => {
               niveau="h1"
               plaque="Portefeuille"
               titre="Nos biens à vendre et à louer"
-              chapeau={introduction}
+              /* Le chapô nomme les arrondissements : même traitement des
+                 exposants que les cartes. `chapeau` accepte un ReactNode. */
+              chapeau={<Ordinaux texte={introduction} />}
             />
 
             {/* Les filtres étaient des gélules (`rounded-full`), interdites par

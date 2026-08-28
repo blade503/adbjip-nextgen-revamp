@@ -42,9 +42,16 @@ const Footer = () => {
   return (
     <footer className="nuit grain relative bg-nuit text-pierre">
       <div className="container relative mx-auto border-t border-pierre/15 py-16 lg:py-20">
-        <div className="grid gap-x-12 gap-y-12 lg:grid-cols-12">
+        {/* DEUX COLONNES DÈS LE TÉLÉPHONE POUR LES LISTES DE LIENS.
+            Mesuré avant correction : 15 liens en une seule colonne, 36 px
+            d'écart, un pied de page de 1 231 px de haut sur un écran de 844 —
+            une fois et demie l'écran à traverser après chaque page. Les deux
+            listes tiennent côte à côte sans rien serrer : elles font cinq et
+            quatre entrées. L'adresse et les coordonnées gardent toute la
+            largeur, elles contiennent des lignes qui ne se coupent pas. */}
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:gap-x-12 lg:grid-cols-12">
           {/* ---- L'adresse --------------------------------------- */}
-          <div className="lg:col-span-4">
+          <div className="col-span-2 lg:col-span-4">
             <PlaqueDeRue taille="moyenne" />
             <p className="mesure mt-6 text-[0.875rem] leading-relaxed text-muted-foreground">
               Agence indépendante depuis 2011. Un interlocuteur unique pour votre lot comme
@@ -79,7 +86,7 @@ const Footer = () => {
           ))}
 
           {/* ---- Les coordonnées -------------------------------- */}
-          <div className="lg:col-span-4">
+          <div className="col-span-2 lg:col-span-4">
             <h2 className="gravure">Nous joindre</h2>
             {/* UN SEUL NIVEAU DE `div` DANS UN `dl`.
                 La spécification n'admet comme enfant direct de `dl` qu'un `div`
