@@ -12,7 +12,7 @@ import {
   Retour,
   ZoneTexte,
 } from '@/components/formulaire';
-import { useEnvoi } from '@/lib/formulaire';
+import { champsInvalides, focaliserChamp, useEnvoi } from '@/lib/formulaire';
 import type { DemandeFormulaire } from '@/lib/forms';
 
 /**
@@ -66,7 +66,7 @@ const FormulaireContact = ({ idPrefix = 'contact' }: { idPrefix?: string }) => {
     ...CHAMPS_VIDES,
     service: SERVICES_CONNUS.has(serviceInitial) ? serviceInitial : '',
   });
-  const { envoiEnCours, retour, envoyer } = useEnvoi();
+  const { envoiEnCours, retour, envoyer, signaler } = useEnvoi();
 
   const modifier =
     (nom: keyof typeof CHAMPS_VIDES) =>
@@ -83,10 +83,46 @@ const FormulaireContact = ({ idPrefix = 'contact' }: { idPrefix?: string }) => {
     website: champs.website,
   });
 
+  /**
+   * Les règles du client. `prenom` y figure — le serveur ne le voit pas, il
+   * reçoit prénom et nom concaténés — et c'est ce qui rend son astérisque vrai.
+   * Les noms sont ceux des props `nom` des champs, donc ceux que `enErreur`
+   * relit, qu'ils viennent d'ici ou du serveur.
+   */
+  const regles = () => [
+    { nom: 'prenom', valeur: champs.firstName, requis: true },
+    { nom: 'nom', valeur: champs.lastName, requis: true },
+    { nom: 'email', valeur: champs.email, requis: true, format: 'email' as const },
+    { nom: 'message', valeur: champs.message, requis: true },
+  ];
+
   const soumettre = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    // On contrôle AVANT d'appeler le réseau : un champ oublié n'a pas à coûter
+    // un aller-retour, et le visiteur doit atterrir sur le champ fautif.
+    const fautifs = champsInvalides(regles());
+    if (fautifs.length > 0) {
+      signaler({
+        ok: false,
+        message:
+          fautifs.length === 1
+            ? 'Un champ reste à compléter, il est signalé ci-dessous.'
+            : `${fautifs.length} champs restent à compléter, ils sont signalés ci-dessous.`,
+        champs: fautifs,
+      });
+      focaliserChamp(idPrefix, fautifs[0]);
+      return;
+    }
+
     const resultat = await envoyer(demande());
-    if (resultat.ok) setChamps(CHAMPS_VIDES);
+    if (resultat.ok) {
+      setChamps(CHAMPS_VIDES);
+      return;
+    }
+    // Le serveur peut refuser ce que le client a laissé passer : on emmène au
+    // premier champ qu'il signale, comme pour la validation locale.
+    if (resultat.champs?.length) focaliserChamp(idPrefix, resultat.champs[0]);
   };
 
   return (

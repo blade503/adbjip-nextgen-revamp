@@ -70,8 +70,8 @@ Les trois commandes ci-dessous sont le seul contrôle du projet. Leurs compteurs
 |----------------------|----------------------------------------------------------------------|
 | `npm run typecheck`  | **0 erreur**. Toute erreur est bloquante.                            |
 | `npm run lint`       | **23 problèmes — 19 erreurs, 4 avertissements.** Comparer, pas viser zéro. |
-| `npm run test`       | **39 cas verts**, ~200 ms. Logique pure de `src/lib/` seulement. |
-| `npm run build`      | **1 727 modules**, ~1,7 à 2,7 s, `[sitemap] 9 URL`, `[prerender] 10/10 + la page 404`. |
+| `npm run test`       | **53 cas verts**, ~200 ms. Logique pure de `src/lib/` seulement. |
+| `npm run build`      | **1 728 modules**, ~1,7 à 2,7 s, `[sitemap] 9 URL`, `[prerender] 10/10 + la page 404`. |
 
 Poids de sortie au repère (relevé le 27/08/2026, après découpage des routes et retrait des
 deux dépendances mortes) : morceau d'entrée **JS 273,0 Ko → 88,2 Ko gzip**, **CSS 55,8 Ko →
@@ -85,6 +85,10 @@ supérieur à 23 signale une régression introduite par la tâche en cours.
 `[prerender] 10/10` correspond aux dix routes réelles de `src/App.tsx` (le catch-all `*` est
 exclu). `[sitemap] 9 URL` en compte une de moins : `/mentions-legales` en est volontairement
 absente. Ces deux nombres ne sont pas censés être égaux.
+
+Deux fichiers de tests, tous deux dans `src/lib/` : `biens.test.ts` (43 cas) et
+`formulaire.test.ts` (10 cas, ajouté le 28/08/2026 — la validation côté client et le repli
+`mailto`).
 
 **Les tests couvrent la logique pure de `src/lib/`, et rien d'autre** (Vitest, ajouté le
 27/08/2026, `vitest.config.ts` distinct de `vite.config.ts`). Périmètre volontairement
@@ -395,6 +399,36 @@ en mémoire, donc de retarder la nouvelle.
   sur la couleur de premier plan la plus faible, qui est le **laiton-display**, pas la pierre —
   c'est lui qui fixe la limite. Valeur retenue : **0,86** (laiton-display 3,20:1 pour un seuil
   de 3 ; zinc 5,34:1 ; pierre 11,60:1). À 0,84 le laiton tombait à 3,02, trop juste.
+- **Le menu mobile bloque le défilement, et il a fallu deux essais.** Avant correction :
+  menu ouvert, la page glissait de 598 px derrière lui, et l'on lisait le menu par-dessus une
+  tout autre section. Deux erreurs à connaître pour ne pas les refaire. **`overflow: hidden` va
+  sur `<html>`, pas sur `<body>`** — c'est la racine qui défile en mode standard, et bloquer le
+  corps ne changeait rien. **Le voile va DEHORS de l'en-tête** : posé dedans, il tombait sous
+  `enteteRef.contains(cible)` et l'écouteur de clic à côté le prenait pour un clic intérieur, si
+  bien que le voile ne refermait plus. La barre de défilement est compensée en rembourrage :
+  sans cela, tout le contenu sauterait de 15 px à l'ouverture sur un navigateur de bureau réduit
+  sous 1024 px. `overflow: hidden` bloque le GESTE mais pas `scrollTo()` : une sonde qui teste
+  avec `scrollTo` conclut à tort que rien n'est bloqué.
+- **La validation du formulaire est côté client AVANT le réseau.** Le formulaire porte
+  `noValidate` — la validation native est désactivée — et rien ne la remplaçait : les erreurs
+  venaient uniquement de la réponse de `contact.php`. Toute faute de saisie coûtait donc un
+  aller-retour, et « Prénom * » était annoncé obligatoire alors que le serveur ne voit qu'un
+  champ « nom » où prénom et nom sont concaténés : l'astérisque promettait une contrainte
+  inexistante, et `contact.php` ne se réécrit pas. `champsInvalides` dans `src/lib/formulaire.ts`
+  applique les règles, `focaliserChamp` emmène au premier champ fautif — avant, le focus restait
+  sur `<body>` et le message était hors écran sur téléphone. Relevé après : 0 requête réseau sur
+  un envoi incomplet. Le repli `mailto` ne s'affiche plus que sur un échec de TRANSPORT (réponse
+  sans `champs`) : il apparaissait aussi sur une erreur de saisie, ce qui laissait croire que le
+  site était en panne.
+- **La carte de contact ne se charge que si on la demande** (`components/CarteLocalisation.tsx`).
+  L'iframe Google était chargé d'emblée avec deux plaques posées PAR-DESSUS, qui masquaient le
+  bouton « Ouvrir dans Maps » et la mention « Données cartographiques · Conditions
+  d'utilisation » — que les conditions de Google interdisent précisément de masquer. Les plaques
+  sont passées en légende SOUS le cadre. On ne peut pas recolorer la carte (restyler l'imagerie
+  d'un embed est interdit par ces mêmes conditions) : on peut seulement ne pas l'imposer. Gain
+  annexe et non négligeable en France : plus de connexion à Google avant un geste du visiteur —
+  vérifié, 0 iframe et aucun domaine Google contacté hors polices tant qu'on n'a pas cliqué — et
+  les quatre tabulations de l'iframe n'existent qu'à partir de là.
 - **Le cadre du héros sur téléphone est borné, et c'est une mesure.** En
   `aspect-[4/5]`, la travée prenait 469 px sur un écran de 375 (**70 % du pli**) et 488 sur un
   390 (58 %) : sur un iPhone SE le `h1` passait **entièrement sous le pli**, et l'on arrivait

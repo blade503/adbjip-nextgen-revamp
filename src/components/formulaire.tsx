@@ -189,8 +189,17 @@ export const MentionRgpd = () => (
 
 /**
  * Le retour d'envoi. `role="status"` et non `role="alert"` : l'annonce doit
- * attendre la fin de la lecture en cours plutôt que l'interrompre. Le repli
- * `mailto` n'apparaît qu'en cas d'échec, avec le message déjà rédigé.
+ * attendre la fin de la lecture en cours plutôt que l'interrompre.
+ *
+ * LE REPLI `mailto` NE S'AFFICHE QUE SI L'ENVOI A VRAIMENT ÉCHOUÉ. Il
+ * apparaissait sur toute réponse négative, y compris une simple erreur de
+ * saisie : on proposait d'ouvrir un client mail à quelqu'un qui avait seulement
+ * oublié son prénom, ce qui laisse croire que le site est en panne.
+ *
+ * Le critère est la présence de `champs` : une réponse qui nomme des champs est
+ * un refus de VALIDATION — le visiteur corrige et renvoie. Une réponse sans
+ * champs est un échec de TRANSPORT — serveur muet, PHP absent, réseau coupé — et
+ * c'est là que le repli a un sens.
  */
 export const Retour = ({
   retour,
@@ -211,7 +220,7 @@ export const Retour = ({
       )}
     >
       <p>{retour.message}</p>
-      {!retour.ok && (
+      {!retour.ok && !retour.champs?.length && (
         <a href={lienMailto(demande)} className="lien-trait mt-2 inline-flex font-medium">
           Ouvrir mon logiciel de messagerie avec ce message
         </a>

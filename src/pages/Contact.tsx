@@ -3,6 +3,7 @@ import { ArrowRight, Phone } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
+import CarteLocalisation from '@/components/CarteLocalisation';
 import FormulaireContact from '@/components/FormulaireContact';
 import EnTeteSection from '@/components/systeme/EnTeteSection';
 import { Lien } from '@/components/systeme/Lien';
@@ -148,51 +149,7 @@ const Contact = () => {
             />
 
             <Voile delai={120} className="mt-14">
-              <div className="cadre relative h-80 overflow-hidden">
-                {/**
-                 * CONTOURNEMENT DE LA CARTE.
-                 *
-                 * Mesuré au clavier : l'iframe Google Maps consomme QUATRE
-                 * tabulations consécutives — ses commandes internes appartiennent
-                 * à Google, on ne peut pas les réduire. Sans échappatoire, un
-                 * visiteur au clavier traverse quatre arrêts qui ne correspondent
-                 * à aucune action de sa part, alors que l'adresse est déjà donnée
-                 * en texte juste au-dessus.
-                 *
-                 * Le lien n'apparaît qu'au focus, comme le lien d'évitement de
-                 * l'en-tête : même mécanisme, même raison (WCAG 2.4.1).
-                 */}
-                <a
-                  href="#apres-carte"
-                  className="sr-only rounded-[2px] bg-nuit px-4 py-2 font-display text-sm text-pierre focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-20"
-                >
-                  Passer la carte
-                </a>
-                <iframe
-                  /* Un iframe SANS nom accessible est annoncé « cadre » et rien
-                     de plus. Celui-ci n'en avait aucun — relevé au clavier. */
-                  title="Carte de localisation de l'agence JIP, 27 rue de Lisbonne, Paris 8e"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.284893470584!2d2.3122!3d48.8794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fb631be73b5%3A0x8c7bdeb21bcd25b1!2s27%20Rue%20de%20Lisbonne%2C%2075008%20Paris%2C%20France!5e0!3m2!1sfr!2sfr!4v1640995200000!5m2!1sfr!2sfr"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="absolute inset-0"
-                />
-
-                {/* Deux plaques posées sur la carte, comme les inscriptions d'un
-                    hall. Le voile n'est pas nécessaire : leur champ est opaque. */}
-                <p className="plaque absolute right-4 top-4 z-10">
-                  {ADRESSE.rue} — {ADRESSE.codePostal}
-                </p>
-                <p className="plaque absolute bottom-4 left-4 z-10">
-                  Métro Miromesnil — 2 min à pied
-                </p>
-              </div>
-              {/* Cible du contournement : le premier contenu après la carte. */}
-              <span id="apres-carte" tabIndex={-1} />
+              <CarteLocalisation />
             </Voile>
           </div>
         </section>
