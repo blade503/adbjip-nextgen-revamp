@@ -1,6 +1,6 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-08-28T15:54:51.243Z",
+  "generatedAt": "2026-08-29T10:46:48.178Z",
   "count": 7,
   "biens": [
     {
@@ -608,7 +608,7 @@
         }
       ],
       "publicationDate": "2026-07-09T14:42:44.200Z",
-      "modificationDate": "2026-08-28T09:39:44.037Z",
+      "modificationDate": "2026-08-29T05:05:20.607Z",
       "firstSeenAt": "2026-07-09T14:42:44.200Z",
       "badges": {
         "dpeBadge": "/biens/vent-arcade-dpe.svg",
