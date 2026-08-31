@@ -1,8 +1,93 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-08-29T10:46:48.178Z",
+  "generatedAt": "2026-08-31T10:30:18.257Z",
   "count": 7,
   "biens": [
+    {
+      "id": "gedeon-31461841",
+      "reference": "012",
+      "slug": "012-maison-8-pieces-l-houmeau",
+      "transaction": "vente",
+      "propertyType": "house",
+      "propertyLabel": "Maison",
+      "title": "Maison 8 pièces — L'Houmeau",
+      "titleIsFallback": true,
+      "description": "propriété avec un parc  arboré d environ  5300 m². à  3 km de l'océan  par piste cyclable et 2 km du centre du village de L HOUMEAU \nLa maison sur un étage offre avec ses 280 m² de bel espace de vie qui peut  être diviser en 3 unités distingues avec chacun ses sanitaires, pièces de vie et chambre \n\nEn rez-de-chaussée, un hall, séjour/salon, cuisine aménagée et équipée, lingerie , suite spéciale handicape avec salle d eau \n\nUn vaste local de 130m² avec une belle hauteur sous plafond , vous permettra de créer un atelier , salle d exposition ou festivité \n\nEnfin un appartement de 55 m² environ comprenant  sejour  cuisine et chambre  +salle de bain pour recevoir en toute indépendance\n\nLe parc boisselée vous assure la tranquillité et la discrétion . Il restera à réhabiliter la piscine qui demande à être couverte . .",
+      "city": "L'Houmeau",
+      "postalCode": "17137",
+      "district": "L'Houmeau",
+      "departmentCode": "17",
+      "price": 1136000,
+      "priceWithoutFees": 1100000,
+      "pricePerSquareMeter": 2594,
+      "feePercentage": 3,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 424,
+      "rooms": 8,
+      "bedrooms": 5,
+      "floor": null,
+      "floorQuantity": null,
+      "exposition": "SUD EST",
+      "heating": "Gaz",
+      "features": {
+        "elevator": false,
+        "cellar": true,
+        "balcony": false,
+        "terrace": true,
+        "fireplace": true,
+        "caretaker": false,
+        "separateToilet": true,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 106,
+        "energyClass": "C",
+        "gesValue": 21,
+        "gesClass": "C",
+        "date": "2025-01-20",
+        "minEnergyConsumption": 2500,
+        "maxEnergyConsumption": 3500,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 1",
+          "small": "/biens/012-1-small.jpg",
+          "medium": "/biens/012-1-medium.jpg",
+          "large": "/biens/012-1-large.jpg"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 2",
+          "small": "/biens/012-2-small.jpg",
+          "medium": "/biens/012-2-medium.jpg",
+          "large": "/biens/012-2-large.jpg"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 3",
+          "small": "/biens/012-3-small.jpg",
+          "medium": "/biens/012-3-medium.jpg",
+          "large": "/biens/012-3-large.jpg"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 4",
+          "small": "/biens/012-4-small.jpg",
+          "medium": "/biens/012-4-medium.jpg",
+          "large": "/biens/012-4-large.jpg"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-08-31T07:54:44.016Z",
+      "badges": {
+        "dpeBadge": "/biens/012-dpe.svg",
+        "gesBadge": "/biens/012-ges.svg"
+      }
+    },
     {
       "id": "gedeon-33736380",
       "reference": "ger264 - 3ème face",
@@ -12,19 +97,19 @@
       "propertyLabel": "Appartement",
       "title": "2 pièces place verdun",
       "titleIsFallback": false,
-      "description": "2 pièces \nPrès de la Place Verdun dans un immeuble ancien rénové au 3étage avec interphone.\nDeux pièces meublées :\nComprenant séjour cuisine ouverte (réfrigérateur, plaques, hotte, vaisselle), chambre (lit double+ armoire), douche, WC séparé, mezzanine 1 couchage. \nParquet au sol, double vitrage, dernier étage. Calme. \nBranchement machine à laver, FIBRE sur l'immeuble\nChauffage et eau chaude individuelle électrique.",
+      "description": "Près de la Place Verdun dans un immeuble ancien rénové au 3étage avec interphone.\nDeux pièces meublées :\nComprenant séjour cuisine ouverte (réfrigérateur, plaques, hotte, vaisselle), chambre (lit double+ armoire), douche, WC séparé, en complément une mezzanine avec 1 couchage. \nParquet au sol, double vitrage, radiateur inertie dernier étage. Calme. \nBranchement machine à laver, \nFIBRE sur l'immeuble et stationnement vélo dans la cour.\nChauffage et eau chaude individuelle électrique.",
       "city": "La Rochelle",
       "postalCode": "17000",
       "district": "Centre-ville - Vieux-port - Marché",
       "departmentCode": "17",
-      "price": 749,
+      "price": 729,
       "priceWithoutFees": null,
-      "pricePerSquareMeter": 28,
+      "pricePerSquareMeter": 27,
       "feePercentage": null,
       "feesChargedTo": null,
       "charges": 40,
-      "safetyDeposit": 1418,
-      "agencyRentalFee": 100,
+      "safetyDeposit": 1378,
+      "agencyRentalFee": 150,
       "annualCondominiumFees": null,
       "surface": 27,
       "rooms": 2,
@@ -112,8 +197,10 @@
         }
       ],
       "publicationDate": "2026-08-28T10:19:42.274Z",
-      "modificationDate": "2026-08-28T10:19:42.274Z",
+      "modificationDate": "2026-08-31T07:54:44.336Z",
       "firstSeenAt": "2026-08-28T10:19:42.274Z",
+      "previousPrice": 749,
+      "priceChangedAt": "2026-08-31T10:29:14.790Z",
       "badges": {
         "dpeBadge": "/biens/ger264-3eme-face-dpe.svg",
         "gesBadge": "/biens/ger264-3eme-face-ges.svg"
@@ -395,91 +482,6 @@
       ],
       "publicationDate": null,
       "modificationDate": "2026-08-19T01:46:26.628Z"
-    },
-    {
-      "id": "gedeon-31461841",
-      "reference": "012",
-      "slug": "012-maison-8-pieces-l-houmeau",
-      "transaction": "vente",
-      "propertyType": "house",
-      "propertyLabel": "Maison",
-      "title": "Maison 8 pièces — L'Houmeau",
-      "titleIsFallback": true,
-      "description": "propriété avec un parc  arboré d environ  5300 m². à  3 km de l'océan  par piste cyclable et 2 km du centre du village de L HOUMEAU \nLa maison sur un étage offre avec ses 280 m² de bel espace de vie qui peut  être diviser en 3 unités distingues avec chacun ses sanitaires, pièces de vie et chambre \n\nEn rez-de-chaussée, un hall, séjour/salon, cuisine aménagée et équipée, lingerie , suite spéciale handicape avec salle d eau \n\nUn vaste local de 130m² avec une belle hauteur sous plafond , vous permettra de créer un atelier , salle d exposition ou festivité \n\nEnfin un appartement de 55 m² environ comprenant  sejour  cuisine et chambre  +salle de bain pour recevoir en toute indépendance\n\nLe parc boisselée vous assure la tranquillité et la discrétion . Il restera à réhabiliter la piscine qui demande à être couverte . .",
-      "city": "L'Houmeau",
-      "postalCode": "17137",
-      "district": "L'Houmeau",
-      "departmentCode": "17",
-      "price": 1136000,
-      "priceWithoutFees": 1100000,
-      "pricePerSquareMeter": 2594,
-      "feePercentage": 3,
-      "feesChargedTo": "acquéreur",
-      "charges": null,
-      "safetyDeposit": null,
-      "agencyRentalFee": null,
-      "annualCondominiumFees": null,
-      "surface": 424,
-      "rooms": 8,
-      "bedrooms": 5,
-      "floor": null,
-      "floorQuantity": null,
-      "exposition": "SUD EST",
-      "heating": "Gaz",
-      "features": {
-        "elevator": false,
-        "cellar": true,
-        "balcony": false,
-        "terrace": true,
-        "fireplace": true,
-        "caretaker": false,
-        "separateToilet": true,
-        "inCondominium": false,
-        "parkingPlaces": 0
-      },
-      "condominiumParts": null,
-      "dpe": {
-        "energyValue": 106,
-        "energyClass": "C",
-        "gesValue": 21,
-        "gesClass": "C",
-        "date": "2025-01-20",
-        "minEnergyConsumption": 2500,
-        "maxEnergyConsumption": 3500,
-        "isJuly2021": true
-      },
-      "photos": [
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 1",
-          "small": "/biens/012-1-small.jpg",
-          "medium": "/biens/012-1-medium.jpg",
-          "large": "/biens/012-1-large.jpg"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 2",
-          "small": "/biens/012-2-small.jpg",
-          "medium": "/biens/012-2-medium.jpg",
-          "large": "/biens/012-2-large.jpg"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 3",
-          "small": "/biens/012-3-small.jpg",
-          "medium": "/biens/012-3-medium.jpg",
-          "large": "/biens/012-3-large.jpg"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 4",
-          "small": "/biens/012-4-small.jpg",
-          "medium": "/biens/012-4-medium.jpg",
-          "large": "/biens/012-4-large.jpg"
-        }
-      ],
-      "publicationDate": null,
-      "modificationDate": "2026-07-30T16:13:30.999Z",
-      "badges": {
-        "dpeBadge": "/biens/012-dpe.svg",
-        "gesBadge": "/biens/012-ges.svg"
-      }
     },
     {
       "id": "gedeon-33542694",
