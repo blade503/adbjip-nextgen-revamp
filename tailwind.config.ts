@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 export default {
 	darkMode: ["class"],
@@ -8,36 +9,23 @@ export default {
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
 	],
-	/**
-	 * LES CINQ ÉTATS D'ÉCLAIRAGE DE L'OUVERTURE, PROTÉGÉS DE LA PURGE.
-	 *
-	 * Ils sont déclarés dans `@layer components` de `src/index.css`, donc soumis
-	 * au balayage. Or la classe est composée à l'exécution par le script
-	 * synchrone d'`index.html` (`'heure-' + e`) : Tailwind ne voit jamais le nom
-	 * complet, et `index.html` n'est de toute façon pas dans `content`.
-	 *
-	 * Conséquence CONSTATÉE dans le CSS livré : quatre des cinq règles avaient
-	 * disparu. Toutes les variables qu'elles posent (`--lum`, `--omb`, `--f-lum`,
-	 * `--f-omb`, `--rai`, `--f-rai`, `--expo`, `--sat`) étaient donc indéfinies.
-	 * Une `opacity: var(--f-lum)` sans variable n'est pas ignorée : elle est
-	 * invalide, donc l'opacité retombe à sa valeur initiale, 1. Les deux copies
-	 * masquées de la lumière rasante tournaient à PLEINE PUISSANCE en permanence,
-	 * au lieu de 0,62 et 0,70 — c'est le voile orange brumeux sur la façade.
-	 *
-	 * Le bogue est silencieux par construction : rien ne casse, la page reste
-	 * lisible, seul le rendu se dégrade.
+	/*
+	 * Plus de `safelist` : elle protégeait les cinq états d'éclairage de
+	 * l'ancienne ouverture (`heure-aube` … `heure-nuit`), composés à l'exécution
+	 * par un script d'`index.html`. L'ouverture éclairée a été retirée avec la
+	 * direction « La Plaque » (04/09/2026), le script aussi.
 	 */
-	safelist: ['heure-aube', 'heure-matin', 'heure-midi', 'heure-doree', 'heure-nuit'],
 	prefix: "",
 	theme: {
 		container: {
 			center: true,
 			// 1,5 rem sous md : à 2 rem, un texte de 16 px n'avait plus que
 			// 279 px de mesure sur un écran de 375, et les mots se coupaient.
+			// 3,5 rem dès lg : c'est la marge de 56 px des planches de la direction
+			// artistique, sur une largeur de 1 280.
 			padding: {
 				DEFAULT: '1.5rem',
-				lg: '2.5rem',
-				xl: '3.5rem',
+				lg: '3.5rem',
 			},
 			screens: {
 				'2xl': '1440px'
@@ -45,13 +33,18 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				// Deux voix, deux linéales. Le contraste est de LARGEUR et non
-				// d'empattement : Archivo porte un axe `wdth` (100..125) qu'Inter
-				// n'a pas, et les capitales élargies sont la proportion exacte
-				// d'une plaque émaillée parisienne. Inter est le repli d'Archivo :
-				// elle est déjà chargée, donc rien n'est rendu nu pendant l'attente.
-				'display': ['Archivo', 'Inter', 'system-ui', 'sans-serif'],
-				'inter': ['Inter', 'system-ui', 'sans-serif'],
+				// Quatre familles, quatre rôles — voir le commentaire des polices
+				// dans index.html. `display` garde son nom : une quarantaine
+				// d'emplois pointent dessus pour les PRIX et le TÉLÉPHONE, et
+				// c'est exactement ce qu'Archivo continue de composer.
+				// Les « repli » sont des @font-face de src/index.css : la fonte
+				// système locale, aux métriques de la vraie fonte (size-adjust,
+				// ascent/descent-override). C'est ce qui ramène le décalage de mise
+				// en page à la substitution — mesuré, voir le commentaire du CSS.
+				'serif': ['"Instrument Serif"', '"Instrument Serif repli"', 'Georgia', 'serif'],
+				'sans': ['Figtree', '"Figtree repli"', 'system-ui', '-apple-system', 'sans-serif'],
+				'mono': ['"IBM Plex Mono"', 'ui-monospace', 'Menlo', 'monospace'],
+				'display': ['Archivo', '"Archivo repli"', 'Figtree', 'system-ui', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -59,23 +52,24 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
-				// Les matières, accessibles en direct : le pied de page est
-				// marine quelle que soit la portée qui l'entoure, et une plaque
-				// de pierre reste de pierre au milieu de la nuit.
 				// Les matières, accessibles en direct. ATTENTION au modificateur
-				// d'opacité : `bg-nuit/95` fonctionne, `bg-nuit/96` NE PRODUIT
-				// RIEN. Tailwind n'accepte que les valeurs de son échelle
-				// d'opacité ; hors échelle, il faut la forme entre crochets —
-				// `bg-nuit/[0.96]`. La classe hors échelle est ignorée EN
-				// SILENCE : pas d'erreur, pas d'avertissement. C'est ainsi que
-				// les quatre ouvertures de pages services se sont retrouvées
-				// sans voile, texte clair sur photographie en pleine lumière.
+				// d'opacité : `bg-marine/95` fonctionne, `bg-marine/96` NE PRODUIT
+				// RIEN. Tailwind n'accepte que les valeurs de son échelle ; hors
+				// échelle, il faut la forme entre crochets — `bg-marine/[0.96]`. La
+				// classe hors échelle est ignorée EN SILENCE.
 				nuit: 'hsl(var(--nuit))',
 				marine: 'hsl(var(--marine))',
 				pierre: 'hsl(var(--pierre))',
+				lin: 'hsl(var(--lin))',
 				ivoire: 'hsl(var(--ivoire))',
 				encre: 'hsl(var(--encre))',
+				ardoise: 'hsl(var(--ardoise))',
 				laiton: 'hsl(var(--laiton))',
+				bouton: {
+					DEFAULT: 'hsl(var(--bouton))',
+					foreground: 'hsl(var(--bouton-foreground))',
+					survol: 'hsl(var(--bouton-survol))',
+				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
@@ -111,10 +105,9 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				}
 			},
-			// Géométrie de plaque. `2xl` et `3xl` sont redéfinis et non
-			// seulement `lg` : Tailwind les code en dur à 1 rem et 1,5 rem, et
-			// les pages internes en comptent une quarantaine. Les redéfinir
-			// resserre tout le site sans rouvrir onze fichiers.
+			// La géométrie de « La Plaque » est à angle vif : aucun rayon nulle
+			// part. Les échelons existent pour que les `rounded-*` hérités des
+			// pages retombent tous à zéro sans rouvrir les fichiers.
 			borderRadius: {
 				sm: 'var(--radius-sm)',
 				md: 'var(--radius)',
@@ -132,15 +125,14 @@ export default {
 			boxShadow: {
 				'pose': 'var(--shadow-pose)',
 				'appui': 'var(--shadow-appui)',
-				// Anciens noms, réaffectés : trente-deux usages dans les pages
-				// internes, qui pointaient tous vers des halos jaunes.
+				// Anciens noms, réaffectés vers les ombres d'encre.
 				'elegant': 'var(--shadow-elegant)',
 				'card': 'var(--shadow-card)',
 				'glass': 'var(--shadow-glass)',
 				'float': 'var(--shadow-float)'
 			},
 			letterSpacing: {
-				'plaque': '0.16em',
+				'plaque': '0.18em',
 			},
 			// Les trois courbes du système, atteignables en classes utilitaires.
 			// Elles lisent les jetons de src/index.css : une seule source.
@@ -178,5 +170,5 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [animate],
 } satisfies Config;

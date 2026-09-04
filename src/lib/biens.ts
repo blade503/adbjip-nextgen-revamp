@@ -144,6 +144,12 @@ export const eur = (value: number) =>
     maximumFractionDigits: 0,
   }).format(value);
 
+/** Le prix tel qu'il s'affiche : loyer mensuel, prix de vente, ou « sur demande ». */
+export const prixLibelle = (bien: Bien) => {
+  if (bien.price == null) return 'Prix sur demande';
+  return bien.transaction === 'location' ? `${eur(bien.price)} /mois` : eur(bien.price);
+};
+
 /** Taux d'honoraires : 12 et non 12,00 — mais 5,41 reste 5,41. */
 export const percent = (value: number) =>
   new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(value);

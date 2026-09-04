@@ -8,16 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import MarketDataService from '@/components/estimation/MarketDataService';
-
-interface MarketData {
-  basePricePerM2: number;
-  /** Indice de confiance du service, entre 0 et 1. */
-  confidence: number;
-  /** Nombre de transactions retenues pour le calcul. */
-  sampleSize: number;
-  source: 'DVF' | 'Database' | 'Geographic' | string;
-}
+import MarketDataService, { type DonneesMarche } from '@/components/estimation/MarketDataService';
 
 interface InteractiveMapProps {
   isOpen: boolean;
@@ -27,7 +18,7 @@ interface InteractiveMapProps {
   postalCode: string;
   estimationResult: number | null;
   /** Données renvoyées par MarketDataService lors du calcul. */
-  marketData?: MarketData | null;
+  marketData?: DonneesMarche | null;
 }
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -88,28 +79,31 @@ const InteractiveMap = ({
         <DialogHeader>
           {/* Plus de mot en dégradé : le laiton ne fait que 1,81:1 sur la
               pierre en texte, il reste sur les plaques où il est mesuré. */}
-          <DialogTitle className="pr-8 text-[clamp(1.375rem,2.6vw,1.75rem)]">
-            Situation du bien — estimation
-          </DialogTitle>
+          <DialogTitle>Situation du bien — estimation</DialogTitle>
         </DialogHeader>
 
+        {/* MÊMES OBJETS QUE LE CALCULATEUR. Cette boîte reprend le chiffre et les
+            indicateurs que `QuickCalculator` affiche déjà : ils sont donc composés
+            de la même façon — le prix sur une plaque de nuit, les indicateurs en
+            liste réglée. Les trois cartes grises à coins de 8 px et le prix en
+            `font-bold` étaient les derniers restes du gabarit dans cette page. */}
         <div className="grid gap-6 lg:grid-cols-3">
-          <div className="space-y-4">
-            <div className="rounded-lg border border-border bg-muted/50 p-4">
-              <div className="mb-2 flex items-center space-x-3">
-                <MapPin aria-hidden className="h-5 w-5 text-primary-ink" />
-                <h3 className="font-semibold">Adresse</h3>
-              </div>
-              <p className="text-sm text-muted-foreground">{fullAddress}</p>
+          <div className="space-y-5">
+            <div className="panneau p-4">
+              <p className="flex items-center gap-2.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-primary-ink">
+                <MapPin aria-hidden className="h-3.5 w-3.5 shrink-0" />
+                Adresse
+              </p>
+              <p className="mt-2 text-[0.9375rem] leading-relaxed">{fullAddress}</p>
             </div>
 
             {estimationResult !== null && (
-              <div className="rounded-lg border border-primary/30 bg-primary-soft p-4">
-                <div className="mb-2 flex items-center space-x-3">
-                  <Euro aria-hidden className="h-5 w-5 text-primary-ink" />
-                  <h3 className="font-semibold">Estimation</h3>
-                </div>
-                <p className="text-2xl font-bold">
+              <div className="nuit cadre bg-nuit p-4 text-pierre">
+                <p className="tabulaire flex items-center gap-2.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-primary">
+                  <Euro aria-hidden className="h-3.5 w-3.5 shrink-0" />
+                  Estimation indicative
+                </p>
+                <p className="tabulaire mt-2 font-display text-[clamp(1.5rem,3vw,2rem)] font-semibold leading-none">
                   {estimationResult.toLocaleString('fr-FR')} €
                 </p>
               </div>
@@ -118,36 +112,41 @@ const InteractiveMap = ({
             {/* Uniquement ce que le service renvoie réellement : pas de délai de
                 vente ni d'évolution annuelle, que nous ne calculons pas. */}
             {marketData && (
-              <div className="rounded-lg border border-border bg-muted/50 p-4">
-                <div className="mb-2 flex items-center space-x-3">
-                  <TrendingUp aria-hidden className="h-5 w-5 text-primary-ink" />
-                  <h3 className="font-semibold">Marché local</h3>
-                </div>
-                <ul className="space-y-1.5 text-sm text-muted-foreground">
-                  <li>
-                    Prix moyen au m² :{' '}
-                    <span className="font-medium text-foreground">
+              <div>
+                <p className="flex items-center gap-2.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-primary-ink">
+                  <TrendingUp aria-hidden className="h-3.5 w-3.5 shrink-0" />
+                  Marché local
+                </p>
+                <dl className="mt-3 border-t border-[hsl(var(--trait)/var(--trait-a))]">
+                  <div className="flex items-baseline justify-between gap-4 border-b border-[hsl(var(--trait)/var(--trait-a))] py-2.5">
+                    <dt className="text-[0.875rem] text-muted-foreground">Prix moyen au m²</dt>
+                    <dd className="tabulaire font-display text-[0.9375rem] font-semibold">
                       {Math.round(marketData.basePricePerM2).toLocaleString('fr-FR')} €
-                    </span>
-                  </li>
-                  <li>
-                    Transactions analysées :{' '}
-                    <span className="font-medium text-foreground">{marketData.sampleSize}</span>
-                  </li>
-                  <li>
-                    Indice de confiance :{' '}
-                    <span className="font-medium text-foreground">
+                    </dd>
+                  </div>
+                  <div className="flex items-baseline justify-between gap-4 border-b border-[hsl(var(--trait)/var(--trait-a))] py-2.5">
+                    <dt className="text-[0.875rem] text-muted-foreground">Transactions analysées</dt>
+                    <dd className="tabulaire font-display text-[0.9375rem] font-semibold">
+                      {marketData.sampleSize}
+                    </dd>
+                  </div>
+                  <div className="flex items-baseline justify-between gap-4 border-b border-[hsl(var(--trait)/var(--trait-a))] py-2.5">
+                    <dt className="text-[0.875rem] text-muted-foreground">Indice de confiance</dt>
+                    <dd className="tabulaire font-display text-[0.9375rem] font-semibold">
                       {Math.round(marketData.confidence * 100)} %
-                    </span>
-                  </li>
-                  <li className="pt-1 text-xs">
-                    Source : {SOURCE_LABELS[marketData.source] ?? marketData.source}
-                  </li>
-                </ul>
+                    </dd>
+                  </div>
+                  <div className="flex items-baseline justify-between gap-4 border-b border-[hsl(var(--trait)/var(--trait-a))] py-2.5">
+                    <dt className="text-[0.875rem] text-muted-foreground">Source</dt>
+                    <dd className="text-right text-[0.8125rem] font-medium">
+                      {SOURCE_LABELS[marketData.source] ?? marketData.source}
+                    </dd>
+                  </div>
+                </dl>
               </div>
             )}
 
-            <p className="text-xs leading-relaxed text-muted-foreground">
+            <p className="mesure border-l-2 border-primary py-2 pl-4 text-[0.8125rem] leading-relaxed text-muted-foreground">
               Estimation indicative, calculée à partir des transactions publiques du secteur.
               Elle ne remplace pas une visite : la configuration, l'état et l'exposition du bien
               peuvent la faire varier sensiblement.
@@ -155,7 +154,10 @@ const InteractiveMap = ({
           </div>
 
           <div className="lg:col-span-2">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-muted lg:aspect-[16/10]">
+            {/* Le cadre gravé de la charte autour de la carte, rayon de 2 px.
+                Les états d'attente et d'échec sont ferrés à gauche : rien n'est
+                centré sur ce site, pas même une attente. */}
+            <div className="cadre relative aspect-[4/3] overflow-hidden rounded-[2px] bg-muted lg:aspect-[16/10]">
               {mapSrc ? (
                 <iframe
                   key={mapSrc}
@@ -166,27 +168,29 @@ const InteractiveMap = ({
                   referrerPolicy="no-referrer-when-downgrade"
                 />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
+                <div className="absolute inset-0 flex flex-col justify-center p-6 sm:p-8">
                   {isLoading ? (
-                    <div>
-                      {/* `role="status"` : l'anneau se voit, le texte se lit, mais
-                          sans région vocale rien n'est annoncé. Le mouvement
-                          réduit conserve la rotation (voir `.attente`) ET
-                          l'annonce : deux canaux pour une même information. */}
-                      <div role="status">
-                        <div className="attente mx-auto mb-4 h-10 w-10 rounded-full border-b-2 border-primary" />
-                        <p className="text-sm text-muted-foreground">Localisation en cours…</p>
-                      </div>
-                    </div>
+                    /* `role="status"` : l'anneau se voit, le texte se lit, mais
+                       sans région vocale rien n'est annoncé. Le mouvement réduit
+                       conserve la rotation (voir `.attente`) ET l'annonce : deux
+                       canaux pour une même information. */
+                    <p
+                      role="status"
+                      className="flex items-center gap-3 text-[0.9375rem] text-muted-foreground"
+                    >
+                      <span
+                        aria-hidden
+                        className="attente block h-4 w-4 shrink-0 rounded-full border-b-2 border-primary"
+                      />
+                      Localisation en cours…
+                    </p>
                   ) : (
-                    <div>
-                      <MapPin aria-hidden className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
-                      <p className="text-sm text-muted-foreground">
-                        {failed
-                          ? "Adresse introuvable : vérifiez le numéro, la voie et le code postal."
-                          : 'Renseignez une adresse pour afficher la carte.'}
-                      </p>
-                    </div>
+                    <p className="mesure flex items-start gap-3 text-[0.9375rem] leading-relaxed text-muted-foreground">
+                      <MapPin aria-hidden className="mt-0.5 h-4 w-4 shrink-0" />
+                      {failed
+                        ? "Adresse introuvable : vérifiez le numéro, la voie et le code postal."
+                        : 'Renseignez une adresse pour afficher la carte.'}
+                    </p>
                   )}
                 </div>
               )}
@@ -202,8 +206,8 @@ const InteractiveMap = ({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ExternalLink aria-hidden className="mr-2 h-4 w-4" />
                   Ouvrir dans Google Maps
+                  <ExternalLink aria-hidden />
                 </a>
               </Button>
             </div>

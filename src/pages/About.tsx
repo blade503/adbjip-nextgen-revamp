@@ -1,59 +1,59 @@
-import { ArrowRight, Phone } from 'lucide-react';
-
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
-import EnTeteSection from '@/components/systeme/EnTeteSection';
-import { Lien } from '@/components/systeme/Lien';
-import { Voile } from '@/components/systeme/Ouverture';
-import { Button } from '@/components/ui/button';
-import { ADRESSE } from '@/config/legal';
+import BandeauContact from '@/components/systeme/BandeauContact';
+import BarreAppel from '@/components/systeme/BarreAppel';
+import EnTetePage from '@/components/systeme/EnTetePage';
+import { Calage, Voile } from '@/components/systeme/Ouverture';
+import { ENTITES, EQUIPE } from '@/config/legal';
 import { echelonner } from '@/lib/echelon';
+import bureauImage from '@/assets/agence-bureau.webp';
+import bureauImage800 from '@/assets/agence-bureau-800.webp';
+import francisImage from '@/assets/equipe-francis-jobard.webp';
+import francisImage440 from '@/assets/equipe-francis-jobard-440.webp';
+import florentImage from '@/assets/equipe-florent-jobard.webp';
+import florentImage440 from '@/assets/equipe-florent-jobard-440.webp';
 
 /**
- * L'AGENCE — recomposée dans le langage de la charte.
+ * L'AGENCE — planche 2g de la direction « La Plaque », fusion de deux pages.
  *
- * TOUT LE TEXTE EST REPRIS MOT POUR MOT. Les quatre engagements, les deux
- * paragraphes de l'histoire, les blocs « ce que nous faisons / ne faisons pas »
- * et les quatre repères viennent de la version précédente. Les commentaires qui
- * expliquaient POURQUOI ce contenu est celui-là — les quatre valeurs
- * interchangeables remplacées par du vérifiable, les chiffres de portefeuille
- * retirés parce qu'inventés — sont conservés : ils documentent une décision.
+ * L'ancienne page « L'équipe » (/equipe, deux fiches, trois valeurs) est
+ * absorbée ici : deux interlocuteurs, c'est une agence, pas une équipe. L'URL
+ * redirige (`public/.htaccess`).
  *
- * CE QUI A CHANGÉ EST LA FORME. Relevé avant : 26 vestiges de gabarit —
- * 6 `text-center`, 4 `gradient-text`, 5 `glass`, 3 `hover-lift`, 3 `shadow-card`,
- * 3 `bg-gradient-subtle`, 1 pastille d'icône, 1 `rounded-2xl`.
+ * TOUT CE QUI EST AFFIRMÉ EST VÉRIFIABLE. Les deux interlocuteurs, leurs
+ * sociétés, leurs SIREN et leurs dates viennent de `src/config/legal.ts`, donc
+ * du registre national des entreprises — recoupé le 04/09/2026 sur
+ * recherche-entreprises.api.gouv.fr : Francis Jobard, président de SAS de
+ * J.I.P. ; Florent Jobard, président de SAS de Jobard Immobilier Patrimoine.
+ * La planche disait « directeur général » pour le second : c'est le registre
+ * qui fait foi. Les lignes directes et les courriels sont ceux de la page
+ * contact du site en production.
  *
- *  - le centrage → tout ferré à gauche sur la travée, six en-têtes passés par
- *    `EnTeteSection` (plaque vissée, filet qui court, mesure de 46 caractères).
- *  - les quatre carrés d'icônes en aplat de laiton → un registre réglé. Quatre
- *    cartes centrées de même poids prétendaient que les engagements se valent.
- *  - `gradient-text` sur un mot de chaque titre → le titre entier en encre. Le
- *    laiton reste sur la plaque, où son contraste est mesuré (1,81:1 sur la
- *    pierre en texte, donc interdit).
- *  - `glass` / `glass-strong` / `shadow-card` → `.panneau` et `.cadre` : liseré
- *    gravé en retrait, aucune ombre portée, rien qui décolle au survol.
- *  - `bg-gradient-subtle` → l'alternance nuit / pierre / ivoire.
+ * Les quatre engagements et les deux blocs « ce que nous faisons / ne faisons
+ * pas » sont repris mot pour mot. Les paragraphes « une histoire de confiance »
+ * (« professionnels passionnés… ») et les trois valeurs de la page équipe
+ * (« esprit d'équipe, innovation, proximité ») n'ont pas suivi : quatre mots
+ * que tous les concurrents affichent aussi. Consignés dans REPRISE.md § 14.
  *
- * « 24 h » comme temps de réponse reste en attente d'arbitrage, comme ailleurs
- * sur le site : la charte interdit de l'inventer, pas de le conserver.
+ * « 24 h » reste en attente d'arbitrage, comme partout ailleurs.
  */
 
-/**
- * Excellence, Proximité, Transparence, Efficacité : quatre mots que tous les
- * concurrents affichent aussi. Remplacés par ce qu'un visiteur peut vérifier en
- * nous appelant.
- */
+const PORTRAITS = [
+  { src: francisImage, srcSet: `${francisImage440} 440w, ${francisImage} 700w` },
+  { src: florentImage, srcSet: `${florentImage440} 440w, ${florentImage} 700w` },
+];
+
+/** Quatre choses que le visiteur peut vérifier en nous appelant. */
 const ENGAGEMENTS = [
   {
     titre: 'Un interlocuteur unique',
     texte:
-      "Le même gestionnaire suit votre dossier du premier appel à la signature. Pas de standard, pas de numéro de dossier.",
+      'Le même gestionnaire suit votre dossier du premier appel à la signature. Pas de standard, pas de numéro de dossier.',
   },
   {
     titre: 'Une réponse sous 24 heures',
-    texte:
-      "Ouvrées. C'est l'engagement que nous tenons sur les appels comme sur les courriels.",
+    texte: "Ouvrées. C'est l'engagement que nous tenons sur les appels comme sur les courriels.",
   },
   {
     titre: 'Gérance et syndic réunis',
@@ -67,195 +67,169 @@ const ENGAGEMENTS = [
   },
 ];
 
-/**
- * Repères vérifiables uniquement. Les chiffres de portefeuille, de satisfaction
- * et d'effectif ont été retirés : ils étaient inventés et se contredisaient
- * d'une page à l'autre (25+ ans ici, 15+ ailleurs).
- *
- * `ᵉ` (U+1D49) n'appartient pas au sous-ensemble latin de Google Fonts : il
- * basculait dans une police système au milieu du mot, et « Paris 8ᵉ » s'affichait
- * « Paris 8° ». Le rendu passe donc par `<sup>`.
- */
+/** Repères vérifiables au registre du commerce, rien d'autre. */
 const REPERES = [
   { valeur: '2011', libelle: 'Année de création' },
   { valeur: <>Paris 8<sup>e</sup></>, libelle: '27, rue de Lisbonne' },
-  { valeur: '2', libelle: 'Métiers : gérance et syndic' },
-  { valeur: '24 h', libelle: 'Temps de réponse' },
+  { valeur: '2', libelle: 'Métiers de fond : gérance et syndic' },
+  { valeur: '24 h', libelle: 'Temps de réponse ouvré' },
 ];
 
-const About = () => {
-  const tel = `tel:${ADRESSE.telephone.replace(/[^0-9+]/g, '')}`;
+/** L'année seule d'une date écrite en clair (« 17 juin 2015 » → « 2015 »). */
+const annee = (date: string) => date.match(/\d{4}/)?.[0] ?? date;
 
-  return (
-    <div className="min-h-screen">
-      <SEOHead
-        title="L'agence — JIP, Jobard Immobilier Paris"
-        description="Deux métiers sous le même toit depuis 2011 : gestion locative et syndic de copropriété, au 27 rue de Lisbonne dans le 8e arrondissement de Paris."
-        keywords="agence immobilière paris 8, jobard immobilier paris, syndic et gérance, agence indépendante"
-        canonicalUrl="https://www.adbjip.fr/agence"
+const About = () => (
+  <div className="min-h-screen">
+    <SEOHead
+      title="L'agence — JIP, Jobard Immobilier Paris"
+      description="Deux métiers sous le même toit depuis 2011 : gestion locative et syndic de copropriété, au 27 rue de Lisbonne dans le 8e arrondissement de Paris. Les deux interlocuteurs de l'agence."
+      keywords="agence immobilière paris 8, jobard immobilier paris, syndic et gérance, agence indépendante, francis jobard, florent jobard"
+      canonicalUrl="https://www.adbjip.fr/agence"
+    />
+    <Header />
+    <main id="contenu" tabIndex={-1}>
+      <EnTetePage
+        surtitre="L'agence"
+        titre={
+          <>
+            Les mêmes personnes, <em>depuis 2011.</em>
+          </>
+        }
+        chapeau="Deux sociétés, une famille, un bureau. Le dossier de gérance et le dossier de syndic du même immeuble sont tenus dans la même pièce — c'est ce qui fait qu'un appel trouve une réponse au lieu d'un transfert."
+        image={{
+          src: bureauImage,
+          srcSet: `${bureauImage800} 800w, ${bureauImage} 1200w`,
+          alt: 'Le bureau de l’agence : dossiers de gérance et de syndic, plans, vue sur la rue',
+          width: 1200,
+          height: 900,
+        }}
       />
-      <Header />
-      <main id="contenu" tabIndex={-1}>
-        {/* ---- OUVERTURE ----------------------------------------------
-            Bande de nuit sans photographie, comme les sections de clôture du
-            site : `nuit` rebascule les jetons du sous-arbre, sans quoi le fond
-            passe au sombre tandis que le texte reste à l'encre. */}
-        <section className="nuit grain bg-nuit pb-16 pt-32 text-pierre">
-          <div className="container mx-auto">
-            <EnTeteSection
-              fond="nuit"
-              niveau="h1"
-              plaque="À propos de nous"
-              titre="Notre expertise à votre service"
-              chapeau="Depuis 2011, nous accompagnons propriétaires et copropriétés dans la gestion et la valorisation de leur patrimoine immobilier parisien."
-            />
-          </div>
-        </section>
 
-        {/* ---- L'HISTOIRE ---------------------------------------------
-            Travée asymétrique 7 / 5 et non deux moitiés égales : deux colonnes
-            de même largeur n'établissent aucune hiérarchie, et c'est le réglage
-            par défaut de toutes les grilles. Ici le texte porte. */}
-        <section className="bg-background py-20 lg:py-28">
-          <div className="container mx-auto">
-            <div className="grid gap-x-16 gap-y-12 lg:grid-cols-12">
-              <div className="lg:col-span-7">
-                <EnTeteSection plaque="La maison" titre="Une histoire de confiance" />
-                <Voile delai={90}>
-                  <p className="mesure mt-8 text-[1.0625rem] leading-relaxed text-muted-foreground">
-                    Fondée par des professionnels passionnés de l'immobilier parisien, notre
-                    société s'est développée autour de valeurs fortes : l'excellence du service,
-                    la proximité client et la transparence dans nos relations.
+      {/* ---- LES DEUX INTERLOCUTEURS ------------------------------------
+          Une carte par personne : le portrait à l'échelle, le métier en
+          surtitre, le nom en romain, puis ce que le registre dit et ce qu'on
+          peut composer. */}
+      <section className="bg-pierre pb-16 lg:pb-20">
+        <div className="container mx-auto grid gap-6 lg:grid-cols-2">
+          {EQUIPE.map((personne, index) => {
+            const entite = ENTITES[personne.entite];
+            const portrait = PORTRAITS[index];
+            return (
+              <Voile
+                key={personne.nom}
+                delai={echelonner(index)}
+                className="panneau grid gap-6 p-7 sm:grid-cols-[10rem_1fr] lg:p-8"
+              >
+                <Calage className="aspect-[3/4] w-full max-w-[10rem] bg-lin">
+                  <img
+                    src={portrait.src}
+                    srcSet={portrait.srcSet}
+                    sizes="10rem"
+                    alt={`${personne.nom}, président de ${entite.raisonSociale}`}
+                    width={700}
+                    height={875}
+                    className="h-full w-full object-cover object-top"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </Calage>
+                <div>
+                  <p className="gravure">{personne.metier}</p>
+                  <h2 className="mt-2 text-[clamp(1.75rem,2.4vw,2rem)]">{personne.nom}</h2>
+                  <p className="tabulaire mt-1.5 text-[0.8125rem] leading-relaxed text-muted-foreground">
+                    Président, {entite.raisonSociale} · SIREN {entite.siren} · depuis{' '}
+                    {annee(entite.dateCreation)}
                   </p>
-                  <p className="mesure mt-5 text-[1.0625rem] leading-relaxed text-muted-foreground">
-                    Deux sociétés, deux métiers, une seule adresse : J.I.P. pour la gestion
-                    locative et le syndic, Jobard Immobilier Patrimoine pour la transaction et
-                    l'estimation. Le même interlocuteur suit votre dossier du premier appel à la
-                    signature.
+                  <p className="mt-4 text-[0.9375rem] leading-[1.55] text-ardoise">{personne.description}</p>
+                  <p className="mt-4 text-[0.875rem] leading-[1.8]">
+                    <a
+                      href={`tel:${personne.telephone.replace(/[^0-9+]/g, '')}`}
+                      className="tabulaire font-display font-semibold"
+                    >
+                      {personne.telephone}
+                    </a>
+                    <br />
+                    <a href={`mailto:${personne.email}`} className="lien-trait text-ardoise hover:text-foreground">
+                      {personne.email}
+                    </a>
                   </p>
-                  <Button className="mt-9" asChild>
-                    <Lien to="/contact">
-                      Nous contacter
-                      <ArrowRight aria-hidden />
-                    </Lien>
-                  </Button>
-                </Voile>
-              </div>
+                </div>
+              </Voile>
+            );
+          })}
+        </div>
+      </section>
 
-              {/* Les deux panneaux : liseré gravé, aucune ombre, rien qui
-                  décolle. `glass-strong` produisait un verre dépoli que la
-                  charte a retiré du vocabulaire. */}
-              <div className="flex flex-col gap-6 lg:col-span-5">
-                <Voile delai={140}>
-                  <div className="panneau cadre p-7">
-                    <h3 className="text-[1.0625rem]">Ce que nous faisons</h3>
-                    <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted-foreground">
-                      Nous gérons des appartements pour leurs propriétaires et des immeubles pour
-                      leurs copropriétaires : loyers, travaux, assemblées générales, comptes.
-                    </p>
-                  </div>
-                </Voile>
-                <Voile delai={210}>
-                  <div className="panneau cadre p-7">
-                    <h3 className="text-[1.0625rem]">Ce que nous ne faisons pas</h3>
-                    <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted-foreground">
-                      Nous ne gérons pas au-delà de ce que nous pouvons suivre. Le portefeuille
-                      reste à la taille d'une agence où l'on connaît chaque immeuble.
-                    </p>
-                  </div>
-                </Voile>
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* ---- LES ENGAGEMENTS ---------------------------------------------- */}
+      <section className="bg-lin py-16 lg:py-20">
+        <div className="container mx-auto grid gap-x-16 gap-y-10 lg:grid-cols-[minmax(0,23rem)_1fr]">
+          <Voile>
+            <p className="gravure">Les engagements</p>
+            <h2 className="mt-4 text-[clamp(2rem,3.5vw,2.75rem)]">
+              Quatre choses que vous pouvez vérifier en nous appelant
+            </h2>
+          </Voile>
+          <dl className="grid border-t border-[hsl(var(--trait)/var(--trait-a))] sm:grid-cols-2">
+            {ENGAGEMENTS.map((e, index) => (
+              <Voile
+                key={e.titre}
+                delai={echelonner(index)}
+                className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-6 sm:odd:border-r sm:odd:pr-6 sm:even:pl-6 sm:[&:nth-last-child(-n+2)]:border-b-0"
+              >
+                <dt className="font-serif text-[1.5rem] leading-[1.1]">{e.titre}</dt>
+                <dd className="mt-2 text-[0.875rem] leading-[1.5] text-ardoise">{e.texte}</dd>
+              </Voile>
+            ))}
+          </dl>
+        </div>
+      </section>
 
-        {/* ---- LES ENGAGEMENTS ---------------------------------------- */}
-        <section className="bg-ivoire py-20 lg:py-28">
-          <div className="container mx-auto">
-            <EnTeteSection
-              plaque="Les engagements"
-              titre="Nos engagements"
-              chapeau="Quatre choses que vous pouvez vérifier en nous appelant."
-            />
+      {/* ---- CE QUE NOUS FAISONS, ET PAS ------------------------------- */}
+      <section className="bg-pierre py-16 lg:py-20">
+        <div className="container mx-auto grid gap-x-16 gap-y-10 lg:grid-cols-2">
+          <Voile>
+            <p className="gravure">Ce que nous faisons</p>
+            <p className="mt-4 font-serif text-[clamp(1.375rem,2vw,1.625rem)] leading-[1.35]">
+              Nous gérons des appartements pour leurs propriétaires et des immeubles pour leurs
+              copropriétaires : loyers, travaux, assemblées générales, comptes.
+            </p>
+          </Voile>
+          <Voile delai={90}>
+            <p className="gravure">Ce que nous ne faisons pas</p>
+            <p className="mt-4 font-serif text-[clamp(1.375rem,2vw,1.625rem)] leading-[1.35]">
+              Nous ne gérons pas au-delà de ce que nous pouvons suivre. Le portefeuille reste à la
+              taille d'une agence où l'on connaît chaque immeuble.
+            </p>
+          </Voile>
+        </div>
+      </section>
 
-            {/* UN SEUL NIVEAU DE `div` DANS UN `dl`.
-                `<Voile>` rend lui-même un `div` : lui ajouter un `div.grid`
-                à l'intérieur en faisait DEUX, et la spécification n'en admet
-                qu'un — celui qui groupe les `dt`/`dd`. Les classes de grille
-                sont donc portées par le `Voile`.
-                Relevé par Lighthouse (`dlitem` et `definition-list`) : le
-                même défaut que j'avais corrigé sur le pied de page, et que
-                j'ai réintroduit en recomposant ces pages. */}
-            <dl className="mt-16 border-t border-[hsl(var(--trait)/var(--trait-a))]">
-              {ENGAGEMENTS.map((e, index) => (
-                <Voile key={e.titre} delai={echelonner(index)} className="grid gap-x-10 gap-y-2 border-b border-[hsl(var(--trait)/var(--trait-a))] py-7 lg:grid-cols-[20rem_1fr]">
-                  <dt className="text-[1.0625rem] font-semibold">{e.titre}</dt>
-                  <dd className="mesure-large text-[0.9375rem] leading-relaxed text-muted-foreground">
-                    {e.texte}
-                  </dd>
-                </Voile>
-              ))}
-            </dl>
-          </div>
-        </section>
+      {/* ---- LES REPÈRES ------------------------------------------------- */}
+      <section className="nuit bg-marine py-14 text-pierre lg:py-16">
+        <div className="container mx-auto">
+          <dl className="grid grid-cols-2 gap-x-8 gap-y-8 lg:grid-cols-4">
+            {REPERES.map(({ valeur, libelle }, index) => (
+              <Voile key={libelle} delai={echelonner(index)}>
+                <dt className="font-serif text-[clamp(2.5rem,4vw,3.5rem)] leading-none text-primary">{valeur}</dt>
+                <dd className="mt-2.5 text-[0.8125rem] text-muted-foreground">{libelle}</dd>
+              </Voile>
+            ))}
+          </dl>
+        </div>
+      </section>
 
-        {/* ---- LES REPÈRES -------------------------------------------- */}
-        <section className="bg-background py-20 lg:py-28">
-          <div className="container mx-auto">
-            <EnTeteSection
-              plaque="Les repères"
-              titre="Nos chiffres clés"
-              chapeau="Ce qui est vérifiable au registre du commerce."
-            />
-
-            <Voile delai={120}>
-              <dl className="mt-14 grid grid-cols-2 border-t border-[hsl(var(--trait)/var(--trait-a))] lg:grid-cols-4">
-                {REPERES.map(({ valeur, libelle }) => (
-                  <div
-                    key={libelle}
-                    className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-6 lg:border-b-0 lg:border-l lg:border-[hsl(var(--trait)/var(--trait-a))] lg:pl-6 lg:first:border-l-0 lg:first:pl-0"
-                  >
-                    <dt className="font-display text-[clamp(1.5rem,2.6vw,2.125rem)] font-semibold text-primary-display">
-                      {valeur}
-                    </dt>
-                    <dd className="mt-1.5 text-[0.875rem] text-muted-foreground">{libelle}</dd>
-                  </div>
-                ))}
-              </dl>
-            </Voile>
-          </div>
-        </section>
-
-        {/* ---- LE RENDEZ-VOUS ---------------------------------------- */}
-        <section className="nuit grain bg-nuit py-20 text-pierre lg:py-28">
-          <div className="container mx-auto">
-            <EnTeteSection
-              fond="nuit"
-              plaque="Nous joindre"
-              titre="Prêt à nous faire confiance ?"
-              chapeau="Découvrez comment notre expertise peut valoriser votre patrimoine."
-            />
-
-            <Voile delai={120} className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" asChild>
-                <a href={tel}>
-                  <Phone aria-hidden />
-                  {ADRESSE.telephone}
-                </a>
-              </Button>
-              <Button size="lg" variant="secondary" asChild>
-                <Lien to="/equipe">
-                  Rencontrer l'équipe
-                  <ArrowRight aria-hidden />
-                </Lien>
-              </Button>
-            </Voile>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </div>
-  );
-};
+      <BandeauContact
+        fond="lin"
+        surtitre="Nous joindre"
+        titre="Parlons de votre lot, ou de votre immeuble."
+        texte="Un interlocuteur vous répond et vous dit ce qu'il en pense."
+        action={{ libelle: 'Nous écrire', href: '/contact' }}
+        ordre="action"
+      />
+    </main>
+    <Footer />
+    <BarreAppel action={{ libelle: 'Écrire', href: '/contact' }} />
+  </div>
+);
 
 export default About;

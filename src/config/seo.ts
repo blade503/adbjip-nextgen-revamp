@@ -182,7 +182,7 @@ export const SEO_CONFIG = {
   }
 };
 
-export const generateStructuredData = (type: string, data: any) => {
+export const generateStructuredData = (type: string, data: Record<string, unknown>) => {
   return {
     "@context": "https://schema.org",
     "@type": type,

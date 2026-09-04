@@ -33,3 +33,8 @@ public/biens/
 # Demandes reçues via contact.php (données personnelles) : jamais dans git.
 public/leads.jsonl
 dist/leads.jsonl
+
+# Captures d'écran du site (63 Mo de PNG, régénérables par le protocole de
+# CLAUDE.md § Voir avant d'affirmer). La planche de design et le README du
+# dossier restent versionnés : ce sont eux qui documentent la direction.
+captures/**/*.png

@@ -19,7 +19,9 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      // Le voile est de nuit, pas de noir : c'est la même matière que celui du
+      // menu mobile, et la page reste reconnaissable dessous.
+      "fixed inset-0 z-50 bg-nuit/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     )}
     {...props}
@@ -36,13 +38,23 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
+        /* La boîte de dialogue est une plaque : rayon de 2 px et non 8, filet de
+           1 px, et l'ombre d'encre du système (`shadow-appui`) au lieu du
+           `shadow-lg` gris du gabarit. Elle se pose sur la courbe de sortie, à la
+           durée d'une petite course. Les `slide-in-from-*` restent : ils portent
+           le `translate(-50%, -50%)` du centrage pendant l'animation, sans eux la
+           boîte partirait du coin haut gauche. */
+        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 rounded-none border border-[hsl(var(--trait)/var(--trait-a))] bg-background p-6 shadow-appui duration-3 ease-sortie data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
         className
       )}
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+      {/* Pas de `focus:outline-none` ni d'anneau propre : le bouton reprend
+          l'anneau global de `:focus-visible` (laiton + halo marine). L'anneau
+          du gabarit était en laiton seul sur la pierre — 1,81:1, invisible au
+          clavier, précisément le piège que la charte documente. */}
+      <DialogPrimitive.Close className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-none text-muted-foreground transition-colors duration-2 ease-etat hover:bg-[hsl(var(--lavis)/calc(var(--lavis-a)*2))] hover:text-foreground disabled:pointer-events-none">
         <X aria-hidden className="h-4 w-4" />
         <span className="sr-only">Fermer</span>
       </DialogPrimitive.Close>
@@ -56,10 +68,10 @@ const DialogHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn(
-      "flex flex-col space-y-1.5 text-center sm:text-left",
-      className
-    )}
+    // Ferré à gauche à toutes les largeurs : rien n'est centré sur ce site, et
+    // le gabarit centrait le titre sous `sm` seulement — deux compositions pour
+    // une même boîte.
+    className={cn("flex flex-col space-y-1.5 text-left", className)}
     {...props}
   />
 )
@@ -71,10 +83,12 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn(
-      "text-lg font-semibold leading-none tracking-tight",
-      className
-    )}
+    /* Radix rend un `h2` : il reçoit donc Archivo, la largeur 108 et
+       l'interlettrage des titres par la feuille de base. Ne pas le resserrer
+       davantage — `tracking-tight` s'ajoutait au −0,024 em déjà posé. `pr-8`
+       dégage la place du bouton de fermeture, que les trois appelants
+       ajoutaient chacun à la main. */
+    className={cn("pr-8 text-[clamp(1.375rem,2.6vw,1.75rem)] font-semibold", className)}
     {...props}
   />
 ))

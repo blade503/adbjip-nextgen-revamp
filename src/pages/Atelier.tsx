@@ -110,7 +110,7 @@ const Atelier = () => {
       </Case>
 
       <Case titre="Filet du lien" note="Un seul comportement de lien sur tout le site.">
-        <a href="#atelier" className="lien-trait w-fit font-display text-[0.6875rem] font-semibold uppercase tracking-[0.13em]">
+        <a href="#atelier" className="lien-trait w-fit text-[0.6875rem] font-semibold uppercase tracking-[0.13em]">
           Tout le portefeuille →
         </a>
       </Case>
@@ -185,7 +185,7 @@ const Atelier = () => {
                       </span>
                       <span
                         className={`shrink-0 rounded-[1px] px-2 py-1 font-display text-[0.5625rem] font-semibold uppercase tracking-[0.13em] ${
-                          q.reponse ? 'bg-primary text-primary-foreground' : 'bg-pierre/10 text-zinc'
+                          q.reponse ? 'bg-primary text-primary-foreground' : 'bg-pierre/10 text-muted-foreground'
                         }`}
                       >
                         {q.reponse ? 'répondue' : 'à fournir'}

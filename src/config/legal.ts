@@ -89,7 +89,58 @@ export const ADRESSE = {
   ville: 'Paris',
   telephone: '01 42 25 78 24',
   email: 'j.immo.p@orange.fr',
+  /** Repris de la section de conversion : la ligne 3 dessert les deux stations. */
+  metro: 'Métro Villiers ou Europe, ligne 3',
 };
+
+/**
+ * L'extranet Gercop — « Espace client » dans l'en-tête et sur la page syndic.
+ *
+ * L'URL est relevée sur le site en production (www.adbjip.fr, 04/09/2026), où
+ * elle est liée sous le libellé « Moi et JIP » dans le menu et six fois dans
+ * les pages. Si elle passe à `null`, le lien disparaît partout d'un coup : un
+ * « Espace client » qui mènerait à une adresse inventée ferait perdre confiance
+ * au copropriétaire qui clique.
+ */
+export const ESPACE_CLIENT = {
+  libelle: 'Espace client',
+  url: 'https://jobardimmobilier.gercop-extranet.com/' as string | null,
+};
+
+/**
+ * Les deux interlocuteurs de l'agence — repris de l'ancienne page « Équipe »
+ * (fusionnée dans « L'agence » le 04/09/2026), mot pour mot : noms, lignes
+ * directes, courriels, descriptions — et recoupés avec la page contact du site
+ * en production (www.adbjip.fr/about, 04/09/2026), qui donne les mêmes numéros
+ * et les deux boîtes de service `gerance@` et `copro@adbjip.fr`. Le
+ * rattachement à une société et le rôle légal viennent de `ENTITES` (registre
+ * national), pas d'ici.
+ *
+ * Deux autres profils avaient été inventés puis retirés en 2026 : la liste ne
+ * contient que les personnes réellement présentes. À compléter par l'agence,
+ * pas par le code.
+ */
+export const EQUIPE = [
+  {
+    nom: 'Francis Jobard',
+    metier: 'Gérance & syndic',
+    telephone: ADRESSE.telephone,
+    email: 'copro@adbjip.fr',
+    description:
+      'Suit personnellement les copropriétés : assemblées générales, travaux, comptes.',
+    /** Index dans `ENTITES` : J.I.P. — Jobard Immobilier Paris. */
+    entite: 0,
+  },
+  {
+    nom: 'Florent Jobard',
+    metier: 'Transaction & estimation',
+    telephone: '06 62 91 73 35',
+    email: ADRESSE.email,
+    description: "Porte la transaction, l'achat-vente et l'estimation.",
+    /** Index dans `ENTITES` : Jobard Immobilier Patrimoine. */
+    entite: 1,
+  },
+];
 
 export const ENTITES: Entite[] = [
   {

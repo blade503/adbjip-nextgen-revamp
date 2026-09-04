@@ -4,27 +4,24 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 /**
- * L'étiquette est une petite plaque, pas une pastille.
+ * L'étiquette : une mention portée sur un document — « VENTE », « LOCATION »,
+ * « NOUVEAU » — jamais une pastille. Angle vif, capitales espacées, aplat.
  *
- * `rounded-full` est retiré : la gélule est le signe le plus reconnaissable
- * d'une interface montée sur gabarit, et sur les photos d'annonces elle se
- * lisait comme un badge d'application. Une plaque rectangulaire à capitales
- * espacées se lit comme une mention portée sur un document — ce qu'elle est
- * (« vente », « location », « nouveau »).
+ * Les couleurs sont des MATIÈRES fixes et non des jetons : une étiquette est
+ * presque toujours posée sur une photo d'annonce, où elle doit rester lisible
+ * sur un ciel comme sur un mur sombre, quel que soit le fond de la section.
+ * Encre sur laiton 8,6:1, pierre sur marine 13,8:1 — mesurés.
  */
 const badgeVariants = cva(
-  "inline-flex items-center rounded-[1px] px-2.5 py-1 font-display text-[0.625rem] font-semibold uppercase leading-none tracking-[0.14em] transition-colors",
+  "inline-flex items-center rounded-none px-2 py-1 font-sans text-[0.625rem] font-semibold uppercase leading-none tracking-[0.14em]",
   {
     variants: {
       variant: {
-        default:
-          "grave grave-fin bg-primary text-primary-foreground [--filet-grave:var(--primary-foreground)] [--filet-grave-a:0.35]",
-        secondary:
-          "grave grave-fin bg-secondary text-secondary-foreground [--filet-grave:var(--secondary-foreground)] [--filet-grave-a:0.35]",
-        destructive:
-          "bg-destructive text-destructive-foreground",
-        outline:
-          "border border-foreground/25 text-foreground",
+        default: "bg-laiton text-encre",
+        secondary: "bg-marine text-pierre",
+        pierre: "bg-pierre text-encre",
+        destructive: "bg-destructive text-destructive-foreground",
+        outline: "border border-foreground text-foreground",
       },
     },
     defaultVariants: {
@@ -43,4 +40,5 @@ function Badge({ className, variant, ...props }: BadgeProps) {
   )
 }
 
-export { Badge, badgeVariants }
+// `badgeVariants` n'est plus exporté : aucun appelant (voir button.tsx).
+export { Badge }

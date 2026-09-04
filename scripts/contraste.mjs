@@ -92,92 +92,96 @@ function aplatir(couches) {
 /* Les jetons de src/index.css                                         */
 
 const J = {
-  nuit: '212 34% 9%',
-  marine: '217 40% 15%',
-  pierre: '40 26% 94%',
-  ivoire: '40 30% 97%',
-  encre: '214 34% 12%',
-  zinc: '213 16% 66%',
+  pierre: '40 31% 94%',
+  lin: '41 29% 89%',
+  ivoire: '0 0% 100%',
+  marine: '217 45% 16%',
+  encre: '216 41% 11%',
+  ardoise: '217 17% 28%',
+  zinc: '214 10% 40%',
   laiton: '38 88% 55%',
   laitonGlow: '38 88% 62%',
   laitonDisplay: '38 88% 36%',
   laitonInk: '38 88% 28%',
-  mutedForeground: '215 14% 40%',
+  /* Le texte second et le texte courant SOUS `.nuit`, sur le marine. */
+  zincNuit: '40 22% 78%',
+  ardoiseNuit: '40 22% 85%',
   destructive: '4 68% 48%',
   destructiveInk: '4 72% 32%',
   blanc: '0 0% 100%',
 };
 
 /**
- * Les couples réels du site. `fond` est une PILE : le premier élément est
- * l'aplat opaque, les suivants sont les voiles posés dessus.
+ * Les couples réels du site — direction « La Plaque », 04/09/2026. `fond` est
+ * une PILE : le premier élément est l'aplat opaque, les suivants sont les
+ * voiles posés dessus.
  *
  * `seuil` : 4.5 pour du texte courant (WCAG 1.4.3), 3 pour un texte ≥ 24 px ou
  * un élément dont la perception est NÉCESSAIRE pour identifier un composant ou
  * son état (1.4.11), et `null` pour le purement décoratif — que la norme exclut
  * explicitement de 1.4.11.
  *
- * La distinction n'est pas un confort : la première version de ce fichier
- * mettait un seuil de 3 sur le liseré des plaques et sur les filets de
- * séparation. Les deux échouaient, et le script criait à la faute là où il n'y
- * en avait pas. Un outil qui crie à tort finit par être ignoré, ce qui est pire
- * que de ne pas l'avoir écrit.
+ * Trois fonds clairs et non un : le crème de la page, le lin des bandes
+ * alternées, et le blanc des cartes. Une couleur de texte admise sur l'un doit
+ * l'être sur les trois — c'est le blanc qui est le plus exigeant pour l'ambre.
  */
 const COUPLES = [
   // ---- La décision structurante -----------------------------------
   { nom: 'laiton / pierre — ENSEIGNE EN TEXTE SUR FOND CLAIR', pp: J.laiton, fond: [J.pierre], seuil: 4.5,
-    note: 'doit échouer — c\'est ce constat qui rend la coquille sombre' },
-  { nom: 'laiton / nuit — la même enseigne sur le fond sombre', pp: J.laiton, fond: [J.nuit], seuil: 4.5 },
-  { nom: 'laiton / marine', pp: J.laiton, fond: [J.marine], seuil: 4.5 },
+    note: 'doit échouer — c\'est pourquoi l\'ambre s\'écrit foncé sur le crème' },
+  { nom: 'laiton / marine — l\'enseigne sur les blocs sombres', pp: J.laiton, fond: [J.marine], seuil: 4.5 },
 
-  // ---- Fond clair --------------------------------------------------
+  // ---- Texte sur les trois fonds clairs -----------------------------
   { nom: 'encre / pierre', pp: J.encre, fond: [J.pierre], seuil: 4.5 },
-  { nom: 'encre / ivoire', pp: J.encre, fond: [J.ivoire], seuil: 4.5 },
-  { nom: 'muted-foreground / pierre', pp: J.mutedForeground, fond: [J.pierre], seuil: 4.5 },
-  { nom: 'primary-ink / pierre', pp: J.laitonInk, fond: [J.pierre], seuil: 4.5 },
-  { nom: 'primary-display / pierre (titres ≥ 24 px)', pp: J.laitonDisplay, fond: [J.pierre], seuil: 3 },
+  { nom: 'encre / lin', pp: J.encre, fond: [J.lin], seuil: 4.5 },
+  { nom: 'encre / blanc', pp: J.encre, fond: [J.ivoire], seuil: 4.5 },
+  { nom: 'ardoise / pierre (paragraphes)', pp: J.ardoise, fond: [J.pierre], seuil: 4.5 },
+  { nom: 'ardoise / lin', pp: J.ardoise, fond: [J.lin], seuil: 4.5 },
+  { nom: 'zinc / pierre (texte second)', pp: J.zinc, fond: [J.pierre], seuil: 4.5 },
+  { nom: 'zinc / lin', pp: J.zinc, fond: [J.lin], seuil: 4.5 },
+  { nom: 'zinc / blanc', pp: J.zinc, fond: [J.ivoire], seuil: 4.5 },
+  { nom: 'primary-ink / pierre (étiquettes, cotes)', pp: J.laitonInk, fond: [J.pierre], seuil: 4.5 },
+  { nom: 'primary-ink / lin', pp: J.laitonInk, fond: [J.lin], seuil: 4.5 },
+  { nom: 'primary-ink / blanc', pp: J.laitonInk, fond: [J.ivoire], seuil: 4.5 },
+  { nom: 'primary-display / pierre (mot en couleur d\'un titre ≥ 24 px)', pp: J.laitonDisplay, fond: [J.pierre], seuil: 3 },
+  { nom: 'primary-display / lin', pp: J.laitonDisplay, fond: [J.lin], seuil: 3 },
+  { nom: 'primary-display / blanc', pp: J.laitonDisplay, fond: [J.ivoire], seuil: 3 },
   { nom: 'destructive-ink / pierre', pp: J.destructiveInk, fond: [J.pierre], seuil: 4.5 },
 
-  // ---- Fond de nuit ------------------------------------------------
-  { nom: 'pierre / nuit', pp: J.pierre, fond: [J.nuit], seuil: 4.5 },
+  // ---- Sur le marine (`.nuit`) ---------------------------------------
   { nom: 'pierre / marine', pp: J.pierre, fond: [J.marine], seuil: 4.5 },
-  { nom: 'zinc / nuit', pp: J.zinc, fond: [J.nuit], seuil: 4.5 },
-  { nom: 'zinc / marine', pp: J.zinc, fond: [J.marine], seuil: 4.5 },
-  { nom: 'laiton-glow / nuit (survol)', pp: J.laitonGlow, fond: [J.nuit], seuil: 4.5 },
+  { nom: 'zinc-nuit / marine (texte second des blocs)', pp: J.zincNuit, fond: [J.marine], seuil: 4.5 },
+  { nom: 'ardoise-nuit / marine (paragraphes des blocs)', pp: J.ardoiseNuit, fond: [J.marine], seuil: 4.5 },
+  { nom: 'laiton-glow / marine (survol)', pp: J.laitonGlow, fond: [J.marine], seuil: 4.5 },
 
-  // ---- Sur aplat de laiton (boutons, étiquettes) -------------------
-  { nom: 'marine / laiton — premier plan des boutons', pp: J.marine, fond: [J.laiton], seuil: 4.5 },
+  // ---- Les boutons ---------------------------------------------------
+  { nom: 'pierre / marine — bouton principal sur le crème', pp: J.pierre, fond: [J.marine], seuil: 4.5 },
+  { nom: 'encre / laiton — bouton principal sur le marine', pp: J.encre, fond: [J.laiton], seuil: 4.5 },
   { nom: 'blanc / laiton — POURQUOI ON NE MET PAS DE BLANC', pp: J.blanc, fond: [J.laiton], seuil: 4.5,
     note: 'doit échouer' },
-  { nom: 'marine / laiton-glow (bouton survolé)', pp: J.marine, fond: [J.laitonGlow], seuil: 4.5 },
+  { nom: 'encre / laiton-glow (bouton survolé)', pp: J.encre, fond: [J.laitonGlow], seuil: 4.5 },
+  { nom: 'marine / laiton — étiquette VENTE', pp: J.marine, fond: [J.laiton], seuil: 4.5 },
 
   // ---- LES VOILES : là où le piège se referme ----------------------
-  { nom: 'primary-ink / voile laiton 10 % sur pierre', pp: J.laitonInk, fond: [J.pierre, `${J.laiton} / 0.10`], seuil: 4.5,
-    note: 'le cas qui a fait descendre --primary-ink de 30 % à 28 % de clarté' },
-  { nom: 'muted-foreground / voile laiton 10 % sur pierre', pp: J.mutedForeground, fond: [J.pierre, `${J.laiton} / 0.10`], seuil: 4.5 },
-  { nom: 'muted-foreground / lavis encre 4,5 % sur pierre', pp: J.mutedForeground, fond: [J.pierre, `${J.encre} / 0.045`], seuil: 4.5 },
+  { nom: 'zinc / lavis encre 4,5 % sur pierre (survol)', pp: J.zinc, fond: [J.pierre, `${J.encre} / 0.045`], seuil: 4.5 },
   { nom: 'encre / lavis encre 4,5 % sur pierre (survol)', pp: J.encre, fond: [J.pierre, `${J.encre} / 0.045`], seuil: 4.5 },
-  { nom: 'zinc / lavis pierre 5,5 % sur nuit (survol)', pp: J.zinc, fond: [J.nuit, `${J.pierre} / 0.055`], seuil: 4.5 },
-  { nom: 'laiton / lavis pierre 5,5 % sur nuit', pp: J.laiton, fond: [J.nuit, `${J.pierre} / 0.055`], seuil: 4.5 },
-  { nom: 'pierre / lavis pierre 5,5 % sur nuit', pp: J.pierre, fond: [J.nuit, `${J.pierre} / 0.055`], seuil: 4.5 },
+  { nom: 'zinc-nuit / lavis pierre 6 % sur marine (survol)', pp: J.zincNuit, fond: [J.marine, `${J.pierre} / 0.06`], seuil: 4.5 },
+  { nom: 'laiton / lavis pierre 6 % sur marine', pp: J.laiton, fond: [J.marine, `${J.pierre} / 0.06`], seuil: 4.5 },
+  { nom: 'primary-ink / voile laiton 8 % sur pierre (retour d\'envoi)', pp: J.laitonInk, fond: [J.pierre, `${J.laiton} / 0.08`], seuil: 4.5 },
 
-  // ---- Filets et liserés : non textuels, seuil 3:1 -----------------
-  { nom: 'liseré laiton 42 % / marine', pp: `${J.laiton} / 0.42`, fond: [J.marine], seuil: null,
-    note: 'décoratif : la limite qui identifie un bouton est son APLAT (laiton/nuit 8,91:1), pas le filet gravé à l\'intérieur' },
+  // ---- Filets : non textuels ----------------------------------------
   { nom: 'trait encre 14 % / pierre', pp: `${J.encre} / 0.14`, fond: [J.pierre], seuil: null,
     note: 'séparateur de sections : décoratif, exclu de 1.4.11' },
+  { nom: 'bordure de bouton secondaire (encre pleine) / pierre', pp: J.encre, fond: [J.pierre], seuil: 3,
+    note: 'c\'est la bordure qui identifie le bouton : 1.4.11 s\'applique' },
+  { nom: 'bordure de bouton secondaire (pierre 50 %) / marine', pp: `${J.pierre} / 0.5`, fond: [J.marine], seuil: 3 },
 
-  // ---- L'anneau de focus : 1.4.11 s'applique, lui -------------------
-  // Ce qui doit atteindre 3:1 est L'INDICATEUR, pas chacune de ses couches.
-  // Le laiton seul échoue sur la pierre — c'est précisément pour cela que le
-  // halo marine existe. Mesurer le laiton isolément, c'est mesurer la mauvaise
-  // chose et conclure à une faute qui n'en est pas une.
+  // ---- L'anneau de focus : 1.4.11 s'applique ------------------------
   { nom: 'anneau de focus, couche laiton seule / pierre', pp: J.laiton, fond: [J.pierre], seuil: null,
-    note: 'informatif : 1,81:1, insuffisant seul → d\'où la couche suivante' },
+    note: 'informatif : insuffisant seul → d\'où la couche suivante' },
   { nom: 'anneau de focus, halo marine 85 % / pierre', pp: `${J.marine} / 0.85`, fond: [J.pierre], seuil: 3,
     note: 'c\'est cette couche qui porte l\'indicateur sur fond clair' },
-  { nom: 'anneau de focus, couche laiton / nuit', pp: J.laiton, fond: [J.nuit], seuil: 3,
-    note: 'sur la nuit, le laiton suffit à lui seul' },
+  { nom: 'anneau de focus, couche laiton / marine', pp: J.laiton, fond: [J.marine], seuil: 3 },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -194,7 +198,7 @@ if (couples.length === 0) {
 let echecsInattendus = 0;
 const largeur = Math.max(...couples.map((c) => c.nom.length));
 
-console.log('\nContrastes WCAG 2.1 · charte « Le hall » · ' + couples.length + ' couples\n');
+console.log('\nContrastes WCAG 2.1 · direction « La Plaque » · ' + couples.length + ' couples\n');
 
 for (const couple of couples) {
   // Un premier plan peut lui-même être semi-transparent (un liseré) : on le

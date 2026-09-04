@@ -1009,3 +1009,75 @@ Deux pièges à garder en tête pendant l'opération :
   C'est voulu, et c'est pourquoi l'étape 2 les met à l'abri d'abord.
 - **GitHub désactive un workflow planifié après 60 jours sans activité.** Si les
   annonces cessent de se rafraîchir, regarder là avant tout le reste.
+
+---
+
+## 14. Direction artistique « La Plaque » (04/09/2026)
+
+Branche `refonte/direction-artistique-hall`, à la suite du § 12. Le client a choisi, sur une
+planche Claude Design (`captures/JIP Redesign.dc.html`), la direction **1a « La Plaque »** —
+crème, romain éditorial, aiguillage par profil — et son arborescence 2a. Le site est clair
+partout ; le marine est réservé aux blocs appuyés et aux boutons. Voir le § Design system de
+`CLAUDE.md` pour le système ; ici, ce qui ne se lit pas dans le code.
+
+### Ce qui a changé de structure
+
+- **Trois pages fusionnées, trois redirections 301** dans `public/.htaccess` :
+  `/services/estimation-biens` et `/services/achats-ventes` → `/services/vendre-estimer` ;
+  `/equipe` → `/agence`. La redirection héritée `/estimation` pointe désormais sur la page
+  fusionnée. `verifier-deploiement.mjs` contrôle les six redirections et les huit routes fixes.
+- **Une fiche par annonce** : `/biens/:slug`, prérendue et déclarée au sitemap. Le `:slug` est
+  résolu depuis `data/biens.json` par `scripts/routes.mjs`, partagé par le prérendu, le sitemap
+  et `verifier-liens.mjs`. **Le nombre de pages suit donc le portefeuille** (13 le 04/09/2026).
+  Le `.htaccess` sert `dist/biens/<slug>/index.html` sans règle nouvelle.
+- **L'ouverture éclairée** (heures, relief, lanternes, raccord, seuil) est retirée avec la
+  coquille de nuit : elle fondait vers le noir. Le point « ouvert / fermé » vit à côté du
+  numéro dans l'en-tête (`src/lib/horaires.ts`). Le script d'heure d'`index.html` et la
+  `safelist` Tailwind sont partis avec elle.
+- **Le lint est à zéro** : les douze `any` de `MarketDataService` sont typés
+  (`DonneesMarche`, `Coordonnees`), le `require` de Tailwind est un `import`.
+
+### Vérifié sur des sources, pas déduit
+
+- **Extranet Gercop** : `https://jobardimmobilier.gercop-extranet.com/`, lié six fois sur
+  www.adbjip.fr sous « Moi et JIP » (relevé le 04/09/2026). Dans `ESPACE_CLIENT`
+  (`config/legal.ts`) ; passer à `null` masque le lien partout.
+- **Les deux interlocuteurs** : registre national (recherche-entreprises.api.gouv.fr,
+  04/09/2026) — Francis Jobard, président de SAS de J.I.P. ; Florent Jobard, président de SAS
+  de Jobard Immobilier Patrimoine. La planche disait « directeur général » : le registre fait
+  foi. Lignes directes et courriels recoupés avec www.adbjip.fr/about (06 62 91 73 35,
+  `copro@` et `gerance@adbjip.fr`).
+
+### Ce que la planche montrait et qui n'a pas été fait
+
+Voir le § Design system de `CLAUDE.md` : encart « syndic de cet immeuble » de la fiche bien
+(pas de donnée), formulaire à quatre champs (le serveur exige un courriel), calculateur à cinq
+champs (le géocodage exige code postal et ville), libellés abrégés des mandats.
+
+### Contenu qui n'a pas suivi la refonte — consigné pour ne pas être perdu
+
+- **Estimation** : les huit critères de « notre méthode d'évaluation » (analyse comparative du
+  marché local · étude des transactions récentes · évaluation de l'état général · spécificités
+  du quartier · travaux à prévoir · rentabilité locative · conseils d'optimisation · rapport
+  détaillé et argumenté) et le panneau « pourquoi nous choisir » (données officielles DVF et
+  notariales · « 15+ années d'expérience », sans source · estimation en ligne immédiate).
+- **Achats/ventes** : les quatre étapes (analyse · recherche · négociation · finalisation) et
+  les trois atouts (syndic et vendeur · négociation experte · sécurité juridique).
+- **Agence** : « Fondée par des professionnels passionnés… » et « Deux sociétés, deux métiers,
+  une seule adresse… » (le second est repris en chapeau).
+- **Équipe** : les trois valeurs (esprit d'équipe · innovation · proximité) et les
+  spécialités par personne.
+- **Accueil** : la section « L'agence » (elle a sa page).
+
+### Reste à faire
+
+- **Photographies vraies** pour les ouvertures gérance et syndic : les deux images de banque
+  restent en duotone. La planche demandait « clés et bail sur le bureau » et « hall d'immeuble,
+  boîtes aux lettres » — à photographier au 27 rue de Lisbonne.
+- ~~Sonde de débordement, poids des fontes, LCP et CLS~~ → **faits le 04/09/2026** : 0 px de
+  débordement sur onze pages à cinq largeurs ; 122,3 Ko de fontes latines ; LCP ~1 500 ms
+  (travée) ; CLS 0,0388 → 0,0065 après pose de trois polices de repli aux métriques ajustées.
+  Détail dans CLAUDE.md § Le contrat de mouvement.
+- **« 24 h »** de délai de réponse : toujours en attente d'arbitrage, présent sur trois pages.
+- **Vider le cache LWS** à la bascule (§ 13) : trois URL redirigent désormais, et le cache de
+  périphérie sert l'ancienne page tant qu'il n'est pas vidé.

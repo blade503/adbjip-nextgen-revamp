@@ -31,9 +31,9 @@ npm run lint
 npm run build
 ```
 
-Colle-moi la sortie des trois. `lint` sort avec un nombre d'erreurs préexistant : compare au
-repère (**19 erreurs, 4 avertissements**, cf. § Commandes), ne cherche pas zéro. Si `tsc` ou
-`build` échoue, corrige avant de me répondre. Ne dis jamais « c'est fait » sans ces sorties.
+Colle-moi la sortie des trois. `lint` est à **zéro** depuis le 04/09/2026 : toute erreur ou
+tout avertissement est une régression de la tâche en cours. Si `tsc` ou `build` échoue, corrige
+avant de me répondre. Ne dis jamais « c'est fait » sans ces sorties.
 
 **Voir avant d'affirmer.** Pour tout changement visuel, prends une capture d'écran et
 regarde-la. Sers le HTML avec un `<!doctype html>` : sans lui Chrome rend en mode quirks, où
@@ -62,29 +62,26 @@ npm run test                             # Vitest — logique pure de src/lib/ U
 npm run biens:fetch                      # rapatrie les annonces + photos (voir plus bas)
 ```
 
-### Le repère de vérification (relevé le 27/08/2026)
+### Le repère de vérification (relevé le 04/09/2026)
 
 Les trois commandes ci-dessous sont le seul contrôle du projet. Leurs compteurs à l'état sain :
 
 | Commande             | Attendu                                                              |
 |----------------------|----------------------------------------------------------------------|
 | `npm run typecheck`  | **0 erreur**. Toute erreur est bloquante.                            |
-| `npm run lint`       | **23 problèmes — 19 erreurs, 4 avertissements.** Comparer, pas viser zéro. |
+| `npm run lint`       | **0 problème** depuis le 04/09/2026 (les 19 `any` du service de marché et le `require` de Tailwind ont été corrigés). Toute erreur est une régression. |
 | `npm run test`       | **53 cas verts**, ~200 ms. Logique pure de `src/lib/` seulement. |
-| `npm run build`      | **1 728 modules**, ~1,7 à 2,7 s, `[sitemap] 9 URL`, `[prerender] 10/10 + la page 404`. |
+| `npm run build`      | **1 722 modules**, ~1,7 s, `[sitemap] 12 URL`, `[prerender] 13/13 + la page 404`. |
 
-Poids de sortie au repère (relevé le 27/08/2026, après découpage des routes et retrait des
-deux dépendances mortes) : morceau d'entrée **JS 273,0 Ko → 88,2 Ko gzip**, **CSS 55,8 Ko →
-12,2 Ko gzip**, **474,7 Ko** pour l'ensemble de `dist/assets/`. Le CSS n'est pas découpé par
+Poids de sortie au repère (relevé le 04/09/2026, direction « La Plaque ») : morceau d'entrée
+**JS 272,4 Ko → 88,8 Ko gzip**, **CSS 45,9 Ko → 10,0 Ko gzip**. Le CSS n'est pas découpé par
 route — chantier ouvert, sans urgence à ce poids.
 
-Les 19 erreurs de lint sont préexistantes, surtout `no-explicit-any` dans
-`MarketDataService.tsx` et un `no-require-imports` dans `tailwind.config.ts`. Un total
-supérieur à 23 signale une régression introduite par la tâche en cours.
-
-`[prerender] 10/10` correspond aux dix routes réelles de `src/App.tsx` (le catch-all `*` est
-exclu). `[sitemap] 9 URL` en compte une de moins : `/mentions-legales` en est volontairement
-absente. Ces deux nombres ne sont pas censés être égaux.
+`[prerender] 13/13` = les **8 routes fixes** de `src/App.tsx` + **une fiche par annonce** du
+portefeuille (`/biens/:slug`, résolu par `scripts/routes.mjs` depuis `data/biens.json` ; cinq
+annonces le 04/09/2026). Le catch-all `*` est exclu. `[sitemap] 12 URL` en compte une de
+moins : `/mentions-legales` en est volontairement absente. **Les deux nombres suivent le
+portefeuille** : une annonce de plus, c'est une page et une URL de plus.
 
 Deux fichiers de tests, tous deux dans `src/lib/` : `biens.test.ts` (43 cas) et
 `formulaire.test.ts` (10 cas, ajouté le 28/08/2026 — la validation côté client et le repli
@@ -102,8 +99,8 @@ Dans ce projet, « tester » veut donc dire :
 
 1. `npm run typecheck` — 0 erreur ;
 2. `npm run lint` — au repère ;
-3. `npm run test` — 31 cas verts ;
-4. `npm run build` — termine, et prérend les 10 pages ;
+3. `npm run test` — 53 cas verts ;
+4. `npm run build` — termine, et prérend les 8 pages fixes + une par annonce ;
 5. le **prérendu** vérifié (pas de page sous 2 000 octets, sinon échec silencieux) ;
 6. une **capture d'écran prise ET regardée** pour tout changement visuel.
 
@@ -193,94 +190,88 @@ API agence  →  scripts/fetch-biens.mjs  →  data/biens.json + public/biens/*.
 
 ### Estimation immobilière
 
-`src/pages/services/EstimationBiens.tsx` orchestre `QuickCalculator`, `InteractiveMap` et
-`EstimationStats`. Toute la logique vit dans **`MarketDataService`** (singleton, caches 24 h) :
+`src/pages/services/VendreEstimer.tsx` (fusion Estimation + Achats/ventes, 04/09/2026)
+orchestre `QuickCalculator` — la carte blanche de l'ouverture — et `InteractiveMap`. Toute la
+logique vit dans **`MarketDataService`** (singleton, caches 24 h, typé : `DonneesMarche`) :
 géocodage via `api-adresse.data.gouv.fr`, puis cascade DVF officielle → table par code postal →
 estimation géographique, chacune renvoyant `{ basePricePerM2, confidence, sampleSize, source }`.
 Passer par ce service plutôt que refaire un `fetch` : `InteractiveMap` a longtemps dupliqué le
 géocodage. N'afficher que les champs réellement renvoyés — pas de délai de vente ni d'évolution
 annuelle, qui ne sont pas calculés.
 
-### Design system — « Le hall » (27/08/2026)
+### Design system — « La Plaque » (04/09/2026)
 
-Direction artistique complète, documentée en tête de `src/index.css`. Le principe
-tient en une phrase : **le public voit la façade, le syndic connaît le hall.** Une
-agence de gérance et de syndic ne vend pas un appartement ensoleillé, elle détient
-les clés, le registre et les comptes d'un immeuble sur vingt ans. Le site est donc
-posé dans le hall d'un immeuble haussmannien.
+Direction artistique choisie par le client sur une planche Claude Design (`captures/JIP
+Redesign.dc.html`, direction 1a déclinée en 2a–2i), documentée en tête de `src/index.css`.
+Elle succède à « Le hall » (coquille de nuit, 27/08/2026), dont le système de mouvement est
+conservé et la coquille sombre retirée. **Le site est clair partout** : une feuille crème, des
+titres en romain, le marine réservé aux blocs appuyés (rendez-vous, mandat Dynamique, accès en
+ligne) et aux boutons.
 
-**Le site est sombre par défaut sur sa coquille, et c'est une décision mesurée**,
-pas une humeur. Le jaune de l'enseigne plafonne à **1,81:1** sur un fond clair —
-inutilisable en texte, d'où les deux déclinaisons sombres qu'il avait fallu
-inventer pour pouvoir l'écrire quelque part. Sur le fond de nuit il atteint
-**8,91:1**. Inverser était la seule manière de rendre à l'agence sa couleur.
+**Six matières** (`src/index.css`), ratios calculés par `node scripts/contraste.mjs` (37 couples,
+aucun échec inattendu le 04/09/2026) :
 
-Six matières, nommées par la matière et non par la fonction (`src/index.css`) :
+| jeton               | valeur          | rôle                                   |
+|---------------------|-----------------|----------------------------------------|
+| `--pierre`          | `40 31% 94%`    | le crème, fond de page                 |
+| `--lin`             | `41 29% 89%`    | la bande alternée, un ton dessous      |
+| `--ivoire`          | `0 0% 100%`     | la carte blanche posée sur le crème    |
+| `--marine` = `--nuit` | `217 45% 16%` | l'émail : blocs appuyés, boutons       |
+| `--encre` / `--ardoise` / `--zinc` | 11 % / 28 % / 40 % | titres · paragraphes · texte second |
+| `--laiton`          | `38 88% 55%`    | l'enseigne — **texte sur marine seulement** (7,6:1) |
 
-| jeton      | valeur         | rôle                          | ratios mesurés |
-|------------|----------------|-------------------------------|----------------|
-| `--nuit`   | `212 34% 9%`   | fond sombre, la boiserie      | pierre 16,08:1 · laiton 8,91:1 · zinc 7,41:1 |
-| `--marine` | `217 40% 15%`  | champ des plaques             | laiton 7,79:1 · pierre 14,05:1 |
-| `--pierre` | `40 26% 94%`   | fond clair, pierre de taille  | encre 15,02:1 |
-| `--ivoire` | `40 30% 97%`   | surface claire surélevée      | encre 15,98:1 |
-| `--encre`  | `214 34% 12%`  | texte sur pierre              | — |
-| `--zinc`   | `213 16% 66%`  | texte second sur la nuit      | — |
-| `--laiton` | `38 88% 55%`   | accent, et l'enseigne         | **1,81:1 sur pierre — interdit en texte** |
+**La règle de la couleur est inchangée et calculée** : le laiton fait 1,81:1 sur le crème. Sur
+fond clair l'accent s'écrit foncé — `--primary-ink` (28 %, 5,46:1) pour les étiquettes et cotes,
+`--primary-display` (36 %, 3,63:1) pour le mot en couleur d'un titre ≥ 24 px (`<em>` dans un
+`h1`/`h2`). Le jaune vif n'est légitime que sur le marine, où il devient le bouton d'appel.
 
-**`.nuit` est le mécanisme central.** La classe rebascule tous les jetons pour son
-sous-arbre : `<section className="nuit bg-nuit">` et toute la bibliothèque de
-composants suit sans savoir qu'elle a changé de fond. **Toute section sombre doit
-la porter** — les quatre ouvertures de pages services étaient sombres sans elle,
-et affichaient de l'encre sur du marine. `.dark` reçoit la même définition, pour
-qu'il n'y ait pas deux palettes sombres divergentes dans le fichier.
+**`.nuit` reste le mécanisme de portée** : la classe rebascule tous les jetons pour son
+sous-arbre (fond marine, texte pierre, bouton laiton). Toute surface de marine doit la porter.
 
-**L'unité du système est la plaque.** Dans un hall parisien, tout est plaqué : la
-plaque de rue, celle du syndic à côté de la porte, les boîtes aux lettres gravées,
-les numéros de lot. La plaque n'est donc pas un ornement au-dessus des titres,
-c'est la géométrie de tout ce qui est encadré : champ d'émail, **liseré gravé en
-retrait de 4 px** (`.cadre`, un `::after` et non une bordure — c'est ce qui
-distingue une plaque d'un rectangle cerné), capitales espacées. Boutons, badges,
-champs, images, panneaux : même cadre. Rayon de 2 px partout.
-`src/components/systeme/PlaqueDeRue.tsx` en est la version à l'échelle d'un objet,
-et c'est l'ouverture du site — le titre de la page d'accueil est une adresse.
+**Typographie : quatre familles, quatre rôles** (`index.html`, `tailwind.config.ts`).
+Instrument Serif pour les titres (un seul poids, jamais en gras, `text-wrap: pretty`) ; Figtree
+pour le texte, les étiquettes (`.gravure`, `.etiquette-champ`) et les boutons ; IBM Plex Mono
+pour les cotes (`.cote` : « Mandat I », « Réf. V027 », « 01 ») ; Archivo 600 pour les
+**chiffres qui comptent** — prix et téléphone (`font-display`, `registre="chiffre"` du bouton).
+Archivo a perdu son axe de largeur (88 Ko à lui seul). **Poids relevé le 04/09/2026, sous-ensemble
+latin : 122,3 Ko pour huit fichiers** (Figtree 3 × 19,7 · Instrument Serif 14,7 + 15,3 · Archivo
+13,5 · Plex Mono 2 × 9,8), contre 159,3 Ko avant. Trois polices de repli locales aux métriques
+ajustées (`src/index.css`, en tête) évitent le décalage à la substitution.
 
-**Typographie : deux linéales, et le contraste est de LARGEUR.** Archivo pour les
-titres et les plaques (axe `wdth` 100..125, composée à 104–120), Inter pour le
-texte, la donnée et l'interface. Pas d'opposition serif / sans — trop attendue, et
-un romain à empattements s'opposait à la plaque, qui est de la signalétique. Les
-capitales élargies sont la proportion exacte d'une plaque émaillée.
-Coût mesuré : Archivo 87,9 Ko + Inter 71,3 Ko = **159,2 Ko contre 201,9 Ko avant**,
-parce que l'axe italique d'Inter était demandé (133,7 Ko) sans qu'une seule ligne
-du site soit en italique. Ajouter une famille a allégé la page.
-À savoir : borner les plages d'axes dans l'URL Google Fonts ne réduit pas le
-fichier — vérifié, `wght@400..700` et `wght@500..600` pèsent identique.
+**Géométrie : angle vif partout** (`--radius: 0`). Le liseré gravé en retrait de la direction
+précédente n'existe plus ; `.cadre` ne dessine plus rien, `.panneau` est la carte blanche cernée
+d'un filet d'encre à 14 %. **Ne pas réintroduire** de rayon, d'ombre portée par défaut, de verre
+dépoli (`backdrop-filter`), de dégradé, de pastille d'icône.
 
-**Mouvement : « ouverture »** (`src/components/systeme/Ouverture.tsx`). Trois
-gestes, une seule courbe (`--sortie`, sortie exponentielle sans dépassement) :
-le **trait** se tire de la gauche, le **voile** dévoile le contenu sous un
-`clip-path`, le **calage** pose l'image depuis 1,05 une seule fois. Le survol ne
-déplace RIEN : un lavis entre par la gauche, le liseré se réveille, l'image se
-cale de 3 % (`.rasante`).
-Le masquage est décidé en JavaScript et **seulement sous le pli** : `build` prérend
-dix pages en HTML statique, et un `[data-voile] { opacity: 0 }` en CSS pur aurait
-expédié ce HTML avec un contenu invisible. Rien de ce qui est déjà peint n'est
-jamais masqué.
+**Composants de la direction** (`src/components/systeme/`) : `EnTetePage` (ouverture d'une page
+intérieure : surtitre, h1, chapeau, actions, image 4/3 à droite) · `EnTeteSection` (surtitre —
+trait — titre) · `Aiguillage` (les trois profils : bailleur, conseil syndical, vendeur ; ses
+`cle` sont les valeurs de `?service=`) · `BandeauContact` (la clôture de chaque page, marine ou
+lin) · `BoutonTelephone` · `BarreAppel` (téléphone fixé au bas de l'écran sous `lg`, avec un
+espaceur : jamais sur la page contact, qui a déjà le numéro) · `PlaqueDeRue` (trois tailles).
+Une seule fiche d'annonce, `components/CarteBien.tsx`, pour le portefeuille, l'accueil et la
+fiche bien.
 
-**Photographie.** Toute image d'atmosphère passe au duotone (`.photo-editoriale`,
-ombres vers le marine, lumières vers la pierre) pour que le site n'ait qu'un
-climat. **Jamais sur une photo d'annonce** : un acheteur a droit à la couleur
-réelle du bien. Ce qui unifie les annonces à la charte, c'est le cadre gravé, pas
-la colorimétrie.
+**Photographie.** Le duotone (`.photo-editoriale`) ne s'applique plus qu'aux quatre images de
+banque des ouvertures de pages métier. La travée, le bureau, les portraits et les photos
+d'annonces se montrent en couleurs vraies.
 
-**Anciennes classes réaffectées, pas supprimées.** Onze pages s'en servaient ;
-les redéfinir a corrigé une centaine d'usages sans rouvrir onze fichiers :
-`glass` / `glass-strong` → `.panneau` (plus de `backdrop-filter`) ·
-`hover-lift` / `hover-glow` → `.rasante` (rien ne décolle) ·
-`gradient-text` → aplat · `bg-gradient-subtle` → aplat ·
-`animate-slide-up` → le voile · `shadow-elegant|card|float` → ombres d'encre ·
-`--radius*` et `rounded-2xl|3xl` → géométrie de plaque.
-**Ne pas réintroduire** le verre dépoli, les titres en dégradé, les cartes qui
-décollent, les halos jaunes, les pastilles d'icônes colorées, les gélules.
+**Arborescence (planche 2a).** Huit routes fixes : `/`, `/biens`, `/biens/:slug` (**nouvelle
+fiche bien**, une page par annonce), `/services/gestion-locative`,
+`/services/gestion-copropriete`, `/services/vendre-estimer` (**fusion** d'Estimation et
+d'Achats/ventes), `/agence` (**fusion** avec l'ancienne page Équipe), `/contact`,
+`/mentions-legales`. Les trois anciennes URL redirigent en 301 depuis `public/.htaccess` — pas
+de `<Navigate>` dans le routeur, qui prérendrait des doublons. Le lien « Espace client » (extranet
+Gercop, URL relevée sur le site en production) vient de `ESPACE_CLIENT` dans `config/legal.ts`.
+
+**Ce que la planche montrait et qui n'a PAS été fait, parce que la donnée n'existe pas** : le
+« syndic de cet immeuble, c'est nous » et ses charges / lots / travaux votés sur la fiche bien
+(la source ne dit pas quels immeubles l'agence administre — seuls lots et charges annuelles de
+`data/biens.json` sont affichés) ; le formulaire de contact à quatre champs avec « téléphone ou
+courriel » en un seul (`contact.php` exige un courriel valide : cinq champs, courriel
+obligatoire, téléphone facultatif) ; le calculateur à cinq champs (code postal et ville sont
+requis par le géocodage : sept champs) ; les libellés abrégés des mandats (ceux de l'agence sont
+gardés mot pour mot).
 
 ### Le contrat de mouvement
 
@@ -295,7 +286,19 @@ casse des choses mesurées.
   `height`, `top`, `left`, `margin`, `padding`. La seule exception est
   `grid-template-rows` pour un dépliage — c'est ainsi que la ligne d'adresse de
   l'en-tête se replie.
-- **CLS : 0,001914 à froid, et le chiffre de 0 était faux.** Les premières
+- **CLS 0,006496 · LCP ~1 500 ms sur l'ouverture « La Plaque »** — relevé le 04/09/2026,
+  390 × 844, cache désactivé, 1,6 Mb/s + 150 ms, quatre chargements identiques à la sixième
+  décimale ; l'élément LCP est l'image de la travée (vérifié par `PerformanceObserver`, 1 468
+  à 1 536 ms contre 1 657 avant). **Avant les polices de repli ajustées, le CLS était de
+  0,038786** : 0,031815 dans le bloc du titre à ~1 060 ms, à la substitution d'Instrument Serif
+  (21 % plus étroite que Times). Trois `@font-face` locaux aux métriques de la vraie fonte
+  (`size-adjust`, `ascent-override`, `descent-override`, en tête de `src/index.css`) l'ont
+  divisé par six. **Piège vérifié : Chrome multiplie les surcharges par `size-adjust`**, les
+  pourcentages sont donc divisés par lui. Le résidu (0,006453 à ~1 150 ms) tient à IBM Plex
+  Mono et aux liens `inline-flex`, sans repli ajusté : à traiter si l'on veut descendre encore.
+  **Débordement horizontal : 0 px** sur les onze pages à 375, 390, 430, 440 et 768 px, menu
+  ouvert compris (`scrollWidth − innerWidth`, sonde du 04/09/2026).
+- **CLS : 0,001914 à froid, et le chiffre de 0 était faux** (version précédente). Les premières
   mesures (0 / 0,000242 / 0) avaient été prises avec les polices en cache : le
   remplacement n'avait alors jamais lieu. Relevé le 27/08/2026, cache désactivé,
   390 × 844, réseau bridé à 1,6 Mb/s et 150 ms, **reproductible à la sixième
@@ -317,8 +320,9 @@ casse des choses mesurées.
   Le défilement, lui, ne décale **rien** — l'en-tête garde 68 px constants, le logo
   se réduit par `transform` et l'adresse par `grid-template-rows`.
 - **Un seul écouteur de défilement**, passif, dans `src/lib/defilement.ts`. Il
-  écrit deux choses sur `<html>` : `--descente` et `data-defile`. Tout le reste
-  en découle en CSS. Ne pas en ajouter un second.
+  écrit deux choses sur `<html>` : `--descente` (plus lue par personne depuis le retrait de
+  l'ouverture éclairée, mais conservée) et `data-defile`, qui souligne le filet de l'en-tête
+  (`.entete`). Tout le reste en découle en CSS. Ne pas en ajouter un second.
 - **Un seul `IntersectionObserver`**, partagé, dans `components/systeme/Ouverture.tsx`.
   **Point de déclenchement des apparitions : `rootMargin: '0px 0px -7% 0px'`, `threshold: 0`.**
   Réglé le 27/08/2026 sur la mesure, l'apparition arrivant trop tard. Sonde :
@@ -339,9 +343,8 @@ casse des choses mesurées.
   Contrôlé dans les quatre modes — normal, mouvement réduit, `?mouvement=0`, sans JavaScript :
   **aucun contenu ne reste invisible**, et rien n'est masqué en deçà du seuil de 90 % de la
   hauteur d'écran posé au montage.
-- **`will-change` jamais globale.** Deux emplacements, tous deux bornés au
-  survol : `.rasante:hover .calage` en CSS, et les copies masquées du héros
-  posées sur `pointerenter` / retirées sur `pointerleave`.
+- **`will-change` jamais globale.** Un seul emplacement, borné au survol :
+  `.rasante:hover .calage` en CSS.
 - **Aucun défilement virtualisé.** Ni Lenis, ni Locomotive, ni équivalent. Le
   défilement du navigateur est le seul qui reste accessible au clavier, à la
   barre de défilement et aux outils d'assistance.
@@ -350,10 +353,10 @@ casse des choses mesurées.
   `opacity: 0`), et les deux indicateurs d'attente continuent de tourner —
   ralentis à 2400 ms via `*:not(.attente)`. Un bloc gris immobile se lit encore
   comme un chargement ; un bloc gris immobile *sans* animation ne se lit plus.
-- **Deux boucles infinies au total**, les deux `@keyframes attente`.
-- **Exceptions documentées, à ne pas « normaliser »** : la chorégraphie du héros
-  (`.sequence`, un dépouillement calibré sur un plafond de lisibilité de 1,2 s
-  mesuré) et les deux fondus de lumière de l'ouverture (1,4 s et 1,6 s).
+- **Une seule boucle infinie**, `@keyframes attente`. La chorégraphie du héros et les fondus
+  de lumière de l'ouverture (exceptions de « Le hall ») ont disparu avec elle : l'ouverture
+  « La Plaque » entre par la classe `.voile` avec des `animation-delay` en ligne, sur les six
+  durées du système.
 
 ### Les transitions de page
 
@@ -381,14 +384,12 @@ en mémoire, donc de retarder la nouvelle.
 
 - **Le jaune ne peut pas servir de couleur de texte sur fond clair.** `--laiton`
   fait **1,81:1** sur `--pierre`, là où il en faut 4,5 (3 pour les grands titres).
-  C'est le constat qui a fait basculer la coquille du site sur la nuit, où il
-  atteint 8,91:1 et devient enfin du texte. Trois règles, toutes mesurées :
-  sur la pierre, employer `--primary-ink` (5,44:1, et 5,13:1 sur le voile teinté
-  des étiquettes — à 30 % de clarté il retombait à 4,61:1) ou `--primary-display`
-  pour les titres ≥ 24 px (3,62:1) ; sur aplat de laiton, le premier plan est
-  `--primary-foreground`, c'est-à-dire le marine (7,79:1), **jamais du blanc**
-  (1,88:1) ; le laiton vif est légitime dès qu'il est sur la nuit ou le marine.
-  Les ratios sont calculés, pas estimés — le script est reproductible.
+  Depuis « La Plaque » (04/09/2026), le site est clair partout et la règle tient en trois
+  points, tous mesurés (`node scripts/contraste.mjs`) : sur le crème, le lin ou le blanc,
+  employer `--primary-ink` (5,46:1 sur crème, 4,93:1 sur lin, 6,14:1 sur blanc) pour les
+  étiquettes et `--primary-display` (3,63:1 / 3,28:1 / 4,08:1) pour le mot en couleur d'un
+  titre ≥ 24 px ; sur aplat de laiton, le premier plan est l'**encre** (8,6:1), **jamais du
+  blanc** (2,04:1) ; le laiton vif est légitime dès qu'il est sur le marine (7,6:1).
 - **Texte sur photo : mesurer, pas estimer, et mesurer DANS LES DEUX SENS.** Les voiles ont
   été recalculés sur les pixels rendus. Un voile horizontal (`to-r`) suppose un texte aligné à
   gauche ; sous un contenu centré il ne couvre rien. Voir § 11 de `REPRISE.md`.
@@ -429,34 +430,12 @@ en mémoire, donc de retarder la nouvelle.
   annexe et non négligeable en France : plus de connexion à Google avant un geste du visiteur —
   vérifié, 0 iframe et aucun domaine Google contacté hors polices tant qu'on n'a pas cliqué — et
   les quatre tabulations de l'iframe n'existent qu'à partir de là.
-- **Le cadre du héros sur téléphone est borné, et c'est une mesure.** En
-  `aspect-[4/5]`, la travée prenait 469 px sur un écran de 375 (**70 % du pli**) et 488 sur un
-  390 (58 %) : sur un iPhone SE le `h1` passait **entièrement sous le pli**, et l'on arrivait
-  sur un immeuble sans un mot. Corrigé en `aspect-[7/5]` + `max-h-[42svh]` (la tablette, où le
-  seul ratio redonnait une bannière de 548 px), les deux remis à zéro en `lg:`. Relevé après :
-  268 px / 40 % sur un 375, 279 px / 33 % sur un 390, titre au-dessus du pli dans les deux cas.
-  Deux corrections l'accompagnent, sans lesquelles le recadrage ne sert à rien : `.plan-fer`
-  avait une **hauteur fixe de 6,5 rem** et avalait 39 % d'un cadre raccourci en couvrant
-  exactement la porte cochère — devenue `clamp(3.25rem, 26%, 6.5rem)`, soit 70 px sur téléphone
-  et **104 px inchangés sur bureau** ; et les arrêts de `.raccord` passent de 22/55 % à 14/40 %,
-  le fondu éteignait le bas de l'image.
-- **`.rai` déborde de son cadre par construction, et deux verrous l'en empêchent.**
-  Elle est posée en `inset: -20%` : sur un cadre de 440 px elle fait **616 px** et dépasse de
-  88 px de chaque côté. Elle ne tenait que par l'`overflow: hidden` de `.travee`.
-  Signalé depuis Chrome, mode appareil, iPhone 16 Pro Max (440 × 956) : le bouton du menu
-  passait hors écran et le chapô du héros était coupé en plein mot. **Reproduction du
-  mécanisme** : en neutralisant le découpage de `.travee`, `scrollWidth` passe de 440 à
-  **exactement 528** (440 + 88), le chiffre déduit de la capture.
-  **La cause première n'est PAS établie, et il faut le dire.** Le défaut n'est reproductible
-  ni sous Chrome sur le build, ni sur le serveur de dev, ni sur la préversion, à 375, 390, 430,
-  440 ni 768 px. L'hypothèse la plus probable est une feuille de style servie **incomplète** par
-  le serveur de dev pendant une réécriture de `src/index.css` (une écriture qui tronque puis
-  réécrit laisse une fenêtre de quelques millisecondes) : transitoire, donc invisible ensuite.
-  Ce qui est fait ne dépend pas de l'hypothèse : `contain: paint` sur `.travee` garantit le
-  découpage par une autre voie que le débordement, et `overflow-x: clip` sur `#ouverture` sert
-  de second filet — `clip` et non `hidden`, qui créerait un conteneur de défilement et
-  casserait tout `position: sticky` à l'intérieur. Contrôle automatisé : `scrollWidth` comparé à
-  `innerWidth` sur les dix pages, à 375, 390, 430, 440 et 768 px.
+- **L'ouverture éclairée à cinq plans n'existe plus** (retirée le 04/09/2026 avec la direction
+  « La Plaque »). Les points de vigilance qui la concernaient — cadre du héros borné sur
+  téléphone, débordement de `.rai`, `contain: paint` sur `.travee`, CLS des polices dans la
+  plaque de rue — sont dans l'historique git (commit précédant la refonte) si l'on y revient.
+  La sonde de débordement horizontal a été refaite le 04/09/2026 sur la nouvelle ouverture :
+  0 px sur les onze pages à 375, 390, 430, 440 et 768 px, menu mobile ouvert compris.
 - **`fetchpriority` s'écrit en MINUSCULES.** `fetchPriority` en camelCase n'est reconnu qu'à
   partir de React 19 : sur 18.3.1 il déclenche « React does not recognize the `fetchPriority`
   prop » à chaque chargement, avec la consigne explicite de le mettre en bas de casse.
@@ -471,9 +450,9 @@ en mémoire, donc de retarder la nouvelle.
   — Google interdit à une entreprise de baliser ses propres avis. La seule note publiable est
   celle de la fiche Google (`src/config/avis.ts`). **Le compteur d'estimations qui
   s'incrémentait à chaque chargement n'existe plus** : vérifié le 27/08/2026, il ne subsistait
-  qu'un commentaire orphelin dans `EstimationBiens.tsx`, retiré. Aucun compteur du site ne
+  qu'un commentaire orphelin dans l'ancienne `EstimationBiens.tsx`, retiré. Aucun compteur du site ne
   fabrique plus de valeur — recherche de `++`, `+= 1` et `Date.now()` divisé : zéro résultat.
-  Les quatre repères d'`EstimationStats` sont statiques (2011, DVF, Gratuit, « 24 h » — ce
+  Les trois repères de l'ouverture « Vendre & estimer » sont statiques (DVF, Gratuit, « 24 h » — ce
   dernier reste en attente d'arbitrage comme partout ailleurs).
 - **~11 Mo de PNG dans `src/assets/`** : ce sont les **masters en 1536 × 1024**, dont les
   `.webp` (700 × 467) sont des réductions. Ils ne partent **pas** dans `dist/` — Vite ne copie

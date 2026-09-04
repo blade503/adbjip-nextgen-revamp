@@ -13,11 +13,8 @@
  * href vide — et les ancres dont la cible n'existe pas dans la page.
  */
 
-import { readFile } from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { routesReelles } from './routes.mjs';
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const base = (process.argv[2] || 'https://preprod.adbjip.fr').replace(/\/$/, '');
 
 const rouge = (t) => `\x1b[31m${t}\x1b[0m`;
@@ -25,10 +22,8 @@ const jaune = (t) => `\x1b[33m${t}\x1b[0m`;
 const vert = (t) => `\x1b[32m${t}\x1b[0m`;
 const gris = (t) => `\x1b[90m${t}\x1b[0m`;
 
-const app = await readFile(path.join(ROOT, 'src', 'App.tsx'), 'utf8');
-const routes = new Set(
-  [...app.matchAll(/<Route\s+path="([^"]+)"/g)].map((m) => m[1]).filter((r) => r !== '*'),
-);
+// Les routes réelles, fiches bien comprises (voir scripts/routes.mjs).
+const routes = new Set(await routesReelles());
 
 const pages = [...routes];
 const morts = [];

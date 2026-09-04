@@ -17,6 +17,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 
+import { routesReelles } from './routes.mjs';
+
 const executer = promisify(execFile);
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -29,15 +31,15 @@ const EXCLUES = new Set(['*', '/mentions-legales']);
 function metadonnees(route) {
   if (route === '/') return { priority: '1.0', changefreq: 'weekly' };
   if (route === '/biens') return { priority: '0.9', changefreq: 'daily' };
+  // Une fiche bien vit le temps de l'annonce : quotidienne, sous la liste.
+  if (route.startsWith('/biens/')) return { priority: '0.7', changefreq: 'daily' };
   if (route.startsWith('/services/')) return { priority: '0.8', changefreq: 'monthly' };
   if (route === '/contact') return { priority: '0.7', changefreq: 'monthly' };
   return { priority: '0.5', changefreq: 'yearly' };
 }
 
-const routesDepuisRouteur = (source) =>
-  [...source.matchAll(/<Route\s+path="([^"]+)"/g)]
-    .map((m) => m[1])
-    .filter((route) => !EXCLUES.has(route));
+/** Les routes réelles (`:slug` résolu par `scripts/routes.mjs`), moins les exclues. */
+const routesDuSitemap = async () => (await routesReelles()).filter((route) => !EXCLUES.has(route));
 
 /**
  * Fichier source de chaque route, pour en tirer une date de modification qui
@@ -51,11 +53,9 @@ const SOURCES = {
   '/biens': 'src/pages/Biens.tsx',
   '/services/gestion-locative': 'src/pages/services/GestionLocative.tsx',
   '/services/gestion-copropriete': 'src/pages/services/GestionCopropriete.tsx',
-  '/services/estimation-biens': 'src/pages/services/EstimationBiens.tsx',
-  '/services/achats-ventes': 'src/pages/services/AchatsVentes.tsx',
+  '/services/vendre-estimer': 'src/pages/services/VendreEstimer.tsx',
   '/agence': 'src/pages/About.tsx',
   '/contact': 'src/pages/Contact.tsx',
-  '/equipe': 'src/pages/Team.tsx',
 };
 
 /**
@@ -90,8 +90,7 @@ async function dateDuDernierCommit(fichier) {
 }
 
 async function main() {
-  const app = await readFile(path.join(ROOT, 'src', 'App.tsx'), 'utf8');
-  const routes = routesDepuisRouteur(app);
+  const routes = await routesDuSitemap();
   if (!routes.length) throw new Error('aucune route trouvée dans src/App.tsx');
 
   // Les annonces changent chaque nuit : leur date vient des données, pas du jour
@@ -109,10 +108,10 @@ async function main() {
   const lignes = [];
   for (const route of routes) {
     const { priority, changefreq } = metadonnees(route);
-    // /biens tient sa date des données, pas du code : son contenu change chaque
-    // nuit sans qu'un fichier source bouge.
+    // /biens et les fiches tiennent leur date des données, pas du code : leur
+    // contenu change chaque nuit sans qu'un fichier source bouge.
     let lastmod = dateBiens;
-    if (route !== '/biens') {
+    if (route !== '/biens' && !route.startsWith('/biens/')) {
       const source = SOURCES[route];
       lastmod = (source && (await dateDuDernierCommit(source))) || aujourdhui;
       if (!source || lastmod === aujourdhui) sansDate += 1;

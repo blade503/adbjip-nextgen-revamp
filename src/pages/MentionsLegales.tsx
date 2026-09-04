@@ -13,6 +13,7 @@ import {
   MEDIATEUR,
   legalIsIncomplete,
 } from '@/config/legal';
+import EnTetePage from '@/components/systeme/EnTetePage';
 import EnTeteSection from '@/components/systeme/EnTeteSection';
 
 /** Une valeur manquante se voit, elle ne se devine pas. */
@@ -20,7 +21,7 @@ const Value = ({ children }: { children: string | null }) =>
   children ? (
     <span>{children}</span>
   ) : (
-    <span className="rounded-[2px] bg-destructive/10 px-2 py-0.5 text-[0.8125rem] font-medium text-destructive-ink">
+    <span className="bg-destructive/10 px-2 py-0.5 text-[0.8125rem] font-medium text-destructive-ink">
       à compléter
     </span>
   );
@@ -42,7 +43,7 @@ const Row = ({ label, children }: { label: string; children: string | null }) =>
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <section className="mt-14 first:mt-0">
     <EnTeteSection plaque="Mention" titre={title} />
-    <dl className="mt-8 border-t border-[hsl(var(--trait)/var(--trait-a))]">{children}</dl>
+    <dl className="mt-6 border-t border-[hsl(var(--trait)/var(--trait-a))]">{children}</dl>
   </section>
 );
 
@@ -79,22 +80,14 @@ const MentionsLegales = () => (
     <Header />
 
     <main id="contenu" tabIndex={-1}>
-      {/* Bande de nuit comme les autres pages : les mentions légales n'étaient
-          pas raccordées à la coquille du site, elles ouvraient sur un dégradé
-          clair sans filet. `nuit` rebascule les jetons du sous-arbre. */}
-      <section className="nuit grain bg-nuit pb-16 pt-32 text-pierre">
-        <div className="container mx-auto">
-          <EnTeteSection
-            fond="nuit"
-            niveau="h1"
-            plaque="Informations légales"
-            titre="Mentions légales"
-            chapeau="Éditeur du site, cartes professionnelles, garanties financières, médiation et hébergement."
-          />
-        </div>
-      </section>
+      <EnTetePage
+        surtitre="Informations légales"
+        titre="Mentions légales"
+        chapeau="Éditeur du site, cartes professionnelles, garanties financières, médiation et hébergement."
+        className="pb-6 lg:pb-8"
+      />
 
-      <div className="container mx-auto max-w-[52rem] py-20 lg:py-28">
+      <div className="container mx-auto max-w-[52rem] pb-20 pt-6 lg:pb-28">
         {legalIsIncomplete && (
           <div className="mb-14 flex gap-3 border-l-2 border-destructive bg-destructive/5 py-4 pl-4 pr-5">
             <AlertTriangle aria-hidden className="h-5 w-5 shrink-0 text-destructive" />
@@ -149,7 +142,7 @@ const MentionsLegales = () => (
             Les informations transmises via les formulaires de contact et d'estimation servent
             uniquement à traiter votre demande et ne sont ni cédées ni revendues. Vous disposez
             d'un droit d'accès, de rectification, d'effacement et d'opposition, que vous pouvez
-            exercer à l'adresse <a className="text-primary-ink underline" href={`mailto:${ADRESSE.email}`}>{ADRESSE.email}</a>{' '}
+            exercer à l'adresse <a className="lien-trait" href={`mailto:${ADRESSE.email}`}>{ADRESSE.email}</a>{' '}
             ou par courrier au siège de l'agence. Une réclamation peut être adressée à la CNIL.
           </p>
         </section>

@@ -22,6 +22,8 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { routesReelles } from './routes.mjs';
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
 const PORT = 8799;
@@ -99,10 +101,13 @@ async function main() {
     return;
   }
 
-  const app = await readFile(path.join(ROOT, 'src', 'App.tsx'), 'utf8');
-  const routes = [...app.matchAll(/<Route\s+path="([^"]+)"/g)]
-    .map((m) => m[1])
-    .filter((route) => route !== '*');
+  /**
+   * Les routes réelles, `:slug` compris : `scripts/routes.mjs` remplace le
+   * paramètre de la fiche bien par les slugs du portefeuille. Une fiche par
+   * annonce est donc écrite dans `dist/biens/<slug>/index.html`, là où le
+   * `.htaccess` la trouve.
+   */
+  const routes = await routesReelles();
 
   const serveur = await servirDist();
   let rendues = 0;
@@ -173,7 +178,8 @@ async function main() {
    * lequel atteint le catch-all — et écrit à la RACINE sous `404.html`, où
    * `ErrorDocument 404` d'Apache va le chercher.
    *
-   * Elle est comptée séparément : le repère reste « 10/10 routes », plus la 404.
+   * Elle est comptée séparément : le repère est « N/N routes », plus la 404,
+   * N étant 8 pages fixes + une fiche par annonce du portefeuille.
    */
   let quatreCentQuatre = false;
   try {

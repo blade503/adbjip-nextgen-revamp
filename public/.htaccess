@@ -42,12 +42,25 @@ RewriteRule ^(.*)$ https://www.adbjip.fr/$1 [L,R=301]
 # par une, code et destination relevés.
 Redirect 301 /gerer-bien /services/gestion-locative
 Redirect 301 /gerer-copropriete /services/gestion-copropriete
-Redirect 301 /estimation /services/estimation-biens
+Redirect 301 /estimation /services/vendre-estimer
 Redirect 301 /about /contact
 
+# --- Redirections depuis la refonte elle-même (04/09/2026) ------------------
+# La direction « La Plaque » a fusionné trois pages : Estimation et Achats/ventes
+# en une seule « Vendre & estimer », et L'équipe dans L'agence. Ces URL ont été
+# déclarées au sitemap de la préversion pendant quelques jours : elles se
+# redirigent au lieu de tomber en 404. `Redirect` sans `match` : un préfixe
+# suffit, il n'y a pas de sous-chemin sous ces pages.
+Redirect 301 /services/estimation-biens /services/vendre-estimer
+Redirect 301 /services/achats-ventes /services/vendre-estimer
+Redirect 301 /equipe /agence
+
 # --- Pages prérendues --------------------------------------------------------
-# `npm run build` écrit dix pages en HTML statique : dist/index.html et neuf
-# dossiers du type dist/biens/index.html.
+# `npm run build` écrit les pages en HTML statique : dist/index.html, un dossier
+# par route fixe (dist/biens/index.html…) et un dossier par annonce
+# (dist/biens/<slug>/index.html, depuis la fiche bien du 04/09/2026). La règle
+# ci-dessous sert les deux niveaux sans distinction : `/biens/0125-planchat`
+# trouve `dist/biens/0125-planchat/index.html`.
 #
 # SANS CE BLOC, mod_dir voyait un dossier et renvoyait une 301 vers la forme
 # avec barre oblique finale. Mesuré : les NEUF routes répondaient 301 vers

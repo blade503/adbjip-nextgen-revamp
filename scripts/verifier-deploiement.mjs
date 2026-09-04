@@ -214,7 +214,11 @@ await controle(
 const REDIRECTIONS = [
   ['/gerer-bien', '/services/gestion-locative'],
   ['/gerer-copropriete', '/services/gestion-copropriete'],
-  ['/estimation', '/services/estimation-biens'],
+  ['/estimation', '/services/vendre-estimer'],
+  // Les trois routes fusionnées le 04/09/2026 (direction « La Plaque »).
+  ['/services/estimation-biens', '/services/vendre-estimer'],
+  ['/services/achats-ventes', '/services/vendre-estimer'],
+  ['/equipe', '/agence'],
   ['/about', '/contact'],
 ];
 
@@ -238,7 +242,7 @@ await controle('/agence sert la page de l\'agence', async () => {
 });
 
 /**
- * Le cache de périphérie, contrôlé pour lui-même et sur les DIX routes.
+ * Le cache de périphérie, contrôlé pour lui-même et sur les HUIT routes fixes.
  *
  * Non essentiel : il ne fait pas échouer un déploiement, parce que ce n'est pas
  * le déploiement qui est en cause. Mais il doit se voir, parce qu'un visiteur
@@ -252,12 +256,10 @@ await controle(
       '/biens',
       '/services/gestion-locative',
       '/services/gestion-copropriete',
-      '/services/estimation-biens',
-      '/services/achats-ventes',
+      '/services/vendre-estimer',
       '/agence',
       '/contact',
       '/mentions-legales',
-      '/equipe',
     ];
     const perimees = [];
     for (const route of routes) {

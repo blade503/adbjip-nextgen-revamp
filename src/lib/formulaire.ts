@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { ADRESSE } from '@/config/legal';
 import { envoyerFormulaire, type DemandeFormulaire, type ResultatEnvoi } from '@/lib/forms';
 
 /**
@@ -135,5 +136,5 @@ export function lienMailto(demande: DemandeFormulaire): string {
   const objet =
     demande.type === 'estimation' ? "Demande d'estimation depuis le site" : 'Demande depuis le site';
 
-  return `mailto:j.immo.p@orange.fr?subject=${encodeURIComponent(objet)}&body=${encodeURIComponent(corps)}`;
+  return `mailto:${ADRESSE.email}?subject=${encodeURIComponent(objet)}&body=${encodeURIComponent(corps)}`;
 }

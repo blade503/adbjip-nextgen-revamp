@@ -32,14 +32,20 @@ interface BaseChamp {
   /** Champs signalés par le serveur, pour `aria-describedby` et `aria-invalid`. */
   enErreur?: string[];
   requis?: boolean;
+  /**
+   * Message d'erreur propre au champ, quand le générique ne suffit pas — « Code
+   * postal invalide (5 chiffres) » dit quoi corriger, « à vérifier » non. Il
+   * reste relié au champ par `aria-describedby`, comme le message générique.
+   */
+  messageErreur?: string;
   className?: string;
 }
 
 /** Le message d'erreur d'un champ, relié par `aria-describedby`. */
-const Erreur = ({ id, visible }: { id: string; visible: boolean }) =>
+const Erreur = ({ id, visible, message }: { id: string; visible: boolean; message?: string }) =>
   visible ? (
     <p id={id} className="mt-1.5 text-[0.75rem] text-destructive-ink">
-      Ce champ est à vérifier.
+      {message || 'Ce champ est à vérifier.'}
     </p>
   ) : null;
 
@@ -49,6 +55,7 @@ export const Champ = ({
   prefixe,
   enErreur,
   requis,
+  messageErreur,
   className,
   ...props
 }: BaseChamp & React.ComponentProps<'input'>) => {
@@ -67,7 +74,7 @@ export const Champ = ({
         required={requis}
         {...props}
       />
-      <Erreur id={`${id}-erreur`} visible={faute} />
+      <Erreur id={`${id}-erreur`} visible={faute} message={messageErreur} />
     </div>
   );
 };
@@ -78,6 +85,7 @@ export const ZoneTexte = ({
   prefixe,
   enErreur,
   requis,
+  messageErreur,
   className,
   ...props
 }: BaseChamp & React.ComponentProps<'textarea'>) => {
@@ -96,7 +104,7 @@ export const ZoneTexte = ({
         required={requis}
         {...props}
       />
-      <Erreur id={`${id}-erreur`} visible={faute} />
+      <Erreur id={`${id}-erreur`} visible={faute} message={messageErreur} />
     </div>
   );
 };
@@ -114,6 +122,7 @@ export const Liste = ({
   prefixe,
   enErreur,
   requis,
+  messageErreur,
   className,
   options,
   ...props
@@ -140,7 +149,7 @@ export const Liste = ({
           </option>
         ))}
       </select>
-      <Erreur id={`${id}-erreur`} visible={faute} />
+      <Erreur id={`${id}-erreur`} visible={faute} message={messageErreur} />
     </div>
   );
 };

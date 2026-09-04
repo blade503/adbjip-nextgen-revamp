@@ -13,15 +13,17 @@ import Index from "./pages/Index";
  * React, le routeur, l'en-tête et le pied de page — que toutes les autres pages
  * réutilisent ensuite sans rien retélécharger.
  *
- * TOUT LE RESTE EST EN `lazy`. Mesuré avant découpage (`ANALYSE=1 npm run build`) :
+ * TOUT LE RESTE EST EN `lazy`. Les poids ci-dessous ont été relevés avant la
+ * direction « La Plaque » (`ANALYSE=1 npm run build`) ; les pages ont changé
+ * depuis, l'ordre de grandeur reste :
  *   EstimationBiens .......... 28,4 Ko  + QuickCalculator 32,9 + MarketDataService 10,7
  *                                       + InteractiveMap 8,0  = ~80 Ko à elle seule
+ *                                       (devenue VendreEstimer, avec AchatsVentes)
  *   GestionCopropriete ....... 27,1 Ko
  *   Biens .................... 18,4 Ko  (+ data/biens.json, qui reste au noyau
  *                                        car l'aperçu de l'accueil s'en sert)
- *   AchatsVentes ............. 14,5 Ko
  *   GestionLocative .......... 14,4 Ko
- *   About .................... 10,7 Ko
+ *   About .................... 10,7 Ko  (devenue L'agence + Équipe)
  *
  * Le repli est `<Attente>` : hauteur minimale posée, `role="status"`, et la
  * seule animation que le mouvement réduit conserve.
@@ -32,14 +34,13 @@ import Index from "./pages/Index";
  * revérifié sur le contenu réel après ce découpage.
  */
 const Biens = lazy(() => import("./pages/Biens"));
+const BienPage = lazy(() => import("./pages/BienPage"));
 const GestionLocative = lazy(() => import("./pages/services/GestionLocative"));
 const GestionCopropriete = lazy(() => import("./pages/services/GestionCopropriete"));
-const EstimationBiens = lazy(() => import("./pages/services/EstimationBiens"));
-const AchatsVentes = lazy(() => import("./pages/services/AchatsVentes"));
+const VendreEstimer = lazy(() => import("./pages/services/VendreEstimer"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const MentionsLegales = lazy(() => import("./pages/MentionsLegales"));
-const Team = lazy(() => import("./pages/Team"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Atelier = lazy(() => import("./pages/Atelier"));
 
@@ -47,7 +48,7 @@ const Atelier = lazy(() => import("./pages/Atelier"));
  * Chemin de l'atelier de contrôle visuel, dans une constante et non en clair.
  * `scripts/prerender.mjs` extrait les routes de ce fichier par une expression
  * régulière sur l'attribut « path » des balises Route : un littéral ici aurait été prérendu, aurait
- * ajouté un onzième fichier à `dist/` et aurait fait mentir le repère « 10/10 ».
+ * ajouté un fichier à `dist/` et aurait fait mentir le repère du prérendu.
  */
 const CHEMIN_ATELIER = "/atelier";
 
@@ -72,14 +73,19 @@ const App = () => (
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/biens" element={<Biens />} />
+        {/* La fiche bien : `:slug` est résolu par `scripts/routes.mjs` depuis
+            `data/biens.json`, pour le prérendu, le sitemap et les vérificateurs.
+            Les trois anciennes routes (/services/estimation-biens,
+            /services/achats-ventes, /equipe) redirigent en 301 depuis le
+            `.htaccess` — pas de `<Navigate>` ici, qui prérendrait une page
+            en doublon. */}
+        <Route path="/biens/:slug" element={<BienPage />} />
         <Route path="/services/gestion-locative" element={<GestionLocative />} />
         <Route path="/services/gestion-copropriete" element={<GestionCopropriete />} />
-        <Route path="/services/estimation-biens" element={<EstimationBiens />} />
-        <Route path="/services/achats-ventes" element={<AchatsVentes />} />
+        <Route path="/services/vendre-estimer" element={<VendreEstimer />} />
         <Route path="/agence" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/mentions-legales" element={<MentionsLegales />} />
-        <Route path="/equipe" element={<Team />} />
         {/* Atelier : développement uniquement. Absent du bundle de
             production, donc le chemin y retombe sur la 404. */}
         {import.meta.env.DEV && <Route path={CHEMIN_ATELIER} element={<Atelier />} />}
