@@ -7,8 +7,7 @@ import EnTetePage from '@/components/systeme/EnTetePage';
 import { Calage, Voile } from '@/components/systeme/Ouverture';
 import { ENTITES, EQUIPE } from '@/config/legal';
 import { echelonner } from '@/lib/echelon';
-import bureauImage from '@/assets/agence-bureau.webp';
-import bureauImage800 from '@/assets/agence-bureau-800.webp';
+import Ferronnerie from '@/components/systeme/Ferronnerie';
 import francisImage from '@/assets/equipe-francis-jobard.webp';
 import francisImage440 from '@/assets/equipe-francis-jobard-440.webp';
 import florentImage from '@/assets/equipe-florent-jobard.webp';
@@ -96,13 +95,9 @@ const About = () => (
           </>
         }
         chapeau="Deux sociétés, une famille, un bureau. Le dossier de gérance et le dossier de syndic du même immeuble sont tenus dans la même pièce — c'est ce qui fait qu'un appel trouve une réponse au lieu d'un transfert."
-        image={{
-          src: bureauImage,
-          srcSet: `${bureauImage800} 800w, ${bureauImage} 1200w`,
-          alt: 'Le bureau de l’agence : dossiers de gérance et de syndic, plans, vue sur la rue',
-          width: 1200,
-          height: 900,
-        }}
+        /* L'image du bureau était générée, et cela se voyait. Un dessin à la
+           place : le vrai bureau du 27 rue de Lisbonne reste à photographier. */
+        visuel={<Ferronnerie motif={3} className="h-full w-full" />}
       />
 
       {/* ---- LES DEUX INTERLOCUTEURS ------------------------------------

@@ -1076,10 +1076,12 @@ champs (le géocodage exige code postal et ville), libellés abrégés des manda
 
 ### Reste à faire
 
-- **Photographies vraies** pour les ouvertures gérance et syndic : les deux images de banque
-  (clés et bail sur un bureau, hall aux boîtes aux lettres) sont désormais en couleurs vraies —
-  le duotone hérité les ternissait, retiré le 04/09/2026 au soir. À remplacer par des photos du
-  27 rue de Lisbonne, ce qui reste la demande la plus rentable à faire au client.
+- **Photographies vraies du 27 rue de Lisbonne** — la façade et sa porte cochère, le hall, le
+  bureau. Le 04/09/2026 au soir, le client a jugé que les quatre images générées des ouvertures
+  (travée, clés et bail, hall, bureau) faisaient fausses : elles sont retirées et remplacées par
+  une élévation de façade dessinée (`systeme/Ferronnerie.tsx`). Les fichiers restent dans
+  `src/assets/`, inutilisés. C'est la demande la plus rentable à faire au client : quatre photos
+  suffisent, une par ouverture, au format 4/3 (et un portrait 4/5 pour l'accueil).
 - ~~Sonde de débordement, poids des fontes, LCP et CLS~~ → **faits le 04/09/2026** : 0 px de
   débordement sur onze pages à cinq largeurs ; 122,3 Ko de fontes latines ; LCP ~1 500 ms
   (travée) ; CLS 0,0388 → 0,0065 après pose de trois polices de repli aux métriques ajustées.

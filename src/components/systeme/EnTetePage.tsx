@@ -35,6 +35,12 @@ interface ProprietesEnTetePage {
   actions?: ReactNode;
   reperes?: { valeur: ReactNode; libelle: string }[];
   image?: Image;
+  /**
+   * Un visuel DESSINÉ à la place de la photographie (voir `Ferronnerie`) : les
+   * images de banque générées des ouvertures ont été retirées le 04/09/2026
+   * parce qu'elles faisaient fausses. Occupe la même colonne, le même cadre.
+   */
+  visuel?: ReactNode;
   /** Contenu ferré à droite, à la place de l'image : les filtres du portefeuille. */
   aparte?: ReactNode;
   className?: string;
@@ -47,6 +53,7 @@ const EnTetePage = ({
   actions,
   reperes,
   image,
+  visuel,
   aparte,
   className,
 }: ProprietesEnTetePage) => (
@@ -54,11 +61,11 @@ const EnTetePage = ({
     <div
       className={cn(
         'container mx-auto grid gap-x-16 gap-y-10',
-        image && 'lg:grid-cols-2 lg:items-end',
-        !image && aparte && 'lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end',
+        (image || visuel) && 'lg:grid-cols-2 lg:items-center',
+        !image && !visuel && aparte && 'lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end',
       )}
     >
-      <div className={cn(!image && !aparte && 'max-w-[52rem]')}>
+      <div className={cn(!image && !visuel && !aparte && 'max-w-[52rem]')}>
         <p className="voile gravure">{surtitre}</p>
         <h1 className="voile mesure mt-5 text-[clamp(2.625rem,6vw,4.5rem)] [animation-delay:90ms]">{titre}</h1>
         {chapeau && (
@@ -102,7 +109,13 @@ const EnTetePage = ({
         </Voile>
       )}
 
-      {!image && aparte && <div className="voile [animation-delay:270ms]">{aparte}</div>}
+      {visuel && !image && (
+        <Voile delai={120} className="aspect-[3/2] w-full lg:aspect-[4/3]">
+          {visuel}
+        </Voile>
+      )}
+
+      {!image && !visuel && aparte && <div className="voile [animation-delay:270ms]">{aparte}</div>}
     </div>
   </section>
 );

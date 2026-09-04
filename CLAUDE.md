@@ -252,10 +252,15 @@ espaceur : jamais sur la page contact, qui a déjà le numéro) · `PlaqueDeRue`
 Une seule fiche d'annonce, `components/CarteBien.tsx`, pour le portefeuille, l'accueil et la
 fiche bien.
 
-**Photographie.** Toutes les images se montrent en couleurs vraies : la travée, le bureau, les
-portraits, les photos d'annonces, et depuis le 04/09/2026 au soir les deux images de banque des
-ouvertures gérance et syndic — le duotone (`.photo-editoriale`, conservé dans le CSS, option
-`duotone` d'`EnTetePage`) les ternissait. Ne le remettre que sur une image qui jure vraiment.
+**Photographie : AUCUNE image générée dans les ouvertures.** Le client a jugé le 04/09/2026
+que la travée, les clés, le hall et le bureau « faisaient fausses » — c'étaient des images de
+banque générées. Les quatre ouvertures (accueil, gérance, syndic, agence) portent à leur place
+l'**élévation d'une façade haussmannienne au trait** (`systeme/Ferronnerie.tsx`, SVG inline,
+marine sur lin), chaque page cadrant un détail différent (`motif` 0 à 3). Le jour où le 27 rue
+de Lisbonne est photographié, la prop `image` d'`EnTetePage` reprend la colonne. Les fichiers
+`src/assets/*.webp|png` de ces images restent dans le dépôt, inutilisés, jusqu'à décision. Les
+photos d'annonces et les deux portraits (vrais) sont en couleurs vraies ; le duotone
+(`.photo-editoriale`) n'est plus appliqué nulle part mais reste disponible.
 
 **Arborescence (planche 2a).** Huit routes fixes : `/`, `/biens`, `/biens/:slug` (**nouvelle
 fiche bien**, une page par annonce), `/services/gestion-locative`,

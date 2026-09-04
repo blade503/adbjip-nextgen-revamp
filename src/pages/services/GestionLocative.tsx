@@ -13,16 +13,7 @@ import { Button } from '@/components/ui/button';
 import { ADRESSE } from '@/config/legal';
 import { echelonner } from '@/lib/echelon';
 import { cn } from '@/lib/utils';
-/**
- * TROIS LARGEURS POUR L'IMAGE D'OUVERTURE. Le master PNG de `src/assets/`
- * reste en place et n'est jamais livré. L'image occupe une colonne sur deux
- * dès lg : `sizes` le dit.
- */
-import gestionLocativeImage from '@/assets/GestionLocative-large.webp';
-import gestionLocativeImage1024 from '@/assets/GestionLocative-1024.webp';
-import gestionLocativeImage700 from '@/assets/GestionLocative.webp';
-
-const gestionLocativeImageSet = `${gestionLocativeImage700} 700w, ${gestionLocativeImage1024} 1024w, ${gestionLocativeImage} 1536w`;
+import Ferronnerie from '@/components/systeme/Ferronnerie';
 
 /**
  * GÉRANCE LOCATIVE — la page la plus visitée du site, planche 2b de la
@@ -175,13 +166,9 @@ const GestionLocative = () => {
               </Button>
             </>
           }
-          image={{
-            src: gestionLocativeImage,
-            srcSet: gestionLocativeImageSet,
-            alt: '',
-            width: 1536,
-            height: 1024,
-          }}
+          /* Plus d'image de banque : elle était générée et faisait fausse.
+             Un dessin à la place, en attendant une photographie du bureau. */
+          visuel={<Ferronnerie motif={1} className="h-full w-full" />}
         />
 
         {/* ---- LES DEUX MANDATS ------------------------------------- */}

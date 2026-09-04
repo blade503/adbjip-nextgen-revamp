@@ -14,11 +14,7 @@ import { Button } from '@/components/ui/button';
 import { ADRESSE, ESPACE_CLIENT } from '@/config/legal';
 import { echelonner } from '@/lib/echelon';
 
-import gestionCoproImage from '@/assets/GestionDeCopropriete2-large.webp';
-import gestionCoproImage1024 from '@/assets/GestionDeCopropriete2-1024.webp';
-import gestionCoproImage700 from '@/assets/GestionDeCopropriete2.webp';
-
-const gestionCoproImageSet = `${gestionCoproImage700} 700w, ${gestionCoproImage1024} 1024w, ${gestionCoproImage} 1536w`;
+import Ferronnerie from '@/components/systeme/Ferronnerie';
 
 /**
  * SYNDIC DE COPROPRIÉTÉ — planche 2c de la direction « La Plaque ».
@@ -171,13 +167,9 @@ const GestionCopropriete = () => {
               <BoutonTelephone />
             </>
           }
-          image={{
-            src: gestionCoproImage,
-            srcSet: gestionCoproImageSet,
-            alt: '',
-            width: 1536,
-            height: 1024,
-          }}
+          /* Plus d'image de banque : elle était générée et faisait fausse.
+             Un dessin à la place, en attendant une photographie du hall. */
+          visuel={<Ferronnerie motif={2} className="h-full w-full" />}
         />
 
         {/* ---- POURQUOI JIP : les six atouts en grille ------------ */}
