@@ -252,12 +252,16 @@ espaceur : jamais sur la page contact, qui a déjà le numéro) · `PlaqueDeRue`
 Une seule fiche d'annonce, `components/CarteBien.tsx`, pour le portefeuille, l'accueil et la
 fiche bien.
 
-**Photographie : AUCUNE image générée dans les ouvertures.** Le client a jugé le 04/09/2026
-que la travée, les clés, le hall et le bureau « faisaient fausses » — c'étaient des images de
-banque générées. Les quatre ouvertures (accueil, gérance, syndic, agence) portent à leur place
-l'**élévation d'une façade haussmannienne au trait** (`systeme/Ferronnerie.tsx`, SVG inline,
-marine sur lin), chaque page cadrant un détail différent (`motif` 0 à 3). Le jour où le 27 rue
-de Lisbonne est photographié, la prop `image` d'`EnTetePage` reprend la colonne. Les fichiers
+**Photographie.** Le client a jugé le 04/09/2026 que la travée, les clés, le hall et le bureau
+« faisaient fausses » — c'étaient des images de banque générées. **L'accueil** porte depuis le
+même soir une image que le client a générée et choisie lui-même après trois essais
+(`src/assets/accueil-porte-*.webp`, un homme poussant une porte cochère) : deux cadrages en
+`<picture>`, 4/5 sur bureau et 3/2 sous le titre sur téléphone, sept WebP. Ce qui l'a fait
+retenir est consigné dans `components/Hero.tsx` : un seul immeuble, rien qui date ni qui
+s'écrive, de la vie en indices. **Les trois autres ouvertures** (gérance, syndic, agence)
+portent l'**élévation d'une façade haussmannienne au trait** (`systeme/Ferronnerie.tsx`, SVG
+inline, marine sur lin), chaque page cadrant un détail (`motif` 1 à 3). La prop `image`
+d'`EnTetePage` reprend la colonne le jour où une photo existe. Les fichiers
 `src/assets/*.webp|png` de ces images restent dans le dépôt, inutilisés, jusqu'à décision. Les
 photos d'annonces et les deux portraits (vrais) sont en couleurs vraies ; le duotone
 (`.photo-editoriale`) n'est plus appliqué nulle part mais reste disponible.
