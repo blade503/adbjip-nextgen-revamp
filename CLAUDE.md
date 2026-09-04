@@ -265,8 +265,12 @@ fichier 3/2, `object-fit` ne rogne que les côtés dans le cadre 4/3 de bureau, 
 **Le syndic** porte le vestibule d'un immeuble haussmannien vu de l'intérieur
 (`src/assets/syndic-hall-*.webp`, troisième essai : couloir étroit et haut, sas vitré, PAS de
 boîtes aux lettres, qui appellent des numéros) — fichier 4/3, le cadre 3/2 du téléphone rogne
-5,5 % en haut et en bas. **L'agence** porte encore l'**élévation d'une façade haussmannienne au
-trait** (`systeme/Ferronnerie.tsx`, SVG inline, marine sur lin, `motif` 3). La prop `image` d'`EnTetePage` reprend la colonne le jour
+5,5 % en haut et en bas. **L'agence** porte un bureau simple, deux postes et des chemises cartonnées
+(`src/assets/agence-bureau-*.webp`) : le client a refusé le bureau haussmannien du premier
+prompt, « le bureau de JIP est beaucoup plus simple », et se réserve de changer celle-ci.
+**Plus aucune page ne porte l'élévation dessinée** (`systeme/Ferronnerie.tsx`, SVG inline,
+marine sur lin, `motif` 0 à 3) : le composant reste dans le dépôt, inutilisé, comme repli si
+une image tombe. La prop `image` d'`EnTetePage` reprend la colonne le jour
 où une photo existe. Les fichiers
 `src/assets/*.webp|png` de ces images restent dans le dépôt, inutilisés, jusqu'à décision. Les
 photos d'annonces et les deux portraits (vrais) sont en couleurs vraies ; le duotone

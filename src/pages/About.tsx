@@ -7,7 +7,10 @@ import EnTetePage from '@/components/systeme/EnTetePage';
 import { Calage, Voile } from '@/components/systeme/Ouverture';
 import { ENTITES, EQUIPE } from '@/config/legal';
 import { echelonner } from '@/lib/echelon';
-import Ferronnerie from '@/components/systeme/Ferronnerie';
+import bureau640 from '@/assets/agence-bureau-640.webp';
+import bureau960 from '@/assets/agence-bureau-960.webp';
+import bureau1400 from '@/assets/agence-bureau-1400.webp';
+import bureau2048 from '@/assets/agence-bureau-2048.webp';
 import francisImage from '@/assets/equipe-francis-jobard.webp';
 import francisImage440 from '@/assets/equipe-francis-jobard-440.webp';
 import florentImage from '@/assets/equipe-florent-jobard.webp';
@@ -37,6 +40,27 @@ import florentImage440 from '@/assets/equipe-florent-jobard-440.webp';
  *
  * « 24 h » reste en attente d'arbitrage, comme partout ailleurs.
  */
+
+/**
+ * L'IMAGE DE L'OUVERTURE (04/09/2026) : un bureau d'agence de quartier, sans
+ * luxe — deux bureaux en bois clair, téléphones fixes, chemises cartonnées
+ * fermées, une plante, l'imprimante, la rue par la fenêtre, un homme de dos
+ * au téléphone. Image générée par le client (Gemini). Le premier prompt
+ * proposait un bureau haussmannien à cheminée de marbre ; le client l'a
+ * refusé : « le bureau de JIP est beaucoup plus simple ». Une agence qui dit
+ * « les mêmes personnes dans le même bureau » ne peut pas montrer un bureau
+ * plus beau que le sien. Recadrée en 4/3 sur la source de 2752 × 1536, entre
+ * la lampe de gauche et l'étagère de classeurs de droite ; le cadre 3/2 du
+ * téléphone rogne 5,5 % en haut et en bas. Retenue « pour voir », le client
+ * se réserve de la changer — une photo du vrai bureau reste la bonne réponse.
+ */
+const IMAGE_BUREAU = {
+  src: bureau1400,
+  srcSet: `${bureau640} 640w, ${bureau960} 960w, ${bureau1400} 1400w, ${bureau2048} 2048w`,
+  alt: "Petit bureau d'agence aux murs blancs : deux bureaux en bois clair avec téléphones fixes et piles de chemises cartonnées, un homme de dos en chemise bleue au téléphone, une plante sur une étagère, une imprimante ; par la fenêtre, les immeubles et les passants de la rue.",
+  width: 2048,
+  height: 1536,
+};
 
 const PORTRAITS = [
   { src: francisImage, srcSet: `${francisImage440} 440w, ${francisImage} 700w` },
@@ -95,9 +119,12 @@ const About = () => (
           </>
         }
         chapeau="Deux sociétés, une famille, un bureau. Le dossier de gérance et le dossier de syndic du même immeuble sont tenus dans la même pièce — c'est ce qui fait qu'un appel trouve une réponse au lieu d'un transfert."
-        /* L'image du bureau était générée, et cela se voyait. Un dessin à la
-           place : le vrai bureau du 27 rue de Lisbonne reste à photographier. */
-        visuel={<Ferronnerie motif={3} className="h-full w-full" />}
+        /* L'image de banque du bureau était générée et se voyait ; le dessin
+           d'élévation (`Ferronnerie`) l'a remplacée un après-midi. Depuis le
+           soir du 04/09, le bureau simple choisi par le client — voir
+           IMAGE_BUREAU. Le vrai bureau du 27 rue de Lisbonne reste à
+           photographier. */
+        image={IMAGE_BUREAU}
       />
 
       {/* ---- LES DEUX INTERLOCUTEURS ------------------------------------
