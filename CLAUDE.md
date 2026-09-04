@@ -262,9 +262,11 @@ s'écrive, de la vie en indices. **La gérance** porte la remise des clés
 (`src/assets/gerance-cles-*.webp`, même auteur, troisième essai : chemise FERMÉE dans le
 prompt, parce que l'IA écrit du texte lisible dès qu'on lui montre une page ouverte) — un seul
 fichier 3/2, `object-fit` ne rogne que les côtés dans le cadre 4/3 de bureau, quatre WebP.
-**Les deux autres ouvertures** (syndic, agence) portent encore l'**élévation d'une façade
-haussmannienne au trait** (`systeme/Ferronnerie.tsx`, SVG inline, marine sur lin), chaque page
-cadrant un détail (`motif` 2 et 3). La prop `image` d'`EnTetePage` reprend la colonne le jour
+**Le syndic** porte le vestibule d'un immeuble haussmannien vu de l'intérieur
+(`src/assets/syndic-hall-*.webp`, troisième essai : couloir étroit et haut, sas vitré, PAS de
+boîtes aux lettres, qui appellent des numéros) — fichier 4/3, le cadre 3/2 du téléphone rogne
+5,5 % en haut et en bas. **L'agence** porte encore l'**élévation d'une façade haussmannienne au
+trait** (`systeme/Ferronnerie.tsx`, SVG inline, marine sur lin, `motif` 3). La prop `image` d'`EnTetePage` reprend la colonne le jour
 où une photo existe. Les fichiers
 `src/assets/*.webp|png` de ces images restent dans le dépôt, inutilisés, jusqu'à décision. Les
 photos d'annonces et les deux portraits (vrais) sont en couleurs vraies ; le duotone

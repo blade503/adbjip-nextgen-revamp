@@ -13,8 +13,34 @@ import { Voile } from '@/components/systeme/Ouverture';
 import { Button } from '@/components/ui/button';
 import { ADRESSE, ESPACE_CLIENT } from '@/config/legal';
 import { echelonner } from '@/lib/echelon';
+import hall640 from '@/assets/syndic-hall-640.webp';
+import hall960 from '@/assets/syndic-hall-960.webp';
+import hall1400 from '@/assets/syndic-hall-1400.webp';
+import hall1840 from '@/assets/syndic-hall-1840.webp';
 
-import Ferronnerie from '@/components/systeme/Ferronnerie';
+/**
+ * L'IMAGE DE L'OUVERTURE (04/09/2026) : le vestibule d'un immeuble
+ * haussmannien, vu de l'intérieur — carreaux de ciment, faux marbre, départ
+ * d'escalier à rampe de fer, sas vitré ouvert sur la rue, un vélo. Les parties
+ * communes sont l'objet exact du mandat de syndic, et la porte cochère fait
+ * suite à celle de l'accueil, vue de l'autre côté.
+ *
+ * Image générée par le client (Gemini), troisième essai : le premier était un
+ * plan d'architecte déroulé (« un architecte, pas un syndic »), le deuxième un
+ * lobby large aux boîtes aux lettres américaines numérotées. Le prompt retenu
+ * impose un couloir étroit et haut, un sas vitré, et PAS de boîtes aux
+ * lettres — elles appellent des numéros, donc du texte. Recadrée en 4/3 sur
+ * la source de 2752 × 1536, sans le tapis-brosse du premier plan, posé loin
+ * de la porte. Dans le cadre 3/2 du téléphone, `object-fit` ne rogne que
+ * 5,5 % en haut et en bas : la chaîne de la lanterne, rien d'autre.
+ */
+const IMAGE_HALL = {
+  src: hall1400,
+  srcSet: `${hall640} 640w, ${hall960} 960w, ${hall1400} 1400w, ${hall1840} 1840w`,
+  alt: "Vestibule étroit et haut d'un immeuble haussmannien : sol en carreaux de ciment, murs en faux marbre, départ d'escalier en pierre à rampe de fer forgé et tapis rouge, lanterne suspendue, sas vitré ouvert sur la rue et l'immeuble d'en face ; un vélo appuyé au mur.",
+  width: 1840,
+  height: 1380,
+};
 
 /**
  * SYNDIC DE COPROPRIÉTÉ — planche 2c de la direction « La Plaque ».
@@ -167,9 +193,11 @@ const GestionCopropriete = () => {
               <BoutonTelephone />
             </>
           }
-          /* Plus d'image de banque : elle était générée et faisait fausse.
-             Un dessin à la place, en attendant une photographie du hall. */
-          visuel={<Ferronnerie motif={2} className="h-full w-full" />}
+          /* L'image de banque (hall aux boîtes aux lettres) était générée et
+             faisait fausse ; le dessin d'élévation (`Ferronnerie`) l'a
+             remplacée un après-midi. Depuis le soir du 04/09, le vestibule
+             choisi par le client — voir IMAGE_HALL. */
+          image={IMAGE_HALL}
         />
 
         {/* ---- POURQUOI JIP : les six atouts en grille ------------ */}

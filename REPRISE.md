@@ -1082,8 +1082,9 @@ champs (le géocodage exige code postal et ville), libellés abrégés des manda
   reçu le soir même une image générée par le client (Gemini, troisième essai, retenue pour son
   absence de marqueurs : pas de voiture d'époque, pas de plaque, pas de texte, de la vie en
   indices) — voir `components/Hero.tsx`. La gérance a suivi (remise des clés, même auteur,
-  `src/assets/gerance-cles-*.webp`). Les deux autres ouvertures, syndic et agence, portent une
-  élévation de façade dessinée (`systeme/Ferronnerie.tsx`). Les anciens fichiers restent dans `src/assets/`,
+  `src/assets/gerance-cles-*.webp`), puis le syndic (vestibule haussmannien,
+  `src/assets/syndic-hall-*.webp`). L'agence porte encore une élévation de façade dessinée
+  (`systeme/Ferronnerie.tsx`). Les anciens fichiers restent dans `src/assets/`,
   inutilisés. Trois photos réelles du 27 rue de Lisbonne (façade, hall, bureau) restent la
   demande la plus rentable à faire au client, au format 4/3.
 - ~~Sonde de débordement, poids des fontes, LCP et CLS~~ → **faits le 04/09/2026** : 0 px de
