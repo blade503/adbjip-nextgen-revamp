@@ -1015,7 +1015,7 @@ Deux pièges à garder en tête pendant l'opération :
 ## 14. Direction artistique « La Plaque » (04/09/2026)
 
 Branche `refonte/direction-artistique-hall`, à la suite du § 12. Le client a choisi, sur une
-planche Claude Design (`captures/JIP Redesign.dc.html`), la direction **1a « La Plaque »** —
+planche Claude Design (hors dépôt), la direction **1a « La Plaque »** —
 crème, romain éditorial, aiguillage par profil — et son arborescence 2a. Le site est clair
 partout ; le marine est réservé aux blocs appuyés et aux boutons. Voir le § Design system de
 `CLAUDE.md` pour le système ; ici, ce qui ne se lit pas dans le code.

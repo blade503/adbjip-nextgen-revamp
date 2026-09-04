@@ -201,8 +201,8 @@ annuelle, qui ne sont pas calculés.
 
 ### Design system — « La Plaque » (04/09/2026)
 
-Direction artistique choisie par le client sur une planche Claude Design (`captures/JIP
-Redesign.dc.html`, direction 1a déclinée en 2a–2i), documentée en tête de `src/index.css`.
+Direction artistique choisie par le client sur une planche Claude Design (direction 1a « La
+Plaque », déclinée en 2a–2i ; la planche n'est pas dans le dépôt), documentée en tête de `src/index.css`.
 Elle succède à « Le hall » (coquille de nuit, 27/08/2026), dont le système de mouvement est
 conservé et la coquille sombre retirée. **Le site est clair partout** : une feuille crème, des
 titres en romain, le marine réservé aux blocs appuyés (rendez-vous, mandat Dynamique, accès en
