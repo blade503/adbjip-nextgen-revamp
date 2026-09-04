@@ -13,7 +13,30 @@ import { Button } from '@/components/ui/button';
 import { ADRESSE } from '@/config/legal';
 import { echelonner } from '@/lib/echelon';
 import { cn } from '@/lib/utils';
-import Ferronnerie from '@/components/systeme/Ferronnerie';
+import cles640 from '@/assets/gerance-cles-640.webp';
+import cles960 from '@/assets/gerance-cles-960.webp';
+import cles1400 from '@/assets/gerance-cles-1400.webp';
+import cles2000 from '@/assets/gerance-cles-2000.webp';
+
+/**
+ * L'IMAGE DE L'OUVERTURE (04/09/2026) : la remise des clés. Deux mains
+ * au-dessus d'un bureau, un trousseau à étiquette vierge, une chemise fermée
+ * et un stylo, la fenêtre sur la rue. Image générée par le client (Gemini),
+ * troisième essai : le premier était un bureau de particulier, le deuxième
+ * posait un état des lieux dont on lisait le titre — l'IA écrit du texte dès
+ * qu'on lui montre une page ouverte, d'où la chemise FERMÉE du prompt.
+ * Recadrée en 3/2 sur la source de 2752 × 1536 : le même fichier sert les
+ * deux cadres d'`EnTetePage`, 3/2 sous le titre sur téléphone et 4/3 sur
+ * bureau où `object-fit` ne rogne que les côtés — la fenêtre et le stylo
+ * restent dans le champ aux deux largeurs.
+ */
+const IMAGE_CLES = {
+  src: cles1400,
+  srcSet: `${cles640} 640w, ${cles960} 960w, ${cles1400} 1400w, ${cles2000} 2000w`,
+  alt: "Au-dessus d'un bureau en bois sombre, une main en veste bleue tend un trousseau de clés à étiquette vierge à une autre main en veste grise ; dessous, une chemise cartonnée fermée et un stylo plume ; derrière, une fenêtre à petits carreaux sur un immeuble en pierre.",
+  width: 1400,
+  height: 933,
+};
 
 /**
  * GÉRANCE LOCATIVE — la page la plus visitée du site, planche 2b de la
@@ -166,9 +189,10 @@ const GestionLocative = () => {
               </Button>
             </>
           }
-          /* Plus d'image de banque : elle était générée et faisait fausse.
-             Un dessin à la place, en attendant une photographie du bureau. */
-          visuel={<Ferronnerie motif={1} className="h-full w-full" />}
+          /* L'image de banque (clés et bail) était générée et faisait fausse ;
+             le dessin d'élévation (`Ferronnerie`) l'a remplacée un après-midi.
+             Depuis le soir du 04/09, la remise des clés choisie par le client. */
+          image={IMAGE_CLES}
         />
 
         {/* ---- LES DEUX MANDATS ------------------------------------- */}

@@ -258,10 +258,14 @@ même soir une image que le client a générée et choisie lui-même après troi
 (`src/assets/accueil-porte-*.webp`, un homme poussant une porte cochère) : deux cadrages en
 `<picture>`, 4/5 sur bureau et 3/2 sous le titre sur téléphone, sept WebP. Ce qui l'a fait
 retenir est consigné dans `components/Hero.tsx` : un seul immeuble, rien qui date ni qui
-s'écrive, de la vie en indices. **Les trois autres ouvertures** (gérance, syndic, agence)
-portent l'**élévation d'une façade haussmannienne au trait** (`systeme/Ferronnerie.tsx`, SVG
-inline, marine sur lin), chaque page cadrant un détail (`motif` 1 à 3). La prop `image`
-d'`EnTetePage` reprend la colonne le jour où une photo existe. Les fichiers
+s'écrive, de la vie en indices. **La gérance** porte la remise des clés
+(`src/assets/gerance-cles-*.webp`, même auteur, troisième essai : chemise FERMÉE dans le
+prompt, parce que l'IA écrit du texte lisible dès qu'on lui montre une page ouverte) — un seul
+fichier 3/2, `object-fit` ne rogne que les côtés dans le cadre 4/3 de bureau, quatre WebP.
+**Les deux autres ouvertures** (syndic, agence) portent encore l'**élévation d'une façade
+haussmannienne au trait** (`systeme/Ferronnerie.tsx`, SVG inline, marine sur lin), chaque page
+cadrant un détail (`motif` 2 et 3). La prop `image` d'`EnTetePage` reprend la colonne le jour
+où une photo existe. Les fichiers
 `src/assets/*.webp|png` de ces images restent dans le dépôt, inutilisés, jusqu'à décision. Les
 photos d'annonces et les deux portraits (vrais) sont en couleurs vraies ; le duotone
 (`.photo-editoriale`) n'est plus appliqué nulle part mais reste disponible.
