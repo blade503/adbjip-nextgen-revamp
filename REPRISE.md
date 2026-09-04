@@ -1056,7 +1056,12 @@ champs (le géocodage exige code postal et ville), libellés abrégés des manda
 
 ### Contenu qui n'a pas suivi la refonte — consigné pour ne pas être perdu
 
-- **Estimation** : les huit critères de « notre méthode d'évaluation » (analyse comparative du
+- **Estimation** : le formulaire de « demande d'estimation détaillée » (dix champs, dont
+  « objectif : vente / succession / patrimoine ») — retiré le 04/09/2026 parce qu'il faisait
+  un second formulaire d'estimation sous le calculateur express. La demande passe par le
+  formulaire de contact, profil vendeur, bien prérempli avec la saisie du calculateur. Le
+  type d'envoi `estimation` de `contact.php` n'est donc plus émis par le site (le PHP le
+  gère toujours). Les huit critères de « notre méthode d'évaluation » (analyse comparative du
   marché local · étude des transactions récentes · évaluation de l'état général · spécificités
   du quartier · travaux à prévoir · rentabilité locative · conseils d'optimisation · rapport
   détaillé et argumenté) et le panneau « pourquoi nous choisir » (données officielles DVF et

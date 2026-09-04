@@ -11,19 +11,8 @@ import EnTeteSection from '@/components/systeme/EnTeteSection';
 import { Lien } from '@/components/systeme/Lien';
 import { Voile } from '@/components/systeme/Ouverture';
 import { Button } from '@/components/ui/button';
-import {
-  Champ,
-  Leurre,
-  Liste,
-  MentionRgpd,
-  Rangee,
-  Retour,
-  ZoneTexte,
-} from '@/components/formulaire';
 import { ADRESSE } from '@/config/legal';
 import { echelonner } from '@/lib/echelon';
-import type { DemandeFormulaire } from '@/lib/forms';
-import { champsInvalides, focaliserChamp, useEnvoi } from '@/lib/formulaire';
 
 /**
  * VENDRE & ESTIMER — planche 2d de la direction « La Plaque ».
@@ -34,8 +23,19 @@ import { champsInvalides, focaliserChamp, useEnvoi } from '@/lib/formulaire';
  * anciennes URL redirigent ici (`public/.htaccess`).
  *
  * CE QUI EST REPRIS MOT POUR MOT : les huit prestations de vente et les huit
- * d'achat, les trois motifs d'estimation, les trois repères, le formulaire
- * détaillé avec sa validation, la logique de calcul et ses multiplicateurs.
+ * d'achat, les trois motifs d'estimation, les trois repères, la logique de
+ * calcul et ses multiplicateurs.
+ *
+ * UN SEUL FORMULAIRE SUR LA PAGE. La première version gardait, sous le
+ * calculateur express, l'ancien formulaire de « demande d'estimation
+ * détaillée » (dix champs) : deux formulaires d'estimation sur une page, l'un
+ * en haut, l'autre en bas — remarqué à l'écran le 04/09/2026. La demande
+ * détaillée passe désormais par le formulaire de contact, profil « vendeur ou
+ * acquéreur » présélectionné, le champ du bien PRÉREMPLI avec ce que le visiteur
+ * a saisi dans le calculateur (adresse, surface, pièces, et l'estimation
+ * express si elle a été calculée). Il ne ressaisit rien. Ce qui est perdu : le
+ * champ « objectif » (vente, succession, patrimoine), que le visiteur écrit
+ * dans son message s'il le souhaite.
  *
  * CE QUI N'A PAS SUIVI, parce que la planche ne le prévoit pas : les huit
  * critères de « notre méthode d'évaluation », le panneau « pourquoi nous
@@ -43,8 +43,8 @@ import { champsInvalides, focaliserChamp, useEnvoi } from '@/lib/formulaire';
  * de la transaction et les trois atouts de la page achats-ventes. Le texte est
  * consigné dans REPRISE.md § 14 pour ne pas être perdu.
  *
- * Deux vestiges retirés au passage : `saveToLocalStorage`, jamais appelée, et
- * son `loadFromLocalStorage` qui ne trouvait donc jamais rien ; et l'écouteur
+ * Trois vestiges retirés au passage : `saveToLocalStorage`, jamais appelée, son
+ * `loadFromLocalStorage` qui ne trouvait donc jamais rien, et l'écouteur
  * clavier global sur la touche Entrée, redondant avec la soumission du
  * formulaire du calculateur.
  *
@@ -141,21 +141,6 @@ const Sens = ({
     <div className="mt-6">{action}</div>
   </Voile>
 );
-
-const CHAMPS_VIDES = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  address: '',
-  type: '',
-  surface: '',
-  rooms: '',
-  purpose: '',
-  message: '',
-  /** Champ leurre anti-robot. */
-  website: '',
-};
 
 const VendreEstimer = () => {
   const marketDataService = useMemo(() => MarketDataService.getInstance(), []);
@@ -272,92 +257,21 @@ const VendreEstimer = () => {
     getRoomsMultiplier,
   ]);
 
-  // ---- La demande détaillée ---------------------------------------------
-  const [detailedForm, setDetailedForm] = useState(CHAMPS_VIDES);
-  const { envoiEnCours, retour: retourFormulaire, envoyer, signaler } = useEnvoi();
-
-  const modifier =
-    (nom: keyof typeof CHAMPS_VIDES) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-      setDetailedForm((prev) => ({ ...prev, [nom]: e.target.value }));
-
   /**
-   * La demande, construite à part : le repli `mailto` de `<Retour>` la relit
-   * pour préremplir le client mail.
+   * Le lien vers le formulaire de contact, profil vendeur, le bien prérempli
+   * avec la saisie du calculateur. Borné à 160 caractères côté formulaire.
    */
-  const demandeEstimation = (): DemandeFormulaire => ({
-    type: 'estimation',
-    nom: `${detailedForm.firstName} ${detailedForm.lastName}`.trim(),
-    email: detailedForm.email,
-    telephone: detailedForm.phone,
-    service: 'estimation',
-    message: detailedForm.message,
-    website: detailedForm.website,
-    details: {
-      'Adresse du bien': detailedForm.address,
-      'Type de bien': detailedForm.type,
-      Surface: detailedForm.surface ? `${detailedForm.surface} m²` : '',
-      Pièces: detailedForm.rooms,
-      Objectif: detailedForm.purpose,
-      'Estimation en ligne': estimationResult ? `${estimationResult.toLocaleString('fr-FR')} €` : '',
-    },
-  });
-
-  /**
-   * Les règles du client. Le message n'est PAS requis : `contact.php`
-   * l'accepte vide dès que `details` est fourni, ce qui est toujours le cas.
-   */
-  const reglesEstimation = () => [
-    { nom: 'prenom', valeur: detailedForm.firstName, requis: true },
-    { nom: 'nom', valeur: detailedForm.lastName, requis: true },
-    { nom: 'email', valeur: detailedForm.email, requis: true, format: 'email' as const },
-    { nom: 'adresse', valeur: detailedForm.address, requis: true },
-    { nom: 'objectif', valeur: detailedForm.purpose, requis: true },
-  ];
-
-  const soumettreDemande = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // On contrôle AVANT le réseau : un champ oublié n'a pas à coûter un
-    // aller-retour, et le visiteur doit atterrir sur le champ fautif.
-    const fautifs = champsInvalides(reglesEstimation());
-    if (fautifs.length > 0) {
-      signaler({
-        ok: false,
-        message:
-          fautifs.length === 1
-            ? 'Un champ reste à compléter, il est signalé ci-dessous.'
-            : `${fautifs.length} champs restent à compléter, ils sont signalés ci-dessous.`,
-        champs: fautifs,
-      });
-      focaliserChamp('est', fautifs[0]);
-      return;
-    }
-
-    const resultat = await envoyer(demandeEstimation());
-    if (resultat.ok) {
-      setDetailedForm(CHAMPS_VIDES);
-      return;
-    }
-    if (resultat.champs?.length) focaliserChamp('est', resultat.champs[0]);
-  };
-
-  /** Reporter les données de l'express dans la demande détaillée. */
-  const reporterExpress = () => {
-    const fullAddress = `${quickEstimation.address}, ${quickEstimation.postalCode} ${quickEstimation.city}`;
-    setDetailedForm((prev) => ({
-      ...prev,
-      address: fullAddress,
-      type: quickEstimation.type,
-      surface: quickEstimation.surface,
-      rooms: quickEstimation.rooms,
-      message: `Informations du calculateur rapide:
-- Adresse: ${fullAddress}
-- Surface: ${quickEstimation.surface} m²
-- Pièces: ${quickEstimation.rooms}
-- Type: ${quickEstimation.type || 'Non spécifié'}
-- Estimation rapide: ${estimationResult ? estimationResult.toLocaleString('fr-FR') + ' €' : 'Non calculée'}`,
-    }));
+  const versDemande = () => {
+    const q = quickEstimation;
+    const bien = [
+      [q.address, q.postalCode, q.city].filter(Boolean).join(' '),
+      q.surface ? `${q.surface} m²` : '',
+      q.rooms ? `${q.rooms} pièces` : '',
+      estimationResult ? `estimation express ${estimationResult.toLocaleString('fr-FR')} €` : '',
+    ]
+      .filter(Boolean)
+      .join(' · ');
+    return `/contact?service=achats-ventes${bien ? `&bien=${encodeURIComponent(bien)}` : ''}`;
   };
 
   const structuredData = {
@@ -524,132 +438,10 @@ const VendreEstimer = () => {
         <BandeauContact
           surtitre="Aller plus loin"
           titre="Demande d'estimation détaillée"
-          texte="Une visite, un rapport argumenté, une réponse sous 24 heures ouvrées."
-          action={{ libelle: "Demander l'estimation", href: '#demande-estimation' }}
+          texte="Une visite, un rapport argumenté, une réponse sous 24 heures ouvrées. Ce que vous avez saisi ci-dessus est repris dans votre demande."
+          action={{ libelle: "Demander l'estimation", href: versDemande() }}
           ordre="action"
         />
-
-        {/* ---- LA DEMANDE DÉTAILLÉE ------------------------------------
-            Le balisage vient de `@/components/formulaire`, partagé avec le
-            formulaire de contact : champ leurre, mention RGPD au point
-            d'écriture, `aria-describedby` sur les champs signalés, repli
-            `mailto` si le serveur se tait. */}
-        <section id="demande-estimation" className="scroll-mt-24 bg-pierre py-16 lg:py-20">
-          <div className="container mx-auto">
-            <div className="max-w-[52rem]">
-              <EnTeteSection
-                plaque="La demande"
-                titre="Une estimation sur pièces"
-                chapeau="Dites-nous où est le bien et ce que vous en attendez. Un interlocuteur vous rappelle, vient le voir, et vous remet un rapport argumenté."
-              />
-
-              <div className="panneau mt-10 p-7 lg:p-9">
-                {estimationResult && (
-                  <div className="nuit mb-8 bg-marine p-6 text-pierre">
-                    <p className="gravure">Votre estimation rapide</p>
-                    <p className="tabulaire mt-2 font-display text-[clamp(1.5rem,3vw,2.125rem)] font-semibold">
-                      {estimationResult.toLocaleString('fr-FR')} €
-                    </p>
-                    <Button onClick={reporterExpress} variant="secondary" size="sm" className="mt-4">
-                      Utiliser ces données
-                    </Button>
-                  </div>
-                )}
-
-                <form onSubmit={soumettreDemande} className="relative space-y-8" noValidate>
-                  <Rangee>
-                    <Champ
-                      prefixe="est" nom="prenom" etiquette="Prénom" requis
-                      type="text" autoComplete="given-name"
-                      enErreur={retourFormulaire?.champs}
-                      value={detailedForm.firstName} onChange={modifier('firstName')}
-                    />
-                    <Champ
-                      prefixe="est" nom="nom" etiquette="Nom" requis
-                      type="text" autoComplete="family-name"
-                      enErreur={retourFormulaire?.champs}
-                      value={detailedForm.lastName} onChange={modifier('lastName')}
-                    />
-                    <Champ
-                      prefixe="est" nom="email" etiquette="Courriel" requis
-                      type="email" autoComplete="email"
-                      enErreur={retourFormulaire?.champs}
-                      value={detailedForm.email} onChange={modifier('email')}
-                    />
-                    <Champ
-                      prefixe="est" nom="telephone" etiquette="Téléphone"
-                      type="tel" autoComplete="tel"
-                      enErreur={retourFormulaire?.champs}
-                      value={detailedForm.phone} onChange={modifier('phone')}
-                    />
-                  </Rangee>
-
-                  <Champ
-                    prefixe="est" nom="adresse" etiquette="Adresse du bien" requis
-                    type="text" autoComplete="street-address"
-                    placeholder="27 rue de Lisbonne, 75008 Paris"
-                    enErreur={retourFormulaire?.champs}
-                    value={detailedForm.address} onChange={modifier('address')}
-                  />
-
-                  <Rangee>
-                    <Liste
-                      prefixe="est" nom="type" etiquette="Type de bien"
-                      options={[
-                        ['', 'À préciser'],
-                        ['appartement', 'Appartement'],
-                        ['maison', 'Maison'],
-                        ['studio', 'Studio'],
-                        ['duplex', 'Duplex'],
-                      ]}
-                      value={detailedForm.type} onChange={modifier('type')}
-                    />
-                    <Liste
-                      prefixe="est" nom="objectif" etiquette="Objectif de l'estimation" requis
-                      enErreur={retourFormulaire?.champs}
-                      options={[
-                        ['', 'À préciser'],
-                        ['vente', 'Vente'],
-                        ['succession', 'Succession'],
-                        ['patrimoine', 'Bilan patrimonial'],
-                        ['autre', 'Autre'],
-                      ]}
-                      value={detailedForm.purpose} onChange={modifier('purpose')}
-                    />
-                    <Champ
-                      prefixe="est" nom="surface" etiquette="Surface (m²)"
-                      type="number" min={1} inputMode="numeric"
-                      value={detailedForm.surface} onChange={modifier('surface')}
-                    />
-                    <Champ
-                      prefixe="est" nom="pieces" etiquette="Nombre de pièces"
-                      type="number" min={1} inputMode="numeric"
-                      value={detailedForm.rooms} onChange={modifier('rooms')}
-                    />
-                  </Rangee>
-
-                  <ZoneTexte
-                    prefixe="est" nom="message" etiquette="Message complémentaire"
-                    rows={4}
-                    placeholder="Étage, état général, travaux récents, exposition — tout ce qui compte."
-                    enErreur={retourFormulaire?.champs}
-                    value={detailedForm.message} onChange={modifier('message')}
-                  />
-
-                  <Leurre valeur={detailedForm.website} onChange={modifier('website')} />
-
-                  <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={envoiEnCours}>
-                    {envoiEnCours ? 'Envoi en cours…' : "Demander l'estimation"}
-                    <ArrowRight aria-hidden />
-                  </Button>
-
-                  <MentionRgpd />
-                  <Retour retour={retourFormulaire} demande={demandeEstimation()} />
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
       <BarreAppel action={{ libelle: 'Estimer', href: '#calculateur-rapide' }} />

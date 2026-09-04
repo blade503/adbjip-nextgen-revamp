@@ -142,7 +142,11 @@ const Header = () => {
           </Lien>
 
           {/* ---- Les entrées ----------------------------------------- */}
-          <ul className="hidden items-center gap-6 lg:flex min-[1400px]:gap-8">
+          {/* Libellés COURTS à toutes les largeurs de bureau, comme sur la
+              planche : les longs (« Syndic de copropriété ») faisaient neuf
+              capitales de même poids sur une ligne — trop chargé, vu à l'écran.
+              Le libellé long reste dans le panneau mobile, où il a la place. */}
+          <ul className="hidden items-center gap-6 lg:flex xl:gap-7">
             {NAVIGATION.map((item) => {
               const courante = estCourante(item.href);
               return (
@@ -160,8 +164,7 @@ const Header = () => {
                         : 'border-transparent text-ardoise hover:text-foreground',
                     )}
                   >
-                    <span className="hidden min-[1400px]:inline">{item.nomLong}</span>
-                    <span className="min-[1400px]:hidden">{item.nom}</span>
+                    {item.nom}
                   </Lien>
                 </li>
               );
@@ -170,17 +173,20 @@ const Header = () => {
 
           {/* ---- Espace client, le numéro, le menu ------------------- */}
           <div className="flex shrink-0 items-center gap-5">
+            {/* Un filet vertical sépare l'espace client — un lien SORTANT, vers
+                Gercop — des entrées du site : il ne fait pas partie du menu. */}
             {ESPACE_CLIENT.url && (
               <a
                 href={ESPACE_CLIENT.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="lien-trait hidden text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-ardoise hover:text-foreground xl:inline-flex"
+                className="lien-trait hidden text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-muted-foreground hover:text-foreground xl:inline-flex"
               >
                 {ESPACE_CLIENT.libelle}
                 <ArrowUpRight aria-hidden className="h-3.5 w-3.5" />
               </a>
             )}
+            <span aria-hidden className="hidden h-5 w-px bg-[hsl(var(--trait)/0.3)] xl:block" />
 
             {/* Le numéro, en chiffres tabulaires. Chez une agence de gérance,
                 le téléphone EST le tunnel de conversion : le propriétaire d'un

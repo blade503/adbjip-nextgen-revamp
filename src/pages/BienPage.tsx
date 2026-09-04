@@ -14,7 +14,7 @@ import { Lien } from '@/components/systeme/Lien';
 import Ordinaux from '@/components/systeme/Ordinaux';
 import { Calage, Trait, Voile } from '@/components/systeme/Ouverture';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import Galerie from '@/components/biens/Galerie';
 import { ADRESSE } from '@/config/legal';
 import { echelonner } from '@/lib/echelon';
 import { biens, descriptionLines, eur, feeNote, legalLines, locationLabel, priceDrop, prixLibelle } from '@/lib/biens';
@@ -46,7 +46,8 @@ import { biens, descriptionLines, eur, feeNote, legalLines, locationLabel, price
 const BienPage = () => {
   const { slug } = useParams();
   const bien = biens.find((b) => b.slug === slug);
-  const [galerie, setGalerie] = useState(false);
+  // `null` : galerie fermée ; un nombre : la photo affichée à l'ouverture.
+  const [galerie, setGalerie] = useState<number | null>(null);
 
   if (!bien) return <NotFound />;
 
@@ -131,7 +132,7 @@ const BienPage = () => {
                   {bien.photos.length > 1 && (
                     <button
                       type="button"
-                      onClick={() => setGalerie(true)}
+                      onClick={() => setGalerie(0)}
                       className="absolute bottom-3.5 right-3.5 z-[3] inline-flex items-center gap-2 bg-encre px-3 py-2 text-[0.6875rem] font-semibold text-pierre transition-colors duration-2 hover:bg-marine"
                     >
                       <Images aria-hidden className="h-3.5 w-3.5" />
@@ -141,13 +142,13 @@ const BienPage = () => {
                 </Calage>
                 {secondaires.length > 0 && (
                   <div className="hidden grid-rows-2 gap-3 lg:grid">
-                    {secondaires.map((photo) => (
+                    {secondaires.map((photo, i) => (
                       <button
                         key={photo.medium}
                         type="button"
-                        onClick={() => setGalerie(true)}
+                        onClick={() => setGalerie(i + 1)}
                         className="relative block overflow-hidden bg-lin"
-                        aria-label="Ouvrir la galerie de photos"
+                        aria-label={`Ouvrir la galerie à la photo ${i + 2}`}
                       >
                         <img
                           src={photo.medium}
@@ -311,31 +312,15 @@ const BienPage = () => {
       <Footer />
       <BarreAppel action={{ libelle: 'Demander une visite', href: versContact }} />
 
-      {/* La galerie complète, en boîte de dialogue. */}
-      <Dialog open={galerie} onOpenChange={setGalerie}>
-        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>
-              <Ordinaux texte={bien.title} />
-            </DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-3">
-            {bien.photos.map((photo, i) => (
-              <figure key={photo.medium} className="m-0 overflow-hidden bg-lin">
-                <img
-                  src={photo.large}
-                  srcSet={`${photo.medium} 800w, ${photo.large} 1200w`}
-                  sizes="(min-width: 56rem) 56rem, 90vw"
-                  alt={photo.alt}
-                  className="h-auto w-full object-cover"
-                  loading={i === 0 ? 'eager' : 'lazy'}
-                  decoding="async"
-                />
-              </figure>
-            ))}
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* La galerie : une photo à la fois, flèches du clavier, glissement au
+          doigt. Voir `components/biens/Galerie.tsx`. */}
+      <Galerie
+        photos={bien.photos}
+        titre={<Ordinaux texte={bien.title} />}
+        ouverte={galerie !== null}
+        depart={galerie ?? 0}
+        onFermer={() => setGalerie(null)}
+      />
     </div>
   );
 };
