@@ -30,10 +30,17 @@ import travee440 from '@/assets/travee-lisbonne-440.webp';
  * droite en fait au plus ~600. Sur téléphone elle passe en 3/2, sous le texte,
  * pour que le titre reste au-dessus du pli (mesuré sur la version précédente :
  * en 4/5 elle prenait 70 % d'un écran de 375).
+ *
+ * LE TEXTE EST CENTRÉ FACE À LA PHOTO, ET LA PHOTO EST BORNÉE À 70 % DE LA
+ * HAUTEUR D'ÉCRAN. La planche calait le texte en bas de la colonne
+ * (`items-end`) : sur un portable de 1440 × 830, la photo en 4/5 faisait
+ * 760 px, le titre arrivait au ras du pli et le chapô passait dessous — vu à
+ * l'écran le 04/09/2026. Bornée à `70vh`, la photo laisse le titre, le chapô
+ * et le haut des trois cartes dans le premier écran.
  */
 const Hero = () => (
   <section id="ouverture" className="bg-pierre">
-    <div className="container mx-auto grid gap-x-16 gap-y-10 pb-16 pt-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-end lg:pb-20 lg:pt-16">
+    <div className="container mx-auto grid gap-x-16 gap-y-10 pb-16 pt-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:pb-20 lg:pt-12">
       <div className="max-w-[38rem]">
         <div className="voile">
           <PlaqueDeRue />
@@ -58,7 +65,7 @@ const Hero = () => (
           la maison, en romain, sur une carte de crème. Masquée sous lg : sur
           téléphone la carte couvrirait la porte cochère. */}
       <figure className="relative m-0">
-        <Calage className="aspect-[3/2] w-full lg:aspect-[4/5]">
+        <Calage className="aspect-[3/2] w-full lg:aspect-[4/5] lg:max-h-[min(42rem,70vh)]">
           <img
             src={travee800}
             srcSet={`${travee440} 440w, ${travee620} 620w, ${travee800} 800w`}
@@ -74,7 +81,7 @@ const Hero = () => (
             decoding="sync"
           />
         </Calage>
-        <figcaption className="absolute -left-7 bottom-8 hidden max-w-[17.5rem] border border-[hsl(var(--trait)/var(--trait-a))] bg-pierre px-5 py-4 font-serif text-[1.0625rem] leading-[1.35] lg:block">
+        <figcaption className="absolute -left-7 bottom-6 hidden max-w-[17.5rem] border border-[hsl(var(--trait)/var(--trait-a))] bg-pierre px-5 py-4 font-serif text-[1.0625rem] leading-[1.35] lg:block">
           « Un appel trouve une réponse au lieu d'un transfert. »
         </figcaption>
       </figure>

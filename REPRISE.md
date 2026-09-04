@@ -1077,8 +1077,9 @@ champs (le géocodage exige code postal et ville), libellés abrégés des manda
 ### Reste à faire
 
 - **Photographies vraies** pour les ouvertures gérance et syndic : les deux images de banque
-  restent en duotone. La planche demandait « clés et bail sur le bureau » et « hall d'immeuble,
-  boîtes aux lettres » — à photographier au 27 rue de Lisbonne.
+  (clés et bail sur un bureau, hall aux boîtes aux lettres) sont désormais en couleurs vraies —
+  le duotone hérité les ternissait, retiré le 04/09/2026 au soir. À remplacer par des photos du
+  27 rue de Lisbonne, ce qui reste la demande la plus rentable à faire au client.
 - ~~Sonde de débordement, poids des fontes, LCP et CLS~~ → **faits le 04/09/2026** : 0 px de
   débordement sur onze pages à cinq largeurs ; 122,3 Ko de fontes latines ; LCP ~1 500 ms
   (travée) ; CLS 0,0388 → 0,0065 après pose de trois polices de repli aux métriques ajustées.

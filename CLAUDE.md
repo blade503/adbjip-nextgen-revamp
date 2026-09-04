@@ -252,9 +252,10 @@ espaceur : jamais sur la page contact, qui a déjà le numéro) · `PlaqueDeRue`
 Une seule fiche d'annonce, `components/CarteBien.tsx`, pour le portefeuille, l'accueil et la
 fiche bien.
 
-**Photographie.** Le duotone (`.photo-editoriale`) ne s'applique plus qu'aux quatre images de
-banque des ouvertures de pages métier. La travée, le bureau, les portraits et les photos
-d'annonces se montrent en couleurs vraies.
+**Photographie.** Toutes les images se montrent en couleurs vraies : la travée, le bureau, les
+portraits, les photos d'annonces, et depuis le 04/09/2026 au soir les deux images de banque des
+ouvertures gérance et syndic — le duotone (`.photo-editoriale`, conservé dans le CSS, option
+`duotone` d'`EnTetePage`) les ternissait. Ne le remettre que sur une image qui jure vraiment.
 
 **Arborescence (planche 2a).** Huit routes fixes : `/`, `/biens`, `/biens/:slug` (**nouvelle
 fiche bien**, une page par annonce), `/services/gestion-locative`,

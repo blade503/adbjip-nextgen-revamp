@@ -181,7 +181,6 @@ const GestionLocative = () => {
             alt: '',
             width: 1536,
             height: 1024,
-            duotone: true,
           }}
         />
 
