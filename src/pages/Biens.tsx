@@ -146,7 +146,7 @@ const Biens = () => {
               <div className={`grid grid-cols-1 gap-x-6 gap-y-10 ${classesGrille(visible.length + 1)}`}>
                 {visible.map((bien, index) => (
                   <Voile key={bien.id} delai={echelonner(index)} className="flex">
-                    <CarteBien bien={bien} index={index} />
+                    <CarteBien bien={bien} index={index} titre="h2" />
                   </Voile>
                 ))}
 

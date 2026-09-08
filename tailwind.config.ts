@@ -43,7 +43,7 @@ export default {
 				// en page à la substitution — mesuré, voir le commentaire du CSS.
 				'serif': ['"Instrument Serif"', '"Instrument Serif repli"', 'Georgia', 'serif'],
 				'sans': ['Figtree', '"Figtree repli"', 'system-ui', '-apple-system', 'sans-serif'],
-				'mono': ['"IBM Plex Mono"', 'ui-monospace', 'Menlo', 'monospace'],
+				'mono': ['"IBM Plex Mono"', '"IBM Plex Mono repli"', 'ui-monospace', 'Menlo', 'monospace'],
 				'display': ['Archivo', '"Archivo repli"', 'Figtree', 'system-ui', 'sans-serif'],
 			},
 			colors: {

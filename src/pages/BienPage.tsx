@@ -300,7 +300,7 @@ const BienPage = () => {
               <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
                 {autresBiens.map((autre, index) => (
                   <Voile key={autre.id} delai={echelonner(index)} className="flex">
-                    <CarteBien bien={autre} index={index + 3} />
+                    <CarteBien bien={autre} index={index + 3} titre="h2" />
                   </Voile>
                 ))}
               </div>

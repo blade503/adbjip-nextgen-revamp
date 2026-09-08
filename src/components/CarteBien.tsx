@@ -65,11 +65,20 @@ const CarteBien = ({
   bien,
   index = 0,
   className,
+  titre: Titre = 'h3',
 }: {
   bien: Bien;
   /** Les trois premières photos d'une liste se chargent d'emblée. */
   index?: number;
   className?: string;
+  /**
+   * Le niveau du titre de la carte dépend de ce qui la précède : `h3` sous
+   * une section titrée en h2 (l'accueil), `h2` quand la grille suit
+   * directement le h1 — le portefeuille, et « Dans le même portefeuille » de
+   * la fiche bien, dont l'étiquette est une gravure, pas un titre. axe-core
+   * relevait le saut h1 → h3 sur ces deux pages (08/09/2026).
+   */
+  titre?: 'h2' | 'h3';
 }) => {
   const photo = bien.photos[0];
   const note = feeNote(bien);
@@ -122,9 +131,9 @@ const CarteBien = ({
         <span className="cote shrink-0 text-muted-foreground">Réf. {bien.reference}</span>
       </div>
 
-      <h3 className="mt-2 text-[clamp(1.25rem,1.8vw,1.5rem)] leading-[1.15]">
+      <Titre className="mt-2 text-[clamp(1.25rem,1.8vw,1.5rem)] leading-[1.15]">
         <Ordinaux texte={bien.title} />
-      </h3>
+      </Titre>
 
       <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted-foreground">
         <Ordinaux texte={details.join(' · ')} />

@@ -29,8 +29,11 @@ import porte3x2_1400 from '@/assets/accueil-porte-3x2-1400.webp';
  * aérien et la voiture sont hors champ), en 3/2 sur l'immeuble entier sous le
  * titre pour téléphone et tablette : deux cadrages, donc `<picture>` et non un
  * seul fichier recoupé par `object-fit`, qui aurait décapité l'homme sur
- * téléphone. Sept fichiers WebP, qualité 80, produits avec sharp depuis le
- * JPEG d'origine (2816 × 1536).
+ * téléphone. Sept fichiers WebP produits avec sharp depuis le JPEG d'origine
+ * (2816 × 1536) : qualité 80 jusqu'à 960 px, 74 au-delà — les grandes
+ * variantes ne servent qu'aux écrans Retina de bureau, où elles sont réduites
+ * à l'affichage ; −23 % de poids sur les neuf grandes variantes des quatre
+ * ouvertures (1 794 → 1 380 Ko), relevé le 08/09/2026.
  *
  * C'est une image générée et l'immeuble n'existe pas : le client le sait et
  * l'a choisi. Une photographie du 27 rue de Lisbonne reste préférable.
