@@ -103,7 +103,7 @@ const Footer = () => {
                 <dd>
                   <a
                     href={TEL}
-                    className="tabulaire font-display text-[1.0625rem] font-semibold text-foreground transition-colors hover:text-primary-ink"
+                    className="tabulaire inline-block py-1 -my-1 font-display text-[1.0625rem] font-semibold text-foreground transition-colors hover:text-primary-ink"
                   >
                     {ADRESSE.telephone}
                   </a>

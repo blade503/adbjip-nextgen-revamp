@@ -27,6 +27,8 @@ const idChamp = (prefixe: string, nom: string) => `${prefixe}-${nom}`;
 interface BaseChamp {
   /** Clé côté serveur : c'est elle que `contact.php` renvoie dans `champs`. */
   nom: string;
+  /** Le nom envoyé au serveur s'il diffère de `nom` (ex. `details[Bien concerné]`). */
+  nomEnvoi?: string;
   etiquette: string;
   prefixe: string;
   /** Champs signalés par le serveur, pour `aria-describedby` et `aria-invalid`. */
@@ -51,6 +53,7 @@ const Erreur = ({ id, visible, message }: { id: string; visible: boolean; messag
 
 export const Champ = ({
   nom,
+  nomEnvoi,
   etiquette,
   prefixe,
   enErreur,
@@ -69,6 +72,10 @@ export const Champ = ({
       </label>
       <Input
         id={id}
+        /* `name` : sans lui, un envoi sans JavaScript (le formulaire a un
+           `action`) partait vide. `nomEnvoi` quand contact.php attend un autre
+           nom que celui du champ — `details[…]` pour le bien concerné. */
+        name={nomEnvoi ?? nom}
         aria-invalid={faute || undefined}
         aria-describedby={faute ? `${id}-erreur` : undefined}
         required={requis}

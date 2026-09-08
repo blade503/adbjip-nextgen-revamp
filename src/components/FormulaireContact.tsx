@@ -107,8 +107,13 @@ const FormulaireContact = ({ idPrefix = 'contact' }: { idPrefix?: string }) => {
     if (resultat.champs?.length) focaliserChamp(idPrefix, resultat.champs[0]);
   };
 
+  // `action` et `method` : sans JavaScript, le navigateur poste lui-même à
+  // contact.php, qui lit $_POST — la réponse est alors un JSON brut, mais la
+  // demande arrive et la sauvegarde a lieu. Avec JavaScript, `soumettre` prend
+  // la main et le formulaire ne quitte pas la page.
   return (
-    <form className="relative space-y-8" onSubmit={soumettre} noValidate>
+    <form className="relative space-y-8" action="/contact.php" method="post" onSubmit={soumettre} noValidate>
+      <input type="hidden" name="type" value="contact" />
       {/* ---- Vous êtes ----------------------------------------------
           De vrais boutons radio, masqués mais présents : le clavier, les
           flèches et l'annonce du groupe viennent du navigateur. La carte
@@ -124,7 +129,7 @@ const FormulaireContact = ({ idPrefix = 'contact' }: { idPrefix?: string }) => {
                 <input
                   type="radio"
                   id={id}
-                  name={`${idPrefix}-service`}
+                  name="service"
                   value={profil.cle}
                   checked={coche}
                   onChange={() => setService(profil.cle)}
@@ -163,7 +168,7 @@ const FormulaireContact = ({ idPrefix = 'contact' }: { idPrefix?: string }) => {
           enErreur={retour?.champs} value={champs.telephone} onChange={modifier('telephone')}
         />
         <Champ
-          prefixe={idPrefix} nom="bien" etiquette="Le bien ou l'immeuble concerné"
+          prefixe={idPrefix} nom="bien" nomEnvoi="details[Bien ou immeuble concerné]" etiquette="Le bien ou l'immeuble concerné"
           type="text" placeholder="Adresse, arrondissement"
           enErreur={retour?.champs} value={champs.bien} onChange={modifier('bien')}
         />

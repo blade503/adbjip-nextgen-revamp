@@ -125,7 +125,11 @@ const CarteLocalisation = () => {
             {ADRESSE.rue} — {ADRESSE.codePostal}
           </p>
         )}
-        <p className="plaque-pierre plaque">Métro Miromesnil — 2 min à pied</p>
+        {/* Une seule ligne de métro sur tout le site, celle de `ADRESSE.metro` :
+            la légende disait « Miromesnil — 2 min à pied » quand le pied de page
+            et la page contact disaient Villiers ou Europe — deux stations et un
+            temps de marche non sourcé pour la même adresse. */}
+        <p className="plaque-pierre plaque">{ADRESSE.metro}</p>
       </div>
 
       {/* Cible du contournement : le premier contenu après la carte. */}

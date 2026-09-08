@@ -55,7 +55,6 @@ const NotFound = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    console.error("404 : route inexistante demandée —", pathname);
   }, [pathname]);
 
   return (

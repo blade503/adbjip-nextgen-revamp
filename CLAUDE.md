@@ -70,8 +70,8 @@ Les trois commandes ci-dessous sont le seul contrôle du projet. Leurs compteurs
 |----------------------|----------------------------------------------------------------------|
 | `npm run typecheck`  | **0 erreur**. Toute erreur est bloquante.                            |
 | `npm run lint`       | **0 problème** depuis le 04/09/2026 (les 19 `any` du service de marché et le `require` de Tailwind ont été corrigés). Toute erreur est une régression. |
-| `npm run test`       | **53 cas verts**, ~200 ms. Logique pure de `src/lib/` seulement. |
-| `npm run build`      | **1 722 modules**, ~1,7 s, `[sitemap] 12 URL`, `[prerender] 13/13 + la page 404`. |
+| `npm run test`       | **55 cas verts**, ~200 ms. Logique pure de `src/lib/` seulement. |
+| `npm run build`      | **1 733 modules**, ~1,7 s, `[sitemap] 13 URL`, `[prerender] 14/14 + la page 404` (six annonces le 08/09/2026). |
 
 Poids de sortie au repère (relevé le 04/09/2026, direction « La Plaque ») : morceau d'entrée
 **JS 272,4 Ko → 88,8 Ko gzip**, **CSS 45,9 Ko → 10,0 Ko gzip** (08/09/2026 : CSS 46,9 Ko →
@@ -79,13 +79,14 @@ Poids de sortie au repère (relevé le 04/09/2026, direction « La Plaque ») : 
 2 560 Ko après réencodage à 74 des variantes ≥ 1 000 px des quatre ouvertures). Le CSS n'est pas découpé par
 route — chantier ouvert, sans urgence à ce poids.
 
-`[prerender] 13/13` = les **8 routes fixes** de `src/App.tsx` + **une fiche par annonce** du
-portefeuille (`/biens/:slug`, résolu par `scripts/routes.mjs` depuis `data/biens.json` ; cinq
-annonces le 04/09/2026). Le catch-all `*` est exclu. `[sitemap] 12 URL` en compte une de
+`[prerender] 14/14` = les **8 routes fixes** de `src/App.tsx` + **une fiche par annonce** du
+portefeuille (`/biens/:slug`, résolu par `scripts/routes.mjs` depuis `data/biens.json` ; six
+annonces le 08/09/2026, cinq le 04/09). Le catch-all `*` est exclu. `[sitemap] 13 URL` en compte une de
 moins : `/mentions-legales` en est volontairement absente. **Les deux nombres suivent le
 portefeuille** : une annonce de plus, c'est une page et une URL de plus.
 
-Deux fichiers de tests, tous deux dans `src/lib/` : `biens.test.ts` (43 cas) et
+Deux fichiers de tests, tous deux dans `src/lib/` : `biens.test.ts` (45 cas, dont deux sur la
+plausibilité des honoraires depuis le 08/09/2026) et
 `formulaire.test.ts` (10 cas, ajouté le 28/08/2026 — la validation côté client et le repli
 `mailto`).
 
@@ -101,7 +102,7 @@ Dans ce projet, « tester » veut donc dire :
 
 1. `npm run typecheck` — 0 erreur ;
 2. `npm run lint` — au repère ;
-3. `npm run test` — 53 cas verts ;
+3. `npm run test` — 55 cas verts ;
 4. `npm run build` — termine, et prérend les 8 pages fixes + une par annonce ;
 5. le **prérendu** vérifié (pas de page sous 2 000 octets, sinon échec silencieux) ;
 6. une **capture d'écran prise ET regardée** pour tout changement visuel.
@@ -237,7 +238,11 @@ pour les cotes (`.cote` : « Mandat I », « Réf. V027 », « 01 ») ; Archivo 
 **chiffres qui comptent** — prix et téléphone (`font-display`, `registre="chiffre"` du bouton).
 Archivo a perdu son axe de largeur (88 Ko à lui seul). **Poids relevé le 04/09/2026, sous-ensemble
 latin : 122,3 Ko pour huit fichiers** (Figtree 3 × 19,7 · Instrument Serif 14,7 + 15,3 · Archivo
-13,5 · Plex Mono 2 × 9,8), contre 159,3 Ko avant. Trois polices de repli locales aux métriques
+13,5 · Plex Mono 2 × 9,8), contre 159,3 Ko avant. **Auto-hébergées depuis le 08/09/2026**
+(`src/assets/polices/`, six woff2, 79 Ko : Figtree est une fonte variable qui couvre ses trois
+poids en un fichier) — Google n'est plus contacté, c'était le seul tiers appelé avant un geste du
+visiteur (CNIL, jugement de Munich 2022). Importées par Vite, donc empreintées et en cache
+immuable. Vérifié : un seul domaine contacté sur chaque page, LCP et CLS inchangés. Trois polices de repli locales aux métriques
 ajustées (`src/index.css`, en tête) évitent le décalage à la substitution — cinq déclarations
 depuis le 08/09/2026 : Figtree a un repli par poids (regular, puis Arial Bold pour le 600), et
 IBM Plex Mono retombe sur Courier New au lieu de Menlo, 31 % plus étroite.
@@ -487,6 +492,16 @@ en mémoire, donc de retarder la nouvelle.
   « corriger » en gardant les anciens fichiers sur le serveur : l'action n'a pas d'option pour
   cela sans renoncer à la synchronisation, et le cache de périphérie servirait de toute façon un
   HTML périmé quelques minutes.
+- **Une donnée fautive de l'agence ne se publie pas, elle se signale.** Le 08/09/2026, une annonce
+  saisie avec 10 000 € « hors honoraires » pour 380 000 € affichait « Honoraires de 3 700 % » dans
+  la fiche, la carte et la description des moteurs. `honorairesPlausibles` dans `src/lib/biens.ts`
+  (taux > 20 % ou prix hors honoraires < moitié du prix) remplace la mention par « Honoraires : à
+  confirmer auprès de l'agence » et retire le prix hors honoraires et le prix au m², qui découlent
+  de la même saisie. Le taux vrai est à corriger dans le logiciel de l'agence — jamais dans le code.
+- **Le déploiement et le dépôt ne voient pas le même portefeuille.** La synchronisation nocturne
+  tourne en CI ; le `data/biens.json` local date du dernier `npm run biens:fetch`. Les tests sur le
+  portefeuille réel ne valent que pour ce que le dépôt contient : lancer `biens:fetch` avant de
+  conclure qu'une donnée est saine.
 - **`fetchpriority` s'écrit en MINUSCULES.** `fetchPriority` en camelCase n'est reconnu qu'à
   partir de React 19 : sur 18.3.1 il déclenche « React does not recognize the `fetchPriority`
   prop » à chaque chargement, avec la consigne explicite de le mettre en bas de casse.

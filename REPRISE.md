@@ -1076,6 +1076,24 @@ champs (le géocodage exige code postal et ville), libellés abrégés des manda
 
 ### Reste à faire
 
+- **Audit complet du 08/09/2026 — ce qui demande l'agence, rien d'autre ne manque au code.**
+  Corrigé le jour même : garde de plausibilité des honoraires ; mentions légales en `noindex`
+  tant qu'incomplètes ; polices auto-hébergées ; feuille d'impression ; HSTS, Permissions-Policy
+  et fichier d'état FTP bloqués ; limitation de débit et Reply-To de `contact.php` ; formulaire
+  postable sans JavaScript ; une seule ligne de métro ; téléphones insécables ; titres au même
+  suffixe ; image de partage par annonce ; zone touchable ≥ 24 px des liens ; erreur réseau du
+  calculateur distinguée d'une adresse inconnue. **À demander à l'agence** : (1) la correction de
+  l'annonce « studio rue de l'Arcade » dans leur logiciel (prix hors honoraires 10 000 € au lieu de
+  ~370 000 €, titre « Charment ») ; (2) les mentions Hoguet — numéro et CCI de la carte
+  professionnelle, garant et montant de la garantie financière, assureur RCP, médiateur de la
+  consommation, capital et TVA des deux sociétés ; (3) le **barème d'honoraires** à publier
+  (obligatoire, arrêté du 10/01/2017) ; (4) l'arbitrage sur « réponse sous 24 heures ouvrées » ;
+  (5) la ligne de métro à retenir (le site dit Villiers ou Europe, ligne 3) ; (6) les mentions
+  ALUR des lots en copropriété (nombre de lots, charges, procédures) et la surface Carrez,
+  absentes de la source ; (7) l'avis sur la section « avis clients » : trois 5/5 recopiés alors
+  que la note Google est 3,1 — ajouter la note globale, ou retirer la section ; (8) une politique
+  de données personnelles complète (durée de conservation de `leads.jsonl`, adresse IP
+  journalisée, tiers appelés par l'estimateur).
 - **Photographies vraies du 27 rue de Lisbonne** — la façade et sa porte cochère, le hall, le
   bureau. Le 04/09/2026 au soir, le client a jugé que les quatre images générées des ouvertures
   (travée, clés et bail, hall, bureau) faisaient fausses : elles sont retirées. L'accueil a

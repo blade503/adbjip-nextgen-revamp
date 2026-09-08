@@ -94,7 +94,7 @@ const Biens = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Nos biens à vendre et à louer | JIP Jobard Immobilier Paris"
+        title="Biens à vendre et à louer — JIP, Jobard Immobilier Paris"
         description={
           biens.length === 0
             ? 'Aucun bien disponible en ce moment chez JIP Jobard Immobilier. Dites-nous ce que vous cherchez, nous vous prévenons avant la mise en publication.'

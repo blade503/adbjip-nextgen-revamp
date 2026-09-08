@@ -175,12 +175,28 @@ RewriteRule ^(.*[^/])$ /$1/index.html [L]
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+  # HTTPS est déjà forcé plus haut : annoncer un an de HSTS ne change rien pour
+  # un visiteur légitime et coupe le premier aller en clair. Sans `preload` :
+  # l'inscription dans la liste des navigateurs est un engagement irréversible
+  # qui ne se prend pas depuis un .htaccess. `always` : aussi sur les erreurs.
+  Header always set Strict-Transport-Security "max-age=31536000"
+  # Le site n'utilise ni caméra, ni micro, ni géolocalisation (l'estimation
+  # géocode une adresse saisie, elle ne demande pas la position).
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 </IfModule>
 
 # --- Sauvegarde des demandes --------------------------------------------------
 # contact.php consigne chaque demande dans leads.jsonl à titre de filet : ce
 # fichier ne doit jamais être servi. Vérifié : 403.
 <Files "leads.jsonl">
+  Require all denied
+</Files>
+
+# L'état de synchronisation déposé par FTP-Deploy-Action : la liste complète des
+# fichiers du site et leurs empreintes. Relevé le 08/09/2026 : servi en 200,
+# 47 Ko, à quiconque en devinait le nom. Rien de secret dedans, mais rien à y
+# lire non plus.
+<Files ".ftp-deploy-sync-state.json">
   Require all denied
 </Files>
 

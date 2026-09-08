@@ -4,7 +4,10 @@ import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
-import MarketDataService, { type DonneesMarche } from '@/components/estimation/MarketDataService';
+import MarketDataService, {
+  ServiceIndisponible,
+  type DonneesMarche,
+} from '@/components/estimation/MarketDataService';
 import BandeauContact from '@/components/systeme/BandeauContact';
 import BarreAppel from '@/components/systeme/BarreAppel';
 import EnTeteSection from '@/components/systeme/EnTeteSection';
@@ -243,7 +246,11 @@ const VendreEstimer = () => {
       setEstimationResult(Math.round(adjustedPrice * surface));
     } catch (error) {
       console.error('Erreur lors du calcul:', error);
-      setErrorMessage('Une erreur est survenue lors du calcul. Veuillez réessayer.');
+      setErrorMessage(
+        error instanceof ServiceIndisponible
+          ? "Le service d'adresses ne répond pas pour le moment. Réessayez dans un instant, ou appelez-nous : nous ferons l'estimation avec vous."
+          : 'Une erreur est survenue lors du calcul. Veuillez réessayer.',
+      );
     } finally {
       setIsCalculating(false);
     }
@@ -305,7 +312,7 @@ const VendreEstimer = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Vendre et estimer un bien à Paris — JIP"
+        title="Vendre et estimer un bien à Paris — JIP, Jobard Immobilier Paris"
         description="Estimation gratuite appuyée sur les transactions enregistrées (DVF), et accompagnement de la vente ou de l'achat jusqu'à la signature. JIP, Paris 8e."
         keywords="estimation immobilière gratuite paris, vendre appartement paris, acheter paris 8, transaction immobilière, données DVF"
         canonicalUrl="https://www.adbjip.fr/services/vendre-estimer"

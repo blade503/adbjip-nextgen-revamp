@@ -24,7 +24,7 @@ import { cn } from '@/lib/utils';
 export const DpeBadges = ({ bien, className = 'h-10' }: { bien: Bien; className?: string }) => {
   if (!bien.badges?.dpeBadge) return null;
   return (
-    <div className="flex items-end gap-2" aria-label="Diagnostic de performance énergétique">
+    <div role="group" className="flex items-end gap-2" aria-label="Diagnostic de performance énergétique">
       <img
         src={bien.badges.dpeBadge}
         alt={`Classe énergie ${bien.dpe.energyClass ?? ''}`}

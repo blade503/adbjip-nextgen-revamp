@@ -217,6 +217,7 @@ const Header = () => {
             </a>
 
             <button
+              type="button"
               data-bouton-menu
               onClick={() => setMenuOuvert(!menuOuvert)}
               className="flex h-11 w-11 items-center justify-center text-foreground transition-colors hover:bg-[hsl(var(--lavis)/var(--lavis-a))] lg:hidden"

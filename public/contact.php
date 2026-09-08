@@ -83,6 +83,45 @@ if (!empty($donnees['website'])) {
     repondre(200, ['ok' => true]);
 }
 
+/**
+ * Limitation de débit, par adresse : cinq envois par dix minutes. Un robot qui
+ * poste du JSON sans remplir le leurre passait autant de fois qu'il voulait,
+ * un mail() à chaque coup (relevé à l'audit du 08/09/2026). Le compteur vit
+ * dans le dossier temporaire du serveur, un fichier par adresse hachée : rien
+ * de nominatif n'y est écrit, et le fichier s'oublie tout seul. Si le dossier
+ * n'est pas inscriptible, on laisse passer : ne jamais bloquer un vrai
+ * visiteur à cause d'un réglage d'hébergement.
+ */
+function debit_autorise($ip, $maximum = 5, $fenetre = 600)
+{
+    if ($ip === '') {
+        return true;
+    }
+    $fichier = sys_get_temp_dir() . '/jip-contact-' . md5($ip);
+    $maintenant = time();
+    $recents = array();
+    if (is_file($fichier)) {
+        foreach (file($fichier, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $ligne) {
+            if ((int) $ligne > $maintenant - $fenetre) {
+                $recents[] = (int) $ligne;
+            }
+        }
+    }
+    if (count($recents) >= $maximum) {
+        return false;
+    }
+    $recents[] = $maintenant;
+    @file_put_contents($fichier, implode("\n", $recents) . "\n", LOCK_EX);
+    return true;
+}
+
+if (!debit_autorise(isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '')) {
+    repondre(429, [
+        'ok'     => false,
+        'erreur' => 'Trop de demandes en peu de temps. Réessayez dans quelques minutes, ou appelez-nous au 01 42 25 78 24.',
+    ]);
+}
+
 $type    = nettoyer(champ($donnees, 'type', 'contact'), 40);
 $nom     = nettoyer(champ($donnees, 'nom'), 120);
 $email   = nettoyer(champ($donnees, 'email'), 160);
@@ -162,7 +201,9 @@ $lignes[] = '— Envoyé depuis le formulaire de https://www.adbjip.fr';
 
 $entetes = implode("\r\n", [
     'From: JIP — site <' . EXPEDITEUR . '>',
-    'Reply-To: ' . $nom . ' <' . $email . '>',
+    // Le nom entre guillemets, sans guillemets ni virgule à l'intérieur : un
+    // nom saisi « Dupont, Jean » cassait la syntaxe de l'en-tête (RFC 5322).
+    'Reply-To: "' . str_replace(array('"', ','), ' ', $nom) . '" <' . $email . '>',
     'Content-Type: text/plain; charset=utf-8',
     'X-Mailer: PHP/' . phpversion(),
 ]);

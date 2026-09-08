@@ -51,6 +51,14 @@ interface CriteresEstimation {
   condition: string;
 }
 
+/** Le service distant ne répond pas : à distinguer d'une adresse inconnue. */
+export class ServiceIndisponible extends Error {
+  constructor(service: string) {
+    super(`Service indisponible : ${service}`);
+    this.name = 'ServiceIndisponible';
+  }
+}
+
 class MarketDataService {
   private static instance: MarketDataService;
   private geocodeCache = new Map<string, Coordonnees>();
@@ -88,8 +96,11 @@ class MarketDataService {
 
       return result;
     } catch (error) {
+      // `null` veut dire « adresse inconnue » ; une coupure du service n'est
+      // pas une faute de saisie, elle remonte à l'appelant (relevé le 08/09/2026 :
+      // service coupé, message « vérifiez votre saisie »).
       console.error('Erreur de géocodage:', error);
-      return null;
+      throw new ServiceIndisponible('api-adresse.data.gouv.fr');
     }
   }
 

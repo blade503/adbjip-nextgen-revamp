@@ -90,9 +90,9 @@ const TYPES: [string, string][] = [
 const ETAGES: [string, string][] = [
   ['', 'Sélectionnez'],
   ['rdc', 'Rez-de-chaussée'],
-  ['1-2', '1er-2ème étage'],
-  ['3-5', '3ème-5ème étage'],
-  ['6+', '6ème étage et plus'],
+  ['1-2', '1er – 2e étage'],
+  ['3-5', '3e – 5e étage'],
+  ['6+', '6e étage et plus'],
 ];
 
 const ETATS: [string, string][] = [

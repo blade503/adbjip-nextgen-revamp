@@ -43,6 +43,8 @@ interface SEOHeadProps {
   canonicalUrl?: string;
   structuredData?: object;
   ogImage?: string;
+  /** Requis dès que `ogImage` n'est pas l'image par défaut : l'alt décrit l'image, pas la page. */
+  ogImageAlt?: string;
   ogType?: string;
   twitterCard?: string;
   /** Retire la page de l'index : réservé aux pages sans contenu propre (404). */
@@ -67,6 +69,7 @@ const SEOHead = ({
   canonicalUrl,
   structuredData,
   ogImage = OG_IMAGE,
+  ogImageAlt = OG_ALT,
   ogType = 'website',
   twitterCard = 'summary_large_image',
   noindex = false,
@@ -152,9 +155,16 @@ const SEOHead = ({
     if (canonicalUrl) meta('og:url', canonicalUrl);
     else document.querySelector('meta[property="og:url"]')?.remove();
     meta('og:image', ogImage);
-    meta('og:image:width', OG_LARGEUR);
-    meta('og:image:height', OG_HAUTEUR);
-    meta('og:image:alt', OG_ALT);
+    // Les dimensions ne sont connues que pour l'image par défaut ; pour une
+    // photo d'annonce on retire les balises plutôt que d'annoncer un faux format.
+    if (ogImage === OG_IMAGE) {
+      meta('og:image:width', OG_LARGEUR);
+      meta('og:image:height', OG_HAUTEUR);
+    } else {
+      document.querySelector('meta[property="og:image:width"]')?.remove();
+      document.querySelector('meta[property="og:image:height"]')?.remove();
+    }
+    meta('og:image:alt', ogImageAlt);
     meta('og:site_name', SEO_CONFIG.site.name);
     meta('og:locale', 'fr_FR');
 
@@ -162,11 +172,11 @@ const SEOHead = ({
     meta('twitter:title', title, false);
     meta('twitter:description', description, false);
     meta('twitter:image', ogImage, false);
-    meta('twitter:image:alt', OG_ALT, false);
+    meta('twitter:image:alt', ogImageAlt, false);
 
     meta('robots', noindex ? 'noindex, follow' : 'index, follow', false);
     meta('author', SEO_CONFIG.site.name, false);
-  }, [title, description, keywords, canonicalUrl, structuredData, ogImage, ogType, twitterCard, noindex]);
+  }, [title, description, keywords, canonicalUrl, structuredData, ogImage, ogImageAlt, ogType, twitterCard, noindex]);
 
   return null;
 };

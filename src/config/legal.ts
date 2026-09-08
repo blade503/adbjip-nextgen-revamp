@@ -75,7 +75,8 @@ export interface Entite {
  */
 export const HORAIRES = {
   semaine: 'Lun-Ven 9h-13h / 14h-17h',
-  detail: '9h - 13h · 14h - 17h',
+  // Typographie française : espace insécable avant l'unité, tiret demi-cadratin.
+  detail: '9\u00a0h – 13\u00a0h · 14\u00a0h – 17\u00a0h',
   jours: 'Lundi au vendredi',
   /** Rien le samedi : l'agence n'ouvre que du lundi au vendredi. */
   samedi: null as string | null,
@@ -87,7 +88,11 @@ export const ADRESSE = {
   rue: '27, rue de Lisbonne',
   codePostal: '75008',
   ville: 'Paris',
-  telephone: '01 42 25 78 24',
+  /* Espaces insécables : 258 occurrences du numéro dans le HTML livré pouvaient
+     se couper en fin de ligne (relevé le 08/09/2026, vu sur l'écran de secours à
+     390 px). Les `tel:` retirent tout ce qui n'est pas un chiffre, le JSON-LD
+     aussi : seul l'affichage change. */
+  telephone: '01\u00a042\u00a025\u00a078\u00a024',
   email: 'j.immo.p@orange.fr',
   /** Repris de la section de conversion : la ligne 3 dessert les deux stations. */
   metro: 'Métro Villiers ou Europe, ligne 3',
@@ -134,7 +139,7 @@ export const EQUIPE = [
   {
     nom: 'Florent Jobard',
     metier: 'Transaction & estimation',
-    telephone: '06 62 91 73 35',
+    telephone: '06\u00a062\u00a091\u00a073\u00a035',
     email: ADRESSE.email,
     description: "Porte la transaction, l'achat-vente et l'estimation.",
     /** Index dans `ENTITES` : Jobard Immobilier Patrimoine. */

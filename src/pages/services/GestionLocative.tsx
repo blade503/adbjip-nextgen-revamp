@@ -160,7 +160,7 @@ const GestionLocative = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Gérance locative — JIP, Paris 8ᵉ"
+        title="Gérance locative à Paris — JIP, Jobard Immobilier Paris"
         description="Gérance locative au 27 rue de Lisbonne, Paris 8ᵉ : recherche de locataire, bail, quittances, loyers, charges et travaux. Un mandat, un interlocuteur."
         keywords="gérance locative paris, gestion locative paris 8, encaissement loyers, sélection locataires, mandat de gestion"
         canonicalUrl="https://www.adbjip.fr/services/gestion-locative"
