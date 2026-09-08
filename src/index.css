@@ -88,6 +88,72 @@
   line-gap-override: 0%;
 }
 
+/* ---- Les quatre familles, AUTO-HÉBERGÉES — 08/09/2026 ------------------------
+   Jusqu'ici servies par fonts.googleapis.com et fonts.gstatic.com : deux
+   domaines contactés sur chaque page, avant tout geste, avec l'adresse IP du
+   visiteur — ce que la CNIL demande d'éviter et qu'un tribunal allemand a
+   sanctionné en 2022. Les six woff2 sont les fichiers mêmes que Google servait
+   (sous-ensemble latin, 79 Ko au total : Figtree est une fonte variable qui
+   couvre ses trois poids en un fichier de 19 Ko). Importés par Vite, ils
+   partent dans /assets/ avec une empreinte et le cache immuable d'un an — ce
+   que le CSS de Google, revalidé chaque jour, n'avait pas. Le `preconnect` et
+   le préchargement non bloquant du CSS distant disparaissent d'index.html.
+   Pas de `preload` des woff2 : mesuré perdant sur le LCP (voir index.html).
+   Les replis ajustés ci-dessus restent nécessaires : `font-display: swap`. */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/polices/instrument-serif.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/polices/instrument-serif-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('./assets/polices/figtree-400-600.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/polices/plex-mono-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./assets/polices/plex-mono-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./assets/polices/archivo-600.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -517,6 +583,12 @@
     align-items: center;
     gap: 0.5rem;
     text-decoration: none;
+    /* Zone touchable d'au moins 24 px (WCAG 2.5.8) : les liens du pied de page
+       et des légendes font 18 à 21 px de haut. Le rembourrage agrandit la boîte
+       cliquable, la marge négative rend la place — rien ne bouge à l'écran.
+       Relevé le 08/09/2026 : 19 liens sous 24 px par page, tous en `.lien-trait`. */
+    padding-block: 0.1875rem;
+    margin-block: -0.1875rem;
   }
 
   .lien-trait::before {
@@ -967,5 +1039,46 @@ html[data-mouvement='0'] ::view-transition-new(*) {
   .hover-lift:hover .calage,
   .hover-glow:hover .calage {
     transform: none;
+  }
+}
+
+/* =====================================================================
+   IMPRESSION — 08/09/2026. Une fiche bien est précisément ce qu'on imprime,
+   et elle sortait avec quatre blocs sur six invisibles : les apparitions
+   partent d'`opacity: 0` et attendent un défilement qui n'a jamais lieu sur
+   papier. L'en-tête collant, la barre d'appel et les boutons n'y ont rien à
+   faire non plus. Tout est en `!important` parce que ce sont des états posés
+   par attribut et par animation, plus spécifiques que cette feuille.
+   ===================================================================== */
+@media print {
+  .voile,
+  .voile-menu,
+  .voile-fond,
+  [data-voile],
+  [data-trait],
+  [data-calage] {
+    animation: none !important;
+    opacity: 1 !important;
+    clip-path: none !important;
+    transform: none !important;
+  }
+
+  .entete,
+  [data-barre-appel],
+  .voile-fond,
+  button,
+  .impression-masquee {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  /* L'adresse d'un lien externe, entre parenthèses : la page imprimée reste utile. */
+  a[href^='http']:not([href*='adbjip.fr'])::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
   }
 }

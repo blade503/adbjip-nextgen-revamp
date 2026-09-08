@@ -88,11 +88,14 @@
 
          PRÉCHARGER LES WOFF2 A ÉTÉ ESSAYÉ SUR LA VERSION PRÉCÉDENTE ET MESURÉ PERDANT
          (CLS −71 % mais LCP +783 ms sur un lien bridé) : ne pas le refaire sans
-         remesurer. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap"></noscript>
+         remesurer.
+
+         DEPUIS LE 08/09/2026, PLUS AUCUNE BALISE ICI : les polices sont
+         auto-hébergées (`src/assets/polices/`, déclarées en tête de
+         `src/index.css`). Google n'est plus contacté — c'était le seul tiers
+         appelé avant tout geste du visiteur, et la CNIL demande de l'éviter. Les
+         `preconnect` vers fonts.googleapis.com et fonts.gstatic.com n'ont donc
+         plus d'objet. -->
 
     <!-- Open Graph — valeurs de repli, réécrites par `SEOHead` après le montage.
          Elles servent aux robots qui ne rendent pas le JavaScript et aux pages

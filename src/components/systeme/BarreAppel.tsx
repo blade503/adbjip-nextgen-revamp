@@ -28,9 +28,10 @@ import { ADRESSE } from '@/config/legal';
  */
 const BarreAppel = ({ action }: { action?: { libelle: string; href: string } }) => (
   <>
-    <div aria-hidden className="h-[4.75rem] lg:hidden" />
+    <div aria-hidden data-barre-appel className="h-[4.75rem] lg:hidden" />
     <nav
       aria-label="Appeler ou écrire à l'agence"
+      data-barre-appel
       className="fixed inset-x-0 bottom-0 z-40 flex items-stretch gap-2.5 border-t border-[hsl(var(--trait)/var(--trait-a))] bg-pierre px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 lg:hidden"
     >
       <Button
