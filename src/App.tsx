@@ -1,7 +1,9 @@
-import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Suspense } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ScrollManager from "./components/ScrollManager";
 import Attente from "./components/systeme/Attente";
+import GardeFou from "./components/systeme/GardeFou";
+import { pageDifferee } from "./lib/chargement";
 import Index from "./pages/Index";
 
 /**
@@ -32,17 +34,28 @@ import Index from "./pages/Index";
  * d'arriver, sinon il écrit dix pages contenant le repli. Le contrôle du `#root`
  * vide ne suffirait pas — le repli, lui, n'est pas vide. Le prérendu est donc
  * revérifié sur le contenu réel après ce découpage.
+ *
+ * `pageDifferee` et non `lazy` nu (08/09/2026) : un déploiement supprime les
+ * anciens morceaux, et l'onglet ouvert avant la mise en ligne les demande
+ * encore — page blanche vue par le client. Le premier échec recharge la page,
+ * le second remonte au `GardeFou`. Voir `src/lib/chargement.ts`.
  */
-const Biens = lazy(() => import("./pages/Biens"));
-const BienPage = lazy(() => import("./pages/BienPage"));
-const GestionLocative = lazy(() => import("./pages/services/GestionLocative"));
-const GestionCopropriete = lazy(() => import("./pages/services/GestionCopropriete"));
-const VendreEstimer = lazy(() => import("./pages/services/VendreEstimer"));
-const About = lazy(() => import("./pages/About"));
-const Contact = lazy(() => import("./pages/Contact"));
-const MentionsLegales = lazy(() => import("./pages/MentionsLegales"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const Atelier = lazy(() => import("./pages/Atelier"));
+const Biens = pageDifferee(() => import("./pages/Biens"));
+const BienPage = pageDifferee(() => import("./pages/BienPage"));
+const GestionLocative = pageDifferee(
+  () => import("./pages/services/GestionLocative"),
+);
+const GestionCopropriete = pageDifferee(
+  () => import("./pages/services/GestionCopropriete"),
+);
+const VendreEstimer = pageDifferee(
+  () => import("./pages/services/VendreEstimer"),
+);
+const About = pageDifferee(() => import("./pages/About"));
+const Contact = pageDifferee(() => import("./pages/Contact"));
+const MentionsLegales = pageDifferee(() => import("./pages/MentionsLegales"));
+const NotFound = pageDifferee(() => import("./pages/NotFound"));
+const Atelier = pageDifferee(() => import("./pages/Atelier"));
 
 /**
  * Chemin de l'atelier de contrôle visuel, dans une constante et non en clair.
@@ -66,33 +79,55 @@ const CHEMIN_ATELIER = "/atelier";
  * aujourd'hui d'API qu'au build (les annonces) et depuis `MarketDataService`,
  * qui gère son propre cache de 24 h. Ne pas le réinstaller « au cas où ».
  */
-const App = () => (
-  <BrowserRouter basename={import.meta.env.BASE_URL}>
-    <ScrollManager />
-    <Suspense fallback={<Attente />}>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/biens" element={<Biens />} />
-        {/* La fiche bien : `:slug` est résolu par `scripts/routes.mjs` depuis
+/**
+ * Les pages, sous un garde-fou remonté à chaque changement d'URL : une erreur
+ * de rendu affiche un écran lisible au lieu d'une page blanche, et ne survit
+ * pas à la navigation suivante. `useLocation` impose d'être sous le routeur.
+ */
+const Pages = () => {
+  const { pathname } = useLocation();
+  return (
+    <GardeFou key={pathname}>
+      <Suspense fallback={<Attente />}>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/biens" element={<Biens />} />
+          {/* La fiche bien : `:slug` est résolu par `scripts/routes.mjs` depuis
             `data/biens.json`, pour le prérendu, le sitemap et les vérificateurs.
             Les trois anciennes routes (/services/estimation-biens,
             /services/achats-ventes, /equipe) redirigent en 301 depuis le
             `.htaccess` — pas de `<Navigate>` ici, qui prérendrait une page
             en doublon. */}
-        <Route path="/biens/:slug" element={<BienPage />} />
-        <Route path="/services/gestion-locative" element={<GestionLocative />} />
-        <Route path="/services/gestion-copropriete" element={<GestionCopropriete />} />
-        <Route path="/services/vendre-estimer" element={<VendreEstimer />} />
-        <Route path="/agence" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/mentions-legales" element={<MentionsLegales />} />
-        {/* Atelier : développement uniquement. Absent du bundle de
+          <Route path="/biens/:slug" element={<BienPage />} />
+          <Route
+            path="/services/gestion-locative"
+            element={<GestionLocative />}
+          />
+          <Route
+            path="/services/gestion-copropriete"
+            element={<GestionCopropriete />}
+          />
+          <Route path="/services/vendre-estimer" element={<VendreEstimer />} />
+          <Route path="/agence" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/mentions-legales" element={<MentionsLegales />} />
+          {/* Atelier : développement uniquement. Absent du bundle de
             production, donc le chemin y retombe sur la 404. */}
-        {import.meta.env.DEV && <Route path={CHEMIN_ATELIER} element={<Atelier />} />}
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Suspense>
+          {import.meta.env.DEV && (
+            <Route path={CHEMIN_ATELIER} element={<Atelier />} />
+          )}
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </GardeFou>
+  );
+};
+
+const App = () => (
+  <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <ScrollManager />
+    <Pages />
   </BrowserRouter>
 );
 

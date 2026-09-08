@@ -473,6 +473,20 @@ en mémoire, donc de retarder la nouvelle.
   plaque de rue — sont dans l'historique git (commit précédant la refonte) si l'on y revient.
   La sonde de débordement horizontal a été refaite le 04/09/2026 sur la nouvelle ouverture :
   0 px sur les onze pages à 375, 390, 430, 440 et 768 px, menu mobile ouvert compris.
+- **Un déploiement SUPPRIME les anciens morceaux de route, et un onglet ouvert les demande
+  encore.** Vu par le client le 08/09/2026 sur la préversion : page blanche sur
+  `/services/vendre-estimer`, console « Failed to fetch dynamically imported module
+  …/assets/VendreEstimer-DXEeQtdU.js » (404). FTP-Deploy-Action synchronise : les fichiers absents
+  du nouveau build sont effacés (vérifié, les empreintes de la veille répondent 404). Un visiteur
+  arrivé avant la mise en ligne garde en mémoire l'ancienne table des morceaux ; son premier clic
+  vers une page pas encore visitée tombe sur un fichier disparu — et sans frontière d'erreur, React
+  démontait tout. Deux pièces depuis : `src/lib/chargement.ts` (`pageDifferee` : le premier échec
+  recharge la page une fois, garde par URL en `sessionStorage`) et `systeme/GardeFou.tsx`
+  (frontière d'erreur autonome, remontée à chaque URL par `key`, rechargement, accueil,
+  téléphone). Simulé par interception du morceau en 404 : un rechargement, puis l'écran. Ne pas
+  « corriger » en gardant les anciens fichiers sur le serveur : l'action n'a pas d'option pour
+  cela sans renoncer à la synchronisation, et le cache de périphérie servirait de toute façon un
+  HTML périmé quelques minutes.
 - **`fetchpriority` s'écrit en MINUSCULES.** `fetchPriority` en camelCase n'est reconnu qu'à
   partir de React 19 : sur 18.3.1 il déclenche « React does not recognize the `fetchPriority`
   prop » à chaque chargement, avec la consigne explicite de le mettre en bas de casse.
