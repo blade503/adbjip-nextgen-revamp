@@ -73,9 +73,14 @@ const EntiteBlock = ({ entite }: { entite: Entite }) => (
 const MentionsLegales = () => (
   <div className="min-h-screen">
     <SEOHead
-      title="Mentions légales | JIP — Jobard Immobilier Paris"
+      title="Mentions légales — JIP, Jobard Immobilier Paris"
       description="Mentions légales de l'agence J.I.P. — Jobard Immobilier Paris : éditeur, carte professionnelle, garantie financière, assurance et médiation de la consommation."
       canonicalUrl="https://www.adbjip.fr/mentions-legales"
+      /* Tant qu'une mention obligatoire manque, la page ne s'indexe pas : un
+         « à compléter » dans un extrait de résultat de recherche est pire que
+         l'absence. Le sitemap l'exclut déjà ; `noindex` retombe de lui-même
+         quand `legalIsIncomplete` passe à faux. */
+      noindex={legalIsIncomplete}
     />
     <Header />
 
@@ -92,11 +97,11 @@ const MentionsLegales = () => (
           <div className="mb-14 flex gap-3 border-l-2 border-destructive bg-destructive/5 py-4 pl-4 pr-5">
             <AlertTriangle aria-hidden className="h-5 w-5 shrink-0 text-destructive" />
             <p className="text-sm leading-relaxed">
-              <strong>Page incomplète, à ne pas mettre en ligne en l'état.</strong> Les mentions
-              marquées « à compléter » sont obligatoires au titre de la loi Hoguet. Elles figurent
-              sur la carte professionnelle et l'attestation de garantie financière de chacune des
-              deux sociétés, et se renseignent dans <code>src/config/legal.ts</code>. Ce bandeau disparaît une fois
-              tous les champs remplis.
+              <strong>Page en cours de complément.</strong> Les mentions marquées « à compléter »
+              sont obligatoires au titre de la loi Hoguet : numéro et lieu de délivrance de la carte
+              professionnelle, garant financier, assureur, médiateur de la consommation. Elles
+              figurent sur la carte professionnelle et l'attestation de garantie financière de
+              chacune des deux sociétés, et seront publiées dès leur transmission par l'agence.
             </p>
           </div>
         )}

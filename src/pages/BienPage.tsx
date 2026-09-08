@@ -17,7 +17,17 @@ import { Button } from '@/components/ui/button';
 import Galerie from '@/components/biens/Galerie';
 import { ADRESSE } from '@/config/legal';
 import { echelonner } from '@/lib/echelon';
-import { biens, descriptionLines, eur, feeNote, legalLines, locationLabel, priceDrop, prixLibelle } from '@/lib/biens';
+import {
+  biens,
+  descriptionLines,
+  eur,
+  feeNote,
+  honorairesPlausibles,
+  legalLines,
+  locationLabel,
+  priceDrop,
+  prixLibelle,
+} from '@/lib/biens';
 
 /**
  * LA FICHE BIEN — planche 2f de la direction « La Plaque », nouvelle page.
@@ -88,9 +98,13 @@ const BienPage = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title={`${bien.title} — ${prixLibelle(bien)} | JIP Jobard Immobilier Paris`}
+        title={`${bien.title} — ${prixLibelle(bien)} — JIP`}
         description={`${location ? 'À louer' : 'À vendre'} : ${bien.title}, ${locationLabel(bien)}. ${prixLibelle(bien)}${note ? ` — ${note}` : ''}. Réf. ${bien.reference}.`}
         canonicalUrl={`https://www.adbjip.fr/biens/${bien.slug}`}
+        /* La photo du bien en image de partage : partager une annonce avec la
+           façade de l'agence, c'est partager la mauvaise image. */
+        ogImage={principale ? `https://www.adbjip.fr${principale.large.replace(/^\/?/, '/')}` : undefined}
+        ogImageAlt={principale ? `${bien.title}, ${locationLabel(bien)}` : undefined}
         structuredData={structuredData}
       />
       <Header />
@@ -260,7 +274,7 @@ const BienPage = () => {
                 )}
                 <p className="tabulaire mt-1.5 text-[0.8125rem] text-muted-foreground">
                   {!location && bien.price != null && 'Honoraires inclus'}
-                  {!location && bien.pricePerSquareMeter != null && ` · ${eur(bien.pricePerSquareMeter)} / m²`}
+                  {!location && bien.pricePerSquareMeter != null && honorairesPlausibles(bien) && ` · ${eur(bien.pricePerSquareMeter)} / m²`}
                   {location && note}
                 </p>
 

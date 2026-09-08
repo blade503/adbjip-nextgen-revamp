@@ -269,7 +269,31 @@ export function segmentsOrdinaux(texte: string): SegmentOrdinal[] {
  * figuraient que dans le détail. Sur la réf. G60 du portefeuille, cela laissait
  * 120 € TTC hors de l'annonce.
  */
+/**
+ * Un taux d'honoraires que l'on peut publier. Relevé le 08/09/2026 sur la
+ * préversion : une annonce saisie avec un prix hors honoraires de 10 000 € pour
+ * 380 000 € affichait « Honoraires de 3 700 % » — dans la fiche, la carte et la
+ * description pour les moteurs. La donnée ne se corrige pas dans le code (la
+ * source est le logiciel de l'agence, qui reçoit l'alerte de fetch-biens.mjs),
+ * mais elle ne se publie pas non plus : une mention fausse au sens de l'arrêté
+ * du 10 janvier 2017 est pire qu'une mention manquante. Bornes : un taux au-delà
+ * de 20 %, ou un prix hors honoraires inférieur à la moitié du prix, ne
+ * correspond à aucun barème réel de transaction.
+ */
+export function honorairesPlausibles(bien: Bien): boolean {
+  if (bien.transaction === 'location') return true;
+  if (bien.feePercentage != null && (bien.feePercentage <= 0 || bien.feePercentage > 20)) return false;
+  if (bien.price != null && bien.priceWithoutFees != null && bien.priceWithoutFees < bien.price / 2) {
+    return false;
+  }
+  return true;
+}
+
+/** La mention affichée à la place d'un taux invraisemblable. */
+export const HONORAIRES_A_CONFIRMER = "Honoraires : à confirmer auprès de l'agence";
+
 export function feeNote(bien: Bien): string {
+  if (!honorairesPlausibles(bien)) return HONORAIRES_A_CONFIRMER;
   if (bien.transaction === 'location') {
     const parts: string[] = [];
     if (bien.charges != null) parts.push(`+ ${eur(bien.charges)} de charges par mois`);
@@ -305,13 +329,18 @@ export function legalLines(bien: Bien): string[] {
     }
   } else {
     if (bien.price != null) lines.push(`Prix de vente : ${eur(bien.price)} honoraires inclus.`);
-    if (bien.priceWithoutFees != null) {
-      lines.push(`Prix hors honoraires : ${eur(bien.priceWithoutFees)}.`);
-    }
-    if (bien.feePercentage != null && bien.feesChargedTo) {
-      lines.push(
-        `Honoraires de ${percent(bien.feePercentage)} % TTC à la charge de l'${bien.feesChargedTo}, inclus dans le prix affiché.`,
-      );
+    if (!honorairesPlausibles(bien)) {
+      // Ni prix hors honoraires ni taux : les deux découlent de la même saisie fautive.
+      lines.push(`${HONORAIRES_A_CONFIRMER} — le taux et la partie qui les supporte seront précisés sur demande.`);
+    } else {
+      if (bien.priceWithoutFees != null) {
+        lines.push(`Prix hors honoraires : ${eur(bien.priceWithoutFees)}.`);
+      }
+      if (bien.feePercentage != null && bien.feesChargedTo) {
+        lines.push(
+          `Honoraires de ${percent(bien.feePercentage)} % TTC à la charge de l'${bien.feesChargedTo}, inclus dans le prix affiché.`,
+        );
+      }
     }
     if (bien.features.inCondominium || bien.annualCondominiumFees != null) {
       const parts = ['Bien soumis au statut de la copropriété'];

@@ -5,6 +5,8 @@ import {
   type Bien,
   eur,
   feeNote,
+  honorairesPlausibles,
+  HONORAIRES_A_CONFIRMER,
   isNew,
   legalLines,
   locationLabel,
@@ -209,6 +211,25 @@ describe('mentions d’honoraires — obligation légale', () => {
     expect(l.some((x) => x.includes('Provision mensuelle sur charges'))).toBe(true);
     expect(l.some((x) => x.includes('Dépôt de garantie'))).toBe(true);
     expect(l.some((x) => x.includes('à la charge du locataire'))).toBe(true);
+  });
+
+  it('refuse de publier un taux invraisemblable (saisie fautive à la source)', () => {
+    // Cas réel du 08/09/2026 : 380 000 € affiché, 10 000 € « hors honoraires », taux 3 700 %.
+    const fautif = bien({ price: 380000, priceWithoutFees: 10000, feePercentage: 3700, feesChargedTo: 'acquéreur', surface: 26 });
+    expect(honorairesPlausibles(fautif)).toBe(false);
+    expect(feeNote(fautif)).toBe(HONORAIRES_A_CONFIRMER);
+    // Intl écrit les milliers avec une espace fine insécable : on compare sans espaces.
+    const compact = legalLines(fautif).join(' ').replace(/\s/g, '');
+    expect(compact).not.toContain('3700%');
+    expect(compact).not.toContain('10000');
+    expect(compact).toContain('àconfirmer');
+    expect(compact).toContain('380000');
+  });
+
+  it('accepte les taux réels du portefeuille, jusqu’à 12 % sur un petit lot', () => {
+    expect(honorairesPlausibles(bien({ price: 14000, priceWithoutFees: 12500, feePercentage: 12, feesChargedTo: 'acquéreur' }))).toBe(true);
+    expect(honorairesPlausibles(bien({ price: 580000, priceWithoutFees: 565000, feePercentage: 2.65, feesChargedTo: 'acquéreur' }))).toBe(true);
+    expect(honorairesPlausibles(bien({ transaction: 'location', price: 85, agencyRentalFee: 120 }))).toBe(true);
   });
 
   it('mentions complètes : aucune ligne inventée quand tout manque', () => {

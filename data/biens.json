@@ -1,8 +1,227 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-08-27T19:57:09.817Z",
-  "count": 5,
+  "generatedAt": "2026-09-08T13:16:05.582Z",
+  "count": 6,
   "biens": [
+    {
+      "id": "gedeon-33542694",
+      "reference": "vent arcade",
+      "slug": "vent-arcade-charment-studio-rue-arcade",
+      "transaction": "vente",
+      "propertyType": "flat",
+      "propertyLabel": "Appartement",
+      "title": "Charment studio rue arcade",
+      "titleIsFallback": false,
+      "description": "Charmant studio au cœur du quartier de la Madeleine\n\nIdéalement situé au pied de la Madeleine, découvrez ce charmant studio niché au 5ᵉ étage d'un immeuble de standing avec ascenseur et gardienne.\n\nL'appartement offre une belle pièce de vie lumineuse, agrémentée de poutres apparentes qui lui confèrent beaucoup de cachet, ainsi que de placards intégrés. Sa hauteur sous plafond de 2,60 m renforce la sensation d'espace.\n\nLe coin cuisine est équipé d'une hotte, d'une plaque de cuisson deux feux et d'un branchement pour machine à laver.\n\nLa salle de bains comprend une baignoire ainsi qu'un WC sanibroyeur.\n\nVous apprécierez le confort d'un chauffage et d'une production d'eau chaude individuels électriques.\n\nLe bien a bénéficié d'une rénovation thermique et de peintures neuves. Lumineux, calme et parfaitement entretenu, il bénéficie d'un emplacement recherché, à deux pas des commerces, des restaurants et des transports.\n\nLes atouts :\n\nEmplacement exceptionnel au pied de la Madeleine\n5ᵉ étage avec ascenseur\nImmeuble de standing avec gardienne\nCharme de l'ancien avec poutres apparentes\nAppartement lumineux et calme\nRénovation thermique réalisée\nFaibles charges de copropriété\n\nCharges annuelles de copropriété (2025) : 355,02 €.\n\nUn bien idéal pour un pied-à-terre parisien, un premier achat ou un investissement locatif de qualité.",
+      "city": "Paris 8e",
+      "postalCode": "75008",
+      "district": "Elysée - Madeleine",
+      "departmentCode": "75",
+      "price": 380000,
+      "priceWithoutFees": 10000,
+      "pricePerSquareMeter": 385,
+      "feePercentage": 3700,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 26,
+      "rooms": 1,
+      "bedrooms": null,
+      "floor": 5,
+      "floorQuantity": 6,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": true,
+        "cellar": false,
+        "balcony": false,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": true,
+        "separateToilet": false,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 212,
+        "energyClass": "C",
+        "gesValue": 8,
+        "gesClass": "B",
+        "date": "2026-06-16",
+        "minEnergyConsumption": 530,
+        "maxEnergyConsumption": 760,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "Charment studio rue arcade — photo 1",
+          "small": "/biens/vent-arcade-1-small.webp",
+          "medium": "/biens/vent-arcade-1-medium.webp",
+          "large": "/biens/vent-arcade-1-large.webp"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 2",
+          "small": "/biens/vent-arcade-2-small.webp",
+          "medium": "/biens/vent-arcade-2-medium.webp",
+          "large": "/biens/vent-arcade-2-large.webp"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 3",
+          "small": "/biens/vent-arcade-3-small.webp",
+          "medium": "/biens/vent-arcade-3-medium.webp",
+          "large": "/biens/vent-arcade-3-large.webp"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 4",
+          "small": "/biens/vent-arcade-4-small.webp",
+          "medium": "/biens/vent-arcade-4-medium.webp",
+          "large": "/biens/vent-arcade-4-large.webp"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 5",
+          "small": "/biens/vent-arcade-5-small.webp",
+          "medium": "/biens/vent-arcade-5-medium.webp",
+          "large": "/biens/vent-arcade-5-large.webp"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 6",
+          "small": "/biens/vent-arcade-6-small.webp",
+          "medium": "/biens/vent-arcade-6-medium.webp",
+          "large": "/biens/vent-arcade-6-large.webp"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 7",
+          "small": "/biens/vent-arcade-7-small.webp",
+          "medium": "/biens/vent-arcade-7-medium.webp",
+          "large": "/biens/vent-arcade-7-large.webp"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 8",
+          "small": "/biens/vent-arcade-8-small.webp",
+          "medium": "/biens/vent-arcade-8-medium.webp",
+          "large": "/biens/vent-arcade-8-large.webp"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 9",
+          "small": "/biens/vent-arcade-9-small.webp",
+          "medium": "/biens/vent-arcade-9-medium.webp",
+          "large": "/biens/vent-arcade-9-large.webp"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 10",
+          "small": "/biens/vent-arcade-10-small.webp",
+          "medium": "/biens/vent-arcade-10-medium.webp",
+          "large": "/biens/vent-arcade-10-large.webp"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 11",
+          "small": "/biens/vent-arcade-11-small.webp",
+          "medium": "/biens/vent-arcade-11-medium.webp",
+          "large": "/biens/vent-arcade-11-large.webp"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 12",
+          "small": "/biens/vent-arcade-12-small.webp",
+          "medium": "/biens/vent-arcade-12-medium.webp",
+          "large": "/biens/vent-arcade-12-large.webp"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-08-29T05:05:20.607Z",
+      "firstSeenAt": "2026-09-08T13:15:48.537Z",
+      "badges": {
+        "dpeBadge": "/biens/vent-arcade-dpe.svg",
+        "gesBadge": "/biens/vent-arcade-ges.svg"
+      }
+    },
+    {
+      "id": "gedeon-31461841",
+      "reference": "012",
+      "slug": "012-maison-8-pieces-l-houmeau",
+      "transaction": "vente",
+      "propertyType": "house",
+      "propertyLabel": "Maison",
+      "title": "Maison 8 pièces — L'Houmeau",
+      "titleIsFallback": true,
+      "description": "propriété avec un parc  arboré d environ  5300 m². à  3 km de l'océan  par piste cyclable et 2 km du centre du village de L HOUMEAU \nLa maison sur un étage offre avec ses 280 m² de bel espace de vie qui peut  être diviser en 3 unités distingues avec chacun ses sanitaires, pièces de vie et chambre \n\nEn rez-de-chaussée, un hall, séjour/salon, cuisine aménagée et équipée, lingerie , suite spéciale handicape avec salle d eau \n\nUn vaste local de 130m² avec une belle hauteur sous plafond , vous permettra de créer un atelier , salle d exposition ou festivité \n\nEnfin un appartement de 55 m² environ comprenant  sejour  cuisine et chambre  +salle de bain pour recevoir en toute indépendance\n\nLe parc boisselée vous assure la tranquillité et la discrétion . Il restera à réhabiliter la piscine qui demande à être couverte . .",
+      "city": "L'Houmeau",
+      "postalCode": "17137",
+      "district": "L'Houmeau",
+      "departmentCode": "17",
+      "price": 1136000,
+      "priceWithoutFees": 1100000,
+      "pricePerSquareMeter": 2594,
+      "feePercentage": 3,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 424,
+      "rooms": 8,
+      "bedrooms": 5,
+      "floor": null,
+      "floorQuantity": null,
+      "exposition": "SUD EST",
+      "heating": "Gaz",
+      "features": {
+        "elevator": false,
+        "cellar": true,
+        "balcony": false,
+        "terrace": true,
+        "fireplace": true,
+        "caretaker": false,
+        "separateToilet": true,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 106,
+        "energyClass": "C",
+        "gesValue": 21,
+        "gesClass": "C",
+        "date": "2025-01-20",
+        "minEnergyConsumption": 2500,
+        "maxEnergyConsumption": 3500,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 1",
+          "small": "/biens/012-1-small.webp",
+          "medium": "/biens/012-1-medium.webp",
+          "large": "/biens/012-1-large.webp"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 2",
+          "small": "/biens/012-2-small.webp",
+          "medium": "/biens/012-2-medium.webp",
+          "large": "/biens/012-2-large.webp"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 3",
+          "small": "/biens/012-3-small.webp",
+          "medium": "/biens/012-3-medium.webp",
+          "large": "/biens/012-3-large.webp"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 4",
+          "small": "/biens/012-4-small.webp",
+          "medium": "/biens/012-4-medium.webp",
+          "large": "/biens/012-4-large.webp"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-08-31T07:54:44.016Z",
+      "badges": {
+        "dpeBadge": "/biens/012-dpe.svg",
+        "gesBadge": "/biens/012-ges.svg"
+      }
+    },
     {
       "id": "gedeon-32757098",
       "reference": "0125",
@@ -281,91 +500,6 @@
       "modificationDate": "2026-08-19T01:46:26.628Z"
     },
     {
-      "id": "gedeon-31461841",
-      "reference": "012",
-      "slug": "012-maison-8-pieces-l-houmeau",
-      "transaction": "vente",
-      "propertyType": "house",
-      "propertyLabel": "Maison",
-      "title": "Maison 8 pièces — L'Houmeau",
-      "titleIsFallback": true,
-      "description": "propriété avec un parc  arboré d environ  5300 m². à  3 km de l'océan  par piste cyclable et 2 km du centre du village de L HOUMEAU \nLa maison sur un étage offre avec ses 280 m² de bel espace de vie qui peut  être diviser en 3 unités distingues avec chacun ses sanitaires, pièces de vie et chambre \n\nEn rez-de-chaussée, un hall, séjour/salon, cuisine aménagée et équipée, lingerie , suite spéciale handicape avec salle d eau \n\nUn vaste local de 130m² avec une belle hauteur sous plafond , vous permettra de créer un atelier , salle d exposition ou festivité \n\nEnfin un appartement de 55 m² environ comprenant  sejour  cuisine et chambre  +salle de bain pour recevoir en toute indépendance\n\nLe parc boisselée vous assure la tranquillité et la discrétion . Il restera à réhabiliter la piscine qui demande à être couverte . .",
-      "city": "L'Houmeau",
-      "postalCode": "17137",
-      "district": "L'Houmeau",
-      "departmentCode": "17",
-      "price": 1136000,
-      "priceWithoutFees": 1100000,
-      "pricePerSquareMeter": 2594,
-      "feePercentage": 3,
-      "feesChargedTo": "acquéreur",
-      "charges": null,
-      "safetyDeposit": null,
-      "agencyRentalFee": null,
-      "annualCondominiumFees": null,
-      "surface": 424,
-      "rooms": 8,
-      "bedrooms": 5,
-      "floor": null,
-      "floorQuantity": null,
-      "exposition": "SUD EST",
-      "heating": "Gaz",
-      "features": {
-        "elevator": false,
-        "cellar": true,
-        "balcony": false,
-        "terrace": true,
-        "fireplace": true,
-        "caretaker": false,
-        "separateToilet": true,
-        "inCondominium": false,
-        "parkingPlaces": 0
-      },
-      "condominiumParts": null,
-      "dpe": {
-        "energyValue": 106,
-        "energyClass": "C",
-        "gesValue": 21,
-        "gesClass": "C",
-        "date": "2025-01-20",
-        "minEnergyConsumption": 2500,
-        "maxEnergyConsumption": 3500,
-        "isJuly2021": true
-      },
-      "photos": [
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 1",
-          "small": "/biens/012-1-small.webp",
-          "medium": "/biens/012-1-medium.webp",
-          "large": "/biens/012-1-large.webp"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 2",
-          "small": "/biens/012-2-small.webp",
-          "medium": "/biens/012-2-medium.webp",
-          "large": "/biens/012-2-large.webp"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 3",
-          "small": "/biens/012-3-small.webp",
-          "medium": "/biens/012-3-medium.webp",
-          "large": "/biens/012-3-large.webp"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 4",
-          "small": "/biens/012-4-small.webp",
-          "medium": "/biens/012-4-medium.webp",
-          "large": "/biens/012-4-large.webp"
-        }
-      ],
-      "publicationDate": null,
-      "modificationDate": "2026-07-30T16:13:30.999Z",
-      "badges": {
-        "dpeBadge": "/biens/012-dpe.svg",
-        "gesBadge": "/biens/012-ges.svg"
-      }
-    },
-    {
       "id": "gedeon-33450645",
       "reference": "V029",
       "slug": "v029-boutique-et-logement",
@@ -374,15 +508,15 @@
       "propertyLabel": "Appartement",
       "title": "Boutique et logement",
       "titleIsFallback": false,
-      "description": "Boutique et logement\n\nCharmante boutique idéalement située à l’angle de l’avenue Mozart.\n\nBénéficiant d’une belle hauteur sous plafond comprise entre 2,80 m et 3 m, ce bien commercial se compose d’une boutique sur rue en rez-de-chaussée offrant une surface de 15,44 m² dédiée à l’accueil, ainsi que d’un sous-sol aménagé de 13,70 m², équipé en électricité et en informatique. Accessible par un escalier intérieur, ce dernier dispose d’une trappe à ouverture électrique.\n\nAu premier étage, relié au rez-de-chaussée par un magnifique escalier en fer forgé, se trouve un espace d’habitation comprenant une belle chambre, une salle d’eau avec WC ainsi qu’un branchement pour machine à laver.\n\nRare, élégant et fonctionnel, ce bien climatisé saura répondre à vos projets professionnels tout en offrant un espace de vie confortable.\n\nCharges annuelles de copropriété 2025 : 540,92 €, soit 135,23 € par trimestre.",
+      "description": "Boutique et logement\nCharment boutique idéalement placer à l’angle de l’avenue Mozart.\nUne hauteur moyenne entre 2m80 et 3m, ce bien commercial ce compose d’une boutique sur rue au RDC offrant 18,44 m² et 13,7m² de sous-sol aménagé électriquement et informatiquement  accessible par escalier intérieur avec ouverture de trappe électrique.\nAu 1er étage on découvre un espace d’habitation de 17,35 m² relier au RDC par un magnifique escalier en fer forgé offrant une belle chambre, salle d’eau WC et branchement machine. \nCe bien rare, élégant, fonctionnel est climatisé, vous permettra d’accomplir vos désirs.\nTaxe foncière 2025 : 504 €\nCharge annuel 2025 copropriété 540.92 € soit 135.23 € trimestre",
       "city": "Paris 16e",
       "postalCode": "75016",
       "district": "Auteuil-Nord - Jasmin - Mirabeau",
       "departmentCode": "75",
-      "price": 390000,
-      "priceWithoutFees": 370000,
-      "pricePerSquareMeter": 6852,
-      "feePercentage": 5.405405405405405,
+      "price": 375000,
+      "priceWithoutFees": 360000,
+      "pricePerSquareMeter": 6667,
+      "feePercentage": 4.166666666666666,
       "feesChargedTo": "acquéreur",
       "charges": null,
       "safetyDeposit": null,
@@ -498,8 +632,10 @@
         }
       ],
       "publicationDate": null,
-      "modificationDate": "2026-08-17T01:45:19.223Z",
+      "modificationDate": "2026-09-07T11:19:43.484Z",
       "firstSeenAt": "2026-06-23T13:27:41.215Z",
+      "previousPrice": 390000,
+      "priceChangedAt": "2026-09-08T13:15:48.537Z",
       "badges": {
         "dpeBadge": "/biens/v029-dpe.svg",
         "gesBadge": "/biens/v029-ges.svg"
