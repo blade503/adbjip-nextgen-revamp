@@ -233,7 +233,10 @@ const Header = () => {
         {menuOuvert && (
           <div
             id="menu-principal"
-            className="voile absolute inset-x-0 top-full z-50 border-t border-[hsl(var(--trait)/var(--trait-a))] bg-pierre lg:hidden"
+            /* `voile-menu`, pas `voile` : voir `src/index.css`, le dévoilement
+               par clip-path rendait les entrées basses intouchables pendant
+               800 ms et un tap rapide sur « Contact » refermait le menu. */
+            className="voile-menu absolute inset-x-0 top-full z-50 border-t border-[hsl(var(--trait)/var(--trait-a))] bg-pierre lg:hidden"
           >
             <div className="container mx-auto py-5">
               <ul>
@@ -294,7 +297,7 @@ const Header = () => {
           était couvert par `enteteRef.contains(cible)` et l'écouteur le
           prenait pour un clic à l'intérieur. `z-40` : sous l'en-tête. */}
       {menuOuvert && (
-        <div aria-hidden className="voile fixed inset-0 z-40 bg-marine/60 lg:hidden" />
+        <div aria-hidden className="voile-fond fixed inset-0 z-40 bg-marine/60 lg:hidden" />
       )}
     </>
   );

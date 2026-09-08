@@ -74,7 +74,9 @@ Les trois commandes ci-dessous sont le seul contrôle du projet. Leurs compteurs
 | `npm run build`      | **1 722 modules**, ~1,7 s, `[sitemap] 12 URL`, `[prerender] 13/13 + la page 404`. |
 
 Poids de sortie au repère (relevé le 04/09/2026, direction « La Plaque ») : morceau d'entrée
-**JS 272,4 Ko → 88,8 Ko gzip**, **CSS 45,9 Ko → 10,0 Ko gzip**. Le CSS n'est pas découpé par
+**JS 272,4 Ko → 88,8 Ko gzip**, **CSS 45,9 Ko → 10,0 Ko gzip** (08/09/2026 : CSS 46,9 Ko →
+10,4 Ko gzip après les deux replis de police et l'entrée du menu ; `dist/assets/` 2 964 →
+2 560 Ko après réencodage à 74 des variantes ≥ 1 000 px des quatre ouvertures). Le CSS n'est pas découpé par
 route — chantier ouvert, sans urgence à ce poids.
 
 `[prerender] 13/13` = les **8 routes fixes** de `src/App.tsx` + **une fiche par annonce** du
@@ -236,7 +238,9 @@ pour les cotes (`.cote` : « Mandat I », « Réf. V027 », « 01 ») ; Archivo 
 Archivo a perdu son axe de largeur (88 Ko à lui seul). **Poids relevé le 04/09/2026, sous-ensemble
 latin : 122,3 Ko pour huit fichiers** (Figtree 3 × 19,7 · Instrument Serif 14,7 + 15,3 · Archivo
 13,5 · Plex Mono 2 × 9,8), contre 159,3 Ko avant. Trois polices de repli locales aux métriques
-ajustées (`src/index.css`, en tête) évitent le décalage à la substitution.
+ajustées (`src/index.css`, en tête) évitent le décalage à la substitution — cinq déclarations
+depuis le 08/09/2026 : Figtree a un repli par poids (regular, puis Arial Bold pour le 600), et
+IBM Plex Mono retombe sur Courier New au lieu de Menlo, 31 % plus étroite.
 
 **Géométrie : angle vif partout** (`--radius: 0`). Le liseré gravé en retrait de la direction
 précédente n'existe plus ; `.cadre` ne dessine plus rien, `.panneau` est la carte blanche cernée
@@ -314,8 +318,14 @@ casse des choses mesurées.
   (21 % plus étroite que Times). Trois `@font-face` locaux aux métriques de la vraie fonte
   (`size-adjust`, `ascent-override`, `descent-override`, en tête de `src/index.css`) l'ont
   divisé par six. **Piège vérifié : Chrome multiplie les surcharges par `size-adjust`**, les
-  pourcentages sont donc divisés par lui. Le résidu (0,006453 à ~1 150 ms) tient à IBM Plex
-  Mono et aux liens `inline-flex`, sans repli ajusté : à traiter si l'on veut descendre encore.
+  pourcentages sont donc divisés par lui. **Le résidu a été cherché à la source le 08/09/2026**
+  (`PerformanceObserver`, `sources` de chaque `layout-shift`) : ce n'était pas Plex Mono — le
+  repli ajusté posé ce jour-là (Courier New, même chasse) n'a rien changé au chiffre — mais le
+  semi-gras de Figtree, que l'ancien repli couvrait avec Arial regular : le bouton « Écrire » de
+  la barre d'appel fixe perdait 3,7 % de largeur à la substitution, et le `<strong>` du chapô
+  refaisait ses lignes. Un `@font-face` de repli au poids 600–700 (Arial Bold à 94,5 %) ramène le
+  CLS de l'accueil à **0,005509**, trois chargements identiques. Ce qui reste est réparti sur le
+  chapô et la plaque de rue (3 px), sous le seuil de tout effort supplémentaire.
   **Débordement horizontal : 0 px** sur les onze pages à 375, 390, 430, 440 et 768 px, menu
   ouvert compris (`scrollWidth − innerWidth`, sonde du 04/09/2026).
 - **CLS : 0,001914 à froid, et le chiffre de 0 était faux** (version précédente). Les premières
@@ -430,6 +440,13 @@ en mémoire, donc de retarder la nouvelle.
   sans cela, tout le contenu sauterait de 15 px à l'ouverture sur un navigateur de bureau réduit
   sous 1024 px. `overflow: hidden` bloque le GESTE mais pas `scrollTo()` : une sonde qui teste
   avec `scrollTo` conclut à tort que rien n'est bloqué.
+  **Troisième leçon, le 08/09/2026 : le panneau n'entre pas par `.voile`.** Signalé par le client
+  sur la préversion (« le lien Contact ne fonctionne pas »). `voile` dure 800 ms et se dévoile
+  par `clip-path` depuis le haut ; la partie encore masquée du panneau n'est pas touchable, et le
+  voile de fond, masqué pareil, laissait passer le doigt jusqu'à la page — clic « à côté », menu
+  refermé, pas de navigation. Un tap sur la sixième entrée dans la demi-seconde échouait donc
+  toujours ; une sonde qui attend 900 ms ne voit rien. `.voile-menu` et `.voile-fond` : `--d3`,
+  opacité et 0,5 rem, sans clip-path. Vérifié à 120, 250 et 400 ms après ouverture.
 - **La validation du formulaire est côté client AVANT le réseau.** Le formulaire porte
   `noValidate` — la validation native est désactivée — et rien ne la remplaçait : les erreurs
   venaient uniquement de la réponse de `contact.php`. Toute faute de saisie coûtait donc un

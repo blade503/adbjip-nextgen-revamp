@@ -43,6 +43,26 @@
   line-gap-override: 0%;
 }
 
+/* Le semi-gras de Figtree (600) a son propre repli, ajouté le 08/09/2026 : la
+   déclaration précédente couvrait tous les poids avec Arial regular, dont le
+   gras synthétisé ne s'élargit pas. Mesuré à 40 px dans Chrome : « les mêmes
+   personnes dans le même bureau » fait 784,9 px en Figtree 600, 787,7 avec
+   l'ancien repli, 838,2 en Arial Bold brut ; le libellé de bouton « ÉCRIRE
+   CONFIER UN BIEN NOUS JOINDRE » (capitales, approche 0,08 em) 908,4 contre
+   939,3 — c'est ce bouton, dans la barre d'appel fixe, qui portait le résidu
+   de CLS (0,0063). Arial Bold à 94,5 % coupe la poire : +1,4 % sur le texte
+   courant, −0,5 % sur les capitales espacées. Les surcharges verticales sont
+   celles de Figtree divisées par ce facteur. */
+@font-face {
+  font-family: 'Figtree repli';
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Helvetica Bold'), local('Helvetica-Bold');
+  font-weight: 600 700;
+  size-adjust: 94.5%;
+  ascent-override: 100.53%;
+  descent-override: 26.46%;
+  line-gap-override: 0%;
+}
+
 @font-face {
   font-family: 'Archivo repli';
   src: local('Arial Bold'), local('Arial-BoldMT'), local('Helvetica Bold'), local('Arial');
@@ -50,6 +70,21 @@
   size-adjust: 95.1%;
   ascent-override: 92.53%;
   descent-override: 22.08%;
+  line-gap-override: 0%;
+}
+
+/* Quatrième repli, ajouté le 08/09/2026 : le résidu de CLS (0,0064) tenait à
+   IBM Plex Mono, dont la pile retombait sur Menlo — 31 % plus étroite. Courier
+   New a la même chasse que Plex Mono (600/1000) : `size-adjust` reste à 100 %
+   et seules les hauteurs sont alignées. Mesuré dans Chrome sur la chaîne
+   « Réf. V027 · Mandat I · 01 42 25 78 24 » à 40 px : 888,2 × 52 px pour le
+   repli contre 888 × 52 pour la vraie fonte (Menlo : 611,5 × 46). */
+@font-face {
+  font-family: 'IBM Plex Mono repli';
+  src: local('Courier New'), local('CourierNewPSMT');
+  size-adjust: 100%;
+  ascent-override: 102.5%;
+  descent-override: 27.5%;
   line-gap-override: 0%;
 }
 
@@ -384,7 +419,7 @@
   /* La cote : « MANDAT I », « RÉF. V027 », « 01 » — ce qui se lit comme une
      référence de dossier. Plex Mono, jamais en gras. */
   .cote {
-    font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    font-family: 'IBM Plex Mono', 'IBM Plex Mono repli', ui-monospace, Menlo, monospace;
     font-size: 0.6875rem;
     font-weight: 400;
     letter-spacing: 0.04em;
@@ -744,6 +779,25 @@
     animation: voile var(--d5) var(--sortie) both;
   }
 
+  /* LE PANNEAU DU MENU N'ENTRE PAS PAR `.voile`, ET C'EST UN BUG CORRIGÉ
+     (08/09/2026). `voile` dure 800 ms et se dévoile par `clip-path` depuis le
+     haut : pendant l'animation, la partie encore masquée du panneau n'existe
+     pas pour le doigt. Un visiteur qui ouvrait le menu et tapait « Contact »
+     (sixième entrée, la plus basse) dans la demi-seconde touchait la page
+     DERRIÈRE le panneau — le voile de fond, lui aussi en `.voile`, était
+     masqué de la même façon — et l'écouteur de clic à côté refermait le menu
+     sans naviguer. Reproduit dans Chrome : à 300 ms, `elementFromPoint` sur le
+     lien renvoyait un paragraphe de la page. Un menu est une commande, pas
+     une arrivée : il s'ouvre en `--d3`, sans clip-path, par une opacité et un
+     déplacement de 0,5 rem qui ne sort jamais le lien de sous le doigt. */
+  .voile-menu {
+    animation: voile-menu var(--d3) var(--sortie) both;
+  }
+
+  .voile-fond {
+    animation: voile-fond var(--d3) var(--sortie-douce) both;
+  }
+
   [data-voile] {
     opacity: 0;
   }
@@ -779,6 +833,26 @@
     opacity: 1;
     transform: none;
     clip-path: inset(0 0 -30% 0);
+  }
+}
+
+@keyframes voile-menu {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes voile-fond {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
