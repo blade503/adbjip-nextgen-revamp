@@ -316,7 +316,17 @@ const VendreEstimer = () => {
         description="Estimation gratuite appuyée sur les transactions enregistrées (DVF), et accompagnement de la vente ou de l'achat jusqu'à la signature. JIP, Paris 8e."
         keywords="estimation immobilière gratuite paris, vendre appartement paris, acheter paris 8, transaction immobilière, données DVF"
         canonicalUrl="https://www.adbjip.fr/services/vendre-estimer"
-        structuredData={structuredData}
+        structuredData={[
+          structuredData,
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.adbjip.fr/' },
+              { '@type': 'ListItem', position: 2, name: 'Vendre et estimer', item: 'https://www.adbjip.fr/services/vendre-estimer' },
+            ],
+          },
+        ]}
       />
       <Header />
       <main id="contenu" tabIndex={-1}>

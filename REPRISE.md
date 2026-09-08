@@ -1076,6 +1076,14 @@ champs (le géocodage exige code postal et ville), libellés abrégés des manda
 
 ### Reste à faire
 
+- **Synchronisation nocturne sur `main` : le job de déploiement est À RETIRER À LA MAIN.** Un
+  workflow planifié tourne depuis la branche par défaut, donc depuis `main` qui porte l'ancien
+  site ; les 5, 6 et 7 septembre 2026 il a reconstruit ce vieux site et l'a envoyé sur la
+  préversion par-dessus la refonte (ancien style, pages en 500). La correction — commenter le job
+  `deploiement` de `.github/workflows/sync-biens.yml` sur `main`, en gardant la synchronisation de
+  `data/biens.json` — n'a pas pu être poussée depuis la session du 08/09/2026 (autorisation
+  refusée sur `main`). À faire avant la prochaine nuit où le portefeuille bouge, puis à remettre à
+  la fusion de la refonte.
 - **Audit complet du 08/09/2026 — ce qui demande l'agence, rien d'autre ne manque au code.**
   Corrigé le jour même : garde de plausibilité des honoraires ; mentions légales en `noindex`
   tant qu'incomplètes ; polices auto-hébergées ; feuille d'impression ; HSTS, Permissions-Policy

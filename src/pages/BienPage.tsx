@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Images } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
@@ -58,6 +58,19 @@ const BienPage = () => {
   const bien = biens.find((b) => b.slug === slug);
   // `null` : galerie fermée ; un nombre : la photo affichée à l'ouverture.
   const [galerie, setGalerie] = useState<number | null>(null);
+  /* Le bouton qui a ouvert la galerie : à la fermeture, le focus lui revient.
+     Radix rend le focus à l'élément actif avant l'ouverture, mais le clic ne
+     laisse pas toujours le focus sur le bouton (Safari, tap) et le parcours au
+     clavier repartait du haut du document — relevé le 08/09/2026. */
+  const ouvreur = useRef<HTMLElement | null>(null);
+  const ouvrir = (index: number) => (evenement: React.MouseEvent<HTMLElement>) => {
+    ouvreur.current = evenement.currentTarget;
+    setGalerie(index);
+  };
+  const fermer = () => {
+    setGalerie(null);
+    requestAnimationFrame(() => ouvreur.current?.focus());
+  };
 
   if (!bien) return <NotFound />;
 
@@ -73,7 +86,19 @@ const BienPage = () => {
   const versContact = `/contact?service=${service}&bien=${encodeURIComponent(`Réf. ${bien.reference} — ${bien.title}`)}`;
   const copropriete = bien.features.inCondominium || bien.annualCondominiumFees != null;
 
-  const structuredData = {
+  /* Deux blocs : l'annonce, et le fil d'Ariane (Accueil › Biens › la fiche),
+     que les moteurs affichent à la place de l'URL dans les résultats. */
+  const filAriane = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.adbjip.fr/' },
+      { '@type': 'ListItem', position: 2, name: 'Biens à vendre et à louer', item: 'https://www.adbjip.fr/biens' },
+      { '@type': 'ListItem', position: 3, name: bien.title, item: `https://www.adbjip.fr/biens/${bien.slug}` },
+    ],
+  };
+
+  const annonce = {
     '@context': 'https://schema.org',
     '@type': 'RealEstateListing',
     name: bien.title,
@@ -105,7 +130,7 @@ const BienPage = () => {
            façade de l'agence, c'est partager la mauvaise image. */
         ogImage={principale ? `https://www.adbjip.fr${principale.large.replace(/^\/?/, '/')}` : undefined}
         ogImageAlt={principale ? `${bien.title}, ${locationLabel(bien)}` : undefined}
-        structuredData={structuredData}
+        structuredData={[annonce, filAriane]}
       />
       <Header />
 
@@ -146,7 +171,7 @@ const BienPage = () => {
                   {bien.photos.length > 1 && (
                     <button
                       type="button"
-                      onClick={() => setGalerie(0)}
+                      onClick={ouvrir(0)}
                       className="absolute bottom-3.5 right-3.5 z-[3] inline-flex items-center gap-2 bg-encre px-3 py-2 text-[0.6875rem] font-semibold text-pierre transition-colors duration-2 hover:bg-marine"
                     >
                       <Images aria-hidden className="h-3.5 w-3.5" />
@@ -160,7 +185,7 @@ const BienPage = () => {
                       <button
                         key={photo.medium}
                         type="button"
-                        onClick={() => setGalerie(i + 1)}
+                        onClick={ouvrir(i + 1)}
                         className="relative block overflow-hidden bg-lin"
                         aria-label={`Ouvrir la galerie à la photo ${i + 2}`}
                       >
@@ -333,7 +358,7 @@ const BienPage = () => {
         titre={<Ordinaux texte={bien.title} />}
         ouverte={galerie !== null}
         depart={galerie ?? 0}
-        onFermer={() => setGalerie(null)}
+        onFermer={fermer}
       />
     </div>
   );

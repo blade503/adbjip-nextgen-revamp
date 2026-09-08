@@ -164,7 +164,17 @@ const GestionLocative = () => {
         description="Gérance locative au 27 rue de Lisbonne, Paris 8ᵉ : recherche de locataire, bail, quittances, loyers, charges et travaux. Un mandat, un interlocuteur."
         keywords="gérance locative paris, gestion locative paris 8, encaissement loyers, sélection locataires, mandat de gestion"
         canonicalUrl="https://www.adbjip.fr/services/gestion-locative"
-        structuredData={structuredData}
+        structuredData={[
+          structuredData,
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.adbjip.fr/' },
+              { '@type': 'ListItem', position: 2, name: 'Gérance locative', item: 'https://www.adbjip.fr/services/gestion-locative' },
+            ],
+          },
+        ]}
       />
       <Header />
       <main id="contenu" tabIndex={-1}>

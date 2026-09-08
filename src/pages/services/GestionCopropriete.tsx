@@ -170,7 +170,17 @@ const GestionCopropriete = () => {
         description="Syndic de copropriété à Paris depuis 2011 : assemblées générales, comptabilité, travaux, comptes de l'immeuble en ligne. 27 rue de Lisbonne, Paris 8e."
         keywords="syndic copropriété paris, syndic paris 8, assemblée générale, appels de fonds, gestion copropriété"
         canonicalUrl="https://www.adbjip.fr/services/gestion-copropriete"
-        structuredData={structuredData}
+        structuredData={[
+          structuredData,
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.adbjip.fr/' },
+              { '@type': 'ListItem', position: 2, name: 'Syndic de copropriété', item: 'https://www.adbjip.fr/services/gestion-copropriete' },
+            ],
+          },
+        ]}
       />
       <Header />
       <main id="contenu" tabIndex={-1}>

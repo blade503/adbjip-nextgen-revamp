@@ -115,13 +115,16 @@ const CarteLocalisation = () => {
 
       {/* LES DEUX PLAQUES, EN LÉGENDE ET NON EN SURIMPRESSION. Elles étaient
           posées sur le cadre, où elles couvraient les commandes de la carte et
-          son attribution obligatoire. Ici elles se lisent, et ne cachent rien. */}
+          son attribution obligatoire. Ici elles se lisent, et ne cachent rien.
+          En `.plaque` et non `.plaque-pierre` : la variante pierre était celle
+          de la surimpression sur le marine, et elle a suivi les plaques sous le
+          cadre — texte crème sur fond crème, 1,0:1, mesuré le 08/09/2026. */}
       <div className="mt-4 flex flex-wrap items-center gap-3">
         {/* L'adresse n'apparaît ici QUE si la carte occupe le cadre : sinon elle
             est déjà le titre du cadre, et la répéter deux fois à trois
             centimètres d'écart ne renseigne personne. */}
         {affichee && (
-          <p className="plaque-pierre plaque">
+          <p className="plaque">
             {ADRESSE.rue} — {ADRESSE.codePostal}
           </p>
         )}
@@ -129,7 +132,7 @@ const CarteLocalisation = () => {
             la légende disait « Miromesnil — 2 min à pied » quand le pied de page
             et la page contact disaient Villiers ou Europe — deux stations et un
             temps de marche non sourcé pour la même adresse. */}
-        <p className="plaque-pierre plaque">{ADRESSE.metro}</p>
+        <p className="plaque">{ADRESSE.metro}</p>
       </div>
 
       {/* Cible du contournement : le premier contenu après la carte. */}
