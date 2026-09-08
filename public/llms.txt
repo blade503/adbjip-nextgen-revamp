@@ -1,0 +1,25 @@
+# JIP — Jobard Immobilier Paris
+
+> Agence indépendante de gestion locative et de syndic de copropriété, 27, rue de Lisbonne, 75008 Paris. Deux sociétés dirigées par la même famille depuis 2011 : J.I.P. — Jobard Immobilier Paris (gérance et syndic) et Jobard Immobilier Patrimoine (transaction et estimation).
+
+Site en français. Les annonces (vente et location) sont la seule donnée qui change : elles sont synchronisées chaque nuit depuis le logiciel de l'agence. Aucun avis, aucune statistique et aucun tarif ne sont publiés sans source.
+
+## Métiers
+
+- [Gérance locative](https://www.adbjip.fr/services/gestion-locative) : deux mandats, Sérénité et Dynamique, avec la liste des prestations telle que l'agence la libelle.
+- [Syndic de copropriété](https://www.adbjip.fr/services/gestion-copropriete) : rôle du syndic, accès en ligne aux comptes de l'immeuble, audit gratuit pour changer de syndic.
+- [Vendre et estimer](https://www.adbjip.fr/services/vendre-estimer) : estimation gratuite appuyée sur les transactions enregistrées (base DVF), accompagnement de la vente ou de l'achat.
+
+## Annonces
+
+- [Biens à vendre et à louer](https://www.adbjip.fr/biens) : la liste courante, une page par annonce sous /biens/. Chaque prix est accompagné des honoraires et de la partie qui les supporte.
+
+## Agence
+
+- [L'agence](https://www.adbjip.fr/agence) : les deux interlocuteurs, leurs sociétés et leurs coordonnées directes.
+- [Contact](https://www.adbjip.fr/contact) : formulaire, téléphone 01 42 25 78 24, adresse et horaires.
+- [Mentions légales](https://www.adbjip.fr/mentions-legales) : raisons sociales, SIREN, cartes professionnelles, hébergeur.
+
+## Optional
+
+- [Plan du site](https://www.adbjip.fr/sitemap.xml)

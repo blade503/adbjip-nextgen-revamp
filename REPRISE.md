@@ -1088,6 +1088,16 @@ champs (le géocodage exige code postal et ville), libellés abrégés des manda
   affichée nulle part et reste disponible comme repli. Les anciens fichiers restent dans `src/assets/`,
   inutilisés. Trois photos réelles du 27 rue de Lisbonne (façade, hall, bureau) restent la
   demande la plus rentable à faire au client, au format 4/3.
+- **Référencement hors du code** (relevé le 08/09/2026, audit des quatorze pages prérendues au
+  vert : un h1, title, description sous 160 caractères, canonique, Open Graph, JSON-LD
+  `RealEstateAgent` + `Service` + `RealEstateListing`, sitemap, vraies 404). Restent trois
+  actions qui demandent l'agence : **Bing Webmaster Tools** (ChatGPT et Copilot s'appuient sur
+  l'index de Bing ; déposer le fichier de vérification dans `public/` comme celui de Google) ;
+  la **fiche Google Business Profile** alignée sur l'adresse, le numéro et les horaires du site ;
+  les **autres profils** (Pages Jaunes, réseau professionnel) à ajouter au `sameAs` de
+  `config/seo.ts`, qui ne porte que la fiche Google. `public/llms.txt` décrit le site aux
+  robots des IA (standard proposé, aucun grand acteur n'a confirmé le lire : sans risque, sans
+  promesse).
 - ~~Sonde de débordement, poids des fontes, LCP et CLS~~ → **faits le 04/09/2026** : 0 px de
   débordement sur onze pages à cinq largeurs ; 122,3 Ko de fontes latines ; LCP ~1 500 ms
   (travée) ; CLS 0,0388 → 0,0065 après pose de trois polices de repli aux métriques ajustées.

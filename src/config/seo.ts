@@ -1,3 +1,4 @@
+import { NOTE_GOOGLE } from './avis';
 import { ADRESSE, HORAIRES } from './legal';
 
 /**
@@ -140,6 +141,13 @@ export const SEO_CONFIG = {
       "telephone": telephoneE164,
       "email": ADRESSE.email,
       "image": 'https://www.adbjip.fr/og-image.jpg',
+      /* `sameAs` dit aux moteurs — et aux IA qui recoupent les sources — que
+         la fiche Google et ce site décrivent la même agence. Une seule URL
+         pour l'instant, celle relevée dans `config/avis.ts` ; les autres
+         profils (Pages Jaunes, réseau professionnel) s'ajouteront le jour où
+         l'agence en fournit l'adresse exacte. L'extranet Gercop n'en fait pas
+         partie : c'est un portail client, pas un profil de l'agence. */
+      "sameAs": [NOTE_GOOGLE.url],
       /**
        * Coordonnées relevées le 27/08/2026 sur la Base Adresse Nationale
        * (api-adresse.data.gouv.fr, « 27 Rue de Lisbonne 75008 Paris »,
