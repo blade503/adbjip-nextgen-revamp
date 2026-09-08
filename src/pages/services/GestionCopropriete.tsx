@@ -167,7 +167,7 @@ const GestionCopropriete = () => {
     <div className="min-h-screen">
       <SEOHead
         title="Syndic de copropriété à Paris — JIP"
-        description="Syndic de copropriétés parisiennes depuis 2011 : assemblées générales, comptabilité, travaux, accès en ligne aux comptes de votre immeuble. 27 rue de Lisbonne, Paris 8e."
+        description="Syndic de copropriété à Paris depuis 2011 : assemblées générales, comptabilité, travaux, comptes de l'immeuble en ligne. 27 rue de Lisbonne, Paris 8e."
         keywords="syndic copropriété paris, syndic paris 8, assemblée générale, appels de fonds, gestion copropriété"
         canonicalUrl="https://www.adbjip.fr/services/gestion-copropriete"
         structuredData={structuredData}

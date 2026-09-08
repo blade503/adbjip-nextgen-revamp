@@ -90,14 +90,21 @@ jobs:
         run: npm run build
 
       # Une préversion ne doit pas entrer en concurrence avec le vrai site dans
-      # les résultats de recherche.
+      # les résultats de recherche. Chaque page prérendue porte déjà sa balise
+      # robots (« index, follow », ou « noindex, follow » pour le 404) : on la
+      # REMPLACE. La version précédente en insérait une seconde en tête de
+      # <head>, et la préversion servait deux balises contradictoires — Google
+      # retient la plus stricte, mais c'était faux. Le repli n'insère que si
+      # une page n'en avait aucune.
       - name: Interdire l'indexation de la préversion
         if: (inputs.cible || 'preprod') != 'production'
         run: |
           printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
           rm -f dist/sitemap.xml
-          find dist -name 'index.html' -exec \
-            sed -i 's|<head>|<head><meta name="robots" content="noindex, nofollow">|' {} +
+          find dist -name '*.html' -exec \
+            sed -i 's|<meta name="robots" content="[^"]*">|<meta name="robots" content="noindex, nofollow">|' {} +
+          grep -rL 'name="robots"' --include='*.html' dist | xargs -r \
+            sed -i 's|<head>|<head><meta name="robots" content="noindex, nofollow">|'
 
       - name: Envoyer sur ${{ inputs.cible || 'preprod' }}
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

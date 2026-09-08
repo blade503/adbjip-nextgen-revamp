@@ -306,7 +306,7 @@ const VendreEstimer = () => {
     <div className="min-h-screen">
       <SEOHead
         title="Vendre et estimer un bien à Paris — JIP"
-        description="Estimation gratuite appuyée sur les transactions réellement enregistrées (DVF), et accompagnement de la vente ou de l'achat jusqu'à la signature. Agence JIP, 27 rue de Lisbonne, Paris 8e."
+        description="Estimation gratuite appuyée sur les transactions enregistrées (DVF), et accompagnement de la vente ou de l'achat jusqu'à la signature. JIP, Paris 8e."
         keywords="estimation immobilière gratuite paris, vendre appartement paris, acheter paris 8, transaction immobilière, données DVF"
         canonicalUrl="https://www.adbjip.fr/services/vendre-estimer"
         structuredData={structuredData}

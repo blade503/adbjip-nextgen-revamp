@@ -103,16 +103,25 @@ const SEOHead = ({
     if (keywords) meta('keywords', keywords, false);
     else document.querySelector('meta[name="keywords"]')?.remove();
 
-    // L'URL canonique est absolue sur les dix routes ; le repli sert au 404,
-    // qui est en `noindex` et n'a donc pas de canonique propre à déclarer.
-    const canonique = canonicalUrl || window.location.href;
+    /**
+     * L'URL canonique est absolue sur toutes les routes, sauf le 404 qui n'en
+     * a pas : une page en `noindex` n'a rien à désigner. La version précédente
+     * retombait sur `window.location.href`, et le prérendu figeait donc
+     * `http://localhost:8799/__inexistant` dans le HTML livré — relevé le
+     * 08/09/2026 dans `dist/404.html`. Sans canonique, on retire la balise (et
+     * `og:url`, qui la suit) plutôt que d'en fabriquer une.
+     */
     let lien = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!lien) {
-      lien = document.createElement('link');
-      lien.rel = 'canonical';
-      document.head.appendChild(lien);
+    if (canonicalUrl) {
+      if (!lien) {
+        lien = document.createElement('link');
+        lien.rel = 'canonical';
+        document.head.appendChild(lien);
+      }
+      lien.href = canonicalUrl;
+    } else {
+      lien?.remove();
     }
-    lien.href = canonique;
 
     /** Écrit — ou retire — un bloc JSON-LD identifié par son `data-seo`. */
     const jsonLd = (role: 'agence' | 'page', donnees: object | undefined) => {
@@ -140,7 +149,8 @@ const SEOHead = ({
     meta('og:title', title);
     meta('og:description', description);
     meta('og:type', ogType);
-    meta('og:url', canonique);
+    if (canonicalUrl) meta('og:url', canonicalUrl);
+    else document.querySelector('meta[property="og:url"]')?.remove();
     meta('og:image', ogImage);
     meta('og:image:width', OG_LARGEUR);
     meta('og:image:height', OG_HAUTEUR);
