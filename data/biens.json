@@ -1,8 +1,124 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-09-08T08:36:26.297Z",
-  "count": 6,
+  "generatedAt": "2026-09-09T08:37:12.282Z",
+  "count": 7,
   "biens": [
+    {
+      "id": "gedeon-33788759",
+      "reference": "ger009P - studio",
+      "slug": "ger009p-studio-studio-balcon-et-parking",
+      "transaction": "location",
+      "propertyType": "flat",
+      "propertyLabel": "Appartement",
+      "title": "Studio balcon et parking",
+      "titleIsFallback": false,
+      "description": "Charmant studio au 6ème étage avec ascenseur, gardien \nComprenant: coin cuisine (plaque deux feux, hotte), grand pièce à vivre, salle d’eau  & WC, placards. Clair. Branchement machine à laver.  Chauffage et eau chaude COLLECTIFS . \nbalcon et belle vue sur PARIS cave et parking COMPRIS",
+      "city": "Paris 19e",
+      "postalCode": "75019",
+      "district": "La Villette - Porte de Pantin",
+      "departmentCode": "75",
+      "price": 1105,
+      "priceWithoutFees": null,
+      "pricePerSquareMeter": 32,
+      "feePercentage": null,
+      "feesChargedTo": null,
+      "charges": 130,
+      "safetyDeposit": 975,
+      "agencyRentalFee": 523,
+      "annualCondominiumFees": null,
+      "surface": 35,
+      "rooms": 1,
+      "bedrooms": null,
+      "floor": 6,
+      "floorQuantity": 9,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": false,
+        "cellar": false,
+        "balcony": true,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": false,
+        "separateToilet": false,
+        "inCondominium": false,
+        "parkingPlaces": 1
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 211,
+        "energyClass": "D",
+        "gesValue": 30,
+        "gesClass": "D",
+        "date": "2026-09-08",
+        "minEnergyConsumption": 490,
+        "maxEnergyConsumption": 740,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "Studio balcon et parking — photo 1",
+          "small": "/biens/ger009p-studio-1-small.jpg",
+          "medium": "/biens/ger009p-studio-1-medium.jpg",
+          "large": "/biens/ger009p-studio-1-large.jpg"
+        },
+        {
+          "alt": "Studio balcon et parking — photo 2",
+          "small": "/biens/ger009p-studio-2-small.jpg",
+          "medium": "/biens/ger009p-studio-2-medium.jpg",
+          "large": "/biens/ger009p-studio-2-large.jpg"
+        },
+        {
+          "alt": "Studio balcon et parking — photo 3",
+          "small": "/biens/ger009p-studio-3-small.jpg",
+          "medium": "/biens/ger009p-studio-3-medium.jpg",
+          "large": "/biens/ger009p-studio-3-large.jpg"
+        },
+        {
+          "alt": "Studio balcon et parking — photo 4",
+          "small": "/biens/ger009p-studio-4-small.jpg",
+          "medium": "/biens/ger009p-studio-4-medium.jpg",
+          "large": "/biens/ger009p-studio-4-large.jpg"
+        },
+        {
+          "alt": "Studio balcon et parking — photo 5",
+          "small": "/biens/ger009p-studio-5-small.jpg",
+          "medium": "/biens/ger009p-studio-5-medium.jpg",
+          "large": "/biens/ger009p-studio-5-large.jpg"
+        },
+        {
+          "alt": "Studio balcon et parking — photo 6",
+          "small": "/biens/ger009p-studio-6-small.jpg",
+          "medium": "/biens/ger009p-studio-6-medium.jpg",
+          "large": "/biens/ger009p-studio-6-large.jpg"
+        },
+        {
+          "alt": "Studio balcon et parking — photo 7",
+          "small": "/biens/ger009p-studio-7-small.jpg",
+          "medium": "/biens/ger009p-studio-7-medium.jpg",
+          "large": "/biens/ger009p-studio-7-large.jpg"
+        },
+        {
+          "alt": "Studio balcon et parking — photo 8",
+          "small": "/biens/ger009p-studio-8-small.jpg",
+          "medium": "/biens/ger009p-studio-8-medium.jpg",
+          "large": "/biens/ger009p-studio-8-large.jpg"
+        },
+        {
+          "alt": "Studio balcon et parking — photo 9",
+          "small": "/biens/ger009p-studio-9-small.jpg",
+          "medium": "/biens/ger009p-studio-9-medium.jpg",
+          "large": "/biens/ger009p-studio-9-large.jpg"
+        }
+      ],
+      "publicationDate": "2026-09-08T15:14:42.050Z",
+      "modificationDate": "2026-09-08T15:14:42.050Z",
+      "firstSeenAt": "2026-09-08T15:14:42.050Z",
+      "badges": {
+        "dpeBadge": "/biens/ger009p-studio-dpe.svg",
+        "gesBadge": "/biens/ger009p-studio-ges.svg"
+      }
+    },
     {
       "id": "gedeon-31461841",
       "reference": "012",
