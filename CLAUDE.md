@@ -52,6 +52,13 @@ invisible. Une régression d'accessibilité annule la tâche.
 
 ## Commandes
 
+**Déploiement (09/09/2026) : une branche par environnement.** `preprod` → preprod.adbjip.fr à
+chaque push ; `main` → www.adbjip.fr à chaque push, mais seulement si la variable de dépôt
+`PRODUCTION_ACTIVE` vaut `true` (la production héberge encore l'ancien site). Les branches de
+travail ne déploient rien : on les fusionne dans `preprod`. La branche par défaut du dépôt doit
+être `preprod` tant que `main` n'a pas la refonte : la synchronisation nocturne des annonces
+tourne depuis la branche par défaut et déploie sa cible. Détail dans `deploy.yml` et REPRISE.md.
+
 ```bash
 npm run dev                              # Vite sur le port 8080 (fixé dans vite.config.ts)
 npm run build                            # production → dist/

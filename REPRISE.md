@@ -308,13 +308,23 @@ soumission du sitemap. Il est repris dans `public/` et repart avec chaque build.
 
 ### Déploiement
 
-`.github/workflows/deploy.yml`, deux cibles :
+`.github/workflows/deploy.yml`, deux cibles, **une branche par cible depuis le 09/09/2026** :
 
-- **preprod** — automatique à chaque push et après une synchro qui a modifié le
-  portefeuille. Le compte FTP est **enfermé dans `preprod.adbjip.fr`** : il ne
-  peut pas atteindre la production, même en cas d'erreur de configuration ;
-- **production** — déclenchement manuel uniquement. `JIPV3/`, `vendor/` et
-  `.quarantaine/` sont exclus des envois.
+- **preprod** — la branche `preprod`. Chaque push la déploie sur `preprod.adbjip.fr` ; toute
+  branche de travail y est fusionnée, c'est l'environnement que le client regarde. Le compte FTP
+  est **enfermé dans `preprod.adbjip.fr`** : il ne peut pas atteindre la production, même en cas
+  d'erreur de configuration ;
+- **production** — la branche `main`. Un push la déploie sur `www.adbjip.fr` **seulement si la
+  variable de dépôt `PRODUCTION_ACTIVE` vaut `true`** (Settings → Secrets and variables →
+  Actions → Variables) ; sinon le run s'arrête sur une notice, sans rien envoyer. La production
+  a ses propres secrets, `LWS_FTP_USER_PRODUCTION` et `LWS_FTP_PASSWORD_PRODUCTION`, à créer le
+  jour de la bascule : absents, l'envoi échoue au lieu d'écraser la préversion. `JIPV3/`,
+  `vendor/` et `.quarantaine/` sont exclus des envois.
+
+**La branche par défaut du dépôt doit être `preprod`** tant que `main` n'a pas reçu la refonte :
+la synchronisation nocturne des annonces tourne depuis la branche par défaut, et déploie la
+cible de cette branche. Avec `main` par défaut, elle a redéployé l'ancien site sur la préversion
+chaque matin du 5 au 9 septembre 2026. Réglage : Settings → Branches → Default branch.
 
 Secrets : `LWS_FTP_HOST`, `LWS_FTP_USER`, `LWS_FTP_PASSWORD` (+ `GEDEON_API_KEY`
 le jour venu). Le compte de production se créera **sans rien** dans le champ
@@ -1076,9 +1086,11 @@ champs (le géocodage exige code postal et ville), libellés abrégés des manda
 
 ### Reste à faire
 
-- **Synchronisation nocturne sur `main` : la correction attend sur la branche
-  `ci/sync-biens-sans-deploiement`, à fusionner dans `main`** (un clic : « Create a pull request »
-  sur GitHub, puis merge). Elle a encore écrasé la préversion le 09/09/2026 à 08:41 UTC. Un
+- **Passer la branche par défaut du dépôt à `preprod`** (Settings → Branches). Depuis le
+  09/09/2026, `preprod` déploie la préversion et `main` la production (verrouillée par
+  `PRODUCTION_ACTIVE`). Tant que `main` reste la branche par défaut avec l'ancien site, la
+  synchronisation nocturne le redéploie sur la préversion à chaque mouvement du portefeuille
+  (encore le 09/09 à 08:41 UTC). Un
   workflow planifié tourne depuis la branche par défaut, donc depuis `main` qui porte l'ancien
   site ; les 5, 6 et 7 septembre 2026 il a reconstruit ce vieux site et l'a envoyé sur la
   préversion par-dessus la refonte (ancien style, pages en 500). La correction — commenter le job

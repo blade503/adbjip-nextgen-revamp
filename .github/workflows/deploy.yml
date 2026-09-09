@@ -1,13 +1,29 @@
 name: Déploiement LWS
 
-# Un seul chemin de déploiement, deux cibles.
+# Un seul chemin de déploiement, deux cibles, UNE BRANCHE PAR CIBLE (09/09/2026).
 #
 #   preprod    → preprod.adbjip.fr, sous-domaine indépendant. PHP y tourne,
 #                donc les formulaires sont réellement testables. Déployé
-#                automatiquement à chaque push sur la branche de refonte.
-#   production → www.adbjip.fr. JAMAIS automatique : tant que la bascule n'est
-#                pas décidée, ce dossier héberge le Symfony encore en ligne, et
-#                un envoi FTP l'écraserait.
+#                automatiquement à chaque push sur la branche `preprod` : toute
+#                branche de travail y est fusionnée, et c'est ce que le client
+#                regarde.
+#   production → www.adbjip.fr. Déployé à chaque push sur `main`, MAIS SEULEMENT
+#                si la variable de dépôt PRODUCTION_ACTIVE vaut « true » — tant
+#                que la bascule n'est pas décidée, ce dossier héberge le Symfony
+#                encore en ligne, et un envoi l'écraserait. Sans la variable, le
+#                run se termine sans rien envoyer, en le disant.
+#
+# La production utilise SES PROPRES identifiants (LWS_FTP_USER_PRODUCTION,
+# LWS_FTP_PASSWORD_PRODUCTION, à créer le jour de la bascule) : le compte de
+# préversion est enfermé dans son dossier, et un déploiement « production » qui
+# l'emploierait par erreur écraserait… la préversion. Des secrets absents font
+# échouer l'envoi, ils n'envoient rien au mauvais endroit.
+#
+# Avant le 09/09/2026, le déploiement écoutait la branche de refonte du moment,
+# et la synchronisation nocturne — qui tourne toujours depuis la branche par
+# défaut du dépôt — redéployait l'ANCIEN site de `main` sur la préversion chaque
+# matin où le portefeuille bougeait. La branche par défaut doit donc être
+# `preprod` (Settings → Branches) tant que `main` n'a pas reçu la refonte.
 #
 # Le compte FTP utilisé ici est volontairement **enfermé dans le dossier de la
 # préversion** (champ « Répertoire » à la création du compte LWS :
@@ -33,19 +49,9 @@ name: Déploiement LWS
 
 on:
   push:
-    # ALIGNÉ SUR LA BRANCHE DE TRAVAIL le 27/08/2026 — étape 3 de la liste de
-    # bascule de REPRISE.md § 13. Le workflow écoutait encore
-    # `refonte/mise-en-conformite`, où plus rien n'est poussé : aucun push ne
-    # déployait la préversion, et la préversion en ligne datait du 15/08, douze
-    # jours avant la direction artistique, dont elle ne portait aucun marqueur.
-    #
-    # Conséquence à connaître : chaque push sur cette branche déploie sur la
-    # PRÉVERSION. Jamais sur la production, qui n'est atteignable que par
-    # `workflow_dispatch` avec `cible: production`, et dont le compte FTP n'existe
-    # pas encore. Retour en arrière : annuler ce commit.
-    #
-    # À réaligner le jour où la branche change de nom ou fusionne.
-    branches: [refonte/direction-artistique-hall]
+    # `preprod` → préversion ; `main` → production (si PRODUCTION_ACTIVE).
+    # Les branches de travail ne déploient rien : on les fusionne dans `preprod`.
+    branches: [preprod, main]
   workflow_dispatch:
     inputs:
       cible:
@@ -59,13 +65,34 @@ on:
         type: string
         default: preprod
 
+# La cible : celle demandée à la main ou par la synchronisation, sinon celle de
+# la branche poussée. Le même calcul est répété dans `concurrency`, où le
+# contexte `env` n'existe pas encore.
+env:
+  CIBLE: ${{ inputs.cible || (github.ref_name == 'main' && 'production' || 'preprod') }}
+
 concurrency:
-  group: deploiement-${{ inputs.cible || 'preprod' }}
+  group: deploiement-${{ inputs.cible || (github.ref_name == 'main' && 'production' || 'preprod') }}
   cancel-in-progress: false
 
 jobs:
+  # Le verrou de la production : un push sur `main` sans la variable ne fait rien.
+  # Une étape qui l'explique, plutôt qu'un job ignoré en silence.
+  verrou:
+    runs-on: ubuntu-latest
+    if: >-
+      (inputs.cible || (github.ref_name == 'main' && 'production' || 'preprod')) == 'production'
+      && vars.PRODUCTION_ACTIVE != 'true'
+    steps:
+      - run: |
+          echo "::notice::Cible production, mais PRODUCTION_ACTIVE n'est pas « true » : rien n'est envoyé."
+          echo "La production héberge encore l'ancien site. Poser la variable le jour de la bascule (REPRISE.md § 13)."
+
   deployer:
     runs-on: ubuntu-latest
+    if: >-
+      (inputs.cible || (github.ref_name == 'main' && 'production' || 'preprod')) != 'production'
+      || vars.PRODUCTION_ACTIVE == 'true'
     steps:
       - uses: actions/checkout@v4
 
@@ -97,7 +124,7 @@ jobs:
       # retient la plus stricte, mais c'était faux. Le repli n'insère que si
       # une page n'en avait aucune.
       - name: Interdire l'indexation de la préversion
-        if: (inputs.cible || 'preprod') != 'production'
+        if: env.CIBLE != 'production'
         run: |
           printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
           rm -f dist/sitemap.xml
@@ -106,15 +133,15 @@ jobs:
           grep -rL 'name="robots"' --include='*.html' dist | xargs -r \
             sed -i 's|<head>|<head><meta name="robots" content="noindex, nofollow">|'
 
-      - name: Envoyer sur ${{ inputs.cible || 'preprod' }}
+      - name: Envoyer sur ${{ env.CIBLE }}
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.LWS_FTP_HOST }}
-          username: ${{ secrets.LWS_FTP_USER }}
-          password: ${{ secrets.LWS_FTP_PASSWORD }}
+          username: ${{ env.CIBLE == 'production' && secrets.LWS_FTP_USER_PRODUCTION || secrets.LWS_FTP_USER }}
+          password: ${{ env.CIBLE == 'production' && secrets.LWS_FTP_PASSWORD_PRODUCTION || secrets.LWS_FTP_PASSWORD }}
           local-dir: ./dist/
           server-dir: >-
-            ${{ (inputs.cible || 'preprod') == 'production'
+            ${{ env.CIBLE == 'production'
                 && (vars.LWS_DIR_PRODUCTION || './')
                 || (vars.LWS_DIR_PREPROD || './') }}
           # leads.jsonl est écrit par contact.php sur le serveur : il contient
@@ -154,7 +181,7 @@ jobs:
         # replié `>-` s'en charge.
         env:
           CIBLE_URL: >-
-            ${{ (inputs.cible || 'preprod') == 'production'
+            ${{ env.CIBLE == 'production'
                 && (vars.URL_PRODUCTION || 'https://www.adbjip.fr')
                 || (vars.URL_PREPROD || 'https://preprod.adbjip.fr') }}
         run: |
@@ -179,6 +206,6 @@ jobs:
 
       - name: Rappel
         run: |
-          echo "Déployé sur ${{ inputs.cible || 'preprod' }}."
+          echo "Déployé sur ${{ env.CIBLE }}."
           echo "Vérifier que .htaccess est bien présent à la racine :"
           echo "certains clients FTP ignorent les fichiers commençant par un point."

@@ -70,10 +70,17 @@ jobs:
 
   # Le portefeuille a bougé : la préversion doit refléter les nouvelles annonces.
   # La production n'est jamais déployée automatiquement (voir deploy.yml).
+  # Redéploie la cible DE LA BRANCHE où tourne la synchronisation. Un workflow
+  # planifié s'exécute toujours depuis la branche par défaut du dépôt : tant que
+  # c'est `preprod`, c'est la préversion qui reçoit le portefeuille du jour ; le
+  # jour où `main` redevient la branche par défaut (après la bascule), ce sera la
+  # production — sous le verrou PRODUCTION_ACTIVE de deploy.yml. Du 5 au 9
+  # septembre 2026, la branche par défaut était `main` avec l'ancien site : la
+  # synchronisation redéployait ce vieux site sur la préversion chaque matin.
   deploiement:
     needs: sync
     if: needs.sync.outputs.changed == 'true'
     uses: ./.github/workflows/deploy.yml
     with:
-      cible: preprod
+      cible: ${{ github.ref_name == 'main' && 'production' || 'preprod' }}
     secrets: inherit
