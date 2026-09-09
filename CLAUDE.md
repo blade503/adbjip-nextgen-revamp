@@ -70,8 +70,8 @@ Les trois commandes ci-dessous sont le seul contrôle du projet. Leurs compteurs
 |----------------------|----------------------------------------------------------------------|
 | `npm run typecheck`  | **0 erreur**. Toute erreur est bloquante.                            |
 | `npm run lint`       | **0 problème** depuis le 04/09/2026 (les 19 `any` du service de marché et le `require` de Tailwind ont été corrigés). Toute erreur est une régression. |
-| `npm run test`       | **55 cas verts**, ~200 ms. Logique pure de `src/lib/` seulement. |
-| `npm run build`      | **1 733 modules**, ~1,7 s, `[sitemap] 13 URL`, `[prerender] 14/14 + la page 404` (six annonces le 08/09/2026). |
+| `npm run test`       | **61 cas verts**, ~200 ms. Logique pure de `src/lib/` seulement. |
+| `npm run build`      | **1 734 modules**, ~1,7 s, `[sitemap] 13 URL`, `[prerender] 14/14 + la page 404` (six annonces le 08/09/2026). |
 
 Poids de sortie au repère (relevé le 04/09/2026, direction « La Plaque ») : morceau d'entrée
 **JS 272,4 Ko → 88,8 Ko gzip**, **CSS 45,9 Ko → 10,0 Ko gzip** (08/09/2026 : CSS 46,9 Ko →
@@ -85,10 +85,10 @@ annonces le 08/09/2026, cinq le 04/09). Le catch-all `*` est exclu. `[sitemap] 1
 moins : `/mentions-legales` en est volontairement absente. **Les deux nombres suivent le
 portefeuille** : une annonce de plus, c'est une page et une URL de plus.
 
-Deux fichiers de tests, tous deux dans `src/lib/` : `biens.test.ts` (45 cas, dont deux sur la
-plausibilité des honoraires depuis le 08/09/2026) et
-`formulaire.test.ts` (10 cas, ajouté le 28/08/2026 — la validation côté client et le repli
-`mailto`).
+Trois fichiers de tests, tous dans `src/lib/` : `biens.test.ts` (45 cas, dont deux sur la
+plausibilité des honoraires depuis le 08/09/2026), `formulaire.test.ts` (10 cas, ajouté le
+28/08/2026 — la validation côté client et le repli `mailto`) et `pages.test.ts` (6 cas, ajouté le
+09/09/2026 — la résolution de l'URL vers la page à précharger avant le premier rendu).
 
 **Les tests couvrent la logique pure de `src/lib/`, et rien d'autre** (Vitest, ajouté le
 27/08/2026, `vitest.config.ts` distinct de `vite.config.ts`). Périmètre volontairement
@@ -102,7 +102,7 @@ Dans ce projet, « tester » veut donc dire :
 
 1. `npm run typecheck` — 0 erreur ;
 2. `npm run lint` — au repère ;
-3. `npm run test` — 55 cas verts ;
+3. `npm run test` — 61 cas verts ;
 4. `npm run build` — termine, et prérend les 8 pages fixes + une par annonce ;
 5. le **prérendu** vérifié (pas de page sous 2 000 octets, sinon échec silencieux) ;
 6. une **capture d'écran prise ET regardée** pour tout changement visuel.
@@ -492,6 +492,16 @@ en mémoire, donc de retarder la nouvelle.
   « corriger » en gardant les anciens fichiers sur le serveur : l'action n'a pas d'option pour
   cela sans renoncer à la synchronisation, et le cache de périphérie servirait de toute façon un
   HTML périmé quelques minutes.
+- **Le prérendu ne doit pas céder la place au repli `<Attente>`.** Signalé par le client le
+  09/09/2026 : « la page de chargement pendant quelques secondes ». Le HTML prérendu s'affichait
+  au premier octet, puis React montait, la route `lazy` n'était pas résolue et `Suspense`
+  remplaçait tout le contenu par le repli le temps de télécharger le morceau — 25 ms sur une
+  bonne ligne, des secondes sur la préversion après un déploiement. `main.tsx` attend désormais
+  le morceau de la page demandée (`prechargerPage`, table `src/lib/pages.ts`, trois secondes au
+  plus) avant de monter : mesuré, le repli n'apparaît plus au chargement sur les pages différées
+  (un résidu de 12 ms sur Vendre & estimer, dont le calculateur est lui-même différé). En
+  navigation interne, le repli reste — il est alors légitime. Ne pas « simplifier » `main.tsx`
+  en un `render` direct.
 - **Une donnée fautive de l'agence ne se publie pas, elle se signale.** Le 08/09/2026, une annonce
   saisie avec 10 000 € « hors honoraires » pour 380 000 € affichait « Honoraires de 3 700 % » dans
   la fiche, la carte et la description des moteurs. `honorairesPlausibles` dans `src/lib/biens.ts`

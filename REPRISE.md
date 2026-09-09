@@ -1076,7 +1076,9 @@ champs (le géocodage exige code postal et ville), libellés abrégés des manda
 
 ### Reste à faire
 
-- **Synchronisation nocturne sur `main` : le job de déploiement est À RETIRER À LA MAIN.** Un
+- **Synchronisation nocturne sur `main` : la correction attend sur la branche
+  `ci/sync-biens-sans-deploiement`, à fusionner dans `main`** (un clic : « Create a pull request »
+  sur GitHub, puis merge). Elle a encore écrasé la préversion le 09/09/2026 à 08:41 UTC. Un
   workflow planifié tourne depuis la branche par défaut, donc depuis `main` qui porte l'ancien
   site ; les 5, 6 et 7 septembre 2026 il a reconstruit ce vieux site et l'a envoyé sur la
   préversion par-dessus la refonte (ancien style, pages en 500). La correction — commenter le job

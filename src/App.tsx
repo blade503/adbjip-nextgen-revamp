@@ -1,9 +1,10 @@
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ScrollManager from "./components/ScrollManager";
 import Attente from "./components/systeme/Attente";
 import GardeFou from "./components/systeme/GardeFou";
 import { pageDifferee } from "./lib/chargement";
+import { PAGES } from "./lib/pages";
 import Index from "./pages/Index";
 
 /**
@@ -38,24 +39,25 @@ import Index from "./pages/Index";
  * `pageDifferee` et non `lazy` nu (08/09/2026) : un déploiement supprime les
  * anciens morceaux, et l'onglet ouvert avant la mise en ligne les demande
  * encore — page blanche vue par le client. Le premier échec recharge la page,
- * le second remonte au `GardeFou`. Voir `src/lib/chargement.ts`.
+ * le second remonte au `GardeFou`. Et depuis le 09/09/2026, la page demandée
+ * est PRÉCHARGÉE par `main.tsx` avant le premier rendu : le prérendu reste à
+ * l'écran au lieu de céder la place au repli. Les importeurs vivent dans
+ * `src/lib/pages.ts`, partagés avec ce préchargement. Voir `lib/chargement.ts`.
  */
-const Biens = pageDifferee(() => import("./pages/Biens"));
-const BienPage = pageDifferee(() => import("./pages/BienPage"));
-const GestionLocative = pageDifferee(
-  () => import("./pages/services/GestionLocative"),
-);
+const Biens = pageDifferee("biens", PAGES.biens);
+const BienPage = pageDifferee("bien", PAGES.bien);
+const GestionLocative = pageDifferee("gestionLocative", PAGES.gestionLocative);
 const GestionCopropriete = pageDifferee(
-  () => import("./pages/services/GestionCopropriete"),
+  "gestionCopropriete",
+  PAGES.gestionCopropriete,
 );
-const VendreEstimer = pageDifferee(
-  () => import("./pages/services/VendreEstimer"),
-);
-const About = pageDifferee(() => import("./pages/About"));
-const Contact = pageDifferee(() => import("./pages/Contact"));
-const MentionsLegales = pageDifferee(() => import("./pages/MentionsLegales"));
-const NotFound = pageDifferee(() => import("./pages/NotFound"));
-const Atelier = pageDifferee(() => import("./pages/Atelier"));
+const VendreEstimer = pageDifferee("vendreEstimer", PAGES.vendreEstimer);
+const About = pageDifferee("agence", PAGES.agence);
+const Contact = pageDifferee("contact", PAGES.contact);
+const MentionsLegales = pageDifferee("mentionsLegales", PAGES.mentionsLegales);
+const NotFound = pageDifferee("introuvable", PAGES.introuvable);
+/* L'atelier n'est pas dans la table : développement seulement, jamais préchargé. */
+const Atelier = lazy(() => import("./pages/Atelier"));
 
 /**
  * Chemin de l'atelier de contrôle visuel, dans une constante et non en clair.
