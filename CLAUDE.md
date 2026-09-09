@@ -501,7 +501,11 @@ en mémoire, donc de retarder la nouvelle.
   plus) avant de monter : mesuré, le repli n'apparaît plus au chargement sur les pages différées
   (un résidu de 12 ms sur Vendre & estimer, dont le calculateur est lui-même différé). En
   navigation interne, le repli reste — il est alors légitime. Ne pas « simplifier » `main.tsx`
-  en un `render` direct.
+  en un `render` direct. **Le repli lui-même a été redessiné le même jour** (`systeme/Attente.tsx`) :
+  le bloc marine de 60 vh à anneau centré (« plutôt moche », client) est devenu l'esquisse de
+  l'ouverture d'une page — en-tête conservé, aplats de lin aux dimensions du surtitre, du titre,
+  du chapeau, du bouton et de l'image. `scripts/prerender.mjs` repère toujours le repli au texte
+  « Chargement de la page » : ne pas renommer ce libellé sans mettre le script à jour.
 - **Une donnée fautive de l'agence ne se publie pas, elle se signale.** Le 08/09/2026, une annonce
   saisie avec 10 000 € « hors honoraires » pour 380 000 € affichait « Honoraires de 3 700 % » dans
   la fiche, la carte et la description des moteurs. `honorairesPlausibles` dans `src/lib/biens.ts`
