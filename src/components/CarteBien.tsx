@@ -106,24 +106,24 @@ const CarteBien = ({
             decoding="async"
           />
         ) : (
-          <div className="flex h-full items-center p-6 text-[0.8125rem] text-muted-foreground">
+          <div className="flex h-full items-center p-6 text-[0.9375rem] text-muted-foreground">
             Photo à venir
           </div>
         )}
         <MentionsPhoto bien={bien} />
         {bien.photos.length > 1 && (
-          <span className="tabulaire absolute bottom-3 right-3 z-[3] flex items-center gap-1.5 bg-encre/80 px-2 py-1 text-[0.6875rem] font-medium text-pierre">
+          <span className="tabulaire absolute bottom-3 right-3 z-[3] flex items-center gap-1.5 bg-encre/80 px-2 py-1 text-[0.8125rem] font-medium text-pierre">
             <Camera aria-hidden className="h-3 w-3" />
             {bien.photos.length}
           </span>
         )}
       </Calage>
 
-      <div className="mt-4 flex items-baseline justify-between gap-4">
+      <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
         <p className="tabulaire font-display text-[1.375rem] font-semibold leading-none tracking-[-0.01em]">
           {prixLibelle(bien)}
           {baisse && bien.previousPrice != null && (
-            <span className="ml-2 text-[0.875rem] font-normal text-muted-foreground line-through">
+            <span className="ml-2 text-[1rem] font-normal text-muted-foreground line-through">
               {eur(bien.previousPrice)}
             </span>
           )}
@@ -135,10 +135,10 @@ const CarteBien = ({
         <Ordinaux texte={bien.title} />
       </Titre>
 
-      <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted-foreground">
+      <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-muted-foreground">
         <Ordinaux texte={details.join(' · ')} />
       </p>
-      {note && <p className="mt-1 text-[0.75rem] text-muted-foreground">{note}</p>}
+      {note && <p className="mt-1 text-[0.875rem] text-muted-foreground">{note}</p>}
 
       {bien.badges?.dpeBadge && (
         <div className="mt-3">

@@ -78,8 +78,8 @@ const Metiers = () => (
               <span className="mt-1 font-serif text-[clamp(1.375rem,2vw,1.625rem)] leading-[1.1]">
                 {metier.titre}
               </span>
-              <span className="text-[0.875rem] leading-[1.5] text-ardoise">{metier.accroche}</span>
-              <span className="mt-2 inline-flex items-center gap-2 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-foreground">
+              <span className="text-[1rem] leading-[1.5] text-ardoise">{metier.accroche}</span>
+              <span className="mt-2 inline-flex items-center gap-2 text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-foreground">
                 Voir
                 <ArrowRight
                   aria-hidden

@@ -53,7 +53,7 @@ const BiensApercu = () => {
           aparte={
             <Lien
               to="/biens"
-              className="lien-trait text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-foreground"
+              className="lien-trait text-[0.875rem] font-semibold uppercase tracking-[0.08em] text-foreground"
             >
               Tout le portefeuille
               <ArrowRight aria-hidden className="h-3.5 w-3.5" />
@@ -108,7 +108,7 @@ const BiensApercu = () => {
                     </h3>
                     <p className="tabulaire shrink-0 font-display text-[1rem] font-semibold">{prix(bien)}</p>
                   </div>
-                  <p className="mt-1.5 text-[0.8125rem] text-muted-foreground">
+                  <p className="mt-1.5 text-[0.9375rem] text-muted-foreground">
                     <Ordinaux texte={locationLabel(bien)} />
                     {note && <> · {note}</>}
                   </p>

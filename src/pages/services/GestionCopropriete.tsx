@@ -234,7 +234,7 @@ const GestionCopropriete = () => {
                     <span className="cote block">{atout.intitule}</span>
                     <span className="mt-2.5 block font-serif text-[1.375rem] leading-[1.15]">{atout.titre}</span>
                   </dt>
-                  <dd className="mt-2 text-[0.8125rem] leading-[1.5] text-muted-foreground">{atout.texte}</dd>
+                  <dd className="mt-2 text-[0.9375rem] leading-[1.5] text-muted-foreground">{atout.texte}</dd>
                 </Voile>
               ))}
             </dl>
@@ -267,7 +267,7 @@ const GestionCopropriete = () => {
                 <Voile key={role.titre} delai={echelonner(index)} className="border-t border-foreground pt-4">
                   <p className="cote">{role.cote}</p>
                   <h3 className="mt-2 text-[clamp(1.5rem,2vw,1.75rem)]">{role.titre}</h3>
-                  <ul className="mt-3 space-y-1.5 text-[0.875rem] leading-[1.6] text-ardoise">
+                  <ul className="mt-3 space-y-1.5 text-[1rem] leading-[1.6] text-ardoise">
                     {role.points.map((point) => (
                       <li key={point}>{point}</li>
                     ))}
@@ -290,7 +290,7 @@ const GestionCopropriete = () => {
                 <h2 className="mt-3 text-[clamp(1.75rem,2.6vw,2.125rem)] leading-[1.1]">
                   Votre copropriété en ligne
                 </h2>
-                <p className="mt-3 text-[0.875rem] leading-[1.5] text-muted-foreground">
+                <p className="mt-3 text-[1rem] leading-[1.5] text-muted-foreground">
                   Comptes et documents de l'immeuble sur Gercop, accessibles à toute heure.
                 </p>
                 {ESPACE_CLIENT.url && (
@@ -310,7 +310,7 @@ const GestionCopropriete = () => {
                 >
                   <p className="cote">{acces.pour}</p>
                   <h3 className="mt-2 text-[1.375rem]">{acces.titre}</h3>
-                  <ul className="mt-3 space-y-1 text-[0.8125rem] leading-[1.6] text-muted-foreground">
+                  <ul className="mt-3 space-y-1 text-[0.9375rem] leading-[1.6] text-muted-foreground">
                     {acces.items.map((item) => (
                       <li key={item}>{item}</li>
                     ))}

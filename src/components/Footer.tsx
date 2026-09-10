@@ -36,7 +36,7 @@ const Footer = () => {
   const colonne = (titre: string, liens: { nom: string; href: string }[], externe?: { nom: string; href: string }) => (
     <nav aria-label={titre} className="lg:col-span-2">
       <h2 className="gravure">{titre}</h2>
-      <ul className="mt-5 space-y-2.5 text-[0.875rem]">
+      <ul className="mt-5 space-y-2.5 text-[1rem]">
         {liens.map((lien) => (
           <li key={lien.href}>
             <Lien to={lien.href} className="lien-trait text-ardoise hover:text-foreground">
@@ -71,13 +71,13 @@ const Footer = () => {
           {/* ---- La signature ------------------------------------ */}
           <div className="col-span-2 lg:col-span-4">
             <PlaqueDeRue taille="petite" />
-            <p className="mesure mt-5 text-[0.875rem] leading-relaxed text-ardoise">
+            <p className="mesure mt-5 text-[1rem] leading-relaxed text-ardoise">
               Agence indépendante depuis 2011. Un interlocuteur unique pour votre lot comme
               pour votre immeuble.
             </p>
             <Lien
               to="/mentions-legales"
-              className="lien-trait mt-5 text-[0.8125rem] text-ardoise hover:text-foreground"
+              className="lien-trait mt-5 text-[0.9375rem] text-ardoise hover:text-foreground"
             >
               <ShieldCheck aria-hidden className="h-4 w-4 shrink-0 text-primary-ink" />
               Cartes professionnelles et garanties
@@ -97,7 +97,7 @@ const Footer = () => {
             {/* UN SEUL NIVEAU DE `div` DANS UN `dl` : la spécification n'admet
                 comme enfant direct qu'un `div` groupant `dt` et `dd`. Relevé
                 par Lighthouse sur une version précédente. */}
-            <dl className="mt-5 space-y-3.5 text-[0.875rem] text-ardoise">
+            <dl className="mt-5 space-y-3.5 text-[1rem] text-ardoise">
               <div>
                 <dt className="sr-only">Téléphone</dt>
                 <dd>
@@ -139,7 +139,7 @@ const Footer = () => {
 
       {/* ---- La ligne de bas de page -------------------------- */}
       <div className="border-t border-[hsl(var(--trait)/var(--trait-a))]">
-        <div className="container mx-auto flex flex-col items-start justify-between gap-3 py-5 text-[0.75rem] text-muted-foreground md:flex-row md:items-center">
+        <div className="container mx-auto flex flex-col items-start justify-between gap-3 py-5 text-[0.875rem] text-muted-foreground md:flex-row md:items-center">
           <p>
             © {annee} J.I.P. — Jobard Immobilier Paris · SIREN 529 339 665
             <span aria-hidden className="mx-2 opacity-50">·</span>

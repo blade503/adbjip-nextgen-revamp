@@ -58,7 +58,7 @@ const Contact = () => (
               >
                 {ADRESSE.telephone}
               </a>
-              <p className="tabulaire mt-4 text-[0.8125rem] leading-[1.6] text-muted-foreground">
+              <p className="tabulaire mt-4 text-[0.9375rem] leading-[1.6] text-muted-foreground">
                 {HORAIRES.jours}, {HORAIRES.detail}
                 <br />
                 Pas de standard : la personne qui répond est celle qui suivra votre dossier.
@@ -68,7 +68,7 @@ const Contact = () => (
             {/* ---- Les coordonnées ------------------------------------ */}
             <Voile delai={210} className="panneau p-7">
               <p className="gravure">Nous joindre</p>
-              <dl className="mt-3 space-y-3 text-[0.875rem] leading-[1.6] text-ardoise">
+              <dl className="mt-3 space-y-3 text-[1rem] leading-[1.6] text-ardoise">
                 <div>
                   <dt className="sr-only">Adresse</dt>
                   <dd>

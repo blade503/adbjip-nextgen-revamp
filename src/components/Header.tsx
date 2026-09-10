@@ -136,7 +136,7 @@ const Header = () => {
           {/* ---- L'enseigne ------------------------------------------- */}
           <Lien to="/" className="flex shrink-0 items-center gap-3.5">
             <LogoJIP className="h-9 w-auto" />
-            <span className="hidden text-[0.75rem] font-medium uppercase leading-none tracking-[0.14em] sm:block">
+            <span className="hidden text-[0.75rem] font-medium uppercase leading-none tracking-[0.14em] sm:block lg:hidden 2xl:block">
               Jobard Immobilier Paris
             </span>
           </Lien>
@@ -146,7 +146,7 @@ const Header = () => {
               planche : les longs (« Syndic de copropriété ») faisaient neuf
               capitales de même poids sur une ligne — trop chargé, vu à l'écran.
               Le libellé long reste dans le panneau mobile, où il a la place. */}
-          <ul className="hidden items-center gap-6 lg:flex xl:gap-7">
+          <ul className="hidden items-center gap-4 lg:flex xl:gap-5">
             {NAVIGATION.map((item) => {
               const courante = estCourante(item.href);
               return (
@@ -158,7 +158,7 @@ const Header = () => {
                       // Le filet de la page courante est en ambre foncé (5,46:1 sur
                       // le crème) : un indicateur d'état doit atteindre 3:1, et le
                       // laiton vif n'en fait que 1,81.
-                      'inline-block border-b-2 py-1 text-[0.75rem] font-medium uppercase tracking-[0.06em] transition-colors duration-3',
+                      'inline-block border-b-2 py-1 text-[0.875rem] font-medium uppercase tracking-[0.04em] transition-colors duration-3',
                       courante
                         ? 'border-primary-ink text-foreground'
                         : 'border-transparent text-ardoise hover:text-foreground',
@@ -180,7 +180,7 @@ const Header = () => {
                 href={ESPACE_CLIENT.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="lien-trait hidden text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-muted-foreground hover:text-foreground xl:inline-flex"
+                className="lien-trait hidden text-[0.8125rem] font-medium uppercase tracking-[0.06em] text-muted-foreground hover:text-foreground xl:inline-flex"
               >
                 {ESPACE_CLIENT.libelle}
                 <ArrowUpRight aria-hidden className="h-3.5 w-3.5" />
@@ -237,7 +237,10 @@ const Header = () => {
             /* `voile-menu`, pas `voile` : voir `src/index.css`, le dévoilement
                par clip-path rendait les entrées basses intouchables pendant
                800 ms et un tap rapide sur « Contact » refermait le menu. */
-            className="voile-menu absolute inset-x-0 top-full z-50 border-t border-[hsl(var(--trait)/var(--trait-a))] bg-pierre lg:hidden"
+            /* En paysage, les liens dépassent l'écran alors que la page est
+               bloquée : le panneau doit défiler dans la hauteur restante.
+               L'en-tête mobile mesure 4,5 rem (cibles de 44 px + marges). */
+            className="voile-menu absolute inset-x-0 top-full z-50 max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain border-t border-[hsl(var(--trait)/var(--trait-a))] bg-pierre lg:hidden"
           >
             <div className="container mx-auto py-5">
               <ul>
@@ -250,7 +253,7 @@ const Header = () => {
                         onClick={() => setMenuOuvert(false)}
                         aria-current={courante ? 'page' : undefined}
                         className={cn(
-                          'flex min-h-[3.25rem] items-center justify-between text-[0.8125rem] font-semibold uppercase tracking-[0.1em]',
+                          'flex min-h-[3.25rem] items-center justify-between text-[0.9375rem] font-semibold uppercase tracking-[0.1em]',
                           courante ? 'text-primary-ink' : 'text-foreground',
                         )}
                       >
@@ -266,7 +269,7 @@ const Header = () => {
                       href={ESPACE_CLIENT.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex min-h-[3.25rem] items-center justify-between text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-ardoise"
+                      className="flex min-h-[3.25rem] items-center justify-between text-[0.9375rem] font-medium uppercase tracking-[0.1em] text-ardoise"
                     >
                       {ESPACE_CLIENT.libelle}
                       <ArrowUpRight aria-hidden className="h-4 w-4" />

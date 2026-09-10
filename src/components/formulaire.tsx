@@ -46,7 +46,7 @@ interface BaseChamp {
 /** Le message d'erreur d'un champ, relié par `aria-describedby`. */
 const Erreur = ({ id, visible, message }: { id: string; visible: boolean; message?: string }) =>
   visible ? (
-    <p id={id} className="mt-1.5 text-[0.75rem] text-destructive-ink">
+    <p id={id} className="mt-1.5 text-[0.875rem] text-destructive-ink">
       {message || 'Ce champ est à vérifier.'}
     </p>
   ) : null;
@@ -194,7 +194,7 @@ export const Leurre = ({
  * consentement.
  */
 export const MentionRgpd = () => (
-  <p className="text-[0.75rem] leading-relaxed text-muted-foreground">
+  <p className="text-[0.875rem] leading-relaxed text-muted-foreground">
     Vos informations servent uniquement à traiter votre demande et ne sont ni cédées ni
     revendues.{' '}
     <Lien to="/mentions-legales#donnees-personnelles" className="lien-trait">
@@ -229,7 +229,7 @@ export const Retour = ({
     <div
       role="status"
       className={cn(
-        'border-l-2 py-3 pl-4 text-[0.875rem]',
+        'border-l-2 py-3 pl-4 text-[1rem]',
         retour.ok
           ? 'border-primary bg-[hsl(var(--laiton)/0.08)]'
           : 'border-destructive bg-destructive/5 text-destructive-ink',

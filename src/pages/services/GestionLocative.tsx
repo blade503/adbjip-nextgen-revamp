@@ -118,12 +118,12 @@ const Mandat = ({
   <Voile delai={delai} className={cn('flex flex-col p-7 lg:p-8', marine ? 'nuit bg-marine text-pierre' : 'panneau')}>
     <p className="cote">{cote}</p>
     <h3 className="mt-2 text-[clamp(1.75rem,2.4vw,2rem)]">{nom}</h3>
-    <p className="mt-1.5 text-[0.875rem] text-muted-foreground">{resume}</p>
+    <p className="mt-1.5 text-[1rem] text-muted-foreground">{resume}</p>
     <ul className="mt-5 border-t border-[hsl(var(--trait)/var(--trait-a))]">
       {prestations.map((x) => (
         <li
           key={x}
-          className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-2.5 text-[0.875rem] leading-[1.5] last:border-0"
+          className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-2.5 text-[1rem] leading-[1.5] last:border-0"
         >
           {x}
         </li>
@@ -251,7 +251,7 @@ const GestionLocative = () => {
                   className="flex gap-4 border-b border-[hsl(var(--trait)/var(--trait-a))] py-3.5"
                 >
                   <span className="cote shrink-0 pt-1">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="text-[0.875rem] leading-[1.5] text-ardoise">{x}</span>
+                  <span className="text-[1rem] leading-[1.5] text-ardoise">{x}</span>
                 </Voile>
               ))}
             </ol>
@@ -276,7 +276,7 @@ const GestionLocative = () => {
                     <span className="sr-only">Étape {i + 1} : </span>
                     {etape.titre}
                   </h3>
-                  <p className="mt-1.5 text-[0.875rem] leading-[1.5] text-muted-foreground">{etape.detail}</p>
+                  <p className="mt-1.5 text-[1rem] leading-[1.5] text-muted-foreground">{etape.detail}</p>
                 </Voile>
               ))}
             </ol>

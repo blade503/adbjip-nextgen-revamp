@@ -130,12 +130,12 @@ const Sens = ({
 }) => (
   <Voile delai={delai} className="panneau flex flex-col p-7 lg:p-8">
     <h3 className="text-[clamp(1.625rem,2.4vw,1.875rem)]">{titre}</h3>
-    <p className="mt-1.5 text-[0.875rem] leading-[1.5] text-muted-foreground">{resume}</p>
+    <p className="mt-1.5 text-[1rem] leading-[1.5] text-muted-foreground">{resume}</p>
     <ul className="mt-5 grid border-t border-[hsl(var(--trait)/var(--trait-a))] sm:grid-cols-2 sm:gap-x-5">
       {prestations.map((x) => (
         <li
           key={x}
-          className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-2.5 text-[0.875rem] leading-[1.45] text-ardoise"
+          className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-2.5 text-[1rem] leading-[1.45] text-ardoise"
         >
           {x}
         </li>
@@ -347,7 +347,7 @@ const VendreEstimer = () => {
                 {REPERES.map(({ valeur, libelle }) => (
                   <div key={libelle}>
                     <dt className="font-serif text-[1.75rem] leading-none">{valeur}</dt>
-                    <dd className="mt-1.5 text-[0.8125rem] text-muted-foreground">{libelle}</dd>
+                    <dd className="mt-1.5 text-[0.9375rem] text-muted-foreground">{libelle}</dd>
                   </div>
                 ))}
               </dl>
@@ -445,7 +445,7 @@ const VendreEstimer = () => {
                   className="grid gap-x-8 gap-y-1 border-b border-[hsl(var(--trait)/var(--trait-a))] py-5 sm:grid-cols-[12rem_1fr]"
                 >
                   <dt className="font-serif text-[1.5rem] leading-[1.1]">{motif.titre}</dt>
-                  <dd className="text-[0.875rem] leading-[1.5] text-ardoise">{motif.texte}</dd>
+                  <dd className="text-[1rem] leading-[1.5] text-ardoise">{motif.texte}</dd>
                 </Voile>
               ))}
             </dl>

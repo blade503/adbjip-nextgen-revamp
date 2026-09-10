@@ -142,8 +142,8 @@ const FormulaireContact = ({ idPrefix = 'contact' }: { idPrefix?: string }) => {
                     coche ? 'nuit bg-marine text-pierre' : 'panneau hover:bg-lin',
                   )}
                 >
-                  <span className="gravure text-[0.5625rem]">{profil.libelle}</span>
-                  <span className="font-serif text-[1.125rem] leading-[1.2]">{profil.phrase}</span>
+                  <span className="gravure">{profil.libelle}</span>
+                  <span className="font-sans text-[1rem] leading-[1.5]">{profil.phrase}</span>
                 </label>
               </div>
             );
@@ -192,7 +192,7 @@ const FormulaireContact = ({ idPrefix = 'contact' }: { idPrefix?: string }) => {
           />
         </Button>
         {/* L'obligation d'information, À L'ENDROIT où le visiteur écrit. */}
-        <p className="max-w-[26rem] text-[0.75rem] leading-relaxed text-muted-foreground">
+        <p className="max-w-[26rem] text-[0.875rem] leading-relaxed text-muted-foreground">
           Vos informations servent uniquement à traiter votre demande et ne sont ni cédées ni
           revendues.{' '}
           <Lien to="/mentions-legales#donnees-personnelles" className="lien-trait">

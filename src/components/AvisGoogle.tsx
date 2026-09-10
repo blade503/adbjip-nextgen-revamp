@@ -35,7 +35,7 @@ const AvisGoogle = () => {
               href={NOTE_GOOGLE.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="lien-trait text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-foreground"
+              className="lien-trait text-[0.875rem] font-semibold uppercase tracking-[0.08em] text-foreground"
             >
               Voir tous les avis
               <ExternalLink aria-hidden className="h-3.5 w-3.5" />
@@ -66,7 +66,7 @@ const AvisGoogle = () => {
                   « {avis.texte} »
                 </blockquote>
 
-                <figcaption className="mt-6 border-t border-[hsl(var(--trait)/var(--trait-a))] pt-4 text-[0.8125rem] sm:mt-auto">
+                <figcaption className="mt-6 border-t border-[hsl(var(--trait)/var(--trait-a))] pt-4 text-[0.9375rem] sm:mt-auto">
                   <span className="font-semibold text-foreground">{avis.auteur}</span>
                   <span className="mt-0.5 block text-muted-foreground">Avis Google, {avis.date}</span>
                 </figcaption>
