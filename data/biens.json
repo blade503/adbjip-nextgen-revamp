@@ -1,141 +1,119 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-09-08T13:16:05.582Z",
-  "count": 6,
+  "generatedAt": "2026-09-10T08:39:24.528Z",
+  "count": 7,
   "biens": [
     {
-      "id": "gedeon-33542694",
-      "reference": "vent arcade",
-      "slug": "vent-arcade-charment-studio-rue-arcade",
-      "transaction": "vente",
+      "id": "gedeon-31871091",
+      "reference": "266-1",
+      "slug": "266-1-studio-place-verdun-centre-la-rochelle",
+      "transaction": "location",
       "propertyType": "flat",
       "propertyLabel": "Appartement",
-      "title": "Charment studio rue arcade",
+      "title": "Studio place verdun centre la rochelle",
       "titleIsFallback": false,
-      "description": "Charmant studio au cœur du quartier de la Madeleine\n\nIdéalement situé au pied de la Madeleine, découvrez ce charmant studio niché au 5ᵉ étage d'un immeuble de standing avec ascenseur et gardienne.\n\nL'appartement offre une belle pièce de vie lumineuse, agrémentée de poutres apparentes qui lui confèrent beaucoup de cachet, ainsi que de placards intégrés. Sa hauteur sous plafond de 2,60 m renforce la sensation d'espace.\n\nLe coin cuisine est équipé d'une hotte, d'une plaque de cuisson deux feux et d'un branchement pour machine à laver.\n\nLa salle de bains comprend une baignoire ainsi qu'un WC sanibroyeur.\n\nVous apprécierez le confort d'un chauffage et d'une production d'eau chaude individuels électriques.\n\nLe bien a bénéficié d'une rénovation thermique et de peintures neuves. Lumineux, calme et parfaitement entretenu, il bénéficie d'un emplacement recherché, à deux pas des commerces, des restaurants et des transports.\n\nLes atouts :\n\nEmplacement exceptionnel au pied de la Madeleine\n5ᵉ étage avec ascenseur\nImmeuble de standing avec gardienne\nCharme de l'ancien avec poutres apparentes\nAppartement lumineux et calme\nRénovation thermique réalisée\nFaibles charges de copropriété\n\nCharges annuelles de copropriété (2025) : 355,02 €.\n\nUn bien idéal pour un pied-à-terre parisien, un premier achat ou un investissement locatif de qualité.",
-      "city": "Paris 8e",
-      "postalCode": "75008",
-      "district": "Elysée - Madeleine",
-      "departmentCode": "75",
-      "price": 380000,
-      "priceWithoutFees": 10000,
-      "pricePerSquareMeter": 385,
-      "feePercentage": 3700,
-      "feesChargedTo": "acquéreur",
-      "charges": null,
-      "safetyDeposit": null,
-      "agencyRentalFee": null,
+      "description": "Studio au 2ème étages meublé\nCOMPRENANT : salle d’eau avec douche , (lavabo, WC), coin cuisine équipé,    (plaque électrique, frigo congélateur, hotte, micro-onde), pièce principale avec parquet, mezzanine deux couchages, cheminée,  double vitrage \nEtat récent belles prestations\nEau et électricité inclues dans les charges + machine à laver commune immeuble. \nInterphone",
+      "city": "La Rochelle",
+      "postalCode": "17000",
+      "district": "Centre-ville - Vieux-port - Marché",
+      "departmentCode": "17",
+      "price": 690,
+      "priceWithoutFees": null,
+      "pricePerSquareMeter": 28,
+      "feePercentage": null,
+      "feesChargedTo": null,
+      "charges": 90,
+      "safetyDeposit": 690,
+      "agencyRentalFee": 250,
       "annualCondominiumFees": null,
-      "surface": 26,
+      "surface": 25,
       "rooms": 1,
       "bedrooms": null,
-      "floor": 5,
-      "floorQuantity": 6,
+      "floor": 2,
+      "floorQuantity": 3,
       "exposition": null,
       "heating": null,
       "features": {
-        "elevator": true,
+        "elevator": false,
         "cellar": false,
         "balcony": false,
         "terrace": false,
         "fireplace": false,
-        "caretaker": true,
+        "caretaker": false,
         "separateToilet": false,
         "inCondominium": false,
         "parkingPlaces": 0
       },
       "condominiumParts": null,
       "dpe": {
-        "energyValue": 212,
-        "energyClass": "C",
-        "gesValue": 8,
-        "gesClass": "B",
-        "date": "2026-06-16",
-        "minEnergyConsumption": 530,
-        "maxEnergyConsumption": 760,
+        "energyValue": null,
+        "energyClass": "E",
+        "gesValue": null,
+        "gesClass": "E",
+        "date": "2023-09-15",
+        "minEnergyConsumption": null,
+        "maxEnergyConsumption": null,
         "isJuly2021": true
       },
       "photos": [
         {
-          "alt": "Charment studio rue arcade — photo 1",
-          "small": "/biens/vent-arcade-1-small.webp",
-          "medium": "/biens/vent-arcade-1-medium.webp",
-          "large": "/biens/vent-arcade-1-large.webp"
+          "alt": "Studio place verdun centre la rochelle — photo 1",
+          "small": "/biens/266-1-1-small.jpg",
+          "medium": "/biens/266-1-1-medium.jpg",
+          "large": "/biens/266-1-1-large.jpg"
         },
         {
-          "alt": "Charment studio rue arcade — photo 2",
-          "small": "/biens/vent-arcade-2-small.webp",
-          "medium": "/biens/vent-arcade-2-medium.webp",
-          "large": "/biens/vent-arcade-2-large.webp"
+          "alt": "Studio place verdun centre la rochelle — photo 2",
+          "small": "/biens/266-1-2-small.jpg",
+          "medium": "/biens/266-1-2-medium.jpg",
+          "large": "/biens/266-1-2-large.jpg"
         },
         {
-          "alt": "Charment studio rue arcade — photo 3",
-          "small": "/biens/vent-arcade-3-small.webp",
-          "medium": "/biens/vent-arcade-3-medium.webp",
-          "large": "/biens/vent-arcade-3-large.webp"
+          "alt": "Studio place verdun centre la rochelle — photo 3",
+          "small": "/biens/266-1-3-small.jpg",
+          "medium": "/biens/266-1-3-medium.jpg",
+          "large": "/biens/266-1-3-large.jpg"
         },
         {
-          "alt": "Charment studio rue arcade — photo 4",
-          "small": "/biens/vent-arcade-4-small.webp",
-          "medium": "/biens/vent-arcade-4-medium.webp",
-          "large": "/biens/vent-arcade-4-large.webp"
+          "alt": "Studio place verdun centre la rochelle — photo 4",
+          "small": "/biens/266-1-4-small.jpg",
+          "medium": "/biens/266-1-4-medium.jpg",
+          "large": "/biens/266-1-4-large.jpg"
         },
         {
-          "alt": "Charment studio rue arcade — photo 5",
-          "small": "/biens/vent-arcade-5-small.webp",
-          "medium": "/biens/vent-arcade-5-medium.webp",
-          "large": "/biens/vent-arcade-5-large.webp"
+          "alt": "Studio place verdun centre la rochelle — photo 5",
+          "small": "/biens/266-1-5-small.jpg",
+          "medium": "/biens/266-1-5-medium.jpg",
+          "large": "/biens/266-1-5-large.jpg"
         },
         {
-          "alt": "Charment studio rue arcade — photo 6",
-          "small": "/biens/vent-arcade-6-small.webp",
-          "medium": "/biens/vent-arcade-6-medium.webp",
-          "large": "/biens/vent-arcade-6-large.webp"
+          "alt": "Studio place verdun centre la rochelle — photo 6",
+          "small": "/biens/266-1-6-small.jpg",
+          "medium": "/biens/266-1-6-medium.jpg",
+          "large": "/biens/266-1-6-large.jpg"
         },
         {
-          "alt": "Charment studio rue arcade — photo 7",
-          "small": "/biens/vent-arcade-7-small.webp",
-          "medium": "/biens/vent-arcade-7-medium.webp",
-          "large": "/biens/vent-arcade-7-large.webp"
+          "alt": "Studio place verdun centre la rochelle — photo 7",
+          "small": "/biens/266-1-7-small.jpg",
+          "medium": "/biens/266-1-7-medium.jpg",
+          "large": "/biens/266-1-7-large.jpg"
         },
         {
-          "alt": "Charment studio rue arcade — photo 8",
-          "small": "/biens/vent-arcade-8-small.webp",
-          "medium": "/biens/vent-arcade-8-medium.webp",
-          "large": "/biens/vent-arcade-8-large.webp"
+          "alt": "Studio place verdun centre la rochelle — photo 8",
+          "small": "/biens/266-1-8-small.jpg",
+          "medium": "/biens/266-1-8-medium.jpg",
+          "large": "/biens/266-1-8-large.jpg"
         },
         {
-          "alt": "Charment studio rue arcade — photo 9",
-          "small": "/biens/vent-arcade-9-small.webp",
-          "medium": "/biens/vent-arcade-9-medium.webp",
-          "large": "/biens/vent-arcade-9-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 10",
-          "small": "/biens/vent-arcade-10-small.webp",
-          "medium": "/biens/vent-arcade-10-medium.webp",
-          "large": "/biens/vent-arcade-10-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 11",
-          "small": "/biens/vent-arcade-11-small.webp",
-          "medium": "/biens/vent-arcade-11-medium.webp",
-          "large": "/biens/vent-arcade-11-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 12",
-          "small": "/biens/vent-arcade-12-small.webp",
-          "medium": "/biens/vent-arcade-12-medium.webp",
-          "large": "/biens/vent-arcade-12-large.webp"
+          "alt": "Studio place verdun centre la rochelle — photo 9",
+          "small": "/biens/266-1-9-small.jpg",
+          "medium": "/biens/266-1-9-medium.jpg",
+          "large": "/biens/266-1-9-large.jpg"
         }
       ],
       "publicationDate": null,
-      "modificationDate": "2026-08-29T05:05:20.607Z",
-      "firstSeenAt": "2026-09-08T13:15:48.537Z",
-      "badges": {
-        "dpeBadge": "/biens/vent-arcade-dpe.svg",
-        "gesBadge": "/biens/vent-arcade-ges.svg"
-      }
+      "modificationDate": "2026-09-09T13:59:58.178Z",
+      "firstSeenAt": "2026-09-10T08:37:54.683Z"
     },
     {
       "id": "gedeon-31461841",
@@ -192,27 +170,27 @@
       "photos": [
         {
           "alt": "Maison 8 pièces — L'Houmeau — photo 1",
-          "small": "/biens/012-1-small.webp",
-          "medium": "/biens/012-1-medium.webp",
-          "large": "/biens/012-1-large.webp"
+          "small": "/biens/012-1-small.jpg",
+          "medium": "/biens/012-1-medium.jpg",
+          "large": "/biens/012-1-large.jpg"
         },
         {
           "alt": "Maison 8 pièces — L'Houmeau — photo 2",
-          "small": "/biens/012-2-small.webp",
-          "medium": "/biens/012-2-medium.webp",
-          "large": "/biens/012-2-large.webp"
+          "small": "/biens/012-2-small.jpg",
+          "medium": "/biens/012-2-medium.jpg",
+          "large": "/biens/012-2-large.jpg"
         },
         {
           "alt": "Maison 8 pièces — L'Houmeau — photo 3",
-          "small": "/biens/012-3-small.webp",
-          "medium": "/biens/012-3-medium.webp",
-          "large": "/biens/012-3-large.webp"
+          "small": "/biens/012-3-small.jpg",
+          "medium": "/biens/012-3-medium.jpg",
+          "large": "/biens/012-3-large.jpg"
         },
         {
           "alt": "Maison 8 pièces — L'Houmeau — photo 4",
-          "small": "/biens/012-4-small.webp",
-          "medium": "/biens/012-4-medium.webp",
-          "large": "/biens/012-4-large.webp"
+          "small": "/biens/012-4-small.jpg",
+          "medium": "/biens/012-4-medium.jpg",
+          "large": "/biens/012-4-large.jpg"
         }
       ],
       "publicationDate": null,
@@ -277,21 +255,21 @@
       "photos": [
         {
           "alt": "PLANCHAT 1 sous sol — photo 1",
-          "small": "/biens/0125-1-small.webp",
-          "medium": "/biens/0125-1-medium.webp",
-          "large": "/biens/0125-1-large.webp"
+          "small": "/biens/0125-1-small.jpg",
+          "medium": "/biens/0125-1-medium.jpg",
+          "large": "/biens/0125-1-large.jpg"
         },
         {
           "alt": "PLANCHAT 1 sous sol — photo 2",
-          "small": "/biens/0125-2-small.webp",
-          "medium": "/biens/0125-2-medium.webp",
-          "large": "/biens/0125-2-large.webp"
+          "small": "/biens/0125-2-small.jpg",
+          "medium": "/biens/0125-2-medium.jpg",
+          "large": "/biens/0125-2-large.jpg"
         },
         {
           "alt": "PLANCHAT 1 sous sol — photo 3",
-          "small": "/biens/0125-3-small.webp",
-          "medium": "/biens/0125-3-medium.webp",
-          "large": "/biens/0125-3-large.webp"
+          "small": "/biens/0125-3-small.jpg",
+          "medium": "/biens/0125-3-medium.jpg",
+          "large": "/biens/0125-3-large.jpg"
         }
       ],
       "publicationDate": null,
@@ -352,69 +330,69 @@
       "photos": [
         {
           "alt": "3 pièces immeuble rénové — photo 1",
-          "small": "/biens/v027-1-small.webp",
-          "medium": "/biens/v027-1-medium.webp",
-          "large": "/biens/v027-1-large.webp"
+          "small": "/biens/v027-1-small.jpg",
+          "medium": "/biens/v027-1-medium.jpg",
+          "large": "/biens/v027-1-large.jpg"
         },
         {
           "alt": "3 pièces immeuble rénové — photo 2",
-          "small": "/biens/v027-2-small.webp",
-          "medium": "/biens/v027-2-medium.webp",
-          "large": "/biens/v027-2-large.webp"
+          "small": "/biens/v027-2-small.jpg",
+          "medium": "/biens/v027-2-medium.jpg",
+          "large": "/biens/v027-2-large.jpg"
         },
         {
           "alt": "3 pièces immeuble rénové — photo 3",
-          "small": "/biens/v027-3-small.webp",
-          "medium": "/biens/v027-3-medium.webp",
-          "large": "/biens/v027-3-large.webp"
+          "small": "/biens/v027-3-small.jpg",
+          "medium": "/biens/v027-3-medium.jpg",
+          "large": "/biens/v027-3-large.jpg"
         },
         {
           "alt": "3 pièces immeuble rénové — photo 4",
-          "small": "/biens/v027-4-small.webp",
-          "medium": "/biens/v027-4-medium.webp",
-          "large": "/biens/v027-4-large.webp"
+          "small": "/biens/v027-4-small.jpg",
+          "medium": "/biens/v027-4-medium.jpg",
+          "large": "/biens/v027-4-large.jpg"
         },
         {
           "alt": "3 pièces immeuble rénové — photo 5",
-          "small": "/biens/v027-5-small.webp",
-          "medium": "/biens/v027-5-medium.webp",
-          "large": "/biens/v027-5-large.webp"
+          "small": "/biens/v027-5-small.jpg",
+          "medium": "/biens/v027-5-medium.jpg",
+          "large": "/biens/v027-5-large.jpg"
         },
         {
           "alt": "3 pièces immeuble rénové — photo 6",
-          "small": "/biens/v027-6-small.webp",
-          "medium": "/biens/v027-6-medium.webp",
-          "large": "/biens/v027-6-large.webp"
+          "small": "/biens/v027-6-small.jpg",
+          "medium": "/biens/v027-6-medium.jpg",
+          "large": "/biens/v027-6-large.jpg"
         },
         {
           "alt": "3 pièces immeuble rénové — photo 7",
-          "small": "/biens/v027-7-small.webp",
-          "medium": "/biens/v027-7-medium.webp",
-          "large": "/biens/v027-7-large.webp"
+          "small": "/biens/v027-7-small.jpg",
+          "medium": "/biens/v027-7-medium.jpg",
+          "large": "/biens/v027-7-large.jpg"
         },
         {
           "alt": "3 pièces immeuble rénové — photo 8",
-          "small": "/biens/v027-8-small.webp",
-          "medium": "/biens/v027-8-medium.webp",
-          "large": "/biens/v027-8-large.webp"
+          "small": "/biens/v027-8-small.jpg",
+          "medium": "/biens/v027-8-medium.jpg",
+          "large": "/biens/v027-8-large.jpg"
         },
         {
           "alt": "3 pièces immeuble rénové — photo 9",
-          "small": "/biens/v027-9-small.webp",
-          "medium": "/biens/v027-9-medium.webp",
-          "large": "/biens/v027-9-large.webp"
+          "small": "/biens/v027-9-small.jpg",
+          "medium": "/biens/v027-9-medium.jpg",
+          "large": "/biens/v027-9-large.jpg"
         },
         {
           "alt": "3 pièces immeuble rénové — photo 10",
-          "small": "/biens/v027-10-small.webp",
-          "medium": "/biens/v027-10-medium.webp",
-          "large": "/biens/v027-10-large.webp"
+          "small": "/biens/v027-10-small.jpg",
+          "medium": "/biens/v027-10-medium.jpg",
+          "large": "/biens/v027-10-large.jpg"
         },
         {
           "alt": "3 pièces immeuble rénové — photo 11",
-          "small": "/biens/v027-11-small.webp",
-          "medium": "/biens/v027-11-medium.webp",
-          "large": "/biens/v027-11-large.webp"
+          "small": "/biens/v027-11-small.jpg",
+          "medium": "/biens/v027-11-medium.jpg",
+          "large": "/biens/v027-11-large.jpg"
         }
       ],
       "publicationDate": null,
@@ -479,25 +457,159 @@
       "photos": [
         {
           "alt": "PARKING PLANCHAT 75020 — photo 1",
-          "small": "/biens/g60-1-small.webp",
-          "medium": "/biens/g60-1-medium.webp",
-          "large": "/biens/g60-1-large.webp"
+          "small": "/biens/g60-1-small.jpg",
+          "medium": "/biens/g60-1-medium.jpg",
+          "large": "/biens/g60-1-large.jpg"
         },
         {
           "alt": "PARKING PLANCHAT 75020 — photo 2",
-          "small": "/biens/g60-2-small.webp",
-          "medium": "/biens/g60-2-medium.webp",
-          "large": "/biens/g60-2-large.webp"
+          "small": "/biens/g60-2-small.jpg",
+          "medium": "/biens/g60-2-medium.jpg",
+          "large": "/biens/g60-2-large.jpg"
         },
         {
           "alt": "PARKING PLANCHAT 75020 — photo 3",
-          "small": "/biens/g60-3-small.webp",
-          "medium": "/biens/g60-3-medium.webp",
-          "large": "/biens/g60-3-large.webp"
+          "small": "/biens/g60-3-small.jpg",
+          "medium": "/biens/g60-3-medium.jpg",
+          "large": "/biens/g60-3-large.jpg"
         }
       ],
       "publicationDate": null,
       "modificationDate": "2026-08-19T01:46:26.628Z"
+    },
+    {
+      "id": "gedeon-33542694",
+      "reference": "vent arcade",
+      "slug": "vent-arcade-charment-studio-rue-arcade",
+      "transaction": "vente",
+      "propertyType": "flat",
+      "propertyLabel": "Appartement",
+      "title": "Charment studio rue arcade",
+      "titleIsFallback": false,
+      "description": "Charmant studio au cœur du quartier de la Madeleine\n\nIdéalement situé au pied de la Madeleine, découvrez ce charmant studio niché au 5ᵉ étage d'un immeuble de standing avec ascenseur et gardienne.\n\nL'appartement offre une belle pièce de vie lumineuse, agrémentée de poutres apparentes qui lui confèrent beaucoup de cachet, ainsi que de placards intégrés. Sa hauteur sous plafond de 2,60 m renforce la sensation d'espace.\n\nLe coin cuisine est équipé d'une hotte, d'une plaque de cuisson deux feux et d'un branchement pour machine à laver.\n\nLa salle de bains comprend une baignoire ainsi qu'un WC sanibroyeur.\n\nVous apprécierez le confort d'un chauffage et d'une production d'eau chaude individuels électriques.\n\nLe bien a bénéficié d'une rénovation thermique et de peintures neuves. Lumineux, calme et parfaitement entretenu, il bénéficie d'un emplacement recherché, à deux pas des commerces, des restaurants et des transports.\n\nLes atouts :\n\nEmplacement exceptionnel au pied de la Madeleine\n5ᵉ étage avec ascenseur\nImmeuble de standing avec gardienne\nCharme de l'ancien avec poutres apparentes\nAppartement lumineux et calme\nRénovation thermique réalisée\nFaibles charges de copropriété\n\nCharges annuelles de copropriété (2025) : 355,02 €.\n\nUn bien idéal pour un pied-à-terre parisien, un premier achat ou un investissement locatif de qualité.",
+      "city": "Paris 8e",
+      "postalCode": "75008",
+      "district": "Elysée - Madeleine",
+      "departmentCode": "75",
+      "price": 380000,
+      "priceWithoutFees": 10000,
+      "pricePerSquareMeter": 385,
+      "feePercentage": 3700,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 26,
+      "rooms": 1,
+      "bedrooms": null,
+      "floor": 5,
+      "floorQuantity": 6,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": true,
+        "cellar": false,
+        "balcony": false,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": true,
+        "separateToilet": false,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 212,
+        "energyClass": "C",
+        "gesValue": 8,
+        "gesClass": "B",
+        "date": "2026-06-16",
+        "minEnergyConsumption": 530,
+        "maxEnergyConsumption": 760,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "Charment studio rue arcade — photo 1",
+          "small": "/biens/vent-arcade-1-small.jpg",
+          "medium": "/biens/vent-arcade-1-medium.jpg",
+          "large": "/biens/vent-arcade-1-large.jpg"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 2",
+          "small": "/biens/vent-arcade-2-small.jpg",
+          "medium": "/biens/vent-arcade-2-medium.jpg",
+          "large": "/biens/vent-arcade-2-large.jpg"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 3",
+          "small": "/biens/vent-arcade-3-small.jpg",
+          "medium": "/biens/vent-arcade-3-medium.jpg",
+          "large": "/biens/vent-arcade-3-large.jpg"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 4",
+          "small": "/biens/vent-arcade-4-small.jpg",
+          "medium": "/biens/vent-arcade-4-medium.jpg",
+          "large": "/biens/vent-arcade-4-large.jpg"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 5",
+          "small": "/biens/vent-arcade-5-small.jpg",
+          "medium": "/biens/vent-arcade-5-medium.jpg",
+          "large": "/biens/vent-arcade-5-large.jpg"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 6",
+          "small": "/biens/vent-arcade-6-small.jpg",
+          "medium": "/biens/vent-arcade-6-medium.jpg",
+          "large": "/biens/vent-arcade-6-large.jpg"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 7",
+          "small": "/biens/vent-arcade-7-small.jpg",
+          "medium": "/biens/vent-arcade-7-medium.jpg",
+          "large": "/biens/vent-arcade-7-large.jpg"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 8",
+          "small": "/biens/vent-arcade-8-small.jpg",
+          "medium": "/biens/vent-arcade-8-medium.jpg",
+          "large": "/biens/vent-arcade-8-large.jpg"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 9",
+          "small": "/biens/vent-arcade-9-small.jpg",
+          "medium": "/biens/vent-arcade-9-medium.jpg",
+          "large": "/biens/vent-arcade-9-large.jpg"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 10",
+          "small": "/biens/vent-arcade-10-small.jpg",
+          "medium": "/biens/vent-arcade-10-medium.jpg",
+          "large": "/biens/vent-arcade-10-large.jpg"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 11",
+          "small": "/biens/vent-arcade-11-small.jpg",
+          "medium": "/biens/vent-arcade-11-medium.jpg",
+          "large": "/biens/vent-arcade-11-large.jpg"
+        },
+        {
+          "alt": "Charment studio rue arcade — photo 12",
+          "small": "/biens/vent-arcade-12-small.jpg",
+          "medium": "/biens/vent-arcade-12-medium.jpg",
+          "large": "/biens/vent-arcade-12-large.jpg"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-08-29T05:05:20.607Z",
+      "firstSeenAt": "2026-07-09T14:42:44.200Z",
+      "badges": {
+        "dpeBadge": "/biens/vent-arcade-dpe.svg",
+        "gesBadge": "/biens/vent-arcade-ges.svg"
+      }
     },
     {
       "id": "gedeon-33450645",
@@ -554,88 +666,88 @@
       "photos": [
         {
           "alt": "Boutique et logement — photo 1",
-          "small": "/biens/v029-1-small.webp",
-          "medium": "/biens/v029-1-medium.webp",
-          "large": "/biens/v029-1-large.webp"
+          "small": "/biens/v029-1-small.jpg",
+          "medium": "/biens/v029-1-medium.jpg",
+          "large": "/biens/v029-1-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 2",
-          "small": "/biens/v029-2-small.webp",
-          "medium": "/biens/v029-2-medium.webp",
-          "large": "/biens/v029-2-large.webp"
+          "small": "/biens/v029-2-small.jpg",
+          "medium": "/biens/v029-2-medium.jpg",
+          "large": "/biens/v029-2-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 3",
-          "small": "/biens/v029-3-small.webp",
-          "medium": "/biens/v029-3-medium.webp",
-          "large": "/biens/v029-3-large.webp"
+          "small": "/biens/v029-3-small.jpg",
+          "medium": "/biens/v029-3-medium.jpg",
+          "large": "/biens/v029-3-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 4",
-          "small": "/biens/v029-4-small.webp",
-          "medium": "/biens/v029-4-medium.webp",
-          "large": "/biens/v029-4-large.webp"
+          "small": "/biens/v029-4-small.jpg",
+          "medium": "/biens/v029-4-medium.jpg",
+          "large": "/biens/v029-4-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 5",
-          "small": "/biens/v029-5-small.webp",
-          "medium": "/biens/v029-5-medium.webp",
-          "large": "/biens/v029-5-large.webp"
+          "small": "/biens/v029-5-small.jpg",
+          "medium": "/biens/v029-5-medium.jpg",
+          "large": "/biens/v029-5-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 6",
-          "small": "/biens/v029-6-small.webp",
-          "medium": "/biens/v029-6-medium.webp",
-          "large": "/biens/v029-6-large.webp"
+          "small": "/biens/v029-6-small.jpg",
+          "medium": "/biens/v029-6-medium.jpg",
+          "large": "/biens/v029-6-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 7",
-          "small": "/biens/v029-7-small.webp",
-          "medium": "/biens/v029-7-medium.webp",
-          "large": "/biens/v029-7-large.webp"
+          "small": "/biens/v029-7-small.jpg",
+          "medium": "/biens/v029-7-medium.jpg",
+          "large": "/biens/v029-7-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 8",
-          "small": "/biens/v029-8-small.webp",
-          "medium": "/biens/v029-8-medium.webp",
-          "large": "/biens/v029-8-large.webp"
+          "small": "/biens/v029-8-small.jpg",
+          "medium": "/biens/v029-8-medium.jpg",
+          "large": "/biens/v029-8-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 9",
-          "small": "/biens/v029-9-small.webp",
-          "medium": "/biens/v029-9-medium.webp",
-          "large": "/biens/v029-9-large.webp"
+          "small": "/biens/v029-9-small.jpg",
+          "medium": "/biens/v029-9-medium.jpg",
+          "large": "/biens/v029-9-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 10",
-          "small": "/biens/v029-10-small.webp",
-          "medium": "/biens/v029-10-medium.webp",
-          "large": "/biens/v029-10-large.webp"
+          "small": "/biens/v029-10-small.jpg",
+          "medium": "/biens/v029-10-medium.jpg",
+          "large": "/biens/v029-10-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 11",
-          "small": "/biens/v029-11-small.webp",
-          "medium": "/biens/v029-11-medium.webp",
-          "large": "/biens/v029-11-large.webp"
+          "small": "/biens/v029-11-small.jpg",
+          "medium": "/biens/v029-11-medium.jpg",
+          "large": "/biens/v029-11-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 12",
-          "small": "/biens/v029-12-small.webp",
-          "medium": "/biens/v029-12-medium.webp",
-          "large": "/biens/v029-12-large.webp"
+          "small": "/biens/v029-12-small.jpg",
+          "medium": "/biens/v029-12-medium.jpg",
+          "large": "/biens/v029-12-large.jpg"
         },
         {
           "alt": "Boutique et logement — photo 13",
-          "small": "/biens/v029-13-small.webp",
-          "medium": "/biens/v029-13-medium.webp",
-          "large": "/biens/v029-13-large.webp"
+          "small": "/biens/v029-13-small.jpg",
+          "medium": "/biens/v029-13-medium.jpg",
+          "large": "/biens/v029-13-large.jpg"
         }
       ],
       "publicationDate": null,
       "modificationDate": "2026-09-07T11:19:43.484Z",
       "firstSeenAt": "2026-06-23T13:27:41.215Z",
       "previousPrice": 390000,
-      "priceChangedAt": "2026-09-08T13:15:48.537Z",
+      "priceChangedAt": "2026-09-08T08:34:59.105Z",
       "badges": {
         "dpeBadge": "/biens/v029-dpe.svg",
         "gesBadge": "/biens/v029-ges.svg"
