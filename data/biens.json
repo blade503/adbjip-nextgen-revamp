@@ -1,8 +1,83 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-09-24T09:00:32.184Z",
+  "generatedAt": "2026-09-25T09:23:26.735Z",
   "count": 7,
   "biens": [
+    {
+      "id": "gedeon-32925567",
+      "reference": "G60",
+      "slug": "g60-parking-planchat-75020",
+      "transaction": "location",
+      "propertyType": "parking",
+      "propertyLabel": "Parking",
+      "title": "PARKING PLANCHAT 75020",
+      "titleIsFallback": false,
+      "description": "DANS UNE COPROPRIÉTÉ sécurise parking au 1 sous sol \navec entrée par immeuble et ascenseur pieton \n\nrampe acces pour les voitures",
+      "city": "Paris 20e",
+      "postalCode": "75020",
+      "district": "Père Lachaise - Réunion",
+      "departmentCode": "75",
+      "price": 85,
+      "priceWithoutFees": null,
+      "pricePerSquareMeter": 7,
+      "feePercentage": null,
+      "feesChargedTo": null,
+      "charges": 15,
+      "safetyDeposit": 85,
+      "agencyRentalFee": 120,
+      "annualCondominiumFees": null,
+      "surface": 12,
+      "rooms": null,
+      "bedrooms": null,
+      "floor": null,
+      "floorQuantity": null,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": false,
+        "cellar": false,
+        "balcony": false,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": false,
+        "separateToilet": false,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": null,
+        "energyClass": null,
+        "gesValue": null,
+        "gesClass": null,
+        "date": null,
+        "minEnergyConsumption": null,
+        "maxEnergyConsumption": null,
+        "isJuly2021": false
+      },
+      "photos": [
+        {
+          "alt": "PARKING PLANCHAT 75020 — photo 1",
+          "small": "/biens/g60-1-small.webp",
+          "medium": "/biens/g60-1-medium.webp",
+          "large": "/biens/g60-1-large.webp"
+        },
+        {
+          "alt": "PARKING PLANCHAT 75020 — photo 2",
+          "small": "/biens/g60-2-small.webp",
+          "medium": "/biens/g60-2-medium.webp",
+          "large": "/biens/g60-2-large.webp"
+        },
+        {
+          "alt": "PARKING PLANCHAT 75020 — photo 3",
+          "small": "/biens/g60-3-small.webp",
+          "medium": "/biens/g60-3-medium.webp",
+          "large": "/biens/g60-3-large.webp"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-09-25T01:38:10.979Z"
+    },
     {
       "id": "gedeon-32524918",
       "reference": "v027",
@@ -214,81 +289,6 @@
         "dpeBadge": "/biens/012-dpe.svg",
         "gesBadge": "/biens/012-ges.svg"
       }
-    },
-    {
-      "id": "gedeon-32925567",
-      "reference": "G60",
-      "slug": "g60-parking-planchat-75020",
-      "transaction": "location",
-      "propertyType": "parking",
-      "propertyLabel": "Parking",
-      "title": "PARKING PLANCHAT 75020",
-      "titleIsFallback": false,
-      "description": "DANS UNE COPROPRIÉTÉ sécurise parking au 1 sous sol \navec entrée par immeuble et ascenseur pieton \n\nrampe acces pour les voitures",
-      "city": "Paris 20e",
-      "postalCode": "75020",
-      "district": "Père Lachaise - Réunion",
-      "departmentCode": "75",
-      "price": 85,
-      "priceWithoutFees": null,
-      "pricePerSquareMeter": 7,
-      "feePercentage": null,
-      "feesChargedTo": null,
-      "charges": 15,
-      "safetyDeposit": 85,
-      "agencyRentalFee": 120,
-      "annualCondominiumFees": null,
-      "surface": 12,
-      "rooms": null,
-      "bedrooms": null,
-      "floor": null,
-      "floorQuantity": null,
-      "exposition": null,
-      "heating": null,
-      "features": {
-        "elevator": false,
-        "cellar": false,
-        "balcony": false,
-        "terrace": false,
-        "fireplace": false,
-        "caretaker": false,
-        "separateToilet": false,
-        "inCondominium": false,
-        "parkingPlaces": 0
-      },
-      "condominiumParts": null,
-      "dpe": {
-        "energyValue": null,
-        "energyClass": null,
-        "gesValue": null,
-        "gesClass": null,
-        "date": null,
-        "minEnergyConsumption": null,
-        "maxEnergyConsumption": null,
-        "isJuly2021": false
-      },
-      "photos": [
-        {
-          "alt": "PARKING PLANCHAT 75020 — photo 1",
-          "small": "/biens/g60-1-small.webp",
-          "medium": "/biens/g60-1-medium.webp",
-          "large": "/biens/g60-1-large.webp"
-        },
-        {
-          "alt": "PARKING PLANCHAT 75020 — photo 2",
-          "small": "/biens/g60-2-small.webp",
-          "medium": "/biens/g60-2-medium.webp",
-          "large": "/biens/g60-2-large.webp"
-        },
-        {
-          "alt": "PARKING PLANCHAT 75020 — photo 3",
-          "small": "/biens/g60-3-small.webp",
-          "medium": "/biens/g60-3-medium.webp",
-          "large": "/biens/g60-3-large.webp"
-        }
-      ],
-      "publicationDate": null,
-      "modificationDate": "2026-09-16T16:07:03.214Z"
     },
     {
       "id": "gedeon-32757098",
