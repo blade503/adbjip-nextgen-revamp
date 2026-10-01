@@ -1,8 +1,93 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-09-30T10:18:21.162Z",
+  "generatedAt": "2026-10-01T10:44:07.872Z",
   "count": 7,
   "biens": [
+    {
+      "id": "gedeon-31461841",
+      "reference": "012",
+      "slug": "012-maison-8-pieces-l-houmeau",
+      "transaction": "vente",
+      "propertyType": "house",
+      "propertyLabel": "Maison",
+      "title": "Maison 8 pièces — L'Houmeau",
+      "titleIsFallback": true,
+      "description": "propriété avec un parc  arboré d environ  5300 m². à  3 km de l'océan  par piste cyclable et 2 km du centre du village de L HOUMEAU \nLa maison sur un étage offre avec ses 280 m² de bel espace de vie qui peut  être diviser en 3 unités distingues avec chacun ses sanitaires, pièces de vie et chambre \n\nEn rez-de-chaussée, un hall, séjour/salon, cuisine aménagée et équipée, lingerie , suite spéciale handicape avec salle d eau \n\nUn vaste local de 130m² avec une belle hauteur sous plafond , vous permettra de créer un atelier , salle d exposition ou festivité \n\nEnfin un appartement de 55 m² environ comprenant  sejour  cuisine et chambre  +salle de bain pour recevoir en toute indépendance\n\nLe parc boisselée vous assure la tranquillité et la discrétion . Il restera à réhabiliter la piscine qui demande à être couverte . .",
+      "city": "L'Houmeau",
+      "postalCode": "17137",
+      "district": "L'Houmeau",
+      "departmentCode": "17",
+      "price": 1136000,
+      "priceWithoutFees": 1100000,
+      "pricePerSquareMeter": 2594,
+      "feePercentage": 3,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 424,
+      "rooms": 8,
+      "bedrooms": 5,
+      "floor": null,
+      "floorQuantity": null,
+      "exposition": "SUD EST",
+      "heating": "Gaz",
+      "features": {
+        "elevator": false,
+        "cellar": true,
+        "balcony": false,
+        "terrace": true,
+        "fireplace": true,
+        "caretaker": false,
+        "separateToilet": true,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 106,
+        "energyClass": "C",
+        "gesValue": 21,
+        "gesClass": "C",
+        "date": "2025-01-20",
+        "minEnergyConsumption": 2500,
+        "maxEnergyConsumption": 3500,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 1",
+          "small": "/biens/012-1-small.webp",
+          "medium": "/biens/012-1-medium.webp",
+          "large": "/biens/012-1-large.webp"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 2",
+          "small": "/biens/012-2-small.webp",
+          "medium": "/biens/012-2-medium.webp",
+          "large": "/biens/012-2-large.webp"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 3",
+          "small": "/biens/012-3-small.webp",
+          "medium": "/biens/012-3-medium.webp",
+          "large": "/biens/012-3-large.webp"
+        },
+        {
+          "alt": "Maison 8 pièces — L'Houmeau — photo 4",
+          "small": "/biens/012-4-small.webp",
+          "medium": "/biens/012-4-medium.webp",
+          "large": "/biens/012-4-large.webp"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-10-01T01:37:54.848Z",
+      "badges": {
+        "dpeBadge": "/biens/012-dpe.svg",
+        "gesBadge": "/biens/012-ges.svg"
+      }
+    },
     {
       "id": "gedeon-32925567",
       "reference": "G60",
@@ -203,91 +288,6 @@
       "badges": {
         "dpeBadge": "/biens/v027-dpe.svg",
         "gesBadge": "/biens/v027-ges.svg"
-      }
-    },
-    {
-      "id": "gedeon-31461841",
-      "reference": "012",
-      "slug": "012-maison-8-pieces-l-houmeau",
-      "transaction": "vente",
-      "propertyType": "house",
-      "propertyLabel": "Maison",
-      "title": "Maison 8 pièces — L'Houmeau",
-      "titleIsFallback": true,
-      "description": "propriété avec un parc  arboré d environ  5300 m². à  3 km de l'océan  par piste cyclable et 2 km du centre du village de L HOUMEAU \nLa maison sur un étage offre avec ses 280 m² de bel espace de vie qui peut  être diviser en 3 unités distingues avec chacun ses sanitaires, pièces de vie et chambre \n\nEn rez-de-chaussée, un hall, séjour/salon, cuisine aménagée et équipée, lingerie , suite spéciale handicape avec salle d eau \n\nUn vaste local de 130m² avec une belle hauteur sous plafond , vous permettra de créer un atelier , salle d exposition ou festivité \n\nEnfin un appartement de 55 m² environ comprenant  sejour  cuisine et chambre  +salle de bain pour recevoir en toute indépendance\n\nLe parc boisselée vous assure la tranquillité et la discrétion . Il restera à réhabiliter la piscine qui demande à être couverte . .",
-      "city": "L'Houmeau",
-      "postalCode": "17137",
-      "district": "L'Houmeau",
-      "departmentCode": "17",
-      "price": 1136000,
-      "priceWithoutFees": 1100000,
-      "pricePerSquareMeter": 2594,
-      "feePercentage": 3,
-      "feesChargedTo": "acquéreur",
-      "charges": null,
-      "safetyDeposit": null,
-      "agencyRentalFee": null,
-      "annualCondominiumFees": null,
-      "surface": 424,
-      "rooms": 8,
-      "bedrooms": 5,
-      "floor": null,
-      "floorQuantity": null,
-      "exposition": "SUD EST",
-      "heating": "Gaz",
-      "features": {
-        "elevator": false,
-        "cellar": true,
-        "balcony": false,
-        "terrace": true,
-        "fireplace": true,
-        "caretaker": false,
-        "separateToilet": true,
-        "inCondominium": false,
-        "parkingPlaces": 0
-      },
-      "condominiumParts": null,
-      "dpe": {
-        "energyValue": 106,
-        "energyClass": "C",
-        "gesValue": 21,
-        "gesClass": "C",
-        "date": "2025-01-20",
-        "minEnergyConsumption": 2500,
-        "maxEnergyConsumption": 3500,
-        "isJuly2021": true
-      },
-      "photos": [
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 1",
-          "small": "/biens/012-1-small.webp",
-          "medium": "/biens/012-1-medium.webp",
-          "large": "/biens/012-1-large.webp"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 2",
-          "small": "/biens/012-2-small.webp",
-          "medium": "/biens/012-2-medium.webp",
-          "large": "/biens/012-2-large.webp"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 3",
-          "small": "/biens/012-3-small.webp",
-          "medium": "/biens/012-3-medium.webp",
-          "large": "/biens/012-3-large.webp"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 4",
-          "small": "/biens/012-4-small.webp",
-          "medium": "/biens/012-4-medium.webp",
-          "large": "/biens/012-4-large.webp"
-        }
-      ],
-      "publicationDate": null,
-      "modificationDate": "2026-09-16T16:07:03.239Z",
-      "badges": {
-        "dpeBadge": "/biens/012-dpe.svg",
-        "gesBadge": "/biens/012-ges.svg"
       }
     },
     {
