@@ -1,6 +1,6 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-10-05T11:11:59.851Z",
+  "generatedAt": "2026-10-06T11:02:15.563Z",
   "count": 7,
   "biens": [
     {
@@ -379,13 +379,13 @@
       "postalCode": "17000",
       "district": "Centre-ville - Vieux-port - Marché",
       "departmentCode": "17",
-      "price": 645,
+      "price": 615,
       "priceWithoutFees": null,
-      "pricePerSquareMeter": 26,
+      "pricePerSquareMeter": 25,
       "feePercentage": null,
       "feesChargedTo": null,
-      "charges": 90,
-      "safetyDeposit": 645,
+      "charges": 80,
+      "safetyDeposit": 615,
       "agencyRentalFee": 250,
       "annualCondominiumFees": null,
       "surface": 25,
@@ -474,10 +474,10 @@
         }
       ],
       "publicationDate": null,
-      "modificationDate": "2026-10-05T01:38:07.247Z",
+      "modificationDate": "2026-10-05T14:56:58.653Z",
       "firstSeenAt": "2026-09-10T08:37:54.683Z",
-      "previousPrice": 690,
-      "priceChangedAt": "2026-09-24T08:59:00.514Z"
+      "previousPrice": 645,
+      "priceChangedAt": "2026-10-06T11:01:03.572Z"
     },
     {
       "id": "gedeon-33542694",
