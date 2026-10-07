@@ -1,8 +1,142 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-10-06T11:02:15.563Z",
-  "count": 7,
+  "generatedAt": "2026-10-07T10:54:04.940Z",
+  "count": 8,
   "biens": [
+    {
+      "id": "gedeon-34027784",
+      "reference": "262",
+      "slug": "262-bureaux-rue-longchamps",
+      "transaction": "location",
+      "propertyType": "office",
+      "propertyLabel": "Bureau",
+      "title": "Bureaux rue Longchamps",
+      "titleIsFallback": false,
+      "description": "Au 1er étage face au lycée Janson de Sailly comprenant :\nEntrée, un grand bureau de 50 m², deux autres bureaux de 16m², cuisine (évier, branchement machine), WC séparé.\nPorte sécurisée avec ouverture à code (gâche électrique).  Cloisonnable ou décloisonnable.\nChauffage et eau chaude collectifs.\nFibre - Digicode – deux ascenseurs aux normes handicapé – gardien – Interphone \nEn sus la taxe foncière à la charge du preneur d'un montant de 3240 euros. \nSeul l'Article 606 CC reste à la charge du Bailleur Honoraires de commercialisation à la charge du Preneur. \nDes parkings sont en location dans la résidence.",
+      "city": "Paris 16e",
+      "postalCode": "75016",
+      "district": "Muette-Nord - Trocadéro",
+      "departmentCode": "75",
+      "price": 4880,
+      "priceWithoutFees": null,
+      "pricePerSquareMeter": 49,
+      "feePercentage": null,
+      "feesChargedTo": null,
+      "charges": 800,
+      "safetyDeposit": 6800,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 100,
+      "rooms": null,
+      "bedrooms": null,
+      "floor": 1,
+      "floorQuantity": 8,
+      "exposition": null,
+      "heating": "Collectif",
+      "features": {
+        "elevator": false,
+        "cellar": false,
+        "balcony": false,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": false,
+        "separateToilet": false,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 287,
+        "energyClass": "D",
+        "gesValue": 65,
+        "gesClass": "E",
+        "date": "2024-09-23",
+        "minEnergyConsumption": 3490,
+        "maxEnergyConsumption": 4730,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "Bureaux rue Longchamps — photo 1",
+          "small": "/biens/262-1-small.webp",
+          "medium": "/biens/262-1-medium.webp",
+          "large": "/biens/262-1-large.webp"
+        },
+        {
+          "alt": "Bureaux rue Longchamps — photo 2",
+          "small": "/biens/262-2-small.webp",
+          "medium": "/biens/262-2-medium.webp",
+          "large": "/biens/262-2-large.webp"
+        },
+        {
+          "alt": "Bureaux rue Longchamps — photo 3",
+          "small": "/biens/262-3-small.webp",
+          "medium": "/biens/262-3-medium.webp",
+          "large": "/biens/262-3-large.webp"
+        },
+        {
+          "alt": "Bureaux rue Longchamps — photo 4",
+          "small": "/biens/262-4-small.webp",
+          "medium": "/biens/262-4-medium.webp",
+          "large": "/biens/262-4-large.webp"
+        },
+        {
+          "alt": "Bureaux rue Longchamps — photo 5",
+          "small": "/biens/262-5-small.webp",
+          "medium": "/biens/262-5-medium.webp",
+          "large": "/biens/262-5-large.webp"
+        },
+        {
+          "alt": "Bureaux rue Longchamps — photo 6",
+          "small": "/biens/262-6-small.webp",
+          "medium": "/biens/262-6-medium.webp",
+          "large": "/biens/262-6-large.webp"
+        },
+        {
+          "alt": "Bureaux rue Longchamps — photo 7",
+          "small": "/biens/262-7-small.webp",
+          "medium": "/biens/262-7-medium.webp",
+          "large": "/biens/262-7-large.webp"
+        },
+        {
+          "alt": "Bureaux rue Longchamps — photo 8",
+          "small": "/biens/262-8-small.webp",
+          "medium": "/biens/262-8-medium.webp",
+          "large": "/biens/262-8-large.webp"
+        },
+        {
+          "alt": "Bureaux rue Longchamps — photo 9",
+          "small": "/biens/262-9-small.webp",
+          "medium": "/biens/262-9-medium.webp",
+          "large": "/biens/262-9-large.webp"
+        },
+        {
+          "alt": "Bureaux rue Longchamps — photo 10",
+          "small": "/biens/262-10-small.webp",
+          "medium": "/biens/262-10-medium.webp",
+          "large": "/biens/262-10-large.webp"
+        },
+        {
+          "alt": "Bureaux rue Longchamps — photo 11",
+          "small": "/biens/262-11-small.webp",
+          "medium": "/biens/262-11-medium.webp",
+          "large": "/biens/262-11-large.webp"
+        },
+        {
+          "alt": "Bureaux rue Longchamps — photo 12",
+          "small": "/biens/262-12-small.webp",
+          "medium": "/biens/262-12-medium.webp",
+          "large": "/biens/262-12-large.webp"
+        }
+      ],
+      "publicationDate": "2026-10-07T09:35:10.816Z",
+      "modificationDate": "2026-10-07T09:35:10.816Z",
+      "firstSeenAt": "2026-10-07T09:35:10.816Z",
+      "badges": {
+        "dpeBadge": "/biens/262-dpe.svg",
+        "gesBadge": "/biens/262-ges.svg"
+      }
+    },
     {
       "id": "gedeon-31461841",
       "reference": "012",
