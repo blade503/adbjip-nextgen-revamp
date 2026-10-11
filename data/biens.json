@@ -1,8 +1,83 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-10-10T10:27:40.492Z",
+  "generatedAt": "2026-10-11T10:37:31.831Z",
   "count": 8,
   "biens": [
+    {
+      "id": "gedeon-32757098",
+      "reference": "0125",
+      "slug": "0125-planchat-1-sous-sol",
+      "transaction": "vente",
+      "propertyType": "parking",
+      "propertyLabel": "Parking",
+      "title": "PLANCHAT 1 sous sol",
+      "titleIsFallback": false,
+      "description": "Située 60 rue Planchat – 75020 Paris, dans un quartier calme et commerçant du 20ᵉ arrondissement de Paris, place de stationnement automobile au sein d’une\nrésidence sécurisée et bien entretenue.\nSuperficie : 12 m²\nDimensions : 5 m x 2,40 m\nEmplacement : 1er sous-sol\nAccès véhicule : rampe sécurisée\nAccès piéton : système Vigik avec sas sécurisé (2 portes)\nAccès étages : ascenseur avec contacteur à clé ou escalier\nRésidence avec gardien.\nPlace facile d’accès et adaptée à tout type de véhicule (citadine, berline, SUV).\nIdéal pour résident du quartier ou investisseur.",
+      "city": "Paris 20e",
+      "postalCode": "75020",
+      "district": "Père Lachaise - Réunion",
+      "departmentCode": "75",
+      "price": 14000,
+      "priceWithoutFees": 12500,
+      "pricePerSquareMeter": 568,
+      "feePercentage": 12,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": 180,
+      "surface": 22,
+      "rooms": null,
+      "bedrooms": null,
+      "floor": null,
+      "floorQuantity": null,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": false,
+        "cellar": false,
+        "balcony": false,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": false,
+        "separateToilet": false,
+        "inCondominium": true,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": 150,
+      "dpe": {
+        "energyValue": null,
+        "energyClass": null,
+        "gesValue": null,
+        "gesClass": null,
+        "date": null,
+        "minEnergyConsumption": null,
+        "maxEnergyConsumption": null,
+        "isJuly2021": false
+      },
+      "photos": [
+        {
+          "alt": "PLANCHAT 1 sous sol — photo 1",
+          "small": "/biens/0125-1-small.webp",
+          "medium": "/biens/0125-1-medium.webp",
+          "large": "/biens/0125-1-large.webp"
+        },
+        {
+          "alt": "PLANCHAT 1 sous sol — photo 2",
+          "small": "/biens/0125-2-small.webp",
+          "medium": "/biens/0125-2-medium.webp",
+          "large": "/biens/0125-2-large.webp"
+        },
+        {
+          "alt": "PLANCHAT 1 sous sol — photo 3",
+          "small": "/biens/0125-3-small.webp",
+          "medium": "/biens/0125-3-medium.webp",
+          "large": "/biens/0125-3-large.webp"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-10-11T01:45:38.563Z"
+    },
     {
       "id": "gedeon-34027784",
       "reference": "262",
@@ -425,81 +500,6 @@
       }
     },
     {
-      "id": "gedeon-32757098",
-      "reference": "0125",
-      "slug": "0125-planchat-1-sous-sol",
-      "transaction": "vente",
-      "propertyType": "parking",
-      "propertyLabel": "Parking",
-      "title": "PLANCHAT 1 sous sol",
-      "titleIsFallback": false,
-      "description": "Située 60 rue Planchat – 75020 Paris, dans un quartier calme et commerçant du 20ᵉ arrondissement de Paris, place de stationnement automobile au sein d’une\nrésidence sécurisée et bien entretenue.\nSuperficie : 12 m²\nDimensions : 5 m x 2,40 m\nEmplacement : 1er sous-sol\nAccès véhicule : rampe sécurisée\nAccès piéton : système Vigik avec sas sécurisé (2 portes)\nAccès étages : ascenseur avec contacteur à clé ou escalier\nRésidence avec gardien.\nPlace facile d’accès et adaptée à tout type de véhicule (citadine, berline, SUV).\nIdéal pour résident du quartier ou investisseur.",
-      "city": "Paris 20e",
-      "postalCode": "75020",
-      "district": "Père Lachaise - Réunion",
-      "departmentCode": "75",
-      "price": 14000,
-      "priceWithoutFees": 12500,
-      "pricePerSquareMeter": 568,
-      "feePercentage": 12,
-      "feesChargedTo": "acquéreur",
-      "charges": null,
-      "safetyDeposit": null,
-      "agencyRentalFee": null,
-      "annualCondominiumFees": 180,
-      "surface": 22,
-      "rooms": null,
-      "bedrooms": null,
-      "floor": null,
-      "floorQuantity": null,
-      "exposition": null,
-      "heating": null,
-      "features": {
-        "elevator": false,
-        "cellar": false,
-        "balcony": false,
-        "terrace": false,
-        "fireplace": false,
-        "caretaker": false,
-        "separateToilet": false,
-        "inCondominium": true,
-        "parkingPlaces": 0
-      },
-      "condominiumParts": 150,
-      "dpe": {
-        "energyValue": null,
-        "energyClass": null,
-        "gesValue": null,
-        "gesClass": null,
-        "date": null,
-        "minEnergyConsumption": null,
-        "maxEnergyConsumption": null,
-        "isJuly2021": false
-      },
-      "photos": [
-        {
-          "alt": "PLANCHAT 1 sous sol — photo 1",
-          "small": "/biens/0125-1-small.webp",
-          "medium": "/biens/0125-1-medium.webp",
-          "large": "/biens/0125-1-large.webp"
-        },
-        {
-          "alt": "PLANCHAT 1 sous sol — photo 2",
-          "small": "/biens/0125-2-small.webp",
-          "medium": "/biens/0125-2-medium.webp",
-          "large": "/biens/0125-2-large.webp"
-        },
-        {
-          "alt": "PLANCHAT 1 sous sol — photo 3",
-          "small": "/biens/0125-3-small.webp",
-          "medium": "/biens/0125-3-medium.webp",
-          "large": "/biens/0125-3-large.webp"
-        }
-      ],
-      "publicationDate": null,
-      "modificationDate": "2026-09-16T16:07:03.208Z"
-    },
-    {
       "id": "gedeon-31871091",
       "reference": "266-1",
       "slug": "266-1-studio-au-coeur-de-la-rochelle",
@@ -882,7 +882,7 @@
         }
       ],
       "publicationDate": null,
-      "modificationDate": "2026-09-16T16:07:03.348Z",
+      "modificationDate": "2026-10-11T01:45:38.565Z",
       "firstSeenAt": "2026-06-23T13:27:41.215Z",
       "previousPrice": 390000,
       "priceChangedAt": "2026-09-08T08:34:59.105Z",
