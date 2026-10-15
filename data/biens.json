@@ -1,8 +1,135 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-10-14T09:19:07.270Z",
+  "generatedAt": "2026-10-15T08:51:49.824Z",
   "count": 8,
   "biens": [
+    {
+      "id": "gedeon-32524918",
+      "reference": "v027",
+      "slug": "v027-3-pieces-immeuble-renove",
+      "transaction": "vente",
+      "propertyType": "flat",
+      "propertyLabel": "Appartement",
+      "title": "3 pièces immeuble rénové",
+      "titleIsFallback": false,
+      "description": "ST FARGEAU - PORTE DES LILAS, idéal 3/4pièces dans une résidence tout confort :dans un parc arboré immeuble pierre de taille des années 1950 avec isolation thermique et chauffage ressent \n- ravalement neuf avec isolation thermique par l’extérieur \n- espace vert \n- GRAND local vélo\n- stationnement voiture dans le parc \n- gardien \nsitué au 3ème étage de la résidence avec double ascenseur paire et impaire desservant également les caves.\ncette appartement familial et fonctionnel est composé :\n- un entrée avec 3 placards de rangement \n- cuisine indépendant\n- séjour salle à manger avec son balcon \n- salon \n- deux chambres\n- salle d'eau \n- WC séparer \nafin de compléter ce bien une cave de 7,5m² avec 2,80 m² de hauteur sous plafond. \neau chaude individuel électrique, chauffage collectif New système de régulation de chauffage \nFIBRE, lumineux et calme petit travaux a prévoir",
+      "city": "Paris 20e",
+      "postalCode": "75020",
+      "district": "Gambetta",
+      "departmentCode": "75",
+      "price": 580000,
+      "priceWithoutFees": 565000,
+      "pricePerSquareMeter": 7063,
+      "feePercentage": 2.6548672566371683,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 80,
+      "rooms": 3,
+      "bedrooms": 2,
+      "floor": 3,
+      "floorQuantity": 9,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": true,
+        "cellar": true,
+        "balcony": true,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": true,
+        "separateToilet": true,
+        "inCondominium": false,
+        "parkingPlaces": 1
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 189,
+        "energyClass": "D",
+        "gesValue": 27,
+        "gesClass": "C",
+        "date": "2025-03-13",
+        "minEnergyConsumption": 1220,
+        "maxEnergyConsumption": 1690,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "3 pièces immeuble rénové — photo 1",
+          "small": "/biens/v027-1-small.webp",
+          "medium": "/biens/v027-1-medium.webp",
+          "large": "/biens/v027-1-large.webp"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 2",
+          "small": "/biens/v027-2-small.webp",
+          "medium": "/biens/v027-2-medium.webp",
+          "large": "/biens/v027-2-large.webp"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 3",
+          "small": "/biens/v027-3-small.webp",
+          "medium": "/biens/v027-3-medium.webp",
+          "large": "/biens/v027-3-large.webp"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 4",
+          "small": "/biens/v027-4-small.webp",
+          "medium": "/biens/v027-4-medium.webp",
+          "large": "/biens/v027-4-large.webp"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 5",
+          "small": "/biens/v027-5-small.webp",
+          "medium": "/biens/v027-5-medium.webp",
+          "large": "/biens/v027-5-large.webp"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 6",
+          "small": "/biens/v027-6-small.webp",
+          "medium": "/biens/v027-6-medium.webp",
+          "large": "/biens/v027-6-large.webp"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 7",
+          "small": "/biens/v027-7-small.webp",
+          "medium": "/biens/v027-7-medium.webp",
+          "large": "/biens/v027-7-large.webp"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 8",
+          "small": "/biens/v027-8-small.webp",
+          "medium": "/biens/v027-8-medium.webp",
+          "large": "/biens/v027-8-large.webp"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 9",
+          "small": "/biens/v027-9-small.webp",
+          "medium": "/biens/v027-9-medium.webp",
+          "large": "/biens/v027-9-large.webp"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 10",
+          "small": "/biens/v027-10-small.webp",
+          "medium": "/biens/v027-10-medium.webp",
+          "large": "/biens/v027-10-large.webp"
+        },
+        {
+          "alt": "3 pièces immeuble rénové — photo 11",
+          "small": "/biens/v027-11-small.webp",
+          "medium": "/biens/v027-11-medium.webp",
+          "large": "/biens/v027-11-large.webp"
+        }
+      ],
+      "publicationDate": null,
+      "modificationDate": "2026-10-15T01:45:31.302Z",
+      "badges": {
+        "dpeBadge": "/biens/v027-dpe.svg",
+        "gesBadge": "/biens/v027-ges.svg"
+      }
+    },
     {
       "id": "gedeon-32757098",
       "reference": "0125",
@@ -371,133 +498,6 @@
       ],
       "publicationDate": null,
       "modificationDate": "2026-09-25T01:38:10.979Z"
-    },
-    {
-      "id": "gedeon-32524918",
-      "reference": "v027",
-      "slug": "v027-3-pieces-immeuble-renove",
-      "transaction": "vente",
-      "propertyType": "flat",
-      "propertyLabel": "Appartement",
-      "title": "3 pièces immeuble rénové",
-      "titleIsFallback": false,
-      "description": "ST FARGEAU - PORTE DES LILAS, idéal 3/4pièces dans une résidence tout confort :dans un parc arboré immeuble pierre de taille des années 1950 avec isolation thermique et chauffage ressent \n- ravalement neuf avec isolation thermique par l’extérieur \n- espace vert \n- GRAND local vélo\n- stationnement voiture dans le parc \n- gardien \nsitué au 3ème étage de la résidence avec double ascenseur paire et impaire desservant également les caves.\ncette appartement familial et fonctionnel est composé :\n- un entrée avec 3 placards de rangement \n- cuisine indépendant\n- séjour salle à manger avec son balcon \n- salon \n- deux chambres\n- salle d'eau \n- WC séparer \nafin de compléter ce bien une cave de 7,5m² avec 2,80 m² de hauteur sous plafond. \neau chaude individuel électrique, chauffage collectif New système de régulation de chauffage \nFIBRE, lumineux et calme petit travaux a prévoir",
-      "city": "Paris 20e",
-      "postalCode": "75020",
-      "district": "Gambetta",
-      "departmentCode": "75",
-      "price": 580000,
-      "priceWithoutFees": 565000,
-      "pricePerSquareMeter": 7063,
-      "feePercentage": 2.6548672566371683,
-      "feesChargedTo": "acquéreur",
-      "charges": null,
-      "safetyDeposit": null,
-      "agencyRentalFee": null,
-      "annualCondominiumFees": null,
-      "surface": 80,
-      "rooms": 3,
-      "bedrooms": 2,
-      "floor": 3,
-      "floorQuantity": 9,
-      "exposition": null,
-      "heating": null,
-      "features": {
-        "elevator": true,
-        "cellar": true,
-        "balcony": true,
-        "terrace": false,
-        "fireplace": false,
-        "caretaker": true,
-        "separateToilet": true,
-        "inCondominium": false,
-        "parkingPlaces": 1
-      },
-      "condominiumParts": null,
-      "dpe": {
-        "energyValue": 189,
-        "energyClass": "D",
-        "gesValue": 27,
-        "gesClass": "C",
-        "date": "2025-03-13",
-        "minEnergyConsumption": 1220,
-        "maxEnergyConsumption": 1690,
-        "isJuly2021": true
-      },
-      "photos": [
-        {
-          "alt": "3 pièces immeuble rénové — photo 1",
-          "small": "/biens/v027-1-small.webp",
-          "medium": "/biens/v027-1-medium.webp",
-          "large": "/biens/v027-1-large.webp"
-        },
-        {
-          "alt": "3 pièces immeuble rénové — photo 2",
-          "small": "/biens/v027-2-small.webp",
-          "medium": "/biens/v027-2-medium.webp",
-          "large": "/biens/v027-2-large.webp"
-        },
-        {
-          "alt": "3 pièces immeuble rénové — photo 3",
-          "small": "/biens/v027-3-small.webp",
-          "medium": "/biens/v027-3-medium.webp",
-          "large": "/biens/v027-3-large.webp"
-        },
-        {
-          "alt": "3 pièces immeuble rénové — photo 4",
-          "small": "/biens/v027-4-small.webp",
-          "medium": "/biens/v027-4-medium.webp",
-          "large": "/biens/v027-4-large.webp"
-        },
-        {
-          "alt": "3 pièces immeuble rénové — photo 5",
-          "small": "/biens/v027-5-small.webp",
-          "medium": "/biens/v027-5-medium.webp",
-          "large": "/biens/v027-5-large.webp"
-        },
-        {
-          "alt": "3 pièces immeuble rénové — photo 6",
-          "small": "/biens/v027-6-small.webp",
-          "medium": "/biens/v027-6-medium.webp",
-          "large": "/biens/v027-6-large.webp"
-        },
-        {
-          "alt": "3 pièces immeuble rénové — photo 7",
-          "small": "/biens/v027-7-small.webp",
-          "medium": "/biens/v027-7-medium.webp",
-          "large": "/biens/v027-7-large.webp"
-        },
-        {
-          "alt": "3 pièces immeuble rénové — photo 8",
-          "small": "/biens/v027-8-small.webp",
-          "medium": "/biens/v027-8-medium.webp",
-          "large": "/biens/v027-8-large.webp"
-        },
-        {
-          "alt": "3 pièces immeuble rénové — photo 9",
-          "small": "/biens/v027-9-small.webp",
-          "medium": "/biens/v027-9-medium.webp",
-          "large": "/biens/v027-9-large.webp"
-        },
-        {
-          "alt": "3 pièces immeuble rénové — photo 10",
-          "small": "/biens/v027-10-small.webp",
-          "medium": "/biens/v027-10-medium.webp",
-          "large": "/biens/v027-10-large.webp"
-        },
-        {
-          "alt": "3 pièces immeuble rénové — photo 11",
-          "small": "/biens/v027-11-small.webp",
-          "medium": "/biens/v027-11-medium.webp",
-          "large": "/biens/v027-11-large.webp"
-        }
-      ],
-      "publicationDate": null,
-      "modificationDate": "2026-09-16T16:07:03.291Z",
-      "badges": {
-        "dpeBadge": "/biens/v027-dpe.svg",
-        "gesBadge": "/biens/v027-ges.svg"
-      }
     },
     {
       "id": "gedeon-31871091",
