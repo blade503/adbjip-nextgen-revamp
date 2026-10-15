@@ -320,7 +320,7 @@ const BienPage = () => {
                   <BoutonTelephone className="w-full" />
                 </div>
                 <p className="mt-4 text-[0.75rem] leading-relaxed text-muted-foreground">
-                  Réponse sous 24 heures ouvrées. La personne qui répond est celle qui suivra votre
+                  Réponse sous 48 heures ouvrées. La personne qui répond est celle qui suivra votre
                   dossier.
                 </p>
               </Voile>

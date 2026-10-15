@@ -33,7 +33,7 @@ const Conversion = () => (
           ou de votre immeuble.
         </h2>
         <p className="tabulaire mt-4 text-[0.9375rem] text-muted-foreground">
-          {HORAIRES.jours}, {HORAIRES.detail} · Réponse sous 24 heures ouvrées
+          {HORAIRES.jours}, {HORAIRES.detail} · Réponse sous 48 heures ouvrées
         </p>
         <Lien
           to="/contact"

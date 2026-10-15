@@ -38,7 +38,12 @@ import florentImage440 from '@/assets/equipe-florent-jobard-440.webp';
  * (« esprit d'équipe, innovation, proximité ») n'ont pas suivi : quatre mots
  * que tous les concurrents affichent aussi. Consignés dans REPRISE.md § 14.
  *
- * « 24 h » reste en attente d'arbitrage, comme partout ailleurs.
+ * RETOURS PAPIER DU CLIENT, 12/10/2026 : « Les mêmes personnes, depuis 2011 »
+ * barré et remplacé par « Savoir-faire familial » ; le chapeau barré, sauf sa
+ * fin, gardée seule ; « 24 heures » devenu « 48 h » (partout sur le site) ;
+ * « depuis 2011 » retiré de l'engagement d'indépendance ; la ligne directe et
+ * le courriel de Florent Jobard barrés. Le client a noté « revoir en famille »
+ * sous la page : le texte peut encore bouger.
  */
 
 /**
@@ -75,7 +80,7 @@ const ENGAGEMENTS = [
       'Le même gestionnaire suit votre dossier du premier appel à la signature. Pas de standard, pas de numéro de dossier.',
   },
   {
-    titre: 'Une réponse sous 24 heures',
+    titre: 'Une réponse sous 48 heures',
     texte: "Ouvrées. C'est l'engagement que nous tenons sur les appels comme sur les courriels.",
   },
   {
@@ -84,18 +89,22 @@ const ENGAGEMENTS = [
       "Nous gérons des immeubles et des appartements. Quand nous vendons un lot, nous connaissons déjà l'immeuble.",
   },
   {
-    titre: 'Indépendante depuis 2011',
+    titre: 'Indépendante',
     texte:
       'Ni franchise, ni réseau : une agence de quartier, au 27 rue de Lisbonne, dirigée par ceux qui la tiennent.',
   },
 ];
 
-/** Repères vérifiables au registre du commerce, rien d'autre. */
+/**
+ * Repères vérifiables, rien d'autre. 1978 est l'année du cabinet Jobard (retour du
+ * client, 15/10/2026) ; 2011, celle de la SAS J.I.P. au registre, reste sur la
+ * fiche de Francis Jobard et dans les mentions légales, où c'est la société qui parle.
+ */
 const REPERES = [
-  { valeur: '2011', libelle: 'Année de création' },
+  { valeur: '1978', libelle: 'Année de création' },
   { valeur: <>Paris 8<sup>e</sup></>, libelle: '27, rue de Lisbonne' },
   { valeur: '2', libelle: 'Métiers de fond : gérance et syndic' },
-  { valeur: '24 h', libelle: 'Temps de réponse ouvré' },
+  { valeur: '48 h', libelle: 'Temps de réponse ouvré' },
 ];
 
 /** L'année seule d'une date écrite en clair (« 17 juin 2015 » → « 2015 »). */
@@ -105,7 +114,7 @@ const About = () => (
   <div className="min-h-screen">
     <SEOHead
       title="L'agence — JIP, Jobard Immobilier Paris"
-      description="Gestion locative et syndic de copropriété sous le même toit depuis 2011, au 27 rue de Lisbonne, Paris 8e. Les deux interlocuteurs de l'agence."
+      description="Gestion locative et syndic de copropriété sous le même toit depuis 1978, au 27 rue de Lisbonne, Paris 8e. Les deux interlocuteurs de l'agence."
       keywords="agence immobilière paris 8, jobard immobilier paris, syndic et gérance, agence indépendante, francis jobard, florent jobard"
       canonicalUrl="https://www.adbjip.fr/agence"
     />
@@ -115,10 +124,10 @@ const About = () => (
         surtitre="L'agence"
         titre={
           <>
-            Les mêmes personnes, <em>depuis 2011.</em>
+            Savoir-faire <em>familial.</em>
           </>
         }
-        chapeau="Deux sociétés, une famille, un bureau. Le dossier de gérance et le dossier de syndic du même immeuble sont tenus dans la même pièce — c'est ce qui fait qu'un appel trouve une réponse au lieu d'un transfert."
+        chapeau="Un appel trouve une réponse au lieu d'un transfert."
         /* L'image de banque du bureau était générée et se voyait ; le dessin
            d'élévation (`Ferronnerie`) l'a remplacée un après-midi. Depuis le
            soir du 04/09, le bureau simple choisi par le client — voir
@@ -163,18 +172,26 @@ const About = () => (
                     {annee(entite.dateCreation)}
                   </p>
                   <p className="mt-4 text-[0.9375rem] leading-[1.55] text-ardoise">{personne.description}</p>
-                  <p className="mt-4 text-[0.875rem] leading-[1.8]">
-                    <a
-                      href={`tel:${personne.telephone.replace(/[^0-9+]/g, '')}`}
-                      className="tabulaire font-display font-semibold"
-                    >
-                      {personne.telephone}
-                    </a>
-                    <br />
-                    <a href={`mailto:${personne.email}`} className="lien-trait text-ardoise hover:text-foreground">
-                      {personne.email}
-                    </a>
-                  </p>
+                  {/* Sans coordonnée propre, la fiche s'arrête à la description :
+                      pas de ligne vide, pas de « à compléter » — c'est un choix
+                      du client, pas une donnée manquante. */}
+                  {(personne.telephone || personne.email) && (
+                    <p className="mt-4 text-[0.875rem] leading-[1.8]">
+                      {personne.telephone && (
+                        <a
+                          href={`tel:${personne.telephone.replace(/[^0-9+]/g, '')}`}
+                          className="tabulaire block font-display font-semibold"
+                        >
+                          {personne.telephone}
+                        </a>
+                      )}
+                      {personne.email && (
+                        <a href={`mailto:${personne.email}`} className="lien-trait text-ardoise hover:text-foreground">
+                          {personne.email}
+                        </a>
+                      )}
+                    </p>
+                  )}
                 </div>
               </Voile>
             );

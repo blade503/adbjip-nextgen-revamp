@@ -66,15 +66,20 @@ const Hero = () => (
         <h1 className="voile mt-9 text-[clamp(2.75rem,6.6vw,5.25rem)] [animation-delay:90ms]">
           Votre immeuble a une adresse.
           <br />
-          <em>Votre syndic aussi.</em>
+          {/* « Syndic » → « gestionnaire », retour papier du client du
+              12/10/2026 : le titre parle aussi au bailleur, pas seulement au
+              conseil syndical. */}
+          <em>Votre gestionnaire aussi.</em>
         </h1>
 
+        {/* 1978, et non 2011 : 2011 est la création de la SAS J.I.P. au
+            registre ; le cabinet Jobard existe depuis 1978 (retour du client,
+            12/10/2026). */}
         <p className="voile mesure-large mt-7 text-[1.0625rem] leading-[1.55] text-ardoise [animation-delay:180ms] sm:text-[1.1875rem]">
-          Gérance locative et syndic de copropriété au 27, rue de Lisbonne. Depuis 2011,{' '}
+          Gérance locative et syndic de copropriété au 27, rue de Lisbonne.{' '}
           <strong className="font-semibold text-foreground">
-            les mêmes personnes dans le même bureau
-          </strong>{' '}
-          — pas un standard, pas un numéro de dossier.
+            Depuis 1978, le cabinet Jobard vous accompagne.
+          </strong>
         </p>
       </div>
 

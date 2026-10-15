@@ -94,7 +94,7 @@ export const SEO_CONFIG = {
     
     estimation: {
       title: 'Estimation Immobilière Gratuite Paris & Île-de-France | JIP',
-      description: 'Estimation gratuite et précise de votre bien immobilier à Paris et en Île-de-France. Calculateur en ligne avec données DVF officielles. Expertise 15+ ans. Réponse sous 24h.',
+      description: 'Estimation gratuite et précise de votre bien immobilier à Paris et en Île-de-France. Calculateur en ligne avec données DVF officielles. Expertise 15+ ans. Réponse sous 48 h.',
       keywords: 'estimation immobilière gratuite, évaluation bien immobilier, prix immobilier Paris, estimation appartement, estimation maison, calculateur estimation, données DVF, expertise immobilière Paris, JIP'
     },
     
@@ -118,7 +118,7 @@ export const SEO_CONFIG = {
     
     contact: {
       title: 'Contact JIP - Agence Immobilière Paris & Île-de-France',
-      description: 'Contactez JIP pour vos projets immobiliers à Paris et en Île-de-France. Gestion locative, copropriété, estimation. Réponse sous 24h.',
+      description: 'Contactez JIP pour vos projets immobiliers à Paris et en Île-de-France. Gestion locative, copropriété, estimation. Réponse sous 48 h.',
       keywords: 'contact JIP, agence immobilière Paris, devis gratuit, conseil immobilier'
     }
   },

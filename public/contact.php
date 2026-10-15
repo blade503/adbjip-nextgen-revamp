@@ -27,7 +27,10 @@
 
 /** Destinataires par service. La valeur par défaut sert si le service est vide. */
 $destinataires = array(
-    'defaut'              => 'j.immo.p@orange.fr',
+    // adbjip@gmail.com depuis le 15/10/2026 : l'adresse publique du site, qui
+    // remplace j.immo.p@orange.fr (retour du client). Doit rester égale à
+    // `ADRESSE.email` de src/config/legal.ts, où le repli mailto la lit.
+    'defaut'              => 'adbjip@gmail.com',
     'gestion-locative'    => 'gerance@adbjip.fr',
     'gestion-copropriete' => 'copro@adbjip.fr',
 );

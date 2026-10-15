@@ -185,7 +185,7 @@ const Biens = () => {
 
         <BandeauContact
           titre="Un projet de vente ou de location ?"
-          texte="On estime et on vend mieux un immeuble dont on tient les comptes."
+          texte="On estime et on vend mieux un bien que l'on gère."
           action={{ libelle: 'Estimer mon bien', href: '/services/vendre-estimer' }}
           ordre="action"
         />

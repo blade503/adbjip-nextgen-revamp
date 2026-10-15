@@ -72,7 +72,7 @@ const Footer = () => {
           <div className="col-span-2 lg:col-span-4">
             <PlaqueDeRue taille="petite" />
             <p className="mesure mt-5 text-[1rem] leading-relaxed text-ardoise">
-              Agence indépendante depuis 2011. Un interlocuteur unique pour votre lot comme
+              Agence indépendante depuis 1978. Un interlocuteur unique pour votre lot comme
               pour votre immeuble.
             </p>
             <Lien
@@ -115,7 +115,7 @@ const Footer = () => {
                   <a href={`mailto:${ADRESSE.email}`} className="lien-trait hover:text-foreground">
                     {ADRESSE.email}
                   </a>
-                  <span className="mt-0.5 block text-muted-foreground">Réponse sous 24 heures ouvrées</span>
+                  <span className="mt-0.5 block text-muted-foreground">Réponse sous 48 heures ouvrées</span>
                 </dd>
               </div>
               <div>

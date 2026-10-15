@@ -93,9 +93,13 @@ export const ADRESSE = {
      390 px). Les `tel:` retirent tout ce qui n'est pas un chiffre, le JSON-LD
      aussi : seul l'affichage change. */
   telephone: '01\u00a042\u00a025\u00a078\u00a024',
-  email: 'j.immo.p@orange.fr',
-  /** Repris de la section de conversion : la ligne 3 dessert les deux stations. */
-  metro: 'Métro Villiers ou Europe, ligne 3',
+  /* adbjip@gmail.com depuis le 15/10/2026 : « j.immo.p@orange.fr » barré par le
+     client sur ses retours papier, la nouvelle adresse confirmée par écrit. */
+  email: 'adbjip@gmail.com',
+  /** Repris de la section de conversion : la ligne 3 dessert les deux stations.
+      Miromesnil ajoutée par le client sur ses retours du 12/10/2026 ; ses
+      lignes (9 et 13) sont celles du plan RATP. */
+  metro: 'Métro Villiers ou Europe, ligne 3 · Miromesnil, lignes 9 et 13',
 };
 
 /**
@@ -139,8 +143,10 @@ export const EQUIPE = [
   {
     nom: 'Florent Jobard',
     metier: 'Transaction & estimation',
-    telephone: '06\u00a062\u00a091\u00a073\u00a035',
-    email: ADRESSE.email,
+    /* Ligne directe et courriel barrés par le client le 12/10/2026 : la fiche
+       n'affiche plus de coordonnée propre. */
+    telephone: null,
+    email: null,
     description: "Porte la transaction, l'achat-vente et l'estimation.",
     /** Index dans `ENTITES` : Jobard Immobilier Patrimoine. */
     entite: 1,

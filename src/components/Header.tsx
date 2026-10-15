@@ -137,7 +137,10 @@ const Header = () => {
           <Lien to="/" className="flex shrink-0 items-center gap-3.5">
             <LogoJIP className="h-9 w-auto" />
             <span className="hidden text-[0.75rem] font-medium uppercase leading-none tracking-[0.14em] sm:block lg:hidden 2xl:block">
-              Jobard Immobilier Paris
+              {/* « Paris » barré par le client le 12/10/2026 : l'enseigne dit le
+                  nom, la ville est déjà dans l'adresse. La raison sociale, elle,
+                  reste « Jobard Immobilier Paris » partout où elle est légale. */}
+              Jobard Immobilier
             </span>
           </Lien>
 

@@ -80,7 +80,7 @@ describe('lienMailto', () => {
       email: 'camille@example.com',
       message: 'Bonjour',
     });
-    expect(lien).toContain('mailto:j.immo.p@orange.fr');
+    expect(lien).toContain('mailto:adbjip@gmail.com');
     expect(lien).toContain(encodeURIComponent("Demande d'estimation depuis le site"));
     expect(lien).toContain(encodeURIComponent('Camille Jobard'));
   });

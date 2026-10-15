@@ -43,7 +43,7 @@ const METIERS = [
     titre: 'Achat et vente',
     accroche:
       "Vendre un lot que l'on administre déjà, c'est vendre en connaissance : rien à découvrir chez le notaire.",
-    route: '/services/vendre-estimer#les-deux-sens',
+    route: '/services/vendre-estimer#vendre',
   },
 ];
 
@@ -55,7 +55,7 @@ const Metiers = () => (
         <h2 className="mt-4 text-[clamp(2rem,3.5vw,2.75rem)]">Quatre métiers tenus sous le même toit</h2>
         <p className="mesure mt-4 text-[1rem] leading-[1.55] text-ardoise">
           Gérance et syndic sont le fonds de la maison. L'estimation et la transaction en
-          découlent : on estime et on vend mieux un immeuble dont on tient les comptes.
+          découlent : on estime et on vend mieux un bien que l'on gère.
         </p>
       </Voile>
 

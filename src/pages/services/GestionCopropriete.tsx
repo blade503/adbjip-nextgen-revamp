@@ -167,7 +167,7 @@ const GestionCopropriete = () => {
     <div className="min-h-screen">
       <SEOHead
         title="Syndic de copropriété à Paris — JIP, Jobard Immobilier Paris"
-        description="Syndic de copropriété à Paris depuis 2011 : assemblées générales, comptabilité, travaux, comptes de l'immeuble en ligne. 27 rue de Lisbonne, Paris 8e."
+        description="Syndic de copropriété à Paris depuis 1978 : assemblées générales, comptabilité, travaux, comptes de l'immeuble en ligne. 27 rue de Lisbonne, Paris 8e."
         keywords="syndic copropriété paris, syndic paris 8, assemblée générale, appels de fonds, gestion copropriété"
         canonicalUrl="https://www.adbjip.fr/services/gestion-copropriete"
         structuredData={[
@@ -185,7 +185,7 @@ const GestionCopropriete = () => {
       <Header />
       <main id="contenu" tabIndex={-1}>
         <EnTetePage
-          surtitre="Syndic de copropriété · depuis 2011"
+          surtitre="Syndic de copropriété · depuis 1978"
           titre={
             <>
               Un syndic qui <em>connaît l'immeuble.</em>
@@ -219,7 +219,7 @@ const GestionCopropriete = () => {
                 Ce que vous obtenez d'un syndic qui connaît l'immeuble
               </h2>
               <p className="mesure mt-4 text-[1rem] leading-[1.55] text-ardoise">
-                Syndic de copropriétés parisiennes depuis 2011, JIP s'impose comme le partenaire de
+                Syndic de copropriétés parisiennes depuis 1978, JIP s'impose comme le partenaire de
                 confiance pour la préservation et la valorisation de votre patrimoine immobilier.
               </p>
             </Voile>

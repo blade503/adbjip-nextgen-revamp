@@ -16,7 +16,7 @@ Dernière mise à jour : 13 août 2026 (fin de session « scripts annonces »).
 | `adbjip-nextjs` | Scaffold Create Next App | 1 commit, aucun remote, abandonné |
 
 Client : **JIP / Jobard Immobilier**, 27 rue de Lisbonne, 75008 Paris.
-01 42 25 78 24 · j.immo.p@orange.fr · gerance@adbjip.fr · copro@adbjip.fr
+01 42 25 78 24 · adbjip@gmail.com (j.immo.p@orange.fr jusqu'au 15/10/2026) · gerance@adbjip.fr · copro@adbjip.fr
 Interlocuteurs cités sur le site : Florent Jobard (143 rue Saint-Denis, 75002,
 06 62 91 73 35), Francis Jobard (27 rue de Lisbonne).
 

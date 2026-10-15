@@ -25,9 +25,14 @@ import { echelonner } from '@/lib/echelon';
  * et « Achats et ventes » (les deux mandats, la méthode, les atouts). Les deux
  * anciennes URL redirigent ici (`public/.htaccess`).
  *
- * CE QUI EST REPRIS MOT POUR MOT : les huit prestations de vente et les huit
- * d'achat, les trois motifs d'estimation, les trois repères, la logique de
- * calcul et ses multiplicateurs.
+ * CE QUI EST REPRIS MOT POUR MOT : les prestations de vente, les trois motifs
+ * d'estimation, les trois repères, la logique de calcul et ses multiplicateurs.
+ *
+ * RETOURS DU CLIENT DU 12/10/2026 : la carte « Acheter un bien » et ses huit
+ * prestations sont barrées d'une croix, et avec elles « Les deux sens » — la
+ * section ne parle plus que de la vente. « Rédaction et suivi du compromis »
+ * est barré, « home staging » raturé. Le résultat du calculateur est arrondi
+ * (voir `calculateEstimation`).
  *
  * UN SEUL FORMULAIRE SUR LA PAGE. La première version gardait, sous le
  * calculateur express, l'ancien formulaire de « demande d'estimation
@@ -68,35 +73,23 @@ const Reserve = ({ hauteur }: { hauteur: string }) => (
 
 /**
  * Repères de l'ouverture : des faits, pas des chiffres de performance.
- * « 24 h » reste en attente d'arbitrage, comme partout ailleurs sur le site :
- * la charte interdit d'inventer un chiffre, pas de conserver celui qui y était.
+ * « 48 h » : arbitré par le client sur ses retours papier du 12/10/2026 (« 24
+ * heures » barré, « 48 h » écrit à la main), et appliqué partout sur le site.
  */
 const REPERES = [
   { valeur: 'DVF', libelle: 'données publiques DGFiP' },
   { valeur: 'Gratuit', libelle: 'sans engagement' },
-  { valeur: '24 h', libelle: 'délai de réponse' },
+  { valeur: '48 h', libelle: 'délai de réponse' },
 ];
 
 const SERVICES_VENTE = [
   'Estimation gratuite et précise de votre bien',
-  'Mise en valeur et home staging',
+  'Mise en valeur',
   'Diffusion multi-canaux des annonces',
   'Négociation optimisée du prix de vente',
   'Accompagnement juridique complet',
   "Suivi jusqu'à la signature chez le notaire",
-  'Rédaction et suivi du compromis',
   'Discrétion sur les ventes sensibles',
-];
-
-const SERVICES_ACHAT = [
-  'Recherche personnalisée selon vos critères',
-  'Accès à un portefeuille exclusif',
-  "Négociation du prix d'achat",
-  'Vérification juridique approfondie',
-  'Accompagnement financement',
-  'Organisation des visites',
-  'Conseil en investissement locatif',
-  'Suivi post-acquisition',
 ];
 
 const MOTIFS = [
@@ -114,21 +107,19 @@ const MOTIFS = [
   },
 ];
 
-/** Une carte « vendre » ou « acheter » : titre en romain, deux colonnes de prestations. */
-const Sens = ({
+/** La carte du mandat de vente : titre en romain, deux colonnes de prestations. */
+const Mandat = ({
   titre,
   resume,
   prestations,
   action,
-  delai,
 }: {
   titre: string;
   resume: string;
   prestations: string[];
   action: React.ReactNode;
-  delai?: number;
 }) => (
-  <Voile delai={delai} className="panneau flex flex-col p-7 lg:p-8">
+  <Voile className="panneau flex flex-col p-7 lg:p-8">
     <h3 className="text-[clamp(1.625rem,2.4vw,1.875rem)]">{titre}</h3>
     <p className="mt-1.5 text-[1rem] leading-[1.5] text-muted-foreground">{resume}</p>
     <ul className="mt-5 grid border-t border-[hsl(var(--trait)/var(--trait-a))] sm:grid-cols-2 sm:gap-x-5">
@@ -243,7 +234,12 @@ const VendreEstimer = () => {
         getSurfaceMultiplier(surface) *
         getRoomsMultiplier(rooms, surface);
 
-      setEstimationResult(Math.round(adjustedPrice * surface));
+      // Arrondi au millier d'euros du mètre carré : sous un résultat de
+      // 2 616 300 € (17 442 €/m²), le client a écrit « 17 000 le m² ? » le
+      // 12/10/2026. Une estimation indicative à l'euro près promet une
+      // précision que le calcul n'a pas.
+      const prixAuM2 = Math.round(adjustedPrice / 1000) * 1000;
+      setEstimationResult(prixAuM2 * surface);
     } catch (error) {
       console.error('Erreur lors du calcul:', error);
       setErrorMessage(
@@ -286,7 +282,7 @@ const VendreEstimer = () => {
     '@type': 'Service',
     name: 'Vendre et estimer un bien — Paris 8ᵉ',
     description:
-      "Estimation immobilière gratuite appuyée sur les transactions enregistrées (DVF), et accompagnement de la vente ou de l'achat jusqu'à la signature.",
+      'Estimation immobilière gratuite appuyée sur les transactions enregistrées (DVF), et accompagnement de la vente jusqu\'à la signature.',
     provider: {
       '@type': 'RealEstateAgent',
       name: 'J.I.P. — Jobard Immobilier Paris',
@@ -313,8 +309,8 @@ const VendreEstimer = () => {
     <div className="min-h-screen">
       <SEOHead
         title="Vendre et estimer un bien à Paris — JIP, Jobard Immobilier Paris"
-        description="Estimation gratuite appuyée sur les transactions enregistrées (DVF), et accompagnement de la vente ou de l'achat jusqu'à la signature. JIP, Paris 8e."
-        keywords="estimation immobilière gratuite paris, vendre appartement paris, acheter paris 8, transaction immobilière, données DVF"
+        description="Estimation gratuite appuyée sur les transactions enregistrées (DVF), et accompagnement de la vente jusqu'à la signature. JIP, Paris 8e."
+        keywords="estimation immobilière gratuite paris, vendre appartement paris, transaction immobilière, données DVF"
         canonicalUrl="https://www.adbjip.fr/services/vendre-estimer"
         structuredData={[
           structuredData,
@@ -386,16 +382,18 @@ const VendreEstimer = () => {
           </Suspense>
         )}
 
-        {/* ---- LES DEUX SENS ------------------------------------------- */}
-        <section id="les-deux-sens" className="scroll-mt-24 bg-lin py-16 lg:py-20">
+        {/* ---- LA VENTE -------------------------------------------------
+            Une seule carte depuis le retrait de la partie achat : elle prend
+            toute la largeur, ses prestations restent sur deux colonnes. */}
+        <section id="vendre" className="scroll-mt-24 bg-lin py-16 lg:py-20">
           <div className="container mx-auto">
             <EnTeteSection
-              plaque="Les deux sens"
-              titre="Vendre votre bien, acheter un bien"
-              chapeau="Deux mandats distincts, seize prestations. Le même interlocuteur suit le dossier dans les deux sens."
+              plaque="Le mandat de vente"
+              titre="De l'estimation à la signature"
+              chapeau="Sept prestations, un seul interlocuteur : celui qui estime votre bien suit la vente jusque chez le notaire."
             />
-            <div className="mt-10 grid gap-6 lg:grid-cols-2">
-              <Sens
+            <div className="mt-10">
+              <Mandat
                 titre="Vendre votre bien"
                 resume="Valoriser votre patrimoine grâce à notre expertise du marché parisien : maximiser la valeur de votre bien, réduire les délais de vente."
                 prestations={SERVICES_VENTE}
@@ -407,20 +405,6 @@ const VendreEstimer = () => {
                     </Lien>
                   </Button>
                 }
-              />
-              <Sens
-                titre="Acheter un bien"
-                resume="Trouver le bien idéal grâce à notre réseau exclusif et notre connaissance approfondie du marché immobilier parisien."
-                prestations={SERVICES_ACHAT}
-                action={
-                  <Button variant="secondary" asChild>
-                    <Lien to="/biens">
-                      Voir les biens
-                      <ArrowRight aria-hidden />
-                    </Lien>
-                  </Button>
-                }
-                delai={80}
               />
             </div>
           </div>
@@ -455,7 +439,7 @@ const VendreEstimer = () => {
         <BandeauContact
           surtitre="Aller plus loin"
           titre="Demande d'estimation détaillée"
-          texte="Une visite, un rapport argumenté, une réponse sous 24 heures ouvrées. Ce que vous avez saisi ci-dessus est repris dans votre demande."
+          texte="Une visite, un rapport argumenté, une réponse sous 48 heures ouvrées. Ce que vous avez saisi ci-dessus est repris dans votre demande."
           action={{ libelle: "Demander l'estimation", href: versDemande() }}
           ordre="action"
         />

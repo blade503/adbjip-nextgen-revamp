@@ -43,7 +43,9 @@ const IMAGE_CLES = {
  * direction « La Plaque ».
  *
  * LE CONTENU RÉDACTIONNEL EST REPRIS MOT POUR MOT : les seize prestations et
- * les huit options viennent du mandat réel de l'agence. La planche les
+ * les options viennent du mandat réel de l'agence. Elles étaient huit ; le
+ * client en a barré trois sur ses retours du 12/10/2026 (diagnostics, appels
+ * et encaissement des loyers, déductibilité des frais) : il en reste cinq. La planche les
  * abrégeait pour tenir dans ses cartes ; on garde les libellés de l'agence,
  * c'est la mise en page qui s'adapte, pas le mandat.
  *
@@ -83,13 +85,10 @@ const DYNAMIQUE = [
 
 const OPTIONS = [
   'Constitution et suivi des dossiers de demandes de subventions ou de crédits',
-  "Demande d'établissement des diagnostics obligatoires ainsi que des documents indispensables à l'information du locataire dans le cadre du Dossier de Diagnostic Technique",
-  "Appels des loyers, encaissement des loyers, charges, dépôt de garantie, cautionnements, indemnité d'occupation, assurances, provisions, subventions, avances sur travaux",
   "Règlement des charges de copropriétés, auprès du syndic ou ensemble des chargés d'immeubles",
   'En cas de conflit ou de défaut de paiement du locataire, intervention pour toutes les poursuites judiciaires et envois aux locataires des commandements, sommations, assignation devant les tribunaux',
   'Établissement de la déclaration de revenus fonciers',
   'Établissement de la déclaration de TVA',
-  "L'ensemble des frais de gestion locative sont déductibles de vos revenus fonciers",
 ];
 
 const ETAPES = [
@@ -211,7 +210,7 @@ const GestionLocative = () => {
             <EnTeteSection
               plaque="Les mandats"
               titre="Deux mandats, seize prestations"
-              chapeau="Le mandat Sérénité couvre l'administration du bien. Le mandat Dynamique y ajoute la vie du bail et des travaux, plus huit options."
+              chapeau="Le mandat Sérénité couvre l'administration du bien. Le mandat Dynamique y ajoute la vie du bail et des travaux, plus cinq options."
             />
             <div className="mt-10 grid gap-6 lg:grid-cols-2">
               <Mandat
@@ -223,7 +222,7 @@ const GestionLocative = () => {
               <Mandat
                 cote="Mandat II"
                 nom="Dynamique"
-                resume="Sérénité, plus la vie du bail, les travaux et huit options au choix"
+                resume="Sérénité, plus la vie du bail, les travaux et cinq options au choix"
                 prestations={DYNAMIQUE}
                 marine
                 delai={80}
@@ -237,7 +236,7 @@ const GestionLocative = () => {
           <div className="container mx-auto grid gap-x-16 gap-y-10 lg:grid-cols-[minmax(0,23rem)_1fr]">
             <Voile>
               <p className="gravure">Les options</p>
-              <h2 className="mt-4 text-[clamp(2rem,3.5vw,2.75rem)]">Huit options, à prendre ou à laisser</h2>
+              <h2 className="mt-4 text-[clamp(2rem,3.5vw,2.75rem)]">Cinq options, à prendre ou à laisser</h2>
               <p className="mesure mt-4 text-[1rem] leading-[1.55] text-ardoise">
                 Elles s'ajoutent au mandat Dynamique, une par une, selon ce que vous voulez déléguer.
               </p>

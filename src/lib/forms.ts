@@ -28,7 +28,7 @@ export interface ResultatEnvoi {
   champs?: string[];
 }
 
-const SUCCES = 'Message envoyé. Nous vous répondons sous 24 heures ouvrées.';
+const SUCCES = 'Message envoyé. Nous vous répondons sous 48 heures ouvrées.';
 // Coordonnées lues dans la source unique et non recopiées : un changement de
 // numéro se fait en un endroit, et ce message ne peut pas rester en retard.
 const COORDONNEES = `Écrivez-nous à ${ADRESSE.email} ou appelez le ${ADRESSE.telephone}.`;

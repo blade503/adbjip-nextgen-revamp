@@ -53,7 +53,7 @@ const Index = () => {
     <div className="min-h-screen">
       <SEOHead
         title="JIP — Gérance locative et syndic de copropriété, Paris 8ᵉ"
-        description="Jobard Immobilier Paris, agence indépendante depuis 2011 : gérance locative et syndic de copropriété au 27, rue de Lisbonne, Paris 8ᵉ."
+        description="Jobard Immobilier Paris, agence indépendante depuis 1978 : gérance locative et syndic de copropriété au 27, rue de Lisbonne, Paris 8ᵉ."
         canonicalUrl="https://www.adbjip.fr/"
         structuredData={donneesStructurees()}
       />
