@@ -1,6 +1,6 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-10-15T08:51:49.824Z",
+  "generatedAt": "2026-10-16T08:47:30.201Z",
   "count": 8,
   "biens": [
     {
@@ -627,10 +627,10 @@
       "postalCode": "75008",
       "district": "Elysée - Madeleine",
       "departmentCode": "75",
-      "price": 348000,
+      "price": 335000,
       "priceWithoutFees": 15000,
       "pricePerSquareMeter": 577,
-      "feePercentage": 2220,
+      "feePercentage": 2133.333333333333,
       "feesChargedTo": "acquéreur",
       "charges": null,
       "safetyDeposit": null,
@@ -740,10 +740,10 @@
         }
       ],
       "publicationDate": null,
-      "modificationDate": "2026-09-28T01:37:59.888Z",
+      "modificationDate": "2026-10-15T14:25:35.580Z",
       "firstSeenAt": "2026-07-09T14:42:44.200Z",
-      "previousPrice": 380000,
-      "priceChangedAt": "2026-09-24T08:59:00.514Z",
+      "previousPrice": 348000,
+      "priceChangedAt": "2026-10-16T08:44:42.109Z",
       "badges": {
         "dpeBadge": "/biens/vente-arcade-dpe.svg",
         "gesBadge": "/biens/vente-arcade-ges.svg"
