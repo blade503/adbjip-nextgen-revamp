@@ -54,7 +54,6 @@ const SOURCES = {
   '/services/gestion-locative': 'src/pages/services/GestionLocative.tsx',
   '/services/gestion-copropriete': 'src/pages/services/GestionCopropriete.tsx',
   '/services/vendre-estimer': 'src/pages/services/VendreEstimer.tsx',
-  '/agence': 'src/pages/About.tsx',
   '/contact': 'src/pages/Contact.tsx',
 };
 

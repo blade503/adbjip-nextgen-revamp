@@ -21,12 +21,14 @@ import Index from "./pages/Index";
  * depuis, l'ordre de grandeur reste :
  *   EstimationBiens .......... 28,4 Ko  + QuickCalculator 32,9 + MarketDataService 10,7
  *                                       + InteractiveMap 8,0  = ~80 Ko à elle seule
- *                                       (devenue VendreEstimer, avec AchatsVentes)
+ *                                       (devenue VendreEstimer, avec AchatsVentes ;
+ *                                        calculateur et carte retirés le 20/10/2026)
  *   GestionCopropriete ....... 27,1 Ko
  *   Biens .................... 18,4 Ko  (+ data/biens.json, qui reste au noyau
  *                                        car l'aperçu de l'accueil s'en sert)
  *   GestionLocative .......... 14,4 Ko
- *   About .................... 10,7 Ko  (devenue L'agence + Équipe)
+ *   About .................... 10,7 Ko  (devenue L'agence + Équipe ; page
+ *                                        supprimée le 20/10/2026)
  *
  * Le repli est `<Attente>` : hauteur minimale posée, `role="status"`, et la
  * seule animation que le mouvement réduit conserve.
@@ -52,7 +54,6 @@ const GestionCopropriete = pageDifferee(
   PAGES.gestionCopropriete,
 );
 const VendreEstimer = pageDifferee("vendreEstimer", PAGES.vendreEstimer);
-const About = pageDifferee("agence", PAGES.agence);
 const Contact = pageDifferee("contact", PAGES.contact);
 const MentionsLegales = pageDifferee("mentionsLegales", PAGES.mentionsLegales);
 const NotFound = pageDifferee("introuvable", PAGES.introuvable);
@@ -96,10 +97,10 @@ const Pages = () => {
           <Route path="/biens" element={<Biens />} />
           {/* La fiche bien : `:slug` est résolu par `scripts/routes.mjs` depuis
             `data/biens.json`, pour le prérendu, le sitemap et les vérificateurs.
-            Les trois anciennes routes (/services/estimation-biens,
-            /services/achats-ventes, /equipe) redirigent en 301 depuis le
-            `.htaccess` — pas de `<Navigate>` ici, qui prérendrait une page
-            en doublon. */}
+            Les anciennes routes (/services/estimation-biens,
+            /services/achats-ventes, /equipe, et /agence depuis sa suppression
+            le 20/10/2026) redirigent en 301 depuis le `.htaccess` — pas de
+            `<Navigate>` ici, qui prérendrait une page en doublon. */}
           <Route path="/biens/:slug" element={<BienPage />} />
           <Route
             path="/services/gestion-locative"
@@ -110,7 +111,6 @@ const Pages = () => {
             element={<GestionCopropriete />}
           />
           <Route path="/services/vendre-estimer" element={<VendreEstimer />} />
-          <Route path="/agence" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/mentions-legales" element={<MentionsLegales />} />
           {/* Atelier : développement uniquement. Absent du bundle de

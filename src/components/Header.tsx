@@ -25,8 +25,9 @@ import { TEL } from '@/components/systeme/BoutonTelephone';
  * avant de composer un numéro : à côté du numéro. Le texte équivalent est
  * rendu pour les lecteurs d'écran, et dans le titre du lien au survol.
  *
- * Six entrées et non cinq : « Vendre & estimer » est la fusion des deux pages
- * Estimation et Achats/ventes, décidée avec l'arborescence de la direction.
+ * Cinq entrées : « Vendre & estimer » est la fusion des deux pages Estimation
+ * et Achats/ventes, décidée avec l'arborescence de la direction ; « L'agence »
+ * a disparu avec sa page le 20/10/2026.
  */
 
 const NAVIGATION = [
@@ -34,7 +35,6 @@ const NAVIGATION = [
   { nom: 'Syndic', nomLong: 'Syndic de copropriété', href: '/services/gestion-copropriete' },
   { nom: 'Vendre & estimer', nomLong: 'Vendre & estimer', href: '/services/vendre-estimer' },
   { nom: 'Biens', nomLong: 'Biens à vendre', href: '/biens' },
-  { nom: "L'agence", nomLong: "L'agence", href: '/agence' },
   { nom: 'Contact', nomLong: 'Contact', href: '/contact' },
 ];
 
@@ -110,13 +110,13 @@ const Header = () => {
   useEffect(brancherDefilement, []);
 
   // Souligner la page courante : sans repère, le visiteur ne sait pas où il
-  // est dans un menu de six entrées.
+  // est dans un menu de cinq entrées.
   const estCourante = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   return (
     <>
-      {/* Lien d'évitement : six entrées de menu et deux liens avant le
+      {/* Lien d'évitement : cinq entrées de menu et deux liens avant le
           contenu, c'est autant de tabulations imposées à chaque page. */}
       <a
         href="#contenu"
@@ -138,8 +138,9 @@ const Header = () => {
             <LogoJIP className="h-9 w-auto" />
             <span className="hidden text-[0.75rem] font-medium uppercase leading-none tracking-[0.14em] sm:block lg:hidden 2xl:block">
               {/* « Paris » barré par le client le 12/10/2026 : l'enseigne dit le
-                  nom, la ville est déjà dans l'adresse. La raison sociale, elle,
-                  reste « Jobard Immobilier Paris » partout où elle est légale. */}
+                  nom, la ville est déjà dans l'adresse. « Jobard Immobilier » est
+                  aussi la marque de tout le site depuis le 20/10/2026 ; la raison
+                  sociale (Jobard Immobilier Patrimoine) reste aux endroits légaux. */}
               Jobard Immobilier
             </span>
           </Lien>

@@ -2,10 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Site vitrine de **JIP — Jobard Immobilier Paris** (27 rue de Lisbonne, 75008), agence de
-gestion locative et de syndic. Refonte destinée à remplacer le Symfony 3.3 de 2017 encore en
-production sur www.adbjip.fr. Le contenu, les commentaires et les messages de commit sont en
-français.
+Site vitrine de **Jobard Immobilier** (27 rue de Lisbonne, 75008), agence de gestion locative,
+de syndic et de transaction. Une seule société depuis le 20/10/2026 : Jobard Immobilier
+Patrimoine (J.I.P. — Jobard Immobilier Paris a quitté le site, `src/config/legal.ts`). Refonte destinée à
+remplacer le Symfony 3.3 de 2017 encore en production sur www.adbjip.fr. Le contenu, les
+commentaires et les messages de commit sont en français.
 
 ## Règles de travail (valables pour toute session)
 
@@ -86,7 +87,8 @@ Poids de sortie au repère (relevé le 04/09/2026, direction « La Plaque ») : 
 2 560 Ko après réencodage à 74 des variantes ≥ 1 000 px des quatre ouvertures). Le CSS n'est pas découpé par
 route — chantier ouvert, sans urgence à ce poids.
 
-`[prerender] 14/14` = les **8 routes fixes** de `src/App.tsx` + **une fiche par annonce** du
+`[prerender] 14/14` = les **8 routes fixes** de `src/App.tsx` (**7 depuis la suppression de
+`/agence` le 20/10/2026**) + **une fiche par annonce** du
 portefeuille (`/biens/:slug`, résolu par `scripts/routes.mjs` depuis `data/biens.json` ; six
 annonces le 08/09/2026, cinq le 04/09). Le catch-all `*` est exclu. `[sitemap] 13 URL` en compte une de
 moins : `/mentions-legales` en est volontairement absente. **Les deux nombres suivent le
@@ -200,8 +202,15 @@ API agence  →  scripts/fetch-biens.mjs  →  data/biens.json + public/biens/*.
 
 ### Estimation immobilière
 
+**Le calculateur express a été RETIRÉ de la page le 20/10/2026** (client : « les résultats ne sont
+pas précis »). L'ouverture porte à sa place la carte « Demander une estimation » (visite, avis de
+valeur écrit, réponse sous 48 h ; cinq types : vente, fiscale, patrimoniale, locative,
+successorale), puis le déroulé et « ce que nous regardons ». Les trois fichiers de
+`components/estimation/` restent dans le dépôt, importés par personne ; ce qui suit décrit leur
+fonctionnement si on les rebranche un jour.
+
 `src/pages/services/VendreEstimer.tsx` (fusion Estimation + Achats/ventes, 04/09/2026)
-orchestre `QuickCalculator` — la carte blanche de l'ouverture — et `InteractiveMap`. Toute la
+orchestrait `QuickCalculator` — la carte blanche de l'ouverture — et `InteractiveMap`. Toute la
 logique vit dans **`MarketDataService`** (singleton, caches 24 h, typé : `DonneesMarche`) :
 géocodage via `api-adresse.data.gouv.fr`, puis cascade DVF officielle → table par code postal →
 estimation géographique, chacune renvoyant `{ basePricePerM2, confidence, sampleSize, source }`.
@@ -215,7 +224,7 @@ Direction artistique choisie par le client sur une planche Claude Design (direct
 Plaque », déclinée en 2a–2i ; la planche n'est pas dans le dépôt), documentée en tête de `src/index.css`.
 Elle succède à « Le hall » (coquille de nuit, 27/08/2026), dont le système de mouvement est
 conservé et la coquille sombre retirée. **Le site est clair partout** : une feuille crème, des
-titres en romain, le marine réservé aux blocs appuyés (rendez-vous, mandat Dynamique, accès en
+titres en romain, le marine réservé aux blocs appuyés (rendez-vous, options de gérance, accès en
 ligne) et aux boutons.
 
 **Six matières** (`src/index.css`), ratios calculés par `node scripts/contraste.mjs` (37 couples,
@@ -295,7 +304,9 @@ photos d'annonces et les deux portraits (vrais) sont en couleurs vraies ; le duo
 **Arborescence (planche 2a).** Huit routes fixes : `/`, `/biens`, `/biens/:slug` (**nouvelle
 fiche bien**, une page par annonce), `/services/gestion-locative`,
 `/services/gestion-copropriete`, `/services/vendre-estimer` (**fusion** d'Estimation et
-d'Achats/ventes), `/agence` (**fusion** avec l'ancienne page Équipe), `/contact`,
+d'Achats/ventes), `/agence` (**fusion** avec l'ancienne page Équipe ; **supprimée le 20/10/2026**,
+redirigée vers `/contact` avec `/equipe` ; `pages/About.tsx` reste sans route, source de la future
+section équipe), `/contact`,
 `/mentions-legales`. Les trois anciennes URL redirigent en 301 depuis `public/.htaccess` — pas
 de `<Navigate>` dans le routeur, qui prérendrait des doublons. Le lien « Espace client » (extranet
 Gercop, URL relevée sur le site en production) vient de `ESPACE_CLIENT` dans `config/legal.ts`.

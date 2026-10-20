@@ -25,7 +25,7 @@ import { ADRESSE, HORAIRES } from '@/config/legal';
 const Contact = () => (
   <div className="min-h-screen">
     <SEOHead
-      title="Contact — JIP, Jobard Immobilier Paris"
+      title="Contact — Jobard Immobilier"
       description="Écrivez à l'agence ou appelez le 01 42 25 78 24. 27 rue de Lisbonne, 75008 Paris. Réponse sous 48 heures ouvrées."
       keywords="contact jip, agence immobilière paris 8, 27 rue de lisbonne, syndic paris contact"
       canonicalUrl="https://www.adbjip.fr/contact"

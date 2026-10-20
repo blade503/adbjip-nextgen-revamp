@@ -1036,6 +1036,12 @@ partout ; le marine est réservé aux blocs appuyés et aux boutons. Voir le § 
   `/services/estimation-biens` et `/services/achats-ventes` → `/services/vendre-estimer` ;
   `/equipe` → `/agence`. La redirection héritée `/estimation` pointe désormais sur la page
   fusionnée. `verifier-deploiement.mjs` contrôle les six redirections et les huit routes fixes.
+- **20/10/2026 : `/agence` supprimée** (décision du client, « on essaiera de rajouter une photo
+  d'équipe ailleurs »). `/agence` et `/equipe` redirigent en 301 vers `/contact`, qui porte
+  l'adresse, les horaires et le téléphone ; l'entrée « L'agence » a quitté le menu et le pied de
+  page. Sept routes fixes, sept redirections contrôlées. `src/pages/About.tsx` reste dans le
+  dépôt, sans route : il porte la dernière version du texte (portrait de Florent Jobard, quatre
+  engagements, « ce que nous faisons / ne faisons pas »), source de la future section équipe.
 - **Une fiche par annonce** : `/biens/:slug`, prérendue et déclarée au sitemap. Le `:slug` est
   résolu depuis `data/biens.json` par `scripts/routes.mjs`, partagé par le prérendu, le sitemap
   et `verifier-liens.mjs`. **Le nombre de pages suit donc le portefeuille** (13 le 04/09/2026).

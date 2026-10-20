@@ -22,7 +22,6 @@ export const PAGES = {
   gestionLocative: () => import("@/pages/services/GestionLocative"),
   gestionCopropriete: () => import("@/pages/services/GestionCopropriete"),
   vendreEstimer: () => import("@/pages/services/VendreEstimer"),
-  agence: () => import("@/pages/About"),
   contact: () => import("@/pages/Contact"),
   mentionsLegales: () => import("@/pages/MentionsLegales"),
   introuvable: () => import("@/pages/NotFound"),
@@ -35,7 +34,6 @@ const FIXES: Record<string, ClePage> = {
   "/services/gestion-locative": "gestionLocative",
   "/services/gestion-copropriete": "gestionCopropriete",
   "/services/vendre-estimer": "vendreEstimer",
-  "/agence": "agence",
   "/contact": "contact",
   "/mentions-legales": "mentionsLegales",
 };

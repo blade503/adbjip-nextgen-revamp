@@ -24,8 +24,9 @@ import { questionsRepondues } from '@/config/questions';
  *   7. Rendez-vous ...... marine  la demande, une seule
  *   8. Pied de page ..... crème
  *
- * La présentation de l'agence a quitté l'accueil : elle a sa page (/agence),
- * fusionnée avec l'ancienne page Équipe.
+ * La présentation de l'agence a quitté l'accueil pour sa page (/agence),
+ * elle-même supprimée le 20/10/2026 : une photo d'équipe doit trouver sa
+ * place ailleurs.
  */
 
 /**
@@ -53,7 +54,7 @@ const Index = () => {
     <div className="min-h-screen">
       <SEOHead
         title="JIP — Gérance locative et syndic de copropriété, Paris 8ᵉ"
-        description="Jobard Immobilier Paris, agence indépendante depuis 1978 : gérance locative et syndic de copropriété au 27, rue de Lisbonne, Paris 8ᵉ."
+        description="Jobard Immobilier, agence indépendante depuis 1978 : gérance locative et syndic de copropriété au 27, rue de Lisbonne, Paris 8ᵉ."
         canonicalUrl="https://www.adbjip.fr/"
         structuredData={donneesStructurees()}
       />

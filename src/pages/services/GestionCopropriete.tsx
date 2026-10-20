@@ -56,20 +56,23 @@ const IMAGE_HALL = {
  * et le chapeau reprend la phrase du registre des métiers. La version
  * précédente ouvrait sur « Gestion de copropriété », un intitulé de rubrique.
  *
- * CE QUI RESTE À TRANCHER, et qui n'est donc pas touché : « réduction
- * significative des principaux postes de dépenses », « économies garanties »,
- * « fournisseurs triés sur le volet ». Aucune source. Ils figuraient sur la
- * page, ils y restent jusqu'à arbitrage — la charte interdit de les inventer,
- * pas de les conserver.
+ * LES TROIS PROMESSES SANS SOURCE ONT ÉTÉ TRANCHÉES par le client le
+ * 20/10/2026 : « réduction significative des principaux postes de dépenses »
+ * (remplacé, voir « Rigueur comptable »), « fournisseurs triés sur le volet »
+ * (case retirée) et « économies garanties » (observatoire des charges : « on
+ * ne veut pas garantir quelque chose qu'on n'est pas certains d'atteindre »).
+ * Ne pas réintroduire de résultat promis sans chiffre ni source.
  */
 
-/** Les six atouts, libellés tels quels. */
+/** Les six atouts, libellés tels quels — sauf quatre, retouchés par le client. */
 const ATOUTS = [
   {
     titre: 'Suivi individuel',
     intitule: 'Personnalisé',
+    // « de nos experts » retiré à la demande du client le 20/10/2026 : il ne
+    // veut pas du mot « expert », et préfère parler de savoir-faire.
     texte:
-      "Chaque copropriété bénéficie d'un accompagnement sur-mesure et d'une attention particulière de nos experts.",
+      "Chaque copropriété bénéficie d'un accompagnement sur-mesure et d'une attention particulière, portés par notre savoir-faire.",
   },
   {
     titre: 'Contrat transparent',
@@ -85,20 +88,31 @@ const ATOUTS = [
   {
     titre: 'Rigueur comptable',
     intitule: 'Optimisation',
+    // Réécrit par le client le 20/10/2026 : « réduction significative des
+    // principaux postes de dépenses » n'avait pas de source, et le règlement
+    // des prestataires sans retard a été écarté — il ne parle pas au
+    // copropriétaire.
     texte:
-      'Notre contrôle rigoureux conduit à une réduction significative des principaux postes de dépenses de votre immeuble.',
+      "Suivi de chaque facture reçue pour la copropriété, et adaptation de votre budget au plus juste coût pour l'entretien de votre patrimoine.",
   },
   {
-    titre: 'Analyse des charges',
-    intitule: 'Performance',
+    // Remplace « Analyse des charges », retirée par le client le 20/10/2026 ;
+    // les cinq domaines du texte sont ceux qu'il a énumérés.
+    titre: 'Conseil',
+    intitule: 'Accompagnement',
     texte:
-      'Une analyse approfondie de vos charges et engagements pour optimiser votre gestion et réduire vos coûts.',
+      "Entretien et préservation de l'immeuble, questions juridiques, comptables ou d'assurance : nous vous conseillons sur chacune.",
   },
   {
-    titre: 'Réseau fournisseurs',
-    intitule: 'Qualité',
+    // Remplace « Réseau fournisseurs » (« triés sur le volet », sans source),
+    // retirée par le client le 20/10/2026 ; il voulait communication et
+    // transparence. « Transparent » est déjà le titre de la deuxième case :
+    // celle-ci parle de communication, la transparence y est concrète — la
+    // consultation en ligne, décrite plus bas (`ACCES`, extranet Gercop).
+    titre: 'Copropriété informée',
+    intitule: 'Communication',
     texte:
-      'Un réseau de fournisseurs triés sur le volet, au service exclusif des copropriétaires pour des prestations de qualité.',
+      'Vous savez ce qui se passe dans votre immeuble : décisions, travaux, comptes. Documents et situation comptable restent consultables en ligne, à toute heure.',
   },
 ];
 
@@ -107,7 +121,15 @@ const ROLES = [
   {
     cote: 'I',
     titre: 'Administratif',
-    points: ['Préservation du patrimoine', "Mise en œuvre des décisions d'AG", "Gestion du quotidien et de l'avenir"],
+    // « Préparation de l'assemblée générale » ajouté par le client le
+    // 20/10/2026, placé avant la mise en œuvre de ses décisions : l'ordre de
+    // l'année du syndic.
+    points: [
+      'Préservation du patrimoine',
+      "Préparation de l'assemblée générale",
+      "Mise en œuvre des décisions d'AG",
+      "Gestion du quotidien et de l'avenir",
+    ],
   },
   {
     cote: 'II',
@@ -149,7 +171,7 @@ const GestionCopropriete = () => {
       "Syndic de copropriété à Paris : assemblées générales, comptabilité, appels de fonds, suivi des travaux et accès en ligne aux comptes de l'immeuble.",
     provider: {
       '@type': 'RealEstateAgent',
-      name: 'J.I.P. — Jobard Immobilier Paris',
+      name: 'Jobard Immobilier',
       address: {
         '@type': 'PostalAddress',
         streetAddress: ADRESSE.rue,
@@ -166,7 +188,7 @@ const GestionCopropriete = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Syndic de copropriété à Paris — JIP, Jobard Immobilier Paris"
+        title="Syndic de copropriété à Paris — Jobard Immobilier"
         description="Syndic de copropriété à Paris depuis 1978 : assemblées générales, comptabilité, travaux, comptes de l'immeuble en ligne. 27 rue de Lisbonne, Paris 8e."
         keywords="syndic copropriété paris, syndic paris 8, assemblée générale, appels de fonds, gestion copropriété"
         canonicalUrl="https://www.adbjip.fr/services/gestion-copropriete"
@@ -226,7 +248,11 @@ const GestionCopropriete = () => {
 
             {/* Six cases séparées par un filet d'un pixel : le fond de la
                 grille est le trait, les cases le recouvrent. Une grille de
-                cartes sans rien qui flotte. */}
+                cartes sans rien qui flotte.
+                SIX, ET PAS UN AUTRE NOMBRE SANS Y PENSER : six remplit les
+                deux grilles (2 × 3 et 3 × 2). Une case vide laisserait voir
+                le fond, donc un aplat de trait — avec cinq, le 20/10/2026, il
+                avait fallu étirer la dernière (`sm:last:col-span-2`). */}
             <dl className="grid gap-px border border-[hsl(var(--trait)/var(--trait-a))] bg-[hsl(var(--trait)/var(--trait-a))] sm:grid-cols-2 lg:grid-cols-3">
               {ATOUTS.map((atout, index) => (
                 <Voile key={atout.titre} delai={echelonner(index)} className="bg-pierre p-6">
@@ -252,7 +278,8 @@ const GestionCopropriete = () => {
               </div>
               <p className="mesure-large mt-3 text-[0.9375rem] leading-relaxed text-ardoise">
                 En collaboration avec UNIS et FNAIM, nous comparons les dépenses de votre copropriété à
-                celles d'autres copropriétés pour une gestion optimale et des économies garanties.
+                celles d'autres copropriétés pour une gestion optimale et pour repérer les économies
+                possibles.
               </p>
             </Voile>
           </div>
@@ -290,8 +317,12 @@ const GestionCopropriete = () => {
                 <h2 className="mt-3 text-[clamp(1.75rem,2.6vw,2.125rem)] leading-[1.1]">
                   Votre copropriété en ligne
                 </h2>
+                {/* « L'extranet » et non « Gercop » (client, 20/10/2026) : le
+                    texte ne nomme pas l'éditeur du logiciel, et ne sera pas à
+                    reprendre si l'agence en change. Seule l'URL, dans
+                    `ESPACE_CLIENT`, suit le prestataire. */}
                 <p className="mt-3 text-[1rem] leading-[1.5] text-muted-foreground">
-                  Comptes et documents de l'immeuble sur Gercop, accessibles à toute heure.
+                  Comptes et documents de l'immeuble sur l'extranet, accessibles à toute heure.
                 </p>
                 {ESPACE_CLIENT.url && (
                   <Button className="mt-6" asChild>

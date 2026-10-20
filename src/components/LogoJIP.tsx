@@ -1,40 +1,32 @@
+import logo from '@/assets/logo-jobard-immobilier.svg';
+
 /**
- * Logo de l'agence, reconstruit en vectoriel.
+ * Logo de l'agence — l'ellipse jaune, la tour Eiffel et « Jobard Immobilier ».
  *
- * L'original disponible en ligne (adbjip.fr/images/logo.png) fait 115 × 52
- * pixels : illisible sur un écran retina et impossible à agrandir. Cette
- * version a été relevée sur ce fichier au pixel près — ellipse inclinée de
- * 27,7°, demi-axes 30,7 × 21,8, jaune #F5AC1E — puis redessinée en primitives.
+ * REMPLACÉ LE 20/10/2026. Le précédent était une reconstruction en primitives
+ * du logo « JIP » de adbjip.fr (115 × 52 px, ellipse inclinée de 27,7°, jaune
+ * #F5AC1E). Celui-ci vient du client, en JPEG de 608 × 535 sur fond blanc, et a
+ * été VECTORISÉ (potrace, source suréchantillonnée ×4) : net à toute taille et
+ * sur écran Retina, 9,4 Ko gzip, fichier à part et donc en cache immuable au
+ * lieu d'alourdir le JS d'entrée de chaque page.
  *
- * C'est une reconstruction, pas le fichier source. Si le client retrouve
- * l'original vectoriel (.ai, .eps ou .pdf) chez le créateur du logo, il
- * remplace celui-ci sans discussion.
+ * LES LETTRES ET LA TOUR SONT ÉVIDÉES, et non peintes en blanc : un seul tracé,
+ * le jaune. Dans la source, le « d » de Jobard, le « r » d'Immobilier et les
+ * pieds de la tour débordent de l'ellipse — blanc sur blanc, donc invisibles.
+ * Peints en blanc sur le crème, ils apparaissaient rognés au bord de l'ellipse ;
+ * évidés, ils prennent la couleur du fond comme ils prenaient le blanc, et
+ * restent entiers. Contrepartie : posé sur un fond sombre, le logo y prendrait
+ * des lettres sombres.
  *
- * Le jaune est celui de l'enseigne, plus orangé que le --primary du site.
- * Volontaire : un logo garde sa couleur, il ne suit pas la charte du support.
+ * C'est un tracé du fichier reçu, pas l'original vectoriel. Si le client
+ * retrouve celui-ci (.ai, .eps ou .pdf), il remplace ce fichier sans discussion.
+ *
+ * Le jaune (#F9B320, médiane des pixels de la source) est celui de l'enseigne,
+ * pas le --primary du site. Volontaire : un logo garde sa couleur, il ne suit
+ * pas la charte du support.
  */
 const LogoJIP = ({ className = '' }: { className?: string }) => (
-  <svg
-    viewBox="0 0 115 52"
-    className={className}
-    role="img"
-    aria-label="JIP — Jobard Immobilier Paris"
-  >
-    <ellipse
-      cx="48.5"
-      cy="24.5"
-      rx="30.7"
-      ry="21.8"
-      transform="rotate(-27.7 48.5 24.5)"
-      fill="#F5AC1E"
-    />
-    <g fill="#fff">
-      <path d="M34 10h5v23a8 8 0 0 1-16 0v-2.5h5V33a3 3 0 0 0 6 0z" />
-      <rect x="46" y="10" width="4.5" height="30" />
-      <path d="M57 10h5v29h-5z" />
-      <path d="M62 10a10 10 0 0 1 0 20v-5a5 5 0 0 0 0-10z" />
-    </g>
-  </svg>
+  <img src={logo} alt="Jobard Immobilier" width={608} height={535} className={className} />
 );
 
 export default LogoJIP;

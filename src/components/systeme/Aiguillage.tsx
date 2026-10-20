@@ -10,9 +10,9 @@ import { cn } from '@/lib/utils';
  *
  * Le constat des planches : « Confier un bien » et « Changer de syndic » côte à
  * côte, sans savoir à qui l'on parle. Le site s'adresse à trois personnes qui
- * ne se ressemblent pas — un propriétaire bailleur, un conseil syndical, un
- * vendeur ou acquéreur — et chacune doit se reconnaître en une phrase écrite à
- * la première personne, puis trouver sa porte.
+ * ne se ressemblent pas — un propriétaire bailleur, un conseil syndical (ou un
+ * copropriétaire), un vendeur ou acquéreur — et chacune doit se reconnaître en
+ * une phrase écrite à la première personne, puis trouver sa porte.
  *
  * Les `cle` sont les valeurs du paramètre `?service=` et de la liste du
  * formulaire de contact : ne pas les renommer, `contact.php` route les
@@ -32,7 +32,11 @@ export const PROFILS = [
   },
   {
     cle: 'gestion-copropriete',
-    libelle: 'Conseil syndical',
+    /* « ou copropriétaire » ajouté le 20/10/2026 (client) : la carte parle
+       aussi au copropriétaire seul, le conseil syndical restant nommé en
+       premier parce que c'est lui qui porte la mise en concurrence. La phrase,
+       au « nous » de la copropriété, convient aux deux et n'a pas bougé. */
+    libelle: 'Conseil syndical ou copropriétaire',
     phrase: 'Nous cherchons un syndic pour notre copropriété.',
     action: 'Changer de syndic',
     href: '/services/gestion-copropriete',

@@ -1,9 +1,9 @@
-import { ExternalLink, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 
 import EnTeteSection from '@/components/systeme/EnTeteSection';
 import { Voile } from '@/components/systeme/Ouverture';
 import { echelonner } from '@/lib/echelon';
-import { AVIS, NOTE_GOOGLE } from '@/config/avis';
+import { AVIS } from '@/config/avis';
 import { classesGrille } from '@/lib/grille';
 
 /**
@@ -12,9 +12,12 @@ import { classesGrille } from '@/lib/grille';
  * Ne rend rien tant qu'aucun avis réel n'a été saisi : la section ne doit
  * jamais s'afficher avec du contenu de remplissage.
  *
- * La sélection ne va jamais sans le lien vers l'ensemble des avis : le visiteur
- * atteint la totalité en un clic, y compris les avis négatifs. La moyenne, elle,
- * n'est pas affichée — décision de l'agence tant qu'elle reste sous 4 sur 5.
+ * Le lien « Voir tous les avis » vers la fiche Google est retiré le 20/10/2026
+ * (client) : la fiche porte encore le nom de J.I.P. — Jobard Immobilier Paris,
+ * qui a quitté le site. La sélection est donc la seule chose montrée ; elle ne
+ * doit pas devenir un tri flatteur — les trois avis restent recopiés tels quels.
+ * La moyenne n'est pas affichée non plus — décision de l'agence tant qu'elle
+ * reste sous 4 sur 5.
  *
  * Trois colonnes séparées de filets, sur la bande de lin : un témoignage n'a
  * pas besoin d'être posé dans une boîte pour se lire comme une citation. Il est
@@ -29,18 +32,7 @@ const AvisGoogle = () => {
         <EnTeteSection
           plaque="Avis Google"
           titre="Ce qu'en disent les clients"
-          chapeau="Trois avis publiés sur la fiche Google de l'agence, recopiés mot pour mot."
-          aparte={
-            <a
-              href={NOTE_GOOGLE.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="lien-trait text-[0.875rem] font-semibold uppercase tracking-[0.08em] text-foreground"
-            >
-              Voir tous les avis
-              <ExternalLink aria-hidden className="h-3.5 w-3.5" />
-            </a>
-          }
+          chapeau="Trois avis publiés sur la fiche Google de l'agence."
         />
 
         <div className={`mt-12 grid grid-cols-1 gap-x-10 gap-y-10 ${classesGrille(AVIS.length)}`}>

@@ -10,7 +10,6 @@ import {
   ENTITES,
   Entite,
   HEBERGEUR,
-  MEDIATEUR,
   legalIsIncomplete,
 } from '@/config/legal';
 import EnTetePage from '@/components/systeme/EnTetePage';
@@ -60,12 +59,29 @@ const EntiteBlock = ({ entite }: { entite: Entite }) => (
     <Row label="Président">{entite.president}</Row>
     <Row label="Carte professionnelle">{entite.carteProfessionnelle.numero}</Row>
     <Row label="Délivrée par">{entite.carteProfessionnelle.delivreePar}</Row>
+    <Row label="Délivrée le">{entite.carteProfessionnelle.delivreeLe}</Row>
+    <Row label="Valable jusqu'au">{entite.carteProfessionnelle.valableJusquAu}</Row>
     <Row label="Mentions de la carte">{entite.carteProfessionnelle.mentions.join(' · ')}</Row>
     <Row label="Garantie financière">{entite.garantieFinanciere.organisme}</Row>
     <Row label="Adresse du garant">{entite.garantieFinanciere.adresse}</Row>
-    <Row label="Montant garanti">{entite.garantieFinanciere.montant}</Row>
+    {/* Un montant par activité : sans montant relevé, la ligne générique
+        reste, en « à compléter ». */}
+    {entite.garantieFinanciere.montants.length === 0 ? (
+      <Row label="Montant garanti">{null}</Row>
+    ) : (
+      entite.garantieFinanciere.montants.map(({ activite, montant, precision }) => (
+        <Row key={activite} label={`Montant garanti — ${activite}`}>
+          {precision ? `${montant} · ${precision}` : montant}
+        </Row>
+      ))
+    )}
     <Row label="Assurance RCP">{entite.assuranceRcp.assureur}</Row>
-    <Row label="Numéro de contrat">{entite.assuranceRcp.contrat}</Row>
+    <Row label="Adresse de l'assureur">{entite.assuranceRcp.adresse}</Row>
+    {/* Le numéro du contrat n'est pas une mention obligatoire (le code de la
+        consommation demande l'assureur et la couverture, R111-2) : la ligne
+        ne paraît que renseignée, au lieu d'un « à compléter » sur une page
+        indexée. */}
+    {entite.assuranceRcp.contrat && <Row label="Numéro de contrat">{entite.assuranceRcp.contrat}</Row>}
     <Row label="Couverture géographique">{entite.assuranceRcp.couvertureGeographique}</Row>
   </Section>
 );
@@ -73,8 +89,8 @@ const EntiteBlock = ({ entite }: { entite: Entite }) => (
 const MentionsLegales = () => (
   <div className="min-h-screen">
     <SEOHead
-      title="Mentions légales — JIP, Jobard Immobilier Paris"
-      description="Mentions légales de l'agence J.I.P. — Jobard Immobilier Paris : éditeur, carte professionnelle, garantie financière, assurance et médiation de la consommation."
+      title="Mentions légales — Jobard Immobilier"
+      description="Mentions légales de Jobard Immobilier Patrimoine : éditeur, carte professionnelle, garantie financière, et assurance."
       canonicalUrl="https://www.adbjip.fr/mentions-legales"
       /* Tant qu'une mention obligatoire manque, la page ne s'indexe pas : un
          « à compléter » dans un extrait de résultat de recherche est pire que
@@ -88,7 +104,7 @@ const MentionsLegales = () => (
       <EnTetePage
         surtitre="Informations légales"
         titre="Mentions légales"
-        chapeau="Éditeur du site, cartes professionnelles, garanties financières, médiation et hébergement."
+        chapeau="Éditeur du site, carte professionnelle, garanties financières, assurance et hébergement."
         className="pb-6 lg:pb-8"
       />
 
@@ -98,10 +114,8 @@ const MentionsLegales = () => (
             <AlertTriangle aria-hidden className="h-5 w-5 shrink-0 text-destructive" />
             <p className="text-sm leading-relaxed">
               <strong>Page en cours de complément.</strong> Les mentions marquées « à compléter »
-              sont obligatoires au titre de la loi Hoguet : numéro et lieu de délivrance de la carte
-              professionnelle, garant financier, assureur, médiateur de la consommation. Elles
-              figurent sur la carte professionnelle et l'attestation de garantie financière de
-              chacune des deux sociétés, et seront publiées dès leur transmission par l'agence.
+              — TVA, numéro du contrat d'assurance — figurent sur les factures et l'attestation
+              d'assurance de la société, et seront publiées dès leur transmission par l'agence.
             </p>
           </div>
         )}
@@ -114,18 +128,19 @@ const MentionsLegales = () => (
           <Row label="Directeur de la publication">{DIRECTEUR_PUBLICATION}</Row>
         </Section>
 
-        {/* Les deux sociétés exercent depuis la même adresse mais portent des
-            activités distinctes, donc des cartes professionnelles distinctes :
-            gestion pour J.I.P., transaction pour Patrimoine. */}
+        {/* Une société depuis le 20/10/2026 (Patrimoine), mais le rendu reste
+            par entité : chaque société a sa propre carte professionnelle, et
+            une seconde reviendrait sans toucher à cette page. */}
         {ENTITES.map((entite) => (
           <EntiteBlock key={entite.siren} entite={entite} />
         ))}
 
-        <Section title="Médiation de la consommation">
-          <Row label="Médiateur">{MEDIATEUR.nom}</Row>
-          <Row label="Site">{MEDIATEUR.site}</Row>
-          <Row label="Adresse">{MEDIATEUR.adresse}</Row>
-        </Section>
+        {/* LA MÉDIATION DE LA CONSOMMATION A ÉTÉ RETIRÉE le 20/10/2026, à la
+            demande du client. Elle est pourtant obligatoire pour un
+            professionnel qui traite avec des particuliers (code de la
+            consommation, L616-1 et R616-1) : à remettre dès que le médiateur
+            est désigné — renseigner `MEDIATEUR` dans `config/legal.ts`, puis
+            rétablir ici les trois lignes Médiateur, Site, Adresse. */}
 
         <Section title="Hébergement">
           <Row label="Hébergeur">{HEBERGEUR.nom}</Row>

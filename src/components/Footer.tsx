@@ -2,7 +2,7 @@ import { ArrowUpRight, ShieldCheck } from 'lucide-react';
 
 import PlaqueDeRue from '@/components/systeme/PlaqueDeRue';
 import { TEL } from '@/components/systeme/BoutonTelephone';
-import { ADRESSE, ESPACE_CLIENT, HORAIRES } from '@/config/legal';
+import { ADRESSE, EDITEUR, ESPACE_CLIENT, HORAIRES } from '@/config/legal';
 import { Lien } from '@/components/systeme/Lien';
 
 /**
@@ -27,7 +27,6 @@ const Footer = () => {
   ];
 
   const pages = [
-    { nom: "L'agence", href: '/agence' },
     { nom: 'Contact', href: '/contact' },
     { nom: 'Mentions légales', href: '/mentions-legales' },
     { nom: 'Données personnelles', href: '/mentions-legales#donnees-personnelles' },
@@ -141,7 +140,8 @@ const Footer = () => {
       <div className="border-t border-[hsl(var(--trait)/var(--trait-a))]">
         <div className="container mx-auto flex flex-col items-start justify-between gap-3 py-5 text-[0.875rem] text-muted-foreground md:flex-row md:items-center">
           <p>
-            © {annee} J.I.P. — Jobard Immobilier Paris · SIREN 529 339 665
+            {/* La raison sociale, pas la marque : c'est la ligne légale du site. */}
+            © {annee} {EDITEUR.raisonSociale} · SIREN {EDITEUR.siren}
             <span aria-hidden className="mx-2 opacity-50">·</span>
             Réalisation{' '}
             <a

@@ -53,7 +53,11 @@ Redirect 301 /about /contact
 # suffit, il n'y a pas de sous-chemin sous ces pages.
 Redirect 301 /services/estimation-biens /services/vendre-estimer
 Redirect 301 /services/achats-ventes /services/vendre-estimer
-Redirect 301 /equipe /agence
+# /agence a été SUPPRIMÉE à son tour le 20/10/2026 (décision du client) : elle
+# et /equipe, qui y menait, vont droit sur /contact — l'adresse, les horaires et
+# le téléphone y sont. Pas de double saut /equipe → /agence → /contact.
+Redirect 301 /equipe /contact
+Redirect 301 /agence /contact
 
 # --- Pages prérendues --------------------------------------------------------
 # `npm run build` écrit les pages en HTML statique : dist/index.html, un dossier

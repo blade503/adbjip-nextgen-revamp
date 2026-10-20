@@ -21,21 +21,36 @@ const METIERS = [
   {
     cote: 'I.',
     titre: 'Gérance locative',
+    /* Tournée vers le propriétaire le 20/10/2026 (client) : l'ancienne phrase
+       finissait sur le locataire qui appelle. Les prestations sont celles du
+       mandat Sérénité (`GestionLocative.tsx`), la fin est le titre de cette
+       page ; l'encaissement des loyers n'y figure pas, barré le 12/10/2026.
+       Comptabilité, déclaration et conseil juridique ajoutés le même jour
+       (client) ; la déclaration est nommée comme dans les options du mandat,
+       « revenus fonciers ». */
     accroche:
-      "Quittances, révisions, régularisation des charges, relances, travaux, et l'interlocuteur qui décroche quand le locataire appelle.",
+      'Recherche du locataire et étude de sa solvabilité, bail, révision du loyer, travaux, comptabilité, préparation de la déclaration de revenus fonciers et conseil juridique : vous gardez vos revenus, nous gérons tout le reste.',
     route: '/services/gestion-locative',
   },
   {
     cote: 'II.',
     titre: 'Syndic de copropriété',
-    accroche: "Budget, appels de fonds, assemblée générale, carnet d'entretien, suivi des travaux votés.",
+    /* Le 20/10/2026 (client), une liste de tâches devenue un argument : le
+       titre de la page syndic et l'accès Gercop qu'elle décrit. Sans « depuis
+       1978 », retiré à la demande du client. */
+    accroche:
+      'Un syndic qui connaît votre immeuble : les dossiers, les travaux votés, les comptes, consultables en ligne à toute heure.',
     route: '/services/gestion-copropriete',
   },
   {
     cote: 'III.',
     titre: 'Estimation',
+    /* Deux estimations, vente et location, et « le juste prix du marché » en
+       tête : 20/10/2026 (client). La mention des ventes enregistrées (DVF) est
+       retirée à sa demande ; elle ne valait de toute façon que pour la vente,
+       la valeur locative n'ayant pas de source publique équivalente. */
     accroche:
-      'La valeur de marché établie sur pièces, à partir des ventes réellement enregistrées dans le quartier.',
+      "Mise en location ou vente, le juste prix du marché : ce que vaut votre bien à la vente, et ce qu'il peut vous rapporter en location.",
     route: '/services/vendre-estimer',
   },
   {

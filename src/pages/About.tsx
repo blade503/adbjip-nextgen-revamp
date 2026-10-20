@@ -11,26 +11,37 @@ import bureau640 from '@/assets/agence-bureau-640.webp';
 import bureau960 from '@/assets/agence-bureau-960.webp';
 import bureau1400 from '@/assets/agence-bureau-1400.webp';
 import bureau2048 from '@/assets/agence-bureau-2048.webp';
-import francisImage from '@/assets/equipe-francis-jobard.webp';
-import francisImage440 from '@/assets/equipe-francis-jobard-440.webp';
 import florentImage from '@/assets/equipe-florent-jobard.webp';
 import florentImage440 from '@/assets/equipe-florent-jobard-440.webp';
 
 /**
+ * PAGE RETIRÉE DU SITE LE 20/10/2026 — ni route, ni lien, ni prérendu.
+ * Décision du client : « on peut la supprimer, on essaiera de rajouter une
+ * photo d'équipe ailleurs ». `/agence` redirige vers `/contact`
+ * (`public/.htaccess`). Le fichier est GARDÉ et non effacé : il porte les
+ * retours du client des 12 et 20/10/2026, qui n'existaient dans aucun commit
+ * au moment du retrait. C'est la source du portrait et des engagements le jour
+ * où une section équipe trouvera sa place ; le supprimer une fois repris.
+ *
  * L'AGENCE — planche 2g de la direction « La Plaque », fusion de deux pages.
  *
  * L'ancienne page « L'équipe » (/equipe, deux fiches, trois valeurs) est
  * absorbée ici : deux interlocuteurs, c'est une agence, pas une équipe. L'URL
  * redirige (`public/.htaccess`).
  *
- * TOUT CE QUI EST AFFIRMÉ EST VÉRIFIABLE. Les deux interlocuteurs, leurs
- * sociétés, leurs SIREN et leurs dates viennent de `src/config/legal.ts`, donc
+ * TOUT CE QUI EST AFFIRMÉ EST VÉRIFIABLE. L'interlocuteur, sa société, son
+ * SIREN et sa date viennent de `src/config/legal.ts`, donc
  * du registre national des entreprises — recoupé le 04/09/2026 sur
  * recherche-entreprises.api.gouv.fr : Francis Jobard, président de SAS de
  * J.I.P. ; Florent Jobard, président de SAS de Jobard Immobilier Patrimoine.
  * La planche disait « directeur général » pour le second : c'est le registre
  * qui fait foi. Les lignes directes et les courriels sont ceux de la page
  * contact du site en production.
+ *
+ * 20/10/2026 : J.I.P. quitte le site, et Francis Jobard avec elle (décision du
+ * client) ; Florent Jobard reste seul et sa fiche porte les quatre métiers.
+ * La grille garde ses deux colonnes : la fiche seule n'a pas à s'étirer sur
+ * toute la largeur, et une seconde fiche y reprendrait sa place.
  *
  * Les quatre engagements et les deux blocs « ce que nous faisons / ne faisons
  * pas » sont repris mot pour mot. Les paragraphes « une histoire de confiance »
@@ -67,8 +78,8 @@ const IMAGE_BUREAU = {
   height: 1536,
 };
 
+/** Dans l'ordre d'`EQUIPE`. */
 const PORTRAITS = [
-  { src: francisImage, srcSet: `${francisImage440} 440w, ${francisImage} 700w` },
   { src: florentImage, srcSet: `${florentImage440} 440w, ${florentImage} 700w` },
 ];
 
@@ -97,8 +108,9 @@ const ENGAGEMENTS = [
 
 /**
  * Repères vérifiables, rien d'autre. 1978 est l'année du cabinet Jobard (retour du
- * client, 15/10/2026) ; 2011, celle de la SAS J.I.P. au registre, reste sur la
- * fiche de Francis Jobard et dans les mentions légales, où c'est la société qui parle.
+ * client, 15/10/2026) ; 2015, celle de la SAS Jobard Immobilier Patrimoine au
+ * registre, reste sur la fiche de Florent Jobard et dans les mentions légales, où
+ * c'est la société qui parle.
  */
 const REPERES = [
   { valeur: '1978', libelle: 'Année de création' },
@@ -113,9 +125,9 @@ const annee = (date: string) => date.match(/\d{4}/)?.[0] ?? date;
 const About = () => (
   <div className="min-h-screen">
     <SEOHead
-      title="L'agence — JIP, Jobard Immobilier Paris"
-      description="Gestion locative et syndic de copropriété sous le même toit depuis 1978, au 27 rue de Lisbonne, Paris 8e. Les deux interlocuteurs de l'agence."
-      keywords="agence immobilière paris 8, jobard immobilier paris, syndic et gérance, agence indépendante, francis jobard, florent jobard"
+      title="L'agence — Jobard Immobilier"
+      description="Gestion locative et syndic de copropriété sous le même toit depuis 1978, au 27 rue de Lisbonne, Paris 8e. L'interlocuteur de l'agence."
+      keywords="agence immobilière paris 8, jobard immobilier, syndic et gérance, agence indépendante, florent jobard"
       canonicalUrl="https://www.adbjip.fr/agence"
     />
     <Header />
@@ -136,7 +148,7 @@ const About = () => (
         image={IMAGE_BUREAU}
       />
 
-      {/* ---- LES DEUX INTERLOCUTEURS ------------------------------------
+      {/* ---- LES INTERLOCUTEURS ----------------------------------------
           Une carte par personne : le portrait à l'échelle, le métier en
           surtitre, le nom en romain, puis ce que le registre dit et ce qu'on
           peut composer. */}

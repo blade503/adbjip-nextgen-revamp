@@ -1,15 +1,11 @@
-import { lazy, Suspense, useCallback, useMemo, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
-import MarketDataService, {
-  ServiceIndisponible,
-  type DonneesMarche,
-} from '@/components/estimation/MarketDataService';
 import BandeauContact from '@/components/systeme/BandeauContact';
 import BarreAppel from '@/components/systeme/BarreAppel';
+import BoutonTelephone from '@/components/systeme/BoutonTelephone';
 import EnTeteSection from '@/components/systeme/EnTeteSection';
 import { Lien } from '@/components/systeme/Lien';
 import { Voile } from '@/components/systeme/Ouverture';
@@ -56,30 +52,91 @@ import { echelonner } from '@/lib/echelon';
  * clavier global sur la touche Entrée, redondant avec la soumission du
  * formulaire du calculateur.
  *
- * LES DEUX PLUS GROS MORCEAUX SONT DIFFÉRÉS : `QuickCalculator` (le plus gros
- * fichier de `src/`) et `InteractiveMap`, qui n'est demandée qu'au clic sur
- * « Voir sur la carte ».
- */
-const QuickCalculator = lazy(() => import('@/components/estimation/QuickCalculator'));
-const InteractiveMap = lazy(() => import('@/components/estimation/InteractiveMap'));
-
-/** Réserve la hauteur d'un bloc différé : l'arrivée du morceau ne décale rien. */
-const Reserve = ({ hauteur }: { hauteur: string }) => (
-  <div role="status" className={`panneau flex items-center justify-center ${hauteur}`}>
-    <span aria-hidden className="attente block h-5 w-5 rounded-full border-b-2 border-primary-ink" />
-    <span className="sr-only">Chargement…</span>
-  </div>
-);
-
-/**
- * Repères de l'ouverture : des faits, pas des chiffres de performance.
+ * LE CALCULATEUR EXPRESS A ÉTÉ RETIRÉ LE 20/10/2026 (client : « les résultats
+ * ne sont pas précis »). Une moyenne au mètre carré corrigée de cinq
+ * coefficients n'est pas une estimation, et l'afficher sous le nom de l'agence
+ * engageait sa crédibilité. À sa place : la carte « Demander une estimation »,
+ * qui dit ce que le vendeur obtient, puis le déroulé et ce qui est regardé. Les
+ * trois repères de l'ouverture (DVF, Gratuit, 48 h) sont partis avec lui : la
+ * carte dit les deux derniers, la deuxième étape dit le premier. Les fichiers
+ * `components/estimation/` (QuickCalculator, InteractiveMap,
+ * MarketDataService) restent dans le dépôt, plus importés par personne.
+ *
  * « 48 h » : arbitré par le client sur ses retours papier du 12/10/2026 (« 24
  * heures » barré, « 48 h » écrit à la main), et appliqué partout sur le site.
  */
-const REPERES = [
-  { valeur: 'DVF', libelle: 'données publiques DGFiP' },
-  { valeur: 'Gratuit', libelle: 'sans engagement' },
-  { valeur: '48 h', libelle: 'délai de réponse' },
+
+/**
+ * Ce que contient une demande. Rien qui ne soit déjà promis sur la page avant
+ * le 20/10/2026 : « une visite, un rapport argumenté, une réponse sous 48
+ * heures ouvrées » (le bandeau de clôture) et « gratuite et sans engagement ».
+ */
+const DEMANDE = [
+  'Une visite du bien',
+  'Un avis de valeur écrit et argumenté',
+  'Une réponse sous 48 heures ouvrées',
+];
+
+/** Les types d'estimation, donnés par le client le 20/10/2026. */
+const TYPES = ['Vente', 'Fiscale', 'Patrimoniale', 'Locative', 'Successorale'];
+
+/**
+ * Le déroulé d'une estimation. Chaque étape reprend une affirmation déjà sur la
+ * page — la visite, les ventes enregistrées du quartier, l'immeuble administré,
+ * le rapport argumenté, la réponse sous 48 h. À faire valider par le client :
+ * l'ordre exact et ce que contient le rapport.
+ */
+const ETAPES = [
+  {
+    cote: '01',
+    titre: 'Vous nous contactez',
+    texte: 'Par téléphone ou par le formulaire. Nous vous répondons sous 48 heures ouvrées.',
+  },
+  {
+    cote: '02',
+    titre: 'Nous visitons le bien',
+    texte: "Sur place, ce qu'une annonce ne dit pas : l'état, l'étage, la disposition des pièces.",
+  },
+  {
+    cote: '03',
+    titre: 'Nous comparons',
+    texte:
+      'Aux ventes réellement enregistrées dans le quartier — les données publiques DVF de la DGFiP.',
+  },
+  {
+    cote: '04',
+    titre: "Vous recevez l'avis de valeur",
+    texte: 'Un rapport écrit et argumenté, gratuit et sans engagement.',
+  },
+];
+
+/**
+ * Ce qui est regardé. « Le bien » reprend les critères du calculateur retiré,
+ * eux-mêmes repris du site en production ; « l'immeuble » développe la phrase
+ * du chapeau (« vendre un lot dans un immeuble que l'on administre déjà »). À
+ * faire valider par le client : la liste de « l'immeuble ».
+ */
+const CRITERES = [
+  {
+    cote: 'I',
+    titre: 'Le bien',
+    points: ['Type et surface', 'Nombre de pièces', 'Étage', 'État général'],
+  },
+  {
+    cote: 'II',
+    titre: 'Le quartier',
+    points: ['Les ventes enregistrées à proximité', 'Les biens comparables en vente'],
+  },
+  {
+    cote: 'III',
+    titre: "L'immeuble",
+    points: [
+      'Les charges de copropriété',
+      'Les travaux votés',
+      'L’état des parties communes',
+    ],
+    note: 'Quand nous en sommes le syndic, nous le connaissons déjà.',
+  },
 ];
 
 const SERVICES_VENTE = [
@@ -92,18 +149,32 @@ const SERVICES_VENTE = [
   'Discrétion sur les ventes sensibles',
 ];
 
+/**
+ * Cinq motifs depuis le 20/10/2026 (client : « estimation fiscale,
+ * patrimoniale, locative, successorale »). Vente et Patrimoine gardent leur
+ * texte d'origine ; Succession perd « déclarations fiscales », qui a désormais
+ * sa ligne ; Fiscale et Locative sont nouvelles.
+ */
 const MOTIFS = [
   {
     titre: 'Vente',
     texte: 'Estimation précise pour optimiser votre prix de vente et réduire le délai de commercialisation.',
   },
   {
-    titre: 'Succession',
-    texte: 'Évaluation officielle pour les déclarations fiscales et partages successoraux.',
+    titre: 'Fiscale',
+    texte: 'La valeur de votre bien pour vos déclarations fiscales.',
   },
   {
-    titre: 'Patrimoine',
+    titre: 'Patrimoniale',
     texte: "Bilan patrimonial complet pour vos projets d'investissement et de transmission.",
+  },
+  {
+    titre: 'Locative',
+    texte: 'Le loyer de marché de votre bien, avant de le mettre en location.',
+  },
+  {
+    titre: 'Successorale',
+    texte: 'Évaluation pour la déclaration de succession et le partage entre héritiers.',
   },
 ];
 
@@ -137,146 +208,6 @@ const Mandat = ({
 );
 
 const VendreEstimer = () => {
-  const marketDataService = useMemo(() => MarketDataService.getInstance(), []);
-
-  // ---- Le calculateur express -------------------------------------------
-  const [quickEstimation, setQuickEstimation] = useState({
-    address: '',
-    city: '',
-    postalCode: '',
-    surface: '',
-    rooms: '',
-    type: '',
-    floor: '',
-    condition: 'bon',
-  });
-  const [estimationResult, setEstimationResult] = useState<number | null>(null);
-  const [estimationData, setEstimationData] = useState<DonneesMarche | null>(null);
-  const [isCalculating, setIsCalculating] = useState(false);
-  const [isMapOpen, setIsMapOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  // Facteurs d'ajustement — inchangés.
-  const getTypeMultiplier = useCallback((type: string) => {
-    const multipliers = { appartement: 1.0, maison: 1.1, studio: 0.9, duplex: 1.05 };
-    return multipliers[type as keyof typeof multipliers] || 1.0;
-  }, []);
-
-  const getConditionMultiplier = useCallback((condition: string) => {
-    const multipliers = { excellent: 1.15, 'tres-bon': 1.08, bon: 1.0, moyen: 0.92, mauvais: 0.8 };
-    return multipliers[condition as keyof typeof multipliers] || 1.0;
-  }, []);
-
-  const getFloorMultiplier = useCallback((floor: string) => {
-    if (!floor) return 1.0;
-    const floorNum = parseInt(floor);
-    if (floorNum === 0) return 0.95;
-    if (floorNum === 1) return 1.0;
-    if (floorNum >= 2 && floorNum <= 4) return 1.02;
-    if (floorNum >= 5) return 1.05;
-    return 1.0;
-  }, []);
-
-  const getSurfaceMultiplier = useCallback((surface: number) => {
-    if (surface < 30) return 1.1;
-    if (surface > 100) return 0.95;
-    return 1.0;
-  }, []);
-
-  const getRoomsMultiplier = useCallback((rooms: number, surface: number) => {
-    const surfacePerRoom = surface / rooms;
-    if (surfacePerRoom < 15) return 0.95;
-    if (surfacePerRoom > 35) return 1.05;
-    return 1.0;
-  }, []);
-
-  const calculateEstimation = useCallback(async () => {
-    if (
-      !quickEstimation.address ||
-      !quickEstimation.city ||
-      !quickEstimation.postalCode ||
-      !quickEstimation.surface ||
-      !quickEstimation.rooms
-    ) {
-      setErrorMessage('Veuillez remplir tous les champs obligatoires');
-      setTimeout(() => setErrorMessage(null), 5000);
-      return;
-    }
-
-    setIsCalculating(true);
-    setErrorMessage(null);
-
-    try {
-      const coordinates = await marketDataService.geocodeAddress(
-        quickEstimation.address,
-        quickEstimation.city,
-        quickEstimation.postalCode,
-      );
-      if (!coordinates) {
-        setErrorMessage('Adresse non trouvée. Veuillez vérifier votre saisie.');
-        return;
-      }
-
-      const marketData = await marketDataService.getMarketData(coordinates, quickEstimation.address);
-      if (!marketData) {
-        setErrorMessage("Impossible d'obtenir les données de marché pour cette zone.");
-        return;
-      }
-      setEstimationData(marketData);
-
-      const surface = parseInt(quickEstimation.surface);
-      const rooms = parseInt(quickEstimation.rooms);
-      let adjustedPrice = marketData.basePricePerM2;
-      adjustedPrice *=
-        getTypeMultiplier(quickEstimation.type) *
-        getConditionMultiplier(quickEstimation.condition) *
-        getFloorMultiplier(quickEstimation.floor) *
-        getSurfaceMultiplier(surface) *
-        getRoomsMultiplier(rooms, surface);
-
-      // Arrondi au millier d'euros du mètre carré : sous un résultat de
-      // 2 616 300 € (17 442 €/m²), le client a écrit « 17 000 le m² ? » le
-      // 12/10/2026. Une estimation indicative à l'euro près promet une
-      // précision que le calcul n'a pas.
-      const prixAuM2 = Math.round(adjustedPrice / 1000) * 1000;
-      setEstimationResult(prixAuM2 * surface);
-    } catch (error) {
-      console.error('Erreur lors du calcul:', error);
-      setErrorMessage(
-        error instanceof ServiceIndisponible
-          ? "Le service d'adresses ne répond pas pour le moment. Réessayez dans un instant, ou appelez-nous : nous ferons l'estimation avec vous."
-          : 'Une erreur est survenue lors du calcul. Veuillez réessayer.',
-      );
-    } finally {
-      setIsCalculating(false);
-    }
-  }, [
-    quickEstimation,
-    marketDataService,
-    getTypeMultiplier,
-    getConditionMultiplier,
-    getFloorMultiplier,
-    getSurfaceMultiplier,
-    getRoomsMultiplier,
-  ]);
-
-  /**
-   * Le lien vers le formulaire de contact, profil vendeur, le bien prérempli
-   * avec la saisie du calculateur. Borné à 160 caractères côté formulaire.
-   */
-  const versDemande = () => {
-    const q = quickEstimation;
-    const bien = [
-      [q.address, q.postalCode, q.city].filter(Boolean).join(' '),
-      q.surface ? `${q.surface} m²` : '',
-      q.rooms ? `${q.rooms} pièces` : '',
-      estimationResult ? `estimation express ${estimationResult.toLocaleString('fr-FR')} €` : '',
-    ]
-      .filter(Boolean)
-      .join(' · ');
-    return `/contact?service=achats-ventes${bien ? `&bien=${encodeURIComponent(bien)}` : ''}`;
-  };
-
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -285,7 +216,7 @@ const VendreEstimer = () => {
       'Estimation immobilière gratuite appuyée sur les transactions enregistrées (DVF), et accompagnement de la vente jusqu\'à la signature.',
     provider: {
       '@type': 'RealEstateAgent',
-      name: 'J.I.P. — Jobard Immobilier Paris',
+      name: 'Jobard Immobilier',
       address: {
         '@type': 'PostalAddress',
         streetAddress: ADRESSE.rue,
@@ -308,9 +239,9 @@ const VendreEstimer = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Vendre et estimer un bien à Paris — JIP, Jobard Immobilier Paris"
+        title="Vendre et estimer un bien à Paris — Jobard Immobilier"
         description="Estimation gratuite appuyée sur les transactions enregistrées (DVF), et accompagnement de la vente jusqu'à la signature. JIP, Paris 8e."
-        keywords="estimation immobilière gratuite paris, vendre appartement paris, transaction immobilière, données DVF"
+        keywords="estimation immobilière gratuite paris, vendre appartement paris, estimation fiscale, estimation successorale, estimation locative, données DVF"
         canonicalUrl="https://www.adbjip.fr/services/vendre-estimer"
         structuredData={[
           structuredData,
@@ -326,7 +257,7 @@ const VendreEstimer = () => {
       />
       <Header />
       <main id="contenu" tabIndex={-1}>
-        {/* ---- L'OUVERTURE : le propos à gauche, le calculateur à droite --- */}
+        {/* ---- L'OUVERTURE : le propos à gauche, la demande à droite ----- */}
         <section className="bg-pierre pb-14 pt-10 lg:pb-16 lg:pt-16">
           <div className="container mx-auto grid gap-x-16 gap-y-10 lg:grid-cols-2 lg:items-start">
             <div>
@@ -339,48 +270,94 @@ const VendreEstimer = () => {
                 enregistrées dans le quartier. Vendre un lot dans un immeuble que l'on administre
                 déjà, c'est vendre en connaissance.
               </p>
-              <dl className="voile mt-9 flex flex-wrap gap-x-8 gap-y-4 [animation-delay:270ms]">
-                {REPERES.map(({ valeur, libelle }) => (
-                  <div key={libelle}>
-                    <dt className="font-serif text-[1.75rem] leading-none">{valeur}</dt>
-                    <dd className="mt-1.5 text-[0.9375rem] text-muted-foreground">{libelle}</dd>
-                  </div>
-                ))}
-              </dl>
             </div>
 
+            {/* La carte blanche qu'occupait le calculateur : ce que l'on obtient,
+                pour quels motifs, et les deux façons de le demander. */}
             <Voile delai={120}>
-              <Suspense fallback={<Reserve hauteur="min-h-[36rem]" />}>
-                <QuickCalculator
-                  quickEstimation={quickEstimation}
-                  setQuickEstimation={setQuickEstimation}
-                  estimationResult={estimationResult}
-                  isCalculating={isCalculating}
-                  errorMessage={errorMessage}
-                  onCalculate={calculateEstimation}
-                  onShowMap={() => setIsMapOpen(true)}
-                  marketData={estimationData}
-                />
-              </Suspense>
+              <div id="demande-estimation" className="panneau scroll-mt-24 p-6 sm:p-8">
+                <p className="cote">Gratuit · sans engagement</p>
+                <h2 className="mt-2 text-[clamp(1.75rem,2.6vw,2.25rem)] leading-[1.1]">
+                  Demander une estimation
+                </h2>
+                <ul className="mt-5 border-t border-[hsl(var(--trait)/var(--trait-a))]">
+                  {DEMANDE.map((point) => (
+                    <li
+                      key={point}
+                      className="border-b border-[hsl(var(--trait)/var(--trait-a))] py-3 text-[1rem] leading-[1.45] text-ardoise"
+                    >
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+                <p className="gravure mt-6">Pour une estimation</p>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {TYPES.map((type) => (
+                    <li key={type} className="plaque">
+                      {type}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <Button size="lg" asChild>
+                    <Lien to="/contact?service=achats-ventes">
+                      Demander une estimation
+                      <ArrowRight aria-hidden />
+                    </Lien>
+                  </Button>
+                  <BoutonTelephone />
+                </div>
+              </div>
             </Voile>
           </div>
         </section>
 
-        {/* La carte : montée SEULEMENT à l'ouverture, donc son morceau n'est
-            jamais téléchargé par qui ne l'ouvre pas. */}
-        {isMapOpen && (
-          <Suspense fallback={<Reserve hauteur="min-h-[20rem]" />}>
-            <InteractiveMap
-              isOpen={isMapOpen}
-              onClose={() => setIsMapOpen(false)}
-              address={quickEstimation.address}
-              city={quickEstimation.city}
-              postalCode={quickEstimation.postalCode}
-              estimationResult={estimationResult}
-              marketData={estimationData}
+        {/* ---- LE DÉROULÉ ------------------------------------------------ */}
+        <section className="bg-lin py-16 lg:py-20">
+          <div className="container mx-auto">
+            <EnTeteSection
+              plaque="Le déroulé"
+              titre="Comment se passe une estimation"
+              chapeau="Quatre temps, du premier appel à l'avis de valeur écrit."
             />
-          </Suspense>
-        )}
+            <ol className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+              {ETAPES.map((etape, index) => (
+                <Voile as="li" key={etape.titre} delai={echelonner(index)} className="border-t border-foreground pt-4">
+                  <p className="cote">{etape.cote}</p>
+                  <h3 className="mt-2 text-[clamp(1.5rem,2vw,1.75rem)] leading-[1.15]">{etape.titre}</h3>
+                  <p className="mt-3 text-[1rem] leading-[1.55] text-ardoise">{etape.texte}</p>
+                </Voile>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ---- CE QUI EST REGARDÉ ---------------------------------------- */}
+        <section className="bg-pierre py-16 lg:py-20">
+          <div className="container mx-auto">
+            <EnTeteSection
+              plaque="La méthode"
+              titre="Ce que nous regardons pour estimer"
+              chapeau="Le bien, le quartier, et l'immeuble : c'est là que le syndic voit ce que l'annonce ne montre pas."
+            />
+            <div className="mt-10 grid gap-10 lg:grid-cols-3">
+              {CRITERES.map((critere, index) => (
+                <Voile key={critere.titre} delai={echelonner(index)} className="border-t border-foreground pt-4">
+                  <p className="cote">{critere.cote}</p>
+                  <h3 className="mt-2 text-[clamp(1.5rem,2vw,1.75rem)]">{critere.titre}</h3>
+                  <ul className="mt-3 space-y-1.5 text-[1rem] leading-[1.6] text-ardoise">
+                    {critere.points.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                  {critere.note && (
+                    <p className="mt-3 text-[0.9375rem] leading-[1.5] text-muted-foreground">{critere.note}</p>
+                  )}
+                </Voile>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ---- LA VENTE -------------------------------------------------
             Une seule carte depuis le retrait de la partie achat : elle prend
@@ -415,10 +392,10 @@ const VendreEstimer = () => {
           <div className="container mx-auto grid gap-x-16 gap-y-10 lg:grid-cols-[minmax(0,23rem)_1fr]">
             <Voile>
               <p className="gravure">Les motifs</p>
-              <h2 className="mt-4 text-[clamp(2rem,3.5vw,2.75rem)]">Trois raisons d'estimer</h2>
+              <h2 className="mt-4 text-[clamp(2rem,3.5vw,2.75rem)]">Cinq raisons d'estimer</h2>
               <p className="mesure mt-4 text-[1rem] leading-[1.55] text-ardoise">
-                Projet de vente, succession, transmission de patrimoine : la valeur de marché
-                établie sur pièces.
+                Vendre, déclarer, transmettre, louer, hériter : la valeur de marché établie sur
+                pièces.
               </p>
             </Voile>
             <dl className="border-t border-[hsl(var(--trait)/var(--trait-a))]">
@@ -436,16 +413,18 @@ const VendreEstimer = () => {
           </div>
         </section>
 
+        {/* « Détaillée » et « ce que vous avez saisi ci-dessus » sont partis
+            avec le calculateur : il n'y a plus qu'une seule demande. */}
         <BandeauContact
-          surtitre="Aller plus loin"
-          titre="Demande d'estimation détaillée"
-          texte="Une visite, un rapport argumenté, une réponse sous 48 heures ouvrées. Ce que vous avez saisi ci-dessus est repris dans votre demande."
-          action={{ libelle: "Demander l'estimation", href: versDemande() }}
+          surtitre="Estimer votre bien"
+          titre="Demande d'estimation"
+          texte="Une visite, un rapport argumenté, une réponse sous 48 heures ouvrées."
+          action={{ libelle: "Demander l'estimation", href: '/contact?service=achats-ventes' }}
           ordre="action"
         />
       </main>
       <Footer />
-      <BarreAppel action={{ libelle: 'Estimer', href: '#calculateur-rapide' }} />
+      <BarreAppel action={{ libelle: 'Estimer', href: '/contact?service=achats-ventes' }} />
     </div>
   );
 };

@@ -19,7 +19,6 @@ describe('résolution de la page différée', () => {
     expect(cleDeRoute('/services/gestion-locative')).toBe('gestionLocative');
     expect(cleDeRoute('/services/gestion-copropriete/')).toBe('gestionCopropriete');
     expect(cleDeRoute('/services/vendre-estimer')).toBe('vendreEstimer');
-    expect(cleDeRoute('/agence')).toBe('agence');
     expect(cleDeRoute('/contact')).toBe('contact');
     expect(cleDeRoute('/mentions-legales')).toBe('mentionsLegales');
   });
@@ -33,15 +32,17 @@ describe('résolution de la page différée', () => {
     expect(cleDeRoute('/inexistant')).toBe('introuvable');
     expect(cleDeRoute('/biens/a/b')).toBe('introuvable');
     expect(cleDeRoute('/equipe')).toBe('introuvable');
+    // Page supprimée le 20/10/2026 : le `.htaccess` la redirige vers /contact.
+    expect(cleDeRoute('/agence')).toBe('introuvable');
   });
 
   it('tolère le préfixe de la préversion GitHub Pages', () => {
-    expect(cleDeRoute('/depot/agence', '/depot/')).toBe('agence');
+    expect(cleDeRoute('/depot/contact', '/depot/')).toBe('contact');
     expect(cleDeRoute('/depot/', '/depot/')).toBeNull();
   });
 
   it('chaque clé résolue a son importeur', () => {
-    for (const chemin of ['/biens', '/biens/x', '/agence', '/contact', '/inexistant']) {
+    for (const chemin of ['/biens', '/biens/x', '/contact', '/inexistant']) {
       const cle = cleDeRoute(chemin);
       expect(cle && typeof PAGES[cle]).toBe('function');
     }

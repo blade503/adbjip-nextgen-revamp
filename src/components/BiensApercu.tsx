@@ -49,7 +49,8 @@ const BiensApercu = () => {
         <EnTeteSection
           plaque="Portefeuille"
           titre="À vendre et à louer aujourd'hui"
-          chapeau="Le portefeuille est repris chaque nuit du logiciel de gestion de l'agence. Ce qui est affiché ici est disponible ce matin."
+          /* Plus de chapeau depuis le 20/10/2026 : « repris chaque nuit du
+             logiciel de gestion… disponible ce matin » retiré par le client. */
           aparte={
             <Lien
               to="/biens"

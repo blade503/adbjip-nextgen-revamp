@@ -304,7 +304,7 @@ const BienPage = () => {
                 </p>
 
                 <div className="my-6 border-y border-[hsl(var(--trait)/var(--trait-a))] py-4">
-                  <p className="text-[0.9375rem] font-semibold">Jobard Immobilier Paris</p>
+                  <p className="text-[0.9375rem] font-semibold">Jobard Immobilier</p>
                   <p className="mt-0.5 text-[0.8125rem] text-muted-foreground">
                     {location ? 'Gérance locative' : 'Transaction et estimation'} · {ADRESSE.rue}
                   </p>

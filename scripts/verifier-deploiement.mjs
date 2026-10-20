@@ -205,8 +205,11 @@ await controle(
  * fausse est pire qu'une absence de contrôle.
  *
  * La page a été déplacée sur `/agence`. La redirection héritée reste, l'URL de
- * 2017 garde son intention, et le contrôle ci-dessous redevient juste. Le
- * contrôle « /agence sert bien la page » est ajouté juste après.
+ * 2017 garde son intention, et le contrôle ci-dessous redevient juste.
+ *
+ * `/agence` a été SUPPRIMÉE à son tour le 20/10/2026 (décision du client) :
+ * elle redirige vers `/contact`, comme `/equipe` qui y menait, et le contrôle
+ * « /agence sert la page de l'agence » a disparu avec elle.
  *
  * `redirect: 'manual'` est indispensable : sans lui `fetch` suit la
  * redirection et on relève 200 au lieu de 301.
@@ -218,31 +221,13 @@ const REDIRECTIONS = [
   // Les trois routes fusionnées le 04/09/2026 (direction « La Plaque »).
   ['/services/estimation-biens', '/services/vendre-estimer'],
   ['/services/achats-ventes', '/services/vendre-estimer'],
-  ['/equipe', '/agence'],
+  ['/equipe', '/contact'],
+  ['/agence', '/contact'],
   ['/about', '/contact'],
 ];
 
 /**
- * La contrepartie du déplacement : `/agence` doit servir la page, sans
- * redirection. Sans ce contrôle, réintroduire une collision passerait inaperçu.
- */
-await controle('/agence sert la page de l\'agence', async () => {
-  const reponse = await recuperer('/agence', { redirect: 'manual' });
-  if (reponse.status !== 200) {
-    return {
-      ok: false,
-      detail: `HTTP ${reponse.status} au lieu de 200${await diagnostiquerCache('/agence')}`,
-    };
-  }
-  const html = await reponse.text();
-  return {
-    ok: html.includes("L'agence"),
-    detail: `HTTP 200, ${(html.length / 1024).toFixed(0)} ko`,
-  };
-});
-
-/**
- * Le cache de périphérie, contrôlé pour lui-même et sur les HUIT routes fixes.
+ * Le cache de périphérie, contrôlé pour lui-même et sur les SEPT routes fixes.
  *
  * Non essentiel : il ne fait pas échouer un déploiement, parce que ce n'est pas
  * le déploiement qui est en cause. Mais il doit se voir, parce qu'un visiteur
@@ -257,7 +242,6 @@ await controle(
       '/services/gestion-locative',
       '/services/gestion-copropriete',
       '/services/vendre-estimer',
-      '/agence',
       '/contact',
       '/mentions-legales',
     ];

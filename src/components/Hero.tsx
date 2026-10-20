@@ -13,8 +13,8 @@ import porte3x2_1400 from '@/assets/accueil-porte-3x2-1400.webp';
  * L'OUVERTURE — direction « La Plaque », 04/09/2026.
  *
  * Une page de dossier : la plaque de rue, le titre en romain, le chapeau, et à
- * droite un homme qui pousse la porte cochère d'un immeuble en pierre de
- * taille. Le titre est une adresse — « deux métiers, une seule adresse » — et
+ * droite une famille qui rentre par la porte cochère d'un immeuble en pierre
+ * de taille. Le titre est une adresse — « deux métiers, une seule adresse » — et
  * non un slogan ; l'image dit la phrase de la carte posée dessus : « un appel
  * trouve une réponse au lieu d'un transfert ».
  *
@@ -34,6 +34,14 @@ import porte3x2_1400 from '@/assets/accueil-porte-3x2-1400.webp';
  * variantes ne servent qu'aux écrans Retina de bureau, où elles sont réduites
  * à l'affichage ; −23 % de poids sur les neuf grandes variantes des quatre
  * ouvertures (1 794 → 1 380 Ko), relevé le 08/09/2026.
+ *
+ * REMPLACÉE LE 20/10/2026 par une nouvelle génération du client (Gemini) : une
+ * mère et ses trois enfants casqués, en vélo-cargo, devant la porte cochère
+ * ouverte. La source (1844 × 2304) est déjà en 4/5 : les quatre variantes de
+ * bureau ne sont que réduites. Le 3/2 du téléphone n'est PAS centré, la famille
+ * est au pied de l'image : bande de 1229 px prise à 1040 px du haut, qui garde
+ * la porte, le trottoir et les volets du rez-de-chaussée. Mêmes noms de
+ * fichiers, mêmes qualités.
  *
  * C'est une image générée et l'immeuble n'existe pas : le client le sait et
  * l'a choisi. Une photographie du 27 rue de Lisbonne reste préférable.
@@ -74,9 +82,11 @@ const Hero = () => (
 
         {/* 1978, et non 2011 : 2011 est la création de la SAS J.I.P. au
             registre ; le cabinet Jobard existe depuis 1978 (retour du client,
-            12/10/2026). */}
+            12/10/2026). L'énumération, dans l'ordre du client (20/10/2026),
+            depuis que Patrimoine est la seule société et porte tous les métiers. */}
         <p className="voile mesure-large mt-7 text-[1.0625rem] leading-[1.55] text-ardoise [animation-delay:180ms] sm:text-[1.1875rem]">
-          Gérance locative et syndic de copropriété au 27, rue de Lisbonne.{' '}
+          Administration de biens, gérance locative, syndic de copropriété, vente et estimation
+          au 27, rue de Lisbonne.{' '}
           <strong className="font-semibold text-foreground">
             Depuis 1978, le cabinet Jobard vous accompagne.
           </strong>
@@ -97,10 +107,14 @@ const Hero = () => (
               src={porte3x2_960}
               srcSet={`${porte3x2_640} 640w, ${porte3x2_960} 960w, ${porte3x2_1400} 1400w`}
               sizes="100vw"
-              alt="Un homme en manteau pousse la porte cochère en bois d'un immeuble haussmannien en pierre de taille ; au-dessus, un balcon filant en fonte, deux pigeons, un rideau qui sort d'une fenêtre ; un vélo attaché au pied d'un lampadaire."
+              alt="Une femme en parka et ses trois enfants casqués, à bord d'un vélo-cargo, devant la porte cochère en bois ouverte d'un immeuble haussmannien en pierre de taille ; au-dessus, un balcon filant en fonte."
               width={1229}
               height={1536}
-              className="h-full w-full object-cover"
+              /* Point d'appui à 85 % de la hauteur sur bureau : borné à 70 vh,
+                 le cadre 4/5 devient presque carré (581 px de haut sur un
+                 portable de 1440 × 830) et un recadrage centré coupait la
+                 famille, qui est au pied de l'image, à mi-jambes. */
+              className="h-full w-full object-cover lg:object-[50%_85%]"
               loading="eager"
               /* EN MINUSCULES : `fetchPriority` en camelCase n'est reconnu qu'à
                  partir de React 19 — voir `src/types-react.d.ts`. */

@@ -56,7 +56,7 @@ const openingHoursSpecification = HORAIRES.schemaOrg.map((plage) => {
 
 export const SEO_CONFIG = {
   site: {
-    name: 'JIP — Jobard Immobilier Paris',
+    name: 'Jobard Immobilier',
     url: 'https://www.adbjip.fr',
     description: 'JIP - Agence immobilière spécialisée dans la gestion locative, copropriété et estimation de biens à Paris et en Île-de-France',
     defaultImage: 'https://www.adbjip.fr/og-image.jpg',
@@ -126,7 +126,7 @@ export const SEO_CONFIG = {
   structuredData: {
     organization: {
       "@type": "RealEstateAgent",
-      "name": "JIP — Jobard Immobilier Paris",
+      "name": "Jobard Immobilier",
       "url": "https://www.adbjip.fr",
       "logo": "https://www.adbjip.fr/apple-touch-icon.png",
       "description": "Agence immobilière spécialisée dans la gestion locative, copropriété et estimation de biens à Paris et en Île-de-France",
@@ -163,11 +163,13 @@ export const SEO_CONFIG = {
         "latitude": 48.877595,
         "longitude": 2.31381
       },
-      /* Date de création de J.I.P. — Jobard Immobilier Paris, telle qu'inscrite
-         au registre national des entreprises et reportée dans
-         `src/config/legal.ts` (`dateCreation: '1er janvier 2011'`). En ISO ici,
-         schema.org attendant une date et non une année. */
-      "foundingDate": "2011-01-01",
+      /* L'année du cabinet Jobard (retour du client, 15/10/2026), celle que
+         le site affiche partout. C'était la création de J.I.P. au registre
+         (2011-01-01) tant que J.I.P. portait le site ; depuis le 20/10/2026 la
+         marque est « Jobard Immobilier » et non une société, dont la date
+         légale (Patrimoine, 2015) reste dans `src/config/legal.ts`. L'année
+         seule est une date ISO 8601 valide. */
+      "foundingDate": "1978",
       // Dérivées de HORAIRES.schemaOrg — voir le commentaire en tête de fichier.
       "openingHoursSpecification": openingHoursSpecification,
       /* Zone desservie : les deux échelles que le site revendique réellement.

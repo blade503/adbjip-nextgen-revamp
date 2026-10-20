@@ -60,7 +60,7 @@ const NotFound = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Page introuvable — JIP, Jobard Immobilier Paris"
+        title="Page introuvable — Jobard Immobilier"
         description="Cette adresse n'existe pas ou n'existe plus. Les biens, les services et les coordonnées de l'agence sont accessibles depuis l'accueil."
         noindex
       />
