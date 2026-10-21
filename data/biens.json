@@ -1,32 +1,32 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-10-20T09:09:54.053Z",
-  "count": 8,
+  "generatedAt": "2026-10-21T09:09:07.538Z",
+  "count": 6,
   "biens": [
     {
-      "id": "gedeon-32524918",
-      "reference": "v027",
-      "slug": "v027-3-pieces-immeuble-renove",
+      "id": "gedeon-34091460",
+      "reference": "v027-1",
+      "slug": "v027-1-3-pieces-residence-mortier",
       "transaction": "vente",
       "propertyType": "flat",
       "propertyLabel": "Appartement",
-      "title": "3 pièces immeuble rénové",
+      "title": "3 pièces residence mortier",
       "titleIsFallback": false,
-      "description": "ST FARGEAU - PORTE DES LILAS, idéal 3/4pièces dans une résidence tout confort :dans un parc arboré immeuble pierre de taille des années 1950 avec isolation thermique et chauffage ressent \n- ravalement neuf avec isolation thermique par l’extérieur \n- espace vert \n- GRAND local vélo\n- stationnement voiture dans le parc \n- gardien \nsitué au 3ème étage de la résidence avec double ascenseur paire et impaire desservant également les caves.\ncette appartement familial et fonctionnel est composé :\n- un entrée avec 3 placards de rangement \n- cuisine indépendant\n- séjour salle à manger avec son balcon \n- salon \n- deux chambres\n- salle d'eau \n- WC séparer \nafin de compléter ce bien une cave de 7,5m² avec 2,80 m² de hauteur sous plafond. \neau chaude individuel électrique, chauffage collectif New système de régulation de chauffage \nFIBRE, lumineux et calme petit travaux a prévoir",
+      "description": "ST FARGEAU - PORTE DES LILAS, idéal 3/4pièces dans une résidence tout confort :dans un parc arboré immeuble pierre de taille des années 1950 avec isolation thermique et chauffage ressent \n- ravalement neuf avec isolation thermique par l’extérieur \n- espace vert \n- GRAND local vélo\n- stationnement voiture dans le parc \n- gardien \nsitué au 3ème étage de la résidence avec double ascenseur paire et impaire desservant également les caves.\ncette appartement familial et fonctionnel est composé :\n- un entrée avec 3 placards de rangement \n- cuisine indépendant\n- séjour salle à manger avec son balcon \n- salon \n- deux chambres\n- salle d'eau \n- WC séparer \nafin de compléter ce bien une cave de 7,5m² avec 2,80 m² de hauteur sous plafond. \neau chaude individuel électrique, chauffage collectif New système de régulation de chauffage \nFIBRE, lumineux et calme",
       "city": "Paris 20e",
       "postalCode": "75020",
       "district": "Gambetta",
       "departmentCode": "75",
-      "price": 580000,
-      "priceWithoutFees": 565000,
-      "pricePerSquareMeter": 7063,
-      "feePercentage": 2.6548672566371683,
+      "price": 550000,
+      "priceWithoutFees": 530000,
+      "pricePerSquareMeter": 6543,
+      "feePercentage": 3.7735849056603774,
       "feesChargedTo": "acquéreur",
       "charges": null,
       "safetyDeposit": null,
       "agencyRentalFee": null,
       "annualCondominiumFees": null,
-      "surface": 80,
+      "surface": 81,
       "rooms": 3,
       "bedrooms": 2,
       "floor": 3,
@@ -46,120 +46,123 @@
       },
       "condominiumParts": null,
       "dpe": {
-        "energyValue": 189,
-        "energyClass": "D",
-        "gesValue": 27,
+        "energyValue": 115,
+        "energyClass": "C",
+        "gesValue": 15,
         "gesClass": "C",
-        "date": "2025-03-13",
-        "minEnergyConsumption": 1220,
-        "maxEnergyConsumption": 1690,
-        "isJuly2021": true
+        "date": null,
+        "minEnergyConsumption": null,
+        "maxEnergyConsumption": null,
+        "isJuly2021": false
       },
       "photos": [
         {
-          "alt": "3 pièces immeuble rénové — photo 1",
-          "small": "/biens/v027-1-small.webp",
-          "medium": "/biens/v027-1-medium.webp",
-          "large": "/biens/v027-1-large.webp"
+          "alt": "3 pièces residence mortier — photo 1",
+          "small": "/biens/v027-1-1-small.webp",
+          "medium": "/biens/v027-1-1-medium.webp",
+          "large": "/biens/v027-1-1-large.webp"
         },
         {
-          "alt": "3 pièces immeuble rénové — photo 2",
-          "small": "/biens/v027-2-small.webp",
-          "medium": "/biens/v027-2-medium.webp",
-          "large": "/biens/v027-2-large.webp"
+          "alt": "3 pièces residence mortier — photo 2",
+          "small": "/biens/v027-1-2-small.webp",
+          "medium": "/biens/v027-1-2-medium.webp",
+          "large": "/biens/v027-1-2-large.webp"
         },
         {
-          "alt": "3 pièces immeuble rénové — photo 3",
-          "small": "/biens/v027-3-small.webp",
-          "medium": "/biens/v027-3-medium.webp",
-          "large": "/biens/v027-3-large.webp"
+          "alt": "3 pièces residence mortier — photo 3",
+          "small": "/biens/v027-1-3-small.webp",
+          "medium": "/biens/v027-1-3-medium.webp",
+          "large": "/biens/v027-1-3-large.webp"
         },
         {
-          "alt": "3 pièces immeuble rénové — photo 4",
-          "small": "/biens/v027-4-small.webp",
-          "medium": "/biens/v027-4-medium.webp",
-          "large": "/biens/v027-4-large.webp"
+          "alt": "3 pièces residence mortier — photo 4",
+          "small": "/biens/v027-1-4-small.webp",
+          "medium": "/biens/v027-1-4-medium.webp",
+          "large": "/biens/v027-1-4-large.webp"
         },
         {
-          "alt": "3 pièces immeuble rénové — photo 5",
-          "small": "/biens/v027-5-small.webp",
-          "medium": "/biens/v027-5-medium.webp",
-          "large": "/biens/v027-5-large.webp"
+          "alt": "3 pièces residence mortier — photo 5",
+          "small": "/biens/v027-1-5-small.webp",
+          "medium": "/biens/v027-1-5-medium.webp",
+          "large": "/biens/v027-1-5-large.webp"
         },
         {
-          "alt": "3 pièces immeuble rénové — photo 6",
-          "small": "/biens/v027-6-small.webp",
-          "medium": "/biens/v027-6-medium.webp",
-          "large": "/biens/v027-6-large.webp"
+          "alt": "3 pièces residence mortier — photo 6",
+          "small": "/biens/v027-1-6-small.webp",
+          "medium": "/biens/v027-1-6-medium.webp",
+          "large": "/biens/v027-1-6-large.webp"
         },
         {
-          "alt": "3 pièces immeuble rénové — photo 7",
-          "small": "/biens/v027-7-small.webp",
-          "medium": "/biens/v027-7-medium.webp",
-          "large": "/biens/v027-7-large.webp"
+          "alt": "3 pièces residence mortier — photo 7",
+          "small": "/biens/v027-1-7-small.webp",
+          "medium": "/biens/v027-1-7-medium.webp",
+          "large": "/biens/v027-1-7-large.webp"
         },
         {
-          "alt": "3 pièces immeuble rénové — photo 8",
-          "small": "/biens/v027-8-small.webp",
-          "medium": "/biens/v027-8-medium.webp",
-          "large": "/biens/v027-8-large.webp"
+          "alt": "3 pièces residence mortier — photo 8",
+          "small": "/biens/v027-1-8-small.webp",
+          "medium": "/biens/v027-1-8-medium.webp",
+          "large": "/biens/v027-1-8-large.webp"
         },
         {
-          "alt": "3 pièces immeuble rénové — photo 9",
-          "small": "/biens/v027-9-small.webp",
-          "medium": "/biens/v027-9-medium.webp",
-          "large": "/biens/v027-9-large.webp"
+          "alt": "3 pièces residence mortier — photo 9",
+          "small": "/biens/v027-1-9-small.webp",
+          "medium": "/biens/v027-1-9-medium.webp",
+          "large": "/biens/v027-1-9-large.webp"
         },
         {
-          "alt": "3 pièces immeuble rénové — photo 10",
-          "small": "/biens/v027-10-small.webp",
-          "medium": "/biens/v027-10-medium.webp",
-          "large": "/biens/v027-10-large.webp"
+          "alt": "3 pièces residence mortier — photo 10",
+          "small": "/biens/v027-1-10-small.webp",
+          "medium": "/biens/v027-1-10-medium.webp",
+          "large": "/biens/v027-1-10-large.webp"
         },
         {
-          "alt": "3 pièces immeuble rénové — photo 11",
-          "small": "/biens/v027-11-small.webp",
-          "medium": "/biens/v027-11-medium.webp",
-          "large": "/biens/v027-11-large.webp"
+          "alt": "3 pièces residence mortier — photo 11",
+          "small": "/biens/v027-1-11-small.webp",
+          "medium": "/biens/v027-1-11-medium.webp",
+          "large": "/biens/v027-1-11-large.webp"
+        },
+        {
+          "alt": "3 pièces residence mortier — photo 12",
+          "small": "/biens/v027-1-12-small.webp",
+          "medium": "/biens/v027-1-12-medium.webp",
+          "large": "/biens/v027-1-12-large.webp"
         }
       ],
-      "publicationDate": null,
-      "modificationDate": "2026-10-15T01:45:31.302Z",
-      "badges": {
-        "dpeBadge": "/biens/v027-dpe.svg",
-        "gesBadge": "/biens/v027-ges.svg"
-      }
+      "publicationDate": "2026-10-20T17:15:52.073Z",
+      "modificationDate": "2026-10-21T05:16:05.468Z",
+      "firstSeenAt": "2026-10-20T17:15:52.073Z"
     },
     {
-      "id": "gedeon-32757098",
-      "reference": "0125",
-      "slug": "0125-planchat-1-sous-sol",
-      "transaction": "vente",
-      "propertyType": "parking",
-      "propertyLabel": "Parking",
-      "title": "PLANCHAT 1 sous sol",
+      "id": "gedeon-34091449",
+      "reference": "ger300-4d",
+      "slug": "ger300-4d-bureau-lisbonne",
+      "transaction": "location",
+      "propertyType": "office",
+      "propertyLabel": "Bureau",
+      "title": "Bureau lisbonne",
       "titleIsFallback": false,
-      "description": "Située 60 rue Planchat – 75020 Paris, dans un quartier calme et commerçant du 20ᵉ arrondissement de Paris, place de stationnement automobile au sein d’une\nrésidence sécurisée et bien entretenue.\nSuperficie : 12 m²\nDimensions : 5 m x 2,40 m\nEmplacement : 1er sous-sol\nAccès véhicule : rampe sécurisée\nAccès piéton : système Vigik avec sas sécurisé (2 portes)\nAccès étages : ascenseur avec contacteur à clé ou escalier\nRésidence avec gardien.\nPlace facile d’accès et adaptée à tout type de véhicule (citadine, berline, SUV).\nIdéal pour résident du quartier ou investisseur.",
-      "city": "Paris 20e",
-      "postalCode": "75020",
-      "district": "Père Lachaise - Réunion",
+      "description": "Dans immeuble de caractère,  proche du parc Monceau et Bld Malesherbes. Entre les lignes de métro : Monceau, Villiers, Miromesnil, st augustin, les lignes n°2,3,9,13 et 14.  \nBureaux au 4ème étage décloisonne, avec belle hauteur sous plafond.  comprenant : Entrée – 4 bureaux sur rue Malville – salle de réunion - sanitaires – réserve.\nClimatisation - cablage informatique -Alarme - fibre\nchauffage collectif – interphone – 2 Ascenseurs.",
+      "city": "Paris 8e",
+      "postalCode": "75008",
+      "district": "Monceau - Malesherbes",
       "departmentCode": "75",
-      "price": 14000,
-      "priceWithoutFees": 12500,
-      "pricePerSquareMeter": 568,
-      "feePercentage": 12,
-      "feesChargedTo": "acquéreur",
-      "charges": null,
-      "safetyDeposit": null,
-      "agencyRentalFee": null,
-      "annualCondominiumFees": 180,
-      "surface": 22,
+      "price": 6144,
+      "priceWithoutFees": null,
+      "pricePerSquareMeter": 61,
+      "feePercentage": null,
+      "feesChargedTo": null,
+      "charges": 690,
+      "safetyDeposit": 9090,
+      "agencyRentalFee": 8400,
+      "annualCondominiumFees": null,
+      "surface": 100,
       "rooms": null,
       "bedrooms": null,
-      "floor": null,
-      "floorQuantity": null,
+      "floor": 4,
+      "floorQuantity": 8,
       "exposition": null,
-      "heating": null,
+      "heating": "Collectif",
       "features": {
         "elevator": false,
         "cellar": false,
@@ -168,42 +171,77 @@
         "fireplace": false,
         "caretaker": false,
         "separateToilet": false,
-        "inCondominium": true,
+        "inCondominium": false,
         "parkingPlaces": 0
       },
-      "condominiumParts": 150,
+      "condominiumParts": null,
       "dpe": {
-        "energyValue": null,
-        "energyClass": null,
-        "gesValue": null,
-        "gesClass": null,
-        "date": null,
+        "energyValue": 95,
+        "energyClass": "C",
+        "gesValue": 22,
+        "gesClass": "C",
+        "date": "2017-10-20",
         "minEnergyConsumption": null,
         "maxEnergyConsumption": null,
         "isJuly2021": false
       },
       "photos": [
         {
-          "alt": "PLANCHAT 1 sous sol — photo 1",
-          "small": "/biens/0125-1-small.webp",
-          "medium": "/biens/0125-1-medium.webp",
-          "large": "/biens/0125-1-large.webp"
+          "alt": "Bureau lisbonne — photo 1",
+          "small": "/biens/ger300-4d-1-small.webp",
+          "medium": "/biens/ger300-4d-1-medium.webp",
+          "large": "/biens/ger300-4d-1-large.webp"
         },
         {
-          "alt": "PLANCHAT 1 sous sol — photo 2",
-          "small": "/biens/0125-2-small.webp",
-          "medium": "/biens/0125-2-medium.webp",
-          "large": "/biens/0125-2-large.webp"
+          "alt": "Bureau lisbonne — photo 2",
+          "small": "/biens/ger300-4d-2-small.webp",
+          "medium": "/biens/ger300-4d-2-medium.webp",
+          "large": "/biens/ger300-4d-2-large.webp"
         },
         {
-          "alt": "PLANCHAT 1 sous sol — photo 3",
-          "small": "/biens/0125-3-small.webp",
-          "medium": "/biens/0125-3-medium.webp",
-          "large": "/biens/0125-3-large.webp"
+          "alt": "Bureau lisbonne — photo 3",
+          "small": "/biens/ger300-4d-3-small.webp",
+          "medium": "/biens/ger300-4d-3-medium.webp",
+          "large": "/biens/ger300-4d-3-large.webp"
+        },
+        {
+          "alt": "Bureau lisbonne — photo 4",
+          "small": "/biens/ger300-4d-4-small.webp",
+          "medium": "/biens/ger300-4d-4-medium.webp",
+          "large": "/biens/ger300-4d-4-large.webp"
+        },
+        {
+          "alt": "Bureau lisbonne — photo 5",
+          "small": "/biens/ger300-4d-5-small.webp",
+          "medium": "/biens/ger300-4d-5-medium.webp",
+          "large": "/biens/ger300-4d-5-large.webp"
+        },
+        {
+          "alt": "Bureau lisbonne — photo 6",
+          "small": "/biens/ger300-4d-6-small.webp",
+          "medium": "/biens/ger300-4d-6-medium.webp",
+          "large": "/biens/ger300-4d-6-large.webp"
+        },
+        {
+          "alt": "Bureau lisbonne — photo 7",
+          "small": "/biens/ger300-4d-7-small.webp",
+          "medium": "/biens/ger300-4d-7-medium.webp",
+          "large": "/biens/ger300-4d-7-large.webp"
+        },
+        {
+          "alt": "Bureau lisbonne — photo 8",
+          "small": "/biens/ger300-4d-8-small.webp",
+          "medium": "/biens/ger300-4d-8-medium.webp",
+          "large": "/biens/ger300-4d-8-large.webp"
         }
       ],
-      "publicationDate": null,
-      "modificationDate": "2026-10-11T01:45:38.563Z"
+      "publicationDate": "2026-10-20T16:45:52.062Z",
+      "modificationDate": "2026-10-20T16:50:53.167Z",
+      "firstSeenAt": "2026-10-20T16:45:52.062Z",
+      "badges": {
+        "dpeBadge": "/biens/ger300-4d-dpe.svg",
+        "gesBadge": "/biens/ger300-4d-ges.svg"
+      }
     },
     {
       "id": "gedeon-34027784",
@@ -340,166 +378,6 @@
       }
     },
     {
-      "id": "gedeon-31461841",
-      "reference": "012",
-      "slug": "012-maison-8-pieces-l-houmeau",
-      "transaction": "vente",
-      "propertyType": "house",
-      "propertyLabel": "Maison",
-      "title": "Maison 8 pièces — L'Houmeau",
-      "titleIsFallback": true,
-      "description": "propriété avec un parc  arboré d environ  5300 m². à  3 km de l'océan  par piste cyclable et 2 km du centre du village de L HOUMEAU \nLa maison sur un étage offre avec ses 280 m² de bel espace de vie qui peut  être diviser en 3 unités distingues avec chacun ses sanitaires, pièces de vie et chambre \n\nEn rez-de-chaussée, un hall, séjour/salon, cuisine aménagée et équipée, lingerie , suite spéciale handicape avec salle d eau \n\nUn vaste local de 130m² avec une belle hauteur sous plafond , vous permettra de créer un atelier , salle d exposition ou festivité \n\nEnfin un appartement de 55 m² environ comprenant  sejour  cuisine et chambre  +salle de bain pour recevoir en toute indépendance\n\nLe parc boisselée vous assure la tranquillité et la discrétion . Il restera à réhabiliter la piscine qui demande à être couverte . .",
-      "city": "L'Houmeau",
-      "postalCode": "17137",
-      "district": "L'Houmeau",
-      "departmentCode": "17",
-      "price": 1136000,
-      "priceWithoutFees": 1100000,
-      "pricePerSquareMeter": 2594,
-      "feePercentage": 3,
-      "feesChargedTo": "acquéreur",
-      "charges": null,
-      "safetyDeposit": null,
-      "agencyRentalFee": null,
-      "annualCondominiumFees": null,
-      "surface": 424,
-      "rooms": 8,
-      "bedrooms": 5,
-      "floor": null,
-      "floorQuantity": null,
-      "exposition": "SUD EST",
-      "heating": "Gaz",
-      "features": {
-        "elevator": false,
-        "cellar": true,
-        "balcony": false,
-        "terrace": true,
-        "fireplace": true,
-        "caretaker": false,
-        "separateToilet": true,
-        "inCondominium": false,
-        "parkingPlaces": 0
-      },
-      "condominiumParts": null,
-      "dpe": {
-        "energyValue": 106,
-        "energyClass": "C",
-        "gesValue": 21,
-        "gesClass": "C",
-        "date": "2025-01-20",
-        "minEnergyConsumption": 2500,
-        "maxEnergyConsumption": 3500,
-        "isJuly2021": true
-      },
-      "photos": [
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 1",
-          "small": "/biens/012-1-small.webp",
-          "medium": "/biens/012-1-medium.webp",
-          "large": "/biens/012-1-large.webp"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 2",
-          "small": "/biens/012-2-small.webp",
-          "medium": "/biens/012-2-medium.webp",
-          "large": "/biens/012-2-large.webp"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 3",
-          "small": "/biens/012-3-small.webp",
-          "medium": "/biens/012-3-medium.webp",
-          "large": "/biens/012-3-large.webp"
-        },
-        {
-          "alt": "Maison 8 pièces — L'Houmeau — photo 4",
-          "small": "/biens/012-4-small.webp",
-          "medium": "/biens/012-4-medium.webp",
-          "large": "/biens/012-4-large.webp"
-        }
-      ],
-      "publicationDate": null,
-      "modificationDate": "2026-10-01T01:37:54.848Z",
-      "badges": {
-        "dpeBadge": "/biens/012-dpe.svg",
-        "gesBadge": "/biens/012-ges.svg"
-      }
-    },
-    {
-      "id": "gedeon-32925567",
-      "reference": "G60",
-      "slug": "g60-parking-planchat-75020",
-      "transaction": "location",
-      "propertyType": "parking",
-      "propertyLabel": "Parking",
-      "title": "PARKING PLANCHAT 75020",
-      "titleIsFallback": false,
-      "description": "DANS UNE COPROPRIÉTÉ sécurise parking au 1 sous sol \navec entrée par immeuble et ascenseur pieton \n\nrampe acces pour les voitures",
-      "city": "Paris 20e",
-      "postalCode": "75020",
-      "district": "Père Lachaise - Réunion",
-      "departmentCode": "75",
-      "price": 85,
-      "priceWithoutFees": null,
-      "pricePerSquareMeter": 7,
-      "feePercentage": null,
-      "feesChargedTo": null,
-      "charges": 15,
-      "safetyDeposit": 85,
-      "agencyRentalFee": 120,
-      "annualCondominiumFees": null,
-      "surface": 12,
-      "rooms": null,
-      "bedrooms": null,
-      "floor": null,
-      "floorQuantity": null,
-      "exposition": null,
-      "heating": null,
-      "features": {
-        "elevator": false,
-        "cellar": false,
-        "balcony": false,
-        "terrace": false,
-        "fireplace": false,
-        "caretaker": false,
-        "separateToilet": false,
-        "inCondominium": false,
-        "parkingPlaces": 0
-      },
-      "condominiumParts": null,
-      "dpe": {
-        "energyValue": null,
-        "energyClass": null,
-        "gesValue": null,
-        "gesClass": null,
-        "date": null,
-        "minEnergyConsumption": null,
-        "maxEnergyConsumption": null,
-        "isJuly2021": false
-      },
-      "photos": [
-        {
-          "alt": "PARKING PLANCHAT 75020 — photo 1",
-          "small": "/biens/g60-1-small.webp",
-          "medium": "/biens/g60-1-medium.webp",
-          "large": "/biens/g60-1-large.webp"
-        },
-        {
-          "alt": "PARKING PLANCHAT 75020 — photo 2",
-          "small": "/biens/g60-2-small.webp",
-          "medium": "/biens/g60-2-medium.webp",
-          "large": "/biens/g60-2-large.webp"
-        },
-        {
-          "alt": "PARKING PLANCHAT 75020 — photo 3",
-          "small": "/biens/g60-3-small.webp",
-          "medium": "/biens/g60-3-medium.webp",
-          "large": "/biens/g60-3-large.webp"
-        }
-      ],
-      "publicationDate": null,
-      "modificationDate": "2026-09-25T01:38:10.979Z"
-    },
-    {
       "id": "gedeon-31871091",
       "reference": "266-1",
       "slug": "266-1-studio-au-coeur-de-la-rochelle",
@@ -608,7 +486,7 @@
         }
       ],
       "publicationDate": null,
-      "modificationDate": "2026-10-05T14:56:58.653Z",
+      "modificationDate": "2026-10-21T05:16:05.468Z",
       "firstSeenAt": "2026-09-10T08:37:54.683Z",
       "previousPrice": 645,
       "priceChangedAt": "2026-10-06T11:01:03.572Z"
