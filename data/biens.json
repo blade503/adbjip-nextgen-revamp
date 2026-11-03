@@ -1,8 +1,130 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-11-02T12:02:01.911Z",
-  "count": 6,
+  "generatedAt": "2026-11-03T11:38:38.935Z",
+  "count": 7,
   "biens": [
+    {
+      "id": "gedeon-34153674",
+      "reference": "085",
+      "slug": "085-appartement-2-pieces-avec-piscine-a-5-minutes-a-pied-de-la-plage",
+      "transaction": "location",
+      "propertyType": "flat",
+      "propertyLabel": "Appartement",
+      "title": "APPARTEMENT 2 PIÈCES AVEC PISCINE À 5 MINUTES À PIED DE LA PLAGE",
+      "titleIsFallback": false,
+      "description": "Situé au 1er étage d’une résidence sécurisée avec gardien, piscine et ascenseur, découvrez ce agréable appartement de deux pièces, idéalement situé à seulement 5 minutes à pied de la plage.\n\nIl se compose d’une entrée avec dégagement, d’une cuisine meublée, d’un beau séjour lumineux avec baie vitrée, donnant accès à une agréable terrasse de 8,55 m², également accessible depuis la cuisine.\n\nL’espace nuit comprend une chambre avec placards intégrés ainsi qu’une salle d’eau actuellement en cours de rénovation, qui sera équipée d’une douche. Un WC séparé complète le logement.\n\nLes atouts de l’appartement et de la résidence :\n- Terrasse de 8,55 m²\n- Salle d’eau en cours de rénovation avec installation d’une douche\n- Piscine au sein de la résidence\n- Parking\n- Ascenseur\n- Gardien\n- Entrée sécurisée par interphone\n- Chauffage collectif\n- Eau chaude comprise dans les charges\n\nUn appartement idéal pour profiter pleinement du bord de mer, dans un cadre agréable et avec des prestations appréciables !\n\nSi ce bien vous intéresse, contactez-nous.",
+      "city": "Cagnes-sur-Mer",
+      "postalCode": "06800",
+      "district": "Saint-Roman - Lautin",
+      "departmentCode": "06",
+      "price": 1300,
+      "priceWithoutFees": null,
+      "pricePerSquareMeter": 21,
+      "feePercentage": null,
+      "feesChargedTo": null,
+      "charges": 200,
+      "safetyDeposit": 1100,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 62,
+      "rooms": 2,
+      "bedrooms": 1,
+      "floor": 1,
+      "floorQuantity": null,
+      "exposition": null,
+      "heating": "Collectif",
+      "features": {
+        "elevator": true,
+        "cellar": true,
+        "balcony": true,
+        "terrace": true,
+        "fireplace": false,
+        "caretaker": true,
+        "separateToilet": true,
+        "inCondominium": false,
+        "parkingPlaces": 1
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 135,
+        "energyClass": "C",
+        "gesValue": 31,
+        "gesClass": "D",
+        "date": "2018-09-18",
+        "minEnergyConsumption": null,
+        "maxEnergyConsumption": null,
+        "isJuly2021": false
+      },
+      "photos": [
+        {
+          "alt": "APPARTEMENT 2 PIÈCES AVEC PISCINE À 5 MINUTES À PIED DE LA PLAGE — photo 1",
+          "small": "/biens/085-1-small.webp",
+          "medium": "/biens/085-1-medium.webp",
+          "large": "/biens/085-1-large.webp"
+        },
+        {
+          "alt": "APPARTEMENT 2 PIÈCES AVEC PISCINE À 5 MINUTES À PIED DE LA PLAGE — photo 2",
+          "small": "/biens/085-2-small.webp",
+          "medium": "/biens/085-2-medium.webp",
+          "large": "/biens/085-2-large.webp"
+        },
+        {
+          "alt": "APPARTEMENT 2 PIÈCES AVEC PISCINE À 5 MINUTES À PIED DE LA PLAGE — photo 3",
+          "small": "/biens/085-3-small.webp",
+          "medium": "/biens/085-3-medium.webp",
+          "large": "/biens/085-3-large.webp"
+        },
+        {
+          "alt": "APPARTEMENT 2 PIÈCES AVEC PISCINE À 5 MINUTES À PIED DE LA PLAGE — photo 4",
+          "small": "/biens/085-4-small.webp",
+          "medium": "/biens/085-4-medium.webp",
+          "large": "/biens/085-4-large.webp"
+        },
+        {
+          "alt": "APPARTEMENT 2 PIÈCES AVEC PISCINE À 5 MINUTES À PIED DE LA PLAGE — photo 5",
+          "small": "/biens/085-5-small.webp",
+          "medium": "/biens/085-5-medium.webp",
+          "large": "/biens/085-5-large.webp"
+        },
+        {
+          "alt": "APPARTEMENT 2 PIÈCES AVEC PISCINE À 5 MINUTES À PIED DE LA PLAGE — photo 6",
+          "small": "/biens/085-6-small.webp",
+          "medium": "/biens/085-6-medium.webp",
+          "large": "/biens/085-6-large.webp"
+        },
+        {
+          "alt": "APPARTEMENT 2 PIÈCES AVEC PISCINE À 5 MINUTES À PIED DE LA PLAGE — photo 7",
+          "small": "/biens/085-7-small.webp",
+          "medium": "/biens/085-7-medium.webp",
+          "large": "/biens/085-7-large.webp"
+        },
+        {
+          "alt": "APPARTEMENT 2 PIÈCES AVEC PISCINE À 5 MINUTES À PIED DE LA PLAGE — photo 8",
+          "small": "/biens/085-8-small.webp",
+          "medium": "/biens/085-8-medium.webp",
+          "large": "/biens/085-8-large.webp"
+        },
+        {
+          "alt": "APPARTEMENT 2 PIÈCES AVEC PISCINE À 5 MINUTES À PIED DE LA PLAGE — photo 9",
+          "small": "/biens/085-9-small.webp",
+          "medium": "/biens/085-9-medium.webp",
+          "large": "/biens/085-9-large.webp"
+        },
+        {
+          "alt": "APPARTEMENT 2 PIÈCES AVEC PISCINE À 5 MINUTES À PIED DE LA PLAGE — photo 10",
+          "small": "/biens/085-10-small.webp",
+          "medium": "/biens/085-10-medium.webp",
+          "large": "/biens/085-10-large.webp"
+        }
+      ],
+      "publicationDate": "2026-11-02T15:22:26.233Z",
+      "modificationDate": "2026-11-02T15:22:26.233Z",
+      "firstSeenAt": "2026-11-02T15:22:26.233Z",
+      "badges": {
+        "dpeBadge": "/biens/085-dpe.svg",
+        "gesBadge": "/biens/085-ges.svg"
+      }
+    },
     {
       "id": "gedeon-34091460",
       "reference": "v027-1",
