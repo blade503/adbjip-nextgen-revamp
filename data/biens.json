@@ -1,8 +1,112 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-11-03T11:38:38.935Z",
-  "count": 7,
+  "generatedAt": "2026-11-04T11:54:08.701Z",
+  "count": 8,
   "biens": [
+    {
+      "id": "gedeon-34162623",
+      "reference": "162",
+      "slug": "162-piece-equipee-paris-15-vue-tour-eiffel",
+      "transaction": "location",
+      "propertyType": "flat",
+      "propertyLabel": "Appartement",
+      "title": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel",
+      "titleIsFallback": false,
+      "description": "Au 8ᵉ étage avec ascenseur dans un immeuble de charme, découvrez cette pièce de 7 m² bénéficiant d'une vue dégagée sur Tour Eiffel.\n\nElle dispose d'un espace avec douche, d'un coin cuisine équipée (évier plaque et réfrigérateur) ainsi que d'un accès aux WC communs situés sur le palier.\n\nPrestations :\n- Douche privative\n- Coin cuisine\n- WC communs à l'étage\n- Chauffage collectif\n- Eau chaude individuelle électrique\n- Vue dégagée\n\nPièce proposée exclusivement à usage de réserve ou de local annexe.\n\nSi ce bien vous intéresse, contactez-nous.",
+      "city": "Paris 15e",
+      "postalCode": "75015",
+      "district": "Cambronne - Garibaldi",
+      "departmentCode": "75",
+      "price": 495,
+      "priceWithoutFees": null,
+      "pricePerSquareMeter": 71,
+      "feePercentage": null,
+      "feesChargedTo": null,
+      "charges": 60,
+      "safetyDeposit": 495,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 7,
+      "rooms": 1,
+      "bedrooms": null,
+      "floor": 8,
+      "floorQuantity": 9,
+      "exposition": null,
+      "heating": "Collectif",
+      "features": {
+        "elevator": true,
+        "cellar": false,
+        "balcony": false,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": false,
+        "separateToilet": false,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 100,
+        "energyClass": "E",
+        "gesValue": 8,
+        "gesClass": "D",
+        "date": "2024-10-08",
+        "minEnergyConsumption": null,
+        "maxEnergyConsumption": null,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 1",
+          "small": "/biens/162-1-small.webp",
+          "medium": "/biens/162-1-medium.webp",
+          "large": "/biens/162-1-large.webp"
+        },
+        {
+          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 2",
+          "small": "/biens/162-2-small.webp",
+          "medium": "/biens/162-2-medium.webp",
+          "large": "/biens/162-2-large.webp"
+        },
+        {
+          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 3",
+          "small": "/biens/162-3-small.webp",
+          "medium": "/biens/162-3-medium.webp",
+          "large": "/biens/162-3-large.webp"
+        },
+        {
+          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 4",
+          "small": "/biens/162-4-small.webp",
+          "medium": "/biens/162-4-medium.webp",
+          "large": "/biens/162-4-large.webp"
+        },
+        {
+          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 5",
+          "small": "/biens/162-5-small.webp",
+          "medium": "/biens/162-5-medium.webp",
+          "large": "/biens/162-5-large.webp"
+        },
+        {
+          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 6",
+          "small": "/biens/162-6-small.webp",
+          "medium": "/biens/162-6-medium.webp",
+          "large": "/biens/162-6-large.webp"
+        },
+        {
+          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 7",
+          "small": "/biens/162-7-small.webp",
+          "medium": "/biens/162-7-medium.webp",
+          "large": "/biens/162-7-large.webp"
+        }
+      ],
+      "publicationDate": "2026-11-04T09:32:26.245Z",
+      "modificationDate": "2026-11-04T11:07:28.903Z",
+      "firstSeenAt": "2026-11-04T09:32:26.245Z",
+      "badges": {
+        "dpeBadge": "/biens/162-dpe.svg",
+        "gesBadge": "/biens/162-ges.svg"
+      }
+    },
     {
       "id": "gedeon-34153674",
       "reference": "085",
