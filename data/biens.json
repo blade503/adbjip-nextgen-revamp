@@ -1,6 +1,6 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-11-07T10:55:58.985Z",
+  "generatedAt": "2026-11-08T11:04:03.727Z",
   "count": 8,
   "biens": [
     {
@@ -986,7 +986,7 @@
         }
       ],
       "publicationDate": null,
-      "modificationDate": "2026-10-11T01:45:38.565Z",
+      "modificationDate": "2026-11-08T02:26:02.232Z",
       "firstSeenAt": "2026-06-23T13:27:41.215Z",
       "previousPrice": 390000,
       "priceChangedAt": "2026-09-08T08:34:59.105Z",
