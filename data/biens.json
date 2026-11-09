@@ -1,110 +1,110 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-11-08T11:04:03.727Z",
+  "generatedAt": "2026-11-09T12:33:39.380Z",
   "count": 8,
   "biens": [
     {
-      "id": "gedeon-34162623",
-      "reference": "162",
-      "slug": "162-piece-equipee-paris-15-vue-tour-eiffel",
-      "transaction": "location",
+      "id": "gedeon-34187025",
+      "reference": "v28",
+      "slug": "v28-5-pieces-divisible-madeleine",
+      "transaction": "vente",
       "propertyType": "flat",
       "propertyLabel": "Appartement",
-      "title": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel",
+      "title": "5 Pièces divisible madeleine",
       "titleIsFallback": false,
-      "description": "Au 8ᵉ étage avec ascenseur dans un immeuble de charme, découvrez cette pièce de 7 m² bénéficiant d'une vue dégagée sur Tour Eiffel.\n\nElle dispose d'un espace avec douche, d'un coin cuisine équipée (évier plaque et réfrigérateur) ainsi que d'un accès aux WC communs situés sur le palier.\n\nPrestations :\n- Douche privative\n- Coin cuisine\n- WC communs à l'étage\n- Chauffage collectif\n- Eau chaude individuelle électrique\n- Vue dégagée\n\nPièce proposée exclusivement à usage de réserve ou de local annexe.\n\nSi ce bien vous intéresse, contactez-nous.",
-      "city": "Paris 15e",
-      "postalCode": "75015",
-      "district": "Cambronne - Garibaldi",
+      "description": "Dans un immeuble bourgeois près de la MADELEINE avec tout le charme d'un immeuble du 18e siècle,\n\nLogement au 2ème étage avec ascenseur, offrant 150,72 m² divisible double entrée principale. Appartement de 5 Pièces parquets & moulures composé d’une entrée, trois chambres dont une parental avec WC, dressing, placards, salle bain, second WC séparé, et cuisine séparer. \nDeux CAVES \nChauffage collectif, eau chauds individuels électriques. \nDigicode, interphone, ascenseurs.  \nExclusivité, possible deux logements : 3 pièces et 2 pièces \nAppartement lot n°4 pour 160/1006 tantième charge de copropriété soit 3 000€ environ par trimestre  \nCaves n°5 & 6",
+      "city": "Paris 9e",
+      "postalCode": "75009",
+      "district": "Opéra",
       "departmentCode": "75",
-      "price": 495,
-      "priceWithoutFees": null,
-      "pricePerSquareMeter": 71,
-      "feePercentage": null,
-      "feesChargedTo": null,
-      "charges": 60,
-      "safetyDeposit": 495,
+      "price": 1999000,
+      "priceWithoutFees": 1900000,
+      "pricePerSquareMeter": 12583,
+      "feePercentage": 5.2105263157894735,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
       "agencyRentalFee": null,
       "annualCondominiumFees": null,
-      "surface": 7,
-      "rooms": 1,
-      "bedrooms": null,
-      "floor": 8,
-      "floorQuantity": 9,
+      "surface": 151,
+      "rooms": 5,
+      "bedrooms": 3,
+      "floor": 2,
+      "floorQuantity": 7,
       "exposition": null,
-      "heating": "Collectif",
+      "heating": null,
       "features": {
         "elevator": true,
-        "cellar": false,
+        "cellar": true,
         "balcony": false,
         "terrace": false,
         "fireplace": false,
         "caretaker": false,
-        "separateToilet": false,
+        "separateToilet": true,
         "inCondominium": false,
         "parkingPlaces": 0
       },
       "condominiumParts": null,
       "dpe": {
-        "energyValue": 100,
+        "energyValue": 312,
         "energyClass": "E",
-        "gesValue": 8,
-        "gesClass": "D",
-        "date": "2024-10-08",
-        "minEnergyConsumption": null,
-        "maxEnergyConsumption": null,
+        "gesValue": 69,
+        "gesClass": "E",
+        "date": "2026-09-29",
+        "minEnergyConsumption": 3760,
+        "maxEnergyConsumption": 5140,
         "isJuly2021": true
       },
       "photos": [
         {
-          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 1",
-          "small": "/biens/162-1-small.webp",
-          "medium": "/biens/162-1-medium.webp",
-          "large": "/biens/162-1-large.webp"
+          "alt": "5 Pièces divisible madeleine — photo 1",
+          "small": "/biens/v28-1-small.webp",
+          "medium": "/biens/v28-1-medium.webp",
+          "large": "/biens/v28-1-large.webp"
         },
         {
-          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 2",
-          "small": "/biens/162-2-small.webp",
-          "medium": "/biens/162-2-medium.webp",
-          "large": "/biens/162-2-large.webp"
+          "alt": "5 Pièces divisible madeleine — photo 2",
+          "small": "/biens/v28-2-small.webp",
+          "medium": "/biens/v28-2-medium.webp",
+          "large": "/biens/v28-2-large.webp"
         },
         {
-          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 3",
-          "small": "/biens/162-3-small.webp",
-          "medium": "/biens/162-3-medium.webp",
-          "large": "/biens/162-3-large.webp"
+          "alt": "5 Pièces divisible madeleine — photo 3",
+          "small": "/biens/v28-3-small.webp",
+          "medium": "/biens/v28-3-medium.webp",
+          "large": "/biens/v28-3-large.webp"
         },
         {
-          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 4",
-          "small": "/biens/162-4-small.webp",
-          "medium": "/biens/162-4-medium.webp",
-          "large": "/biens/162-4-large.webp"
+          "alt": "5 Pièces divisible madeleine — photo 4",
+          "small": "/biens/v28-4-small.webp",
+          "medium": "/biens/v28-4-medium.webp",
+          "large": "/biens/v28-4-large.webp"
         },
         {
-          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 5",
-          "small": "/biens/162-5-small.webp",
-          "medium": "/biens/162-5-medium.webp",
-          "large": "/biens/162-5-large.webp"
+          "alt": "5 Pièces divisible madeleine — photo 5",
+          "small": "/biens/v28-5-small.webp",
+          "medium": "/biens/v28-5-medium.webp",
+          "large": "/biens/v28-5-large.webp"
         },
         {
-          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 6",
-          "small": "/biens/162-6-small.webp",
-          "medium": "/biens/162-6-medium.webp",
-          "large": "/biens/162-6-large.webp"
+          "alt": "5 Pièces divisible madeleine — photo 6",
+          "small": "/biens/v28-6-small.webp",
+          "medium": "/biens/v28-6-medium.webp",
+          "large": "/biens/v28-6-large.webp"
         },
         {
-          "alt": "PIÈCE ÉQUIPÉE – PARIS 15ᵉ vue Tour Eiffel — photo 7",
-          "small": "/biens/162-7-small.webp",
-          "medium": "/biens/162-7-medium.webp",
-          "large": "/biens/162-7-large.webp"
+          "alt": "5 Pièces divisible madeleine — photo 7",
+          "small": "/biens/v28-7-small.webp",
+          "medium": "/biens/v28-7-medium.webp",
+          "large": "/biens/v28-7-large.webp"
         }
       ],
-      "publicationDate": "2026-11-04T09:32:26.245Z",
-      "modificationDate": "2026-11-04T11:07:28.903Z",
-      "firstSeenAt": "2026-11-04T09:32:26.245Z",
+      "publicationDate": "2026-11-09T12:00:31.077Z",
+      "modificationDate": "2026-11-09T12:00:31.077Z",
+      "firstSeenAt": "2026-11-09T12:00:31.077Z",
       "badges": {
-        "dpeBadge": "/biens/162-dpe.svg",
-        "gesBadge": "/biens/162-ges.svg"
+        "dpeBadge": "/biens/v28-dpe.svg",
+        "gesBadge": "/biens/v28-ges.svg"
       }
     },
     {
