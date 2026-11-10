@@ -1,6 +1,6 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-11-09T12:33:39.380Z",
+  "generatedAt": "2026-11-10T12:06:44.974Z",
   "count": 8,
   "biens": [
     {
@@ -97,10 +97,16 @@
           "small": "/biens/v28-7-small.webp",
           "medium": "/biens/v28-7-medium.webp",
           "large": "/biens/v28-7-large.webp"
+        },
+        {
+          "alt": "5 Pièces divisible madeleine — photo 8",
+          "small": "/biens/v28-8-small.webp",
+          "medium": "/biens/v28-8-medium.webp",
+          "large": "/biens/v28-8-large.webp"
         }
       ],
       "publicationDate": "2026-11-09T12:00:31.077Z",
-      "modificationDate": "2026-11-09T12:00:31.077Z",
+      "modificationDate": "2026-11-09T14:30:32.136Z",
       "firstSeenAt": "2026-11-09T12:00:31.077Z",
       "badges": {
         "dpeBadge": "/biens/v28-dpe.svg",
