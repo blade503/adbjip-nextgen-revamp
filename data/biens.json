@@ -1,8 +1,130 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-11-16T12:27:14.313Z",
-  "count": 8,
+  "generatedAt": "2026-11-17T12:47:55.047Z",
+  "count": 9,
   "biens": [
+    {
+      "id": "gedeon-34224011",
+      "reference": "317",
+      "slug": "317-beau-2-pieces-de-40-m-avec-terrasse-de-12-5-m",
+      "transaction": "location",
+      "propertyType": "flat",
+      "propertyLabel": "Appartement",
+      "title": "BEAU 2 PIÈCES DE 40 m² AVEC TERRASSE DE 12,5 m²",
+      "titleIsFallback": false,
+      "description": "Situé allée du Progrès à Vanves, au 5? étage avec ascenseur, découvrez ce charmant appartement 2 pièces de 40 m², prolongé par une agréable terrasse de 12,5 m² offrant une vue sur la Tour Eiffel.\n\nL'appartement se compose de :\n- Une entrée donnant sur un séjour lumineux avec cuisine américaine équipée (plaque de cuisson 2 feux et hotte).\n- Une chambre spacieuse avec placard de rangement.\n- Une salle d'eau avec meuble vasque et sèche-serviettes et WC.\n\nLes prestations :\n- Terrasse privative de 12,5 m².\n- Chauffage et eau chaude individuels électriques.\n- Double vitrage.\n- Stores électriques.\n- Branchement pour lave-linge et lave-vaisselle.\n- Fibre optique.\n- Ascenseur.\n\nUn emplacement idéal, bien desservi par les transports en commun :\n- Transilien ligne N : gare SNCF Vanves – Malakoff.\n- Métro ligne 13 : station Malakoff – Plateau de Vanves.\n\nVous profiterez également de la proximité immédiate des commerces et commodités.\n\nUn appartement agréable à vivre, bénéficiant d'une belle terrasse avec vue sur la Tour Eiffel et d'une excellente desserte en transports !\n\nSi ce bien vous intéresse, contactez-nous.",
+      "city": "Vanves",
+      "postalCode": "92170",
+      "district": "Centre Saint-Rémy",
+      "departmentCode": "92",
+      "price": 1314,
+      "priceWithoutFees": null,
+      "pricePerSquareMeter": 33,
+      "feePercentage": null,
+      "feesChargedTo": null,
+      "charges": 99,
+      "safetyDeposit": 1215,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 40,
+      "rooms": 2,
+      "bedrooms": 1,
+      "floor": 5,
+      "floorQuantity": 7,
+      "exposition": null,
+      "heating": "Electrique",
+      "features": {
+        "elevator": true,
+        "cellar": false,
+        "balcony": false,
+        "terrace": true,
+        "fireplace": false,
+        "caretaker": false,
+        "separateToilet": false,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 246,
+        "energyClass": "D",
+        "gesValue": 9,
+        "gesClass": "B",
+        "date": "2026-11-17",
+        "minEnergyConsumption": null,
+        "maxEnergyConsumption": null,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "BEAU 2 PIÈCES DE 40 m² AVEC TERRASSE DE 12,5 m² — photo 1",
+          "small": "/biens/317-1-small.webp",
+          "medium": "/biens/317-1-medium.webp",
+          "large": "/biens/317-1-large.webp"
+        },
+        {
+          "alt": "BEAU 2 PIÈCES DE 40 m² AVEC TERRASSE DE 12,5 m² — photo 2",
+          "small": "/biens/317-2-small.webp",
+          "medium": "/biens/317-2-medium.webp",
+          "large": "/biens/317-2-large.webp"
+        },
+        {
+          "alt": "BEAU 2 PIÈCES DE 40 m² AVEC TERRASSE DE 12,5 m² — photo 3",
+          "small": "/biens/317-3-small.webp",
+          "medium": "/biens/317-3-medium.webp",
+          "large": "/biens/317-3-large.webp"
+        },
+        {
+          "alt": "BEAU 2 PIÈCES DE 40 m² AVEC TERRASSE DE 12,5 m² — photo 4",
+          "small": "/biens/317-4-small.webp",
+          "medium": "/biens/317-4-medium.webp",
+          "large": "/biens/317-4-large.webp"
+        },
+        {
+          "alt": "BEAU 2 PIÈCES DE 40 m² AVEC TERRASSE DE 12,5 m² — photo 5",
+          "small": "/biens/317-5-small.webp",
+          "medium": "/biens/317-5-medium.webp",
+          "large": "/biens/317-5-large.webp"
+        },
+        {
+          "alt": "BEAU 2 PIÈCES DE 40 m² AVEC TERRASSE DE 12,5 m² — photo 6",
+          "small": "/biens/317-6-small.webp",
+          "medium": "/biens/317-6-medium.webp",
+          "large": "/biens/317-6-large.webp"
+        },
+        {
+          "alt": "BEAU 2 PIÈCES DE 40 m² AVEC TERRASSE DE 12,5 m² — photo 7",
+          "small": "/biens/317-7-small.webp",
+          "medium": "/biens/317-7-medium.webp",
+          "large": "/biens/317-7-large.webp"
+        },
+        {
+          "alt": "BEAU 2 PIÈCES DE 40 m² AVEC TERRASSE DE 12,5 m² — photo 8",
+          "small": "/biens/317-8-small.webp",
+          "medium": "/biens/317-8-medium.webp",
+          "large": "/biens/317-8-large.webp"
+        },
+        {
+          "alt": "BEAU 2 PIÈCES DE 40 m² AVEC TERRASSE DE 12,5 m² — photo 9",
+          "small": "/biens/317-9-small.webp",
+          "medium": "/biens/317-9-medium.webp",
+          "large": "/biens/317-9-large.webp"
+        },
+        {
+          "alt": "BEAU 2 PIÈCES DE 40 m² AVEC TERRASSE DE 12,5 m² — photo 10",
+          "small": "/biens/317-10-small.webp",
+          "medium": "/biens/317-10-medium.webp",
+          "large": "/biens/317-10-large.webp"
+        }
+      ],
+      "publicationDate": "2026-11-17T08:35:31.273Z",
+      "modificationDate": "2026-11-17T08:35:31.273Z",
+      "firstSeenAt": "2026-11-17T08:35:31.273Z",
+      "badges": {
+        "dpeBadge": "/biens/317-dpe.svg",
+        "gesBadge": "/biens/317-ges.svg"
+      }
+    },
     {
       "id": "gedeon-34187025",
       "reference": "v28",
