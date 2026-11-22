@@ -1,6 +1,6 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-11-21T12:07:58.663Z",
+  "generatedAt": "2026-11-22T12:18:34.755Z",
   "count": 9,
   "biens": [
     {
@@ -118,7 +118,7 @@
         }
       ],
       "publicationDate": "2026-11-17T08:35:31.273Z",
-      "modificationDate": "2026-11-17T08:35:31.273Z",
+      "modificationDate": "2026-11-22T02:26:43.737Z",
       "firstSeenAt": "2026-11-17T08:35:31.273Z",
       "badges": {
         "dpeBadge": "/biens/317-dpe.svg",
@@ -590,7 +590,7 @@
         }
       ],
       "publicationDate": "2026-10-20T16:45:52.062Z",
-      "modificationDate": "2026-10-20T16:50:53.167Z",
+      "modificationDate": "2026-11-22T02:26:43.625Z",
       "firstSeenAt": "2026-10-20T16:45:52.062Z",
       "badges": {
         "dpeBadge": "/biens/ger300-4d-dpe.svg",
