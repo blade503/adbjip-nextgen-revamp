@@ -1,8 +1,276 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-11-25T13:57:02.656Z",
-  "count": 9,
+  "generatedAt": "2026-11-26T13:35:04.535Z",
+  "count": 10,
   "biens": [
+    {
+      "id": "gedeon-34270319",
+      "reference": "v029P",
+      "slug": "v029p-boutique-et-logement",
+      "transaction": "vente",
+      "propertyType": "premises",
+      "propertyLabel": "Local",
+      "title": "Boutique et logement",
+      "titleIsFallback": false,
+      "description": "Boutique et logement\nCharment boutique idéalement placer à l’angle de l’avenue Mozart.\nUne hauteur moyenne entre 2m80 et 3m, ce bien commercial ce compose d’une boutique sur rue au RDC offrant 18,44 m² et 13,7m² de sous-sol aménagé électriquement et informatiquement  accessible par escalier intérieur avec ouverture de trappe électrique.\nAu 1er étage on découvre un espace d’habitation de 17,35 m² relier au RDC par un magnifique escalier en fer forgé offrant une belle chambre, salle d’eau WC et branchement machine. \nCe bien rare, élégant, fonctionnel est climatisé, vous permettra d’accomplir vos désirs.\nTaxe foncière 2025 : 504 €\nCharge annuel 2025 copropriété 540.92 € soit 135.23 € trimestre",
+      "city": "Paris 16e",
+      "postalCode": "75016",
+      "district": "Auteuil-Nord - Jasmin - Mirabeau",
+      "departmentCode": "75",
+      "price": 370000,
+      "priceWithoutFees": 355000,
+      "pricePerSquareMeter": 6574,
+      "feePercentage": 4.225352112676056,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 54,
+      "rooms": null,
+      "bedrooms": null,
+      "floor": null,
+      "floorQuantity": null,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": false,
+        "cellar": false,
+        "balcony": false,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": false,
+        "separateToilet": false,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 146,
+        "energyClass": "C",
+        "gesValue": 4,
+        "gesClass": "B",
+        "date": "2025-11-11",
+        "minEnergyConsumption": 610,
+        "maxEnergyConsumption": 840,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "Boutique et logement — photo 1",
+          "small": "/biens/v029p-1-small.webp",
+          "medium": "/biens/v029p-1-medium.webp",
+          "large": "/biens/v029p-1-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 2",
+          "small": "/biens/v029p-2-small.webp",
+          "medium": "/biens/v029p-2-medium.webp",
+          "large": "/biens/v029p-2-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 3",
+          "small": "/biens/v029p-3-small.webp",
+          "medium": "/biens/v029p-3-medium.webp",
+          "large": "/biens/v029p-3-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 4",
+          "small": "/biens/v029p-4-small.webp",
+          "medium": "/biens/v029p-4-medium.webp",
+          "large": "/biens/v029p-4-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 5",
+          "small": "/biens/v029p-5-small.webp",
+          "medium": "/biens/v029p-5-medium.webp",
+          "large": "/biens/v029p-5-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 6",
+          "small": "/biens/v029p-6-small.webp",
+          "medium": "/biens/v029p-6-medium.webp",
+          "large": "/biens/v029p-6-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 7",
+          "small": "/biens/v029p-7-small.webp",
+          "medium": "/biens/v029p-7-medium.webp",
+          "large": "/biens/v029p-7-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 8",
+          "small": "/biens/v029p-8-small.webp",
+          "medium": "/biens/v029p-8-medium.webp",
+          "large": "/biens/v029p-8-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 9",
+          "small": "/biens/v029p-9-small.webp",
+          "medium": "/biens/v029p-9-medium.webp",
+          "large": "/biens/v029p-9-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 10",
+          "small": "/biens/v029p-10-small.webp",
+          "medium": "/biens/v029p-10-medium.webp",
+          "large": "/biens/v029p-10-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 11",
+          "small": "/biens/v029p-11-small.webp",
+          "medium": "/biens/v029p-11-medium.webp",
+          "large": "/biens/v029p-11-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 12",
+          "small": "/biens/v029p-12-small.webp",
+          "medium": "/biens/v029p-12-medium.webp",
+          "large": "/biens/v029p-12-large.webp"
+        },
+        {
+          "alt": "Boutique et logement — photo 13",
+          "small": "/biens/v029p-13-small.webp",
+          "medium": "/biens/v029p-13-medium.webp",
+          "large": "/biens/v029p-13-large.webp"
+        }
+      ],
+      "publicationDate": "2026-11-26T08:38:49.843Z",
+      "modificationDate": "2026-11-26T08:38:49.843Z",
+      "firstSeenAt": "2026-11-26T08:38:49.843Z",
+      "badges": {
+        "dpeBadge": "/biens/v029p-dpe.svg",
+        "gesBadge": "/biens/v029p-ges.svg"
+      }
+    },
+    {
+      "id": "gedeon-34270233",
+      "reference": "Arcade vente",
+      "slug": "arcade-vente-studio-arcade",
+      "transaction": "vente",
+      "propertyType": "flat",
+      "propertyLabel": "Appartement",
+      "title": "Studio Arcade",
+      "titleIsFallback": false,
+      "description": "Charmant studio au cœur du quartier de la Madeleine\n\nIdéalement situé au pied de la Madeleine, découvrez ce charmant studio niché au 5ᵉ étage d'un immeuble de standing avec ascenseur et gardienne.\n\nL'appartement offre une belle pièce de vie lumineuse, agrémentée de poutres apparentes qui lui confèrent beaucoup de cachet, ainsi que de placards intégrés. Sa hauteur sous plafond de 2,60 m renforce la sensation d'espace.\n\nLe coin cuisine est équipé d'une hotte, d'une plaque de cuisson deux feux et d'un branchement pour machine à laver.\n\nLa salle de bains comprend une baignoire ainsi qu'un WC.\n\nVous apprécierez le confort d'un chauffage et d'une production d'eau chaude individuels électriques.\n\nLe bien a bénéficié d'une rénovation thermique et de peintures neuves. Lumineux, calme et parfaitement entretenu, il bénéficie d'un emplacement recherché, à deux pas des commerces, des restaurants et des transports.\n\nLes atouts :\n\nEmplacement exceptionnel au pied de la Madeleine\n5ᵉ étage avec ascenseur\nImmeuble de standing avec gardienne\nCharme de l'ancien avec poutres apparentes\nAppartement lumineux et calme\nRénovation thermique réalisée\nFaibles charges de copropriété\n\nCharges annuelles de copropriété (2025) : 355,02 €.\n\nUn bien idéal pour un pied-à-terre parisien, un premier achat ou un investissement locatif de qualité.",
+      "city": "Paris 8e",
+      "postalCode": "75008",
+      "district": "Elysée - Madeleine",
+      "departmentCode": "75",
+      "price": 318000,
+      "priceWithoutFees": 18000,
+      "pricePerSquareMeter": 692,
+      "feePercentage": 1666.6666666666667,
+      "feesChargedTo": "acquéreur",
+      "charges": null,
+      "safetyDeposit": null,
+      "agencyRentalFee": null,
+      "annualCondominiumFees": null,
+      "surface": 26,
+      "rooms": 1,
+      "bedrooms": null,
+      "floor": 5,
+      "floorQuantity": 6,
+      "exposition": null,
+      "heating": null,
+      "features": {
+        "elevator": true,
+        "cellar": false,
+        "balcony": false,
+        "terrace": false,
+        "fireplace": false,
+        "caretaker": true,
+        "separateToilet": false,
+        "inCondominium": false,
+        "parkingPlaces": 0
+      },
+      "condominiumParts": null,
+      "dpe": {
+        "energyValue": 212,
+        "energyClass": "C",
+        "gesValue": 8,
+        "gesClass": "B",
+        "date": "2026-06-16",
+        "minEnergyConsumption": 530,
+        "maxEnergyConsumption": 570,
+        "isJuly2021": true
+      },
+      "photos": [
+        {
+          "alt": "Studio Arcade — photo 1",
+          "small": "/biens/arcade-vente-1-small.webp",
+          "medium": "/biens/arcade-vente-1-medium.webp",
+          "large": "/biens/arcade-vente-1-large.webp"
+        },
+        {
+          "alt": "Studio Arcade — photo 2",
+          "small": "/biens/arcade-vente-2-small.webp",
+          "medium": "/biens/arcade-vente-2-medium.webp",
+          "large": "/biens/arcade-vente-2-large.webp"
+        },
+        {
+          "alt": "Studio Arcade — photo 3",
+          "small": "/biens/arcade-vente-3-small.webp",
+          "medium": "/biens/arcade-vente-3-medium.webp",
+          "large": "/biens/arcade-vente-3-large.webp"
+        },
+        {
+          "alt": "Studio Arcade — photo 4",
+          "small": "/biens/arcade-vente-4-small.webp",
+          "medium": "/biens/arcade-vente-4-medium.webp",
+          "large": "/biens/arcade-vente-4-large.webp"
+        },
+        {
+          "alt": "Studio Arcade — photo 5",
+          "small": "/biens/arcade-vente-5-small.webp",
+          "medium": "/biens/arcade-vente-5-medium.webp",
+          "large": "/biens/arcade-vente-5-large.webp"
+        },
+        {
+          "alt": "Studio Arcade — photo 6",
+          "small": "/biens/arcade-vente-6-small.webp",
+          "medium": "/biens/arcade-vente-6-medium.webp",
+          "large": "/biens/arcade-vente-6-large.webp"
+        },
+        {
+          "alt": "Studio Arcade — photo 7",
+          "small": "/biens/arcade-vente-7-small.webp",
+          "medium": "/biens/arcade-vente-7-medium.webp",
+          "large": "/biens/arcade-vente-7-large.webp"
+        },
+        {
+          "alt": "Studio Arcade — photo 8",
+          "small": "/biens/arcade-vente-8-small.webp",
+          "medium": "/biens/arcade-vente-8-medium.webp",
+          "large": "/biens/arcade-vente-8-large.webp"
+        },
+        {
+          "alt": "Studio Arcade — photo 9",
+          "small": "/biens/arcade-vente-9-small.webp",
+          "medium": "/biens/arcade-vente-9-medium.webp",
+          "large": "/biens/arcade-vente-9-large.webp"
+        },
+        {
+          "alt": "Studio Arcade — photo 10",
+          "small": "/biens/arcade-vente-10-small.webp",
+          "medium": "/biens/arcade-vente-10-medium.webp",
+          "large": "/biens/arcade-vente-10-large.webp"
+        },
+        {
+          "alt": "Studio Arcade — photo 11",
+          "small": "/biens/arcade-vente-11-small.webp",
+          "medium": "/biens/arcade-vente-11-medium.webp",
+          "large": "/biens/arcade-vente-11-large.webp"
+        }
+      ],
+      "publicationDate": "2026-11-26T08:23:49.835Z",
+      "modificationDate": "2026-11-26T08:23:49.835Z",
+      "firstSeenAt": "2026-11-26T08:23:49.835Z",
+      "badges": {
+        "dpeBadge": "/biens/arcade-vente-dpe.svg",
+        "gesBadge": "/biens/arcade-vente-ges.svg"
+      }
+    },
     {
       "id": "gedeon-34224011",
       "reference": "317",
@@ -840,146 +1108,10 @@
         }
       ],
       "publicationDate": null,
-      "modificationDate": "2026-10-31T02:30:39.485Z",
+      "modificationDate": "2026-11-26T02:29:48.043Z",
       "firstSeenAt": "2026-09-10T08:37:54.683Z",
       "previousPrice": 645,
       "priceChangedAt": "2026-10-06T11:01:03.572Z"
-    },
-    {
-      "id": "gedeon-33542694",
-      "reference": "vente arcade",
-      "slug": "vente-arcade-charment-studio-rue-arcade",
-      "transaction": "vente",
-      "propertyType": "flat",
-      "propertyLabel": "Appartement",
-      "title": "Charment studio rue arcade",
-      "titleIsFallback": false,
-      "description": "Charmant studio au cœur du quartier de la Madeleine\n\nIdéalement situé au pied de la Madeleine, découvrez ce charmant studio niché au 5ᵉ étage d'un immeuble de standing avec ascenseur et gardienne.\n\nL'appartement offre une belle pièce de vie lumineuse, agrémentée de poutres apparentes qui lui confèrent beaucoup de cachet, ainsi que de placards intégrés. Sa hauteur sous plafond de 2,60 m renforce la sensation d'espace.\n\nLe coin cuisine est équipé d'une hotte, d'une plaque de cuisson deux feux et d'un branchement pour machine à laver.\n\nLa salle de bains comprend une baignoire ainsi qu'un WC.\n\nVous apprécierez le confort d'un chauffage et d'une production d'eau chaude individuels électriques.\n\nLe bien a bénéficié d'une rénovation thermique et de peintures neuves. Lumineux, calme et parfaitement entretenu, il bénéficie d'un emplacement recherché, à deux pas des commerces, des restaurants et des transports.\n\nLes atouts :\n\nEmplacement exceptionnel au pied de la Madeleine\n5ᵉ étage avec ascenseur\nImmeuble de standing avec gardienne\nCharme de l'ancien avec poutres apparentes\nAppartement lumineux et calme\nRénovation thermique réalisée\nFaibles charges de copropriété\n\nCharges annuelles de copropriété (2025) : 355,02 €.\n\nUn bien idéal pour un pied-à-terre parisien, un premier achat ou un investissement locatif de qualité.",
-      "city": "Paris 8e",
-      "postalCode": "75008",
-      "district": "Elysée - Madeleine",
-      "departmentCode": "75",
-      "price": 335000,
-      "priceWithoutFees": 15000,
-      "pricePerSquareMeter": 577,
-      "feePercentage": 2133.333333333333,
-      "feesChargedTo": "acquéreur",
-      "charges": null,
-      "safetyDeposit": null,
-      "agencyRentalFee": null,
-      "annualCondominiumFees": null,
-      "surface": 26,
-      "rooms": 1,
-      "bedrooms": null,
-      "floor": 5,
-      "floorQuantity": 6,
-      "exposition": null,
-      "heating": null,
-      "features": {
-        "elevator": true,
-        "cellar": false,
-        "balcony": false,
-        "terrace": false,
-        "fireplace": false,
-        "caretaker": true,
-        "separateToilet": false,
-        "inCondominium": false,
-        "parkingPlaces": 0
-      },
-      "condominiumParts": null,
-      "dpe": {
-        "energyValue": 212,
-        "energyClass": "C",
-        "gesValue": 8,
-        "gesClass": "B",
-        "date": "2026-06-16",
-        "minEnergyConsumption": 530,
-        "maxEnergyConsumption": 760,
-        "isJuly2021": true
-      },
-      "photos": [
-        {
-          "alt": "Charment studio rue arcade — photo 1",
-          "small": "/biens/vente-arcade-1-small.webp",
-          "medium": "/biens/vente-arcade-1-medium.webp",
-          "large": "/biens/vente-arcade-1-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 2",
-          "small": "/biens/vente-arcade-2-small.webp",
-          "medium": "/biens/vente-arcade-2-medium.webp",
-          "large": "/biens/vente-arcade-2-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 3",
-          "small": "/biens/vente-arcade-3-small.webp",
-          "medium": "/biens/vente-arcade-3-medium.webp",
-          "large": "/biens/vente-arcade-3-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 4",
-          "small": "/biens/vente-arcade-4-small.webp",
-          "medium": "/biens/vente-arcade-4-medium.webp",
-          "large": "/biens/vente-arcade-4-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 5",
-          "small": "/biens/vente-arcade-5-small.webp",
-          "medium": "/biens/vente-arcade-5-medium.webp",
-          "large": "/biens/vente-arcade-5-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 6",
-          "small": "/biens/vente-arcade-6-small.webp",
-          "medium": "/biens/vente-arcade-6-medium.webp",
-          "large": "/biens/vente-arcade-6-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 7",
-          "small": "/biens/vente-arcade-7-small.webp",
-          "medium": "/biens/vente-arcade-7-medium.webp",
-          "large": "/biens/vente-arcade-7-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 8",
-          "small": "/biens/vente-arcade-8-small.webp",
-          "medium": "/biens/vente-arcade-8-medium.webp",
-          "large": "/biens/vente-arcade-8-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 9",
-          "small": "/biens/vente-arcade-9-small.webp",
-          "medium": "/biens/vente-arcade-9-medium.webp",
-          "large": "/biens/vente-arcade-9-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 10",
-          "small": "/biens/vente-arcade-10-small.webp",
-          "medium": "/biens/vente-arcade-10-medium.webp",
-          "large": "/biens/vente-arcade-10-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 11",
-          "small": "/biens/vente-arcade-11-small.webp",
-          "medium": "/biens/vente-arcade-11-medium.webp",
-          "large": "/biens/vente-arcade-11-large.webp"
-        },
-        {
-          "alt": "Charment studio rue arcade — photo 12",
-          "small": "/biens/vente-arcade-12-small.webp",
-          "medium": "/biens/vente-arcade-12-medium.webp",
-          "large": "/biens/vente-arcade-12-large.webp"
-        }
-      ],
-      "publicationDate": null,
-      "modificationDate": "2026-10-29T02:30:30.002Z",
-      "firstSeenAt": "2026-07-09T14:42:44.200Z",
-      "previousPrice": 348000,
-      "priceChangedAt": "2026-10-16T08:44:42.109Z",
-      "badges": {
-        "dpeBadge": "/biens/vente-arcade-dpe.svg",
-        "gesBadge": "/biens/vente-arcade-ges.svg"
-      }
     },
     {
       "id": "gedeon-33450645",
