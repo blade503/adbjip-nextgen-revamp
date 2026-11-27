@@ -1,6 +1,6 @@
 {
   "source": "bienici",
-  "generatedAt": "2026-11-26T13:35:04.535Z",
+  "generatedAt": "2026-11-27T13:32:19.102Z",
   "count": 10,
   "biens": [
     {
@@ -264,7 +264,7 @@
         }
       ],
       "publicationDate": "2026-11-26T08:23:49.835Z",
-      "modificationDate": "2026-11-26T08:23:49.835Z",
+      "modificationDate": "2026-11-27T05:14:17.266Z",
       "firstSeenAt": "2026-11-26T08:23:49.835Z",
       "badges": {
         "dpeBadge": "/biens/arcade-vente-dpe.svg",
